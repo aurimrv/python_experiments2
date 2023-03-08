@@ -1,6 +1,8 @@
-# Python Experiments
+# Python Experiments 2
 
-Repository to store data and scripts relate to Python programs experiments
+Repository to store data and scripts relate to Python programs experiments.
+
+This programs have some test sets previous developed by their creators. Each project has a `0-ts` directory containing these previous generated test sets.
 
 
 ## Pynguin
