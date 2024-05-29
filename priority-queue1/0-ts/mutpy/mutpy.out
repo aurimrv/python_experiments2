@@ -1,0 +1,1868 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: priority_queue1.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 2 tests passed:
+[36m   -[0m test_priority_queue1 [0.15938 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOD priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[32m+ 24:         entry[1] = self.REMOVED[0m
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.12490 s] [36mincompetent[0m
+
+TypeError: priority_queue1:20: TypeError: '<' not supported between instances of 'int' and 'str'
+
+[36m   -[0m [#   2] AOR priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[32m+ 24:         entry[+1] = self.REMOVED[0m
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.12004 s] [36mincompetent[0m
+
+TypeError: priority_queue1:20: TypeError: '<' not supported between instances of 'int' and 'str'
+
+[36m   -[0m [#   3] AOR priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 31:                 priority = min(0, entry[0] + 1)[0m
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.08676 s] [31msurvived[0m
+[36m   -[0m [#   4] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+[34m- 11:     def __init__(self):[0m
+[34m- 12:         pass[0m
+[34m- 13:     [0m
+[32m+ 11:     @classmethod[0m
+[32m+ 12:     def __init__(self):[0m
+[32m+ 13:         pass[0m
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+--------------------------------------------------------------------------------
+[0.08031 s] [31msurvived[0m
+[36m   -[0m [#   5] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+[34m- 14:     def add_task(self, task, priority=0):[0m
+[34m- 15:         if task in self.mapper:[0m
+[34m- 16:             self.remove_task(task)[0m
+[34m- 17:         count = next(self.counter)[0m
+[34m- 18:         entry = [priority, count, task][0m
+[34m- 19:         self.mapper[task] = entry[0m
+[34m- 20:         heappush(self.pq, entry)[0m
+[34m- 21:     [0m
+[32m+ 14:     @classmethod[0m
+[32m+ 15:     def add_task(self, task, priority=0):[0m
+[32m+ 16:         if task in self.mapper:[0m
+[32m+ 17:             self.remove_task(task)[0m
+[32m+ 18:         count = next(self.counter)[0m
+[32m+ 19:         entry = [priority, count, task][0m
+[32m+ 20:         self.mapper[task] = entry[0m
+[32m+ 21:         heappush(self.pq, entry)[0m
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+--------------------------------------------------------------------------------
+[0.12859 s] [36mincompetent[0m
+
+TypeError: priority_queue1:17: TypeError: PriorityQueue.remove_task() missing 1 required positional argument: 'task'
+
+[36m   -[0m [#   6] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+[34m- 22:     def remove_task(self, task):[0m
+[34m- 23:         entry = self.mapper.pop(task)[0m
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[34m- 25:     [0m
+[32m+ 22:     @classmethod[0m
+[32m+ 23:     def remove_task(self, task):[0m
+[32m+ 24:         entry = self.mapper.pop(task)[0m
+[32m+ 25:         entry[-1] = self.REMOVED[0m
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+--------------------------------------------------------------------------------
+[0.10672 s] [31msurvived[0m
+[36m   -[0m [#   7] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+[34m- 26:     def set_priority(self, task, priority=None):[0m
+[34m- 27:         if task in self.mapper:[0m
+[34m- 28:             entry = self.mapper.pop(task)[0m
+[34m- 29:             [0m
+[34m- 30:             if not priority:[0m
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[34m- 32:             [0m
+[34m- 33:             self.add_task(entry[2], priority)[0m
+[34m- 34:     [0m
+[32m+ 26:     @classmethod[0m
+[32m+ 27:     def set_priority(self, task, priority=None):[0m
+[32m+ 28:         if task in self.mapper:[0m
+[32m+ 29:             entry = self.mapper.pop(task)[0m
+[32m+ 30:             [0m
+[32m+ 31:             if not priority:[0m
+[32m+ 32:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 33:             [0m
+[32m+ 34:             self.add_task(entry[2], priority)[0m
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+--------------------------------------------------------------------------------
+[0.13230 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:34: in set_priority
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 'park at work', task = 0, priority = 0
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'mapper'
+
+priority_queue1:15: AttributeError
+[36m   -[0m [#   8] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+[34m- 35:     def pop_task(self):[0m
+[34m- 36:         while self.pq:[0m
+[34m- 37:             (_, _, task) = heappop(self.pq)[0m
+[34m- 38:             if task is not self.REMOVED:[0m
+[34m- 39:                 del self.mapper[task][0m
+[34m- 40:                 return task[0m
+[34m- 41:         raise KeyError('Pop from empty priority queue.')[0m
+[32m+ 35:     @classmethod[0m
+[32m+ 36:     def pop_task(self):[0m
+[32m+ 37:         while self.pq:[0m
+[32m+ 38:             (_, _, task) = heappop(self.pq)[0m
+[32m+ 39:             if task is not self.REMOVED:[0m
+[32m+ 40:                 del self.mapper[task][0m
+[32m+ 41:                 return task[0m
+[32m+ 42:         raise KeyError('Pop from empty priority queue.')[0m
+--------------------------------------------------------------------------------
+[0.10676 s] [31msurvived[0m
+[36m   -[0m [#   9] COD priority_queue1: 
+--------------------------------------------------------------------------------
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+[34m- 30:             if not priority:[0m
+[32m+ 30:             if priority:[0m
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+--------------------------------------------------------------------------------
+[0.10179 s] [31msurvived[0m
+[36m   -[0m [#  10] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+[34m- 15:         if task in self.mapper:[0m
+[32m+ 15:         if not (task in self.mapper):[0m
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.12260 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bc0070>
+task = 'drive to work'
+
+>   ???
+E   KeyError: 'drive to work'
+
+priority_queue1:23: KeyError
+[36m   -[0m [#  11] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+[34m- 15:         if task in self.mapper:[0m
+[32m+ 15:         if task not in self.mapper:[0m
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.12055 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bbcf40>
+task = 'drive to work'
+
+>   ???
+E   KeyError: 'drive to work'
+
+priority_queue1:23: KeyError
+[36m   -[0m [#  12] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+[34m- 27:         if task in self.mapper:[0m
+[32m+ 27:         if not (task in self.mapper):[0m
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.10004 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+        pq.set_priority('park at work', 0)
+    
+>       assert pq.pop_task() == 'park at work'
+E       AssertionError
+
+0-ts/test_priority_queue1.py:41: AssertionError
+[36m   -[0m [#  13] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+[34m- 27:         if task in self.mapper:[0m
+[32m+ 27:         if task not in self.mapper:[0m
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.12803 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+        pq.set_priority('park at work', 0)
+    
+>       assert pq.pop_task() == 'park at work'
+E       AssertionError
+
+0-ts/test_priority_queue1.py:41: AssertionError
+[36m   -[0m [#  14] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+[34m- 30:             if not priority:[0m
+[32m+ 30:             if not ((not priority)):[0m
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+--------------------------------------------------------------------------------
+[0.10789 s] [31msurvived[0m
+[36m   -[0m [#  15] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+[34m- 36:         while self.pq:[0m
+[32m+ 36:         while not (self.pq):[0m
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+--------------------------------------------------------------------------------
+[0.12984 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0beb850>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[36m   -[0m [#  16] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+[34m- 38:             if task is not self.REMOVED:[0m
+[32m+ 38:             if not (task is not self.REMOVED):[0m
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.11564 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c51090>
+
+>   ???
+E   KeyError: '__removed-task__'
+
+priority_queue1:39: KeyError
+[36m   -[0m [#  17] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+[34m-  8:     REMOVED = '__removed-task__'[0m
+[32m+  8:     REMOVED = 'mutpy'[0m
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+  12:         pass
+--------------------------------------------------------------------------------
+[0.09896 s] [31msurvived[0m
+[36m   -[0m [#  18] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+[34m-  8:     REMOVED = '__removed-task__'[0m
+[32m+  8:     REMOVED = ''[0m
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+  12:         pass
+--------------------------------------------------------------------------------
+[0.10134 s] [31msurvived[0m
+[36m   -[0m [#  19] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+[34m- 14:     def add_task(self, task, priority=0):[0m
+[32m+ 14:     def add_task(self, task, priority=1):[0m
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+--------------------------------------------------------------------------------
+[0.09894 s] [31msurvived[0m
+[36m   -[0m [#  20] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[32m+ 24:         entry[-2] = self.REMOVED[0m
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.11989 s] [36mincompetent[0m
+
+TypeError: priority_queue1:20: TypeError: '<' not supported between instances of 'int' and 'str'
+
+[36m   -[0m [#  21] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 31:                 priority = min(1, entry[0] - 1)[0m
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.14105 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+        pq.set_priority('park at work', 0)
+    
+>       assert pq.pop_task() == 'park at work'
+E       AssertionError
+
+0-ts/test_priority_queue1.py:41: AssertionError
+[36m   -[0m [#  22] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 31:                 priority = min(0, entry[1] - 1)[0m
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.13245 s] [31msurvived[0m
+[36m   -[0m [#  23] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 31:                 priority = min(0, entry[0] - 2)[0m
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.12803 s] [31msurvived[0m
+[36m   -[0m [#  24] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+[34m- 33:             self.add_task(entry[2], priority)[0m
+[32m+ 33:             self.add_task(entry[3], priority)[0m
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+--------------------------------------------------------------------------------
+[0.10038 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b791e0>
+task = 'park at work', priority = 0
+
+>   ???
+E   IndexError: list index out of range
+
+priority_queue1:33: IndexError
+[36m   -[0m [#  25] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+[34m- 41:         raise KeyError('Pop from empty priority queue.')[0m
+[32m+ 41:         raise KeyError('mutpy')[0m
+--------------------------------------------------------------------------------
+[0.07970 s] [31msurvived[0m
+[36m   -[0m [#  26] CRP priority_queue1: 
+--------------------------------------------------------------------------------
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+[34m- 41:         raise KeyError('Pop from empty priority queue.')[0m
+[32m+ 41:         raise KeyError('')[0m
+--------------------------------------------------------------------------------
+[0.10539 s] [31msurvived[0m
+[36m   -[0m [#  27] OIL priority_queue1: 
+--------------------------------------------------------------------------------
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+[34m- 41:         raise KeyError('Pop from empty priority queue.')[0m
+[32m+ 41:             break[0m
+[32m+ 42:         raise KeyError('Pop from empty priority queue.')[0m
+--------------------------------------------------------------------------------
+[0.11729 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+>       assert pq.pop_task() == 'turn on car'
+
+0-ts/test_priority_queue1.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0cb9ae0>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[36m   -[0m [#  28] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+[34m- 11:     def __init__(self):[0m
+[34m- 12:         pass[0m
+[34m- 13:     [0m
+[32m+ 11:     @staticmethod[0m
+[32m+ 12:     def __init__(self):[0m
+[32m+ 13:         pass[0m
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+--------------------------------------------------------------------------------
+[0.11592 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/priority-queue1/0-ts/test_priority_queue1.py:6: TypeError: PriorityQueue.__init__() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  29] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+[34m- 14:     def add_task(self, task, priority=0):[0m
+[34m- 15:         if task in self.mapper:[0m
+[34m- 16:             self.remove_task(task)[0m
+[34m- 17:         count = next(self.counter)[0m
+[34m- 18:         entry = [priority, count, task][0m
+[34m- 19:         self.mapper[task] = entry[0m
+[34m- 20:         heappush(self.pq, entry)[0m
+[34m- 21:     [0m
+[32m+ 14:     @staticmethod[0m
+[32m+ 15:     def add_task(self, task, priority=0):[0m
+[32m+ 16:         if task in self.mapper:[0m
+[32m+ 17:             self.remove_task(task)[0m
+[32m+ 18:         count = next(self.counter)[0m
+[32m+ 19:         entry = [priority, count, task][0m
+[32m+ 20:         self.mapper[task] = entry[0m
+[32m+ 21:         heappush(self.pq, entry)[0m
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+--------------------------------------------------------------------------------
+[0.12671 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 'drive to work', task = 2, priority = 0
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'mapper'
+
+priority_queue1:16: AttributeError
+[36m   -[0m [#  30] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+[34m- 22:     def remove_task(self, task):[0m
+[34m- 23:         entry = self.mapper.pop(task)[0m
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[34m- 25:     [0m
+[32m+ 22:     @staticmethod[0m
+[32m+ 23:     def remove_task(self, task):[0m
+[32m+ 24:         entry = self.mapper.pop(task)[0m
+[32m+ 25:         entry[-1] = self.REMOVED[0m
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+--------------------------------------------------------------------------------
+[0.12619 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/priority-queue1/0-ts/test_priority_queue1.py:13: TypeError: PriorityQueue.remove_task() missing 1 required positional argument: 'task'
+
+[36m   -[0m [#  31] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+[34m- 26:     def set_priority(self, task, priority=None):[0m
+[34m- 27:         if task in self.mapper:[0m
+[34m- 28:             entry = self.mapper.pop(task)[0m
+[34m- 29:             [0m
+[34m- 30:             if not priority:[0m
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[34m- 32:             [0m
+[34m- 33:             self.add_task(entry[2], priority)[0m
+[34m- 34:     [0m
+[32m+ 26:     @staticmethod[0m
+[32m+ 27:     def set_priority(self, task, priority=None):[0m
+[32m+ 28:         if task in self.mapper:[0m
+[32m+ 29:             entry = self.mapper.pop(task)[0m
+[32m+ 30:             [0m
+[32m+ 31:             if not priority:[0m
+[32m+ 32:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 33:             [0m
+[32m+ 34:             self.add_task(entry[2], priority)[0m
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+--------------------------------------------------------------------------------
+[0.12868 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 'park at work', task = 0, priority = None
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'mapper'
+
+priority_queue1:28: AttributeError
+[36m   -[0m [#  32] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+[34m- 35:     def pop_task(self):[0m
+[34m- 36:         while self.pq:[0m
+[34m- 37:             (_, _, task) = heappop(self.pq)[0m
+[34m- 38:             if task is not self.REMOVED:[0m
+[34m- 39:                 del self.mapper[task][0m
+[34m- 40:                 return task[0m
+[34m- 41:         raise KeyError('Pop from empty priority queue.')[0m
+[32m+ 35:     @staticmethod[0m
+[32m+ 36:     def pop_task(self):[0m
+[32m+ 37:         while self.pq:[0m
+[32m+ 38:             (_, _, task) = heappop(self.pq)[0m
+[32m+ 39:             if task is not self.REMOVED:[0m
+[32m+ 40:                 del self.mapper[task][0m
+[32m+ 41:                 return task[0m
+[32m+ 42:         raise KeyError('Pop from empty priority queue.')[0m
+--------------------------------------------------------------------------------
+[0.12719 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/priority-queue1/0-ts/test_priority_queue1.py:16: TypeError: PriorityQueue.pop_task() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  33] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   2: from heapq import heappush, heappop
+   3: 
+   4: class PriorityQueue:
+   5:     
+[34m-  6:     pq = [][0m
+[32m+  6:     pass[0m
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+--------------------------------------------------------------------------------
+[0.12836 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b78220>
+task = 'drive to work', priority = 2
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'pq'
+
+priority_queue1:20: AttributeError
+[36m   -[0m [#  34] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   3: 
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+[34m-  7:     mapper = {}[0m
+[32m+  7:     pass[0m
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+--------------------------------------------------------------------------------
+[0.09836 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bc3940>
+task = 'drive to work', priority = 2
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'mapper'
+
+priority_queue1:15: AttributeError
+[36m   -[0m [#  35] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+[34m-  8:     REMOVED = '__removed-task__'[0m
+[32m+  8:     pass[0m
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+  12:         pass
+--------------------------------------------------------------------------------
+[0.12574 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+>       pq.remove_task('load car')
+
+0-ts/test_priority_queue1.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bbdf30>
+task = 'load car'
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'REMOVED'
+
+priority_queue1:24: AttributeError
+[36m   -[0m [#  36] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+[34m-  9:     counter = itertools.count()[0m
+[32m+  9:     pass[0m
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+--------------------------------------------------------------------------------
+[0.12722 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bd7a60>
+task = 'drive to work', priority = 2
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'counter'
+
+priority_queue1:17: AttributeError
+[36m   -[0m [#  37] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+[34m- 16:             self.remove_task(task)[0m
+[32m+ 16:             pass[0m
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+--------------------------------------------------------------------------------
+[0.12520 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+>       assert pq.pop_task() == 'turn on car'
+E       AssertionError
+
+0-ts/test_priority_queue1.py:17: AssertionError
+[36m   -[0m [#  38] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+[34m- 17:         count = next(self.counter)[0m
+[32m+ 17:         pass[0m
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+--------------------------------------------------------------------------------
+[0.12435 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bbd2a0>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'count' is not defined
+
+priority_queue1:18: NameError
+[36m   -[0m [#  39] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+[34m- 18:         entry = [priority, count, task][0m
+[32m+ 18:         pass[0m
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+--------------------------------------------------------------------------------
+[0.12930 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bd3b20>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'entry' is not defined
+
+priority_queue1:19: NameError
+[36m   -[0m [#  40] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+[34m- 19:         self.mapper[task] = entry[0m
+[32m+ 19:         pass[0m
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.12463 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+>       pq.remove_task('load car')
+
+0-ts/test_priority_queue1.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bbec20>
+task = 'load car'
+
+>   ???
+E   KeyError: 'load car'
+
+priority_queue1:23: KeyError
+[36m   -[0m [#  41] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+[34m- 20:         heappush(self.pq, entry)[0m
+[32m+ 20:         pass[0m
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+--------------------------------------------------------------------------------
+[0.12814 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b7aa40>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[36m   -[0m [#  42] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+[34m- 23:         entry = self.mapper.pop(task)[0m
+[32m+ 23:         pass[0m
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+--------------------------------------------------------------------------------
+[0.12607 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+>       pq.remove_task('load car')
+
+0-ts/test_priority_queue1.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bd5930>
+task = 'load car'
+
+>   ???
+E   NameError: name 'entry' is not defined
+
+priority_queue1:24: NameError
+[36m   -[0m [#  43] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[32m+ 24:         pass[0m
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.12693 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+>       assert pq.pop_task() == 'turn on car'
+
+0-ts/test_priority_queue1.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bd3820>
+
+>   ???
+E   KeyError: 'load car'
+
+priority_queue1:39: KeyError
+[36m   -[0m [#  44] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+[34m- 28:             entry = self.mapper.pop(task)[0m
+[32m+ 28:             pass[0m
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+--------------------------------------------------------------------------------
+[0.13294 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b7a8f0>
+task = 'park at work', priority = 0
+
+>   ???
+E   NameError: name 'entry' is not defined
+
+priority_queue1:31: NameError
+[36m   -[0m [#  45] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+[34m- 31:                 priority = min(0, entry[0] - 1)[0m
+[32m+ 31:                 pass[0m
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.10204 s] [31msurvived[0m
+[36m   -[0m [#  46] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+[34m- 33:             self.add_task(entry[2], priority)[0m
+[32m+ 33:             pass[0m
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+--------------------------------------------------------------------------------
+[0.12169 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+        pq.set_priority('park at work', 0)
+    
+>       assert pq.pop_task() == 'park at work'
+E       AssertionError
+
+0-ts/test_priority_queue1.py:41: AssertionError
+[36m   -[0m [#  47] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+[34m- 37:             (_, _, task) = heappop(self.pq)[0m
+[32m+ 37:             pass[0m
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.11973 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c98490>
+
+>   ???
+E   NameError: name 'task' is not defined
+
+priority_queue1:38: NameError
+[36m   -[0m [#  48] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+[34m- 40:                 return task[0m
+[32m+ 40:                 pass[0m
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.12843 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0cb86d0>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[36m   -[0m [#  49] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+[34m- 15:         if task in self.mapper:[0m
+[32m+ 15:         if task in mapper:[0m
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.12645 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c562c0>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:15: NameError
+[36m   -[0m [#  50] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+[34m- 16:             self.remove_task(task)[0m
+[32m+ 16:             remove_task(task)[0m
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+--------------------------------------------------------------------------------
+[0.12856 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+>       pq.add_task('check gas', 1)
+
+0-ts/test_priority_queue1.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bd6980>
+task = 'check gas', priority = 1
+
+>   ???
+E   NameError: name 'remove_task' is not defined
+
+priority_queue1:16: NameError
+[36m   -[0m [#  51] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+[34m- 17:         count = next(self.counter)[0m
+[32m+ 17:         count = next(counter)[0m
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+--------------------------------------------------------------------------------
+[0.12751 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c57f70>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'counter' is not defined
+
+priority_queue1:17: NameError
+[36m   -[0m [#  52] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+[34m- 19:         self.mapper[task] = entry[0m
+[32m+ 19:         mapper[task] = entry[0m
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.12531 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0d185b0>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:19: NameError
+[36m   -[0m [#  53] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+[34m- 20:         heappush(self.pq, entry)[0m
+[32m+ 20:         heappush(pq, entry)[0m
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+--------------------------------------------------------------------------------
+[0.09624 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+>       pq.add_task('drive to work', 2)
+
+0-ts/test_priority_queue1.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b78640>
+task = 'drive to work', priority = 2
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:20: NameError
+[36m   -[0m [#  54] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+[34m- 23:         entry = self.mapper.pop(task)[0m
+[32m+ 23:         entry = mapper.pop(task)[0m
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+--------------------------------------------------------------------------------
+[0.09571 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+>       pq.remove_task('load car')
+
+0-ts/test_priority_queue1.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c046a0>
+task = 'load car'
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:23: NameError
+[36m   -[0m [#  55] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+[34m- 24:         entry[-1] = self.REMOVED[0m
+[32m+ 24:         entry[-1] = REMOVED[0m
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.11461 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+>       pq.remove_task('load car')
+
+0-ts/test_priority_queue1.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b78670>
+task = 'load car'
+
+>   ???
+E   NameError: name 'REMOVED' is not defined
+
+priority_queue1:24: NameError
+[36m   -[0m [#  56] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+[34m- 27:         if task in self.mapper:[0m
+[32m+ 27:         if task in mapper:[0m
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.09977 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c54a60>
+task = 'park at work', priority = 0
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:27: NameError
+[36m   -[0m [#  57] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+[34m- 28:             entry = self.mapper.pop(task)[0m
+[32m+ 28:             entry = mapper.pop(task)[0m
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+--------------------------------------------------------------------------------
+[0.13211 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b79150>
+task = 'park at work', priority = 0
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:28: NameError
+[36m   -[0m [#  58] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+[34m- 33:             self.add_task(entry[2], priority)[0m
+[32m+ 33:             add_task(entry[2], priority)[0m
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+--------------------------------------------------------------------------------
+[0.10100 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_set_priority
+
+def test_set_priority():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+        assert pq.pop_task() == 'get keys'
+    
+>       pq.set_priority('park at work', 0)
+
+0-ts/test_priority_queue1.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0d19930>
+task = 'park at work', priority = 0
+
+>   ???
+E   NameError: name 'add_task' is not defined
+
+priority_queue1:33: NameError
+[36m   -[0m [#  59] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+[34m- 36:         while self.pq:[0m
+[32m+ 36:         while pq:[0m
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+--------------------------------------------------------------------------------
+[0.09599 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0c57b20>
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:36: NameError
+[36m   -[0m [#  60] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+[34m- 37:             (_, _, task) = heappop(self.pq)[0m
+[32m+ 37:             (_, _, task) = heappop(pq)[0m
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.09502 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0bc0c40>
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:37: NameError
+[36m   -[0m [#  61] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+[34m- 38:             if task is not self.REMOVED:[0m
+[32m+ 38:             if task is not REMOVED:[0m
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.11574 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0d1b9a0>
+
+>   ???
+E   NameError: name 'REMOVED' is not defined
+
+priority_queue1:38: NameError
+[36m   -[0m [#  62] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+[34m- 39:                 del self.mapper[task][0m
+[32m+ 39:                 del mapper[task][0m
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.12892 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0b8f310>
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:39: NameError
+[36m   -[0m [#  63] ZIL priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+[34m- 37:             (_, _, task) = heappop(self.pq)[0m
+[34m- 38:             if task is not self.REMOVED:[0m
+[34m- 39:                 del self.mapper[task][0m
+[34m- 40:                 return task[0m
+[32m+ 37:             break[0m
+[32m+ 38:         [0m
+[32m+ 39:         [0m
+[32m+ 40:         [0m
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.12750 s] [32mkilled[0m by 0-ts/test_priority_queue1.py::test_pq_simple
+
+def test_pq_simple():
+        pq = PriorityQueue()
+        pq.add_task('drive to work', 2)
+        pq.add_task('get keys')
+        pq.add_task('load car', 1)
+        pq.add_task('check gas', 1)
+        pq.add_task('turn on car', 1)
+        pq.add_task('park at work', 3)
+        pq.remove_task('load car')
+        pq.add_task('check gas', 1)
+    
+>       assert pq.pop_task() == 'get keys'
+
+0-ts/test_priority_queue1.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7f85e0d18ac0>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[34m[*][0m Mutation score [10.20602 s]: [1m[34m75.0%[0m
+[36m   -[0m all: 63
+[36m   -[0m killed: 42 (66.7%)
+[36m   -[0m survived: 14 (22.2%)
+[36m   -[0m incompetent: 7 (11.1%)
+[36m   -[0m timeout: 0 (0.0%)

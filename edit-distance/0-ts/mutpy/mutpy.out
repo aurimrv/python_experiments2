@@ -1,0 +1,3852 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: edit_distance.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 2 tests passed:
+[36m   -[0m test_edit_distance [0.16434 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOD edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     parent[0][0] = 1[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.12623 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#   2] AOD edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[0]][current_pos[1]] != 1:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.12801 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#   3] AOD edit_distance: 
+--------------------------------------------------------------------------------
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+[34m- 86:     return trace_stack[::-1][0m
+[32m+ 86:     return trace_stack[::1][0m
+--------------------------------------------------------------------------------
+[0.11969 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#   4] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] / (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.11940 s] [36mincompetent[0m
+
+TypeError: edit_distance:17: TypeError: unsupported operand type(s) for /: 'list' and 'int'
+
+[36m   -[0m [#   5] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] // (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.10181 s] [36mincompetent[0m
+
+TypeError: edit_distance:17: TypeError: unsupported operand type(s) for //: 'list' and 'int'
+
+[36m   -[0m [#   6] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] ** (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.09849 s] [36mincompetent[0m
+
+TypeError: edit_distance:17: TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
+
+[36m   -[0m [#   7] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] * (len(str1) - 1) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.09898 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list assignment index out of range
+
+edit_distance:31: IndexError
+[36m   -[0m [#   8] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) - 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.15645 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:26: IndexError
+[36m   -[0m [#   9] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] / (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.12687 s] [36mincompetent[0m
+
+TypeError: edit_distance:19: TypeError: unsupported operand type(s) for /: 'list' and 'int'
+
+[36m   -[0m [#  10] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] // (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.10698 s] [36mincompetent[0m
+
+TypeError: edit_distance:19: TypeError: unsupported operand type(s) for //: 'list' and 'int'
+
+[36m   -[0m [#  11] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] ** (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.10022 s] [36mincompetent[0m
+
+TypeError: edit_distance:19: TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
+
+[36m   -[0m [#  12] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] * (len(str1) - 1) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.10044 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list assignment index out of range
+
+edit_distance:32: IndexError
+[36m   -[0m [#  13] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) - 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.09938 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:27: IndexError
+[36m   -[0m [#  14] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+[34m- 21:     str1 = ' ' + str1[0m
+[32m+ 21:     str1 = ' ' - str1[0m
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+--------------------------------------------------------------------------------
+[0.09904 s] [36mincompetent[0m
+
+TypeError: edit_distance:21: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  15] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+[34m- 22:     str2 = ' ' + str2[0m
+[32m+ 22:     str2 = ' ' - str2[0m
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+--------------------------------------------------------------------------------
+[0.12741 s] [36mincompetent[0m
+
+TypeError: edit_distance:22: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  16] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     parent[0][0] = +1[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.12829 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  17] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[32m+ 45:                 opt[INSERT] = distance[i][j + 1] + 1[0m
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+--------------------------------------------------------------------------------
+[0.15728 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:45: IndexError
+[36m   -[0m [#  18] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[32m+ 45:                 opt[INSERT] = distance[i][j - 1] - 1[0m
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+--------------------------------------------------------------------------------
+[0.12804 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  19] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[32m+ 47:                 opt[DELETE] = distance[i + 1][j] + 1[0m
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+--------------------------------------------------------------------------------
+[0.09792 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:47: IndexError
+[36m   -[0m [#  20] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[32m+ 47:                 opt[DELETE] = distance[i - 1][j] - 1[0m
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+--------------------------------------------------------------------------------
+[0.09857 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  21] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i + 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.12909 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:49: IndexError
+[36m   -[0m [#  22] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j + 1] + (0 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.10017 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:49: IndexError
+[36m   -[0m [#  23] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j - 1] - (0 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.09911 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  24] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  61:     
+  62:     
+  63:     
+  64:     
+[34m- 65:     current_pos = (len(str2) - 1, len(str1) - 1)[0m
+[32m+ 65:     current_pos = (len(str2) + 1, len(str1) - 1)[0m
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+--------------------------------------------------------------------------------
+[0.12181 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  25] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  61:     
+  62:     
+  63:     
+  64:     
+[34m- 65:     current_pos = (len(str2) - 1, len(str1) - 1)[0m
+[32m+ 65:     current_pos = (len(str2) - 1, len(str1) + 1)[0m
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+--------------------------------------------------------------------------------
+[0.13937 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  26] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[0]][current_pos[1]] != +1:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.12567 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  27] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 trace_stack.append((S - ' ') + str1[current_pos[1]])[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12905 s] [36mincompetent[0m
+
+TypeError: edit_distance:75: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  28] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 trace_stack.append((S + ' ') - str1[current_pos[1]])[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12631 s] [36mincompetent[0m
+
+TypeError: edit_distance:75: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  29] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[0] + 1, current_pos[1] - 1)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.10026 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  30] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[0] - 1, current_pos[1] + 1)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.10021 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  31] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             trace_stack.append((I - ' ') + str1[current_pos[1]])[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.12269 s] [36mincompetent[0m
+
+TypeError: edit_distance:79: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  32] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             trace_stack.append((I + ' ') - str1[current_pos[1]])[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.10007 s] [36mincompetent[0m
+
+TypeError: edit_distance:79: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  33] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[32m+ 80:             current_pos = (current_pos[0], current_pos[1] + 1)[0m
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+--------------------------------------------------------------------------------
+[0.11969 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  34] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             trace_stack.append((D - ' ') + str2[current_pos[0]])[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12984 s] [36mincompetent[0m
+
+TypeError: edit_distance:83: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  35] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             trace_stack.append((D + ' ') - str2[current_pos[0]])[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12892 s] [36mincompetent[0m
+
+TypeError: edit_distance:83: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  36] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             current_pos = (current_pos[0] + 1, current_pos[1])[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12588 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+
+0-ts/test_edit_distance.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' two', str2 = ' one two'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  37] AOR edit_distance: 
+--------------------------------------------------------------------------------
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+[34m- 86:     return trace_stack[::-1][0m
+[32m+ 86:     return trace_stack[::+1][0m
+--------------------------------------------------------------------------------
+[0.12767 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  38] COI edit_distance: 
+--------------------------------------------------------------------------------
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+[34m- 44:             if j > 0:[0m
+[32m+ 44:             if not (j > 0):[0m
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+--------------------------------------------------------------------------------
+[0.12539 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  39] COI edit_distance: 
+--------------------------------------------------------------------------------
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+[34m- 46:             if i > 0:[0m
+[32m+ 46:             if not (i > 0):[0m
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+--------------------------------------------------------------------------------
+[0.10356 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  40] COI edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if not ((j > 0 and i > 0)):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.10079 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  41] COI edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while not (parent[current_pos[0]][current_pos[1]] != -1):[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.12870 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  42] COI edit_distance: 
+--------------------------------------------------------------------------------
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+[34m- 70:         if parent_val == 0:[0m
+[32m+ 70:         if not (parent_val == 0):[0m
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+--------------------------------------------------------------------------------
+[0.12859 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  43] COI edit_distance: 
+--------------------------------------------------------------------------------
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+[34m- 71:             if str2[current_pos[0]] == str1[current_pos[1]]:[0m
+[32m+ 71:             if not (str2[current_pos[0]] == str1[current_pos[1]]):[0m
+  72:                 
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12109 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  44] COI edit_distance: 
+--------------------------------------------------------------------------------
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+[34m- 78:         elif parent_val == 1:[0m
+[32m+ 78:         elif not (parent_val == 1):[0m
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+--------------------------------------------------------------------------------
+[0.10282 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  45] CRP edit_distance: 
+--------------------------------------------------------------------------------
+   7: 
+   8:     '''
+   9:     
+  10:     
+[34m- 11:     (MATCH, INSERT, DELETE) = (0, 1, 2)[0m
+[32m+ 11:     (MATCH, INSERT, DELETE) = (1, 1, 2)[0m
+  12:     
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+--------------------------------------------------------------------------------
+[0.11997 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  46] CRP edit_distance: 
+--------------------------------------------------------------------------------
+   7: 
+   8:     '''
+   9:     
+  10:     
+[34m- 11:     (MATCH, INSERT, DELETE) = (0, 1, 2)[0m
+[32m+ 11:     (MATCH, INSERT, DELETE) = (0, 2, 2)[0m
+  12:     
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+--------------------------------------------------------------------------------
+[0.12575 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  47] CRP edit_distance: 
+--------------------------------------------------------------------------------
+   7: 
+   8:     '''
+   9:     
+  10:     
+[34m- 11:     (MATCH, INSERT, DELETE) = (0, 1, 2)[0m
+[32m+ 11:     (MATCH, INSERT, DELETE) = (0, 1, 3)[0m
+  12:     
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+--------------------------------------------------------------------------------
+[0.10775 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list assignment index out of range
+
+edit_distance:47: IndexError
+[36m   -[0m [#  48] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     (MATCH, INSERT, DELETE) = (0, 1, 2)
+  12:     
+  13:     
+[34m- 14:     opt = [0, 0, 0][0m
+[32m+ 14:     opt = [1, 0, 0][0m
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+--------------------------------------------------------------------------------
+[0.08145 s] [31msurvived[0m
+[36m   -[0m [#  49] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     (MATCH, INSERT, DELETE) = (0, 1, 2)
+  12:     
+  13:     
+[34m- 14:     opt = [0, 0, 0][0m
+[32m+ 14:     opt = [0, 1, 0][0m
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+--------------------------------------------------------------------------------
+[0.07875 s] [31msurvived[0m
+[36m   -[0m [#  50] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     (MATCH, INSERT, DELETE) = (0, 1, 2)
+  12:     
+  13:     
+[34m- 14:     opt = [0, 0, 0][0m
+[32m+ 14:     opt = [0, 0, 1][0m
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+--------------------------------------------------------------------------------
+[0.11252 s] [31msurvived[0m
+[36m   -[0m [#  51] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[1] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.10153 s] [31msurvived[0m
+[36m   -[0m [#  52] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] * (len(str1) + 2) for _ in range(len(str2) + 1)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.09860 s] [31msurvived[0m
+[36m   -[0m [#  53] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 2)][0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.07888 s] [31msurvived[0m
+[36m   -[0m [#  54] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[1] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.08016 s] [31msurvived[0m
+[36m   -[0m [#  55] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] * (len(str1) + 2) for _ in range(len(str2) + 1)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.08177 s] [31msurvived[0m
+[36m   -[0m [#  56] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 2)][0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.07853 s] [31msurvived[0m
+[36m   -[0m [#  57] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+[34m- 21:     str1 = ' ' + str1[0m
+[32m+ 21:     str1 = 'mutpy' + str1[0m
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+--------------------------------------------------------------------------------
+[0.09974 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = 'mutpyhello', str2 = ' teio'
+
+>   ???
+E   IndexError: list assignment index out of range
+
+edit_distance:31: IndexError
+[36m   -[0m [#  58] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+[34m- 21:     str1 = ' ' + str1[0m
+[32m+ 21:     str1 = '' + str1[0m
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+--------------------------------------------------------------------------------
+[0.12893 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  59] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+[34m- 22:     str2 = ' ' + str2[0m
+[32m+ 22:     str2 = 'mutpy' + str2[0m
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+--------------------------------------------------------------------------------
+[0.10057 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = 'mutpyteio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:26: IndexError
+[36m   -[0m [#  60] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+[34m- 22:     str2 = ' ' + str2[0m
+[32m+ 22:     str2 = '' + str2[0m
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+--------------------------------------------------------------------------------
+[0.12797 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  61] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+[34m- 26:         distance[i][0] = i[0m
+[32m+ 26:         distance[i][1] = i[0m
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+--------------------------------------------------------------------------------
+[0.08042 s] [31msurvived[0m
+[36m   -[0m [#  62] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+[34m- 27:         parent[i][0] = DELETE[0m
+[32m+ 27:         parent[i][1] = DELETE[0m
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+--------------------------------------------------------------------------------
+[0.12285 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [#  63] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+[34m- 31:         distance[0][j] = j[0m
+[32m+ 31:         distance[1][j] = j[0m
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+--------------------------------------------------------------------------------
+[0.09889 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  64] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+[34m- 32:         parent[0][j] = INSERT[0m
+[32m+ 32:         parent[1][j] = INSERT[0m
+  33:     
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+  36:     
+--------------------------------------------------------------------------------
+[0.10163 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+
+0-ts/test_edit_distance.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' two', str2 = ' one two'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  65] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+[34m- 34:     distance[0][0] = 0[0m
+[32m+ 34:     distance[1][0] = 0[0m
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+--------------------------------------------------------------------------------
+[0.10185 s] [31msurvived[0m
+[36m   -[0m [#  66] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+[34m- 34:     distance[0][0] = 0[0m
+[32m+ 34:     distance[0][1] = 0[0m
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+--------------------------------------------------------------------------------
+[0.12026 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  67] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+[34m- 34:     distance[0][0] = 0[0m
+[32m+ 34:     distance[0][0] = 1[0m
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+--------------------------------------------------------------------------------
+[0.16332 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  68] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     parent[1][0] = -1[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.12848 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  69] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     parent[0][1] = -1[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.10156 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  70] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     parent[0][0] = -2[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.09786 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  71] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+[34m- 39:     for i in range(1, len(str2)):[0m
+[32m+ 39:     for i in range(2, len(str2)):[0m
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+--------------------------------------------------------------------------------
+[0.11997 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  72] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+[34m- 40:         for j in range(1, len(str1)):[0m
+[32m+ 40:         for j in range(2, len(str1)):[0m
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+--------------------------------------------------------------------------------
+[0.10514 s] [31msurvived[0m
+[36m   -[0m [#  73] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+  40:         for j in range(1, len(str1)):
+[34m- 41:             opt = [0, 0, 0][0m
+[32m+ 41:             opt = [1, 0, 0][0m
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+--------------------------------------------------------------------------------
+[0.09889 s] [31msurvived[0m
+[36m   -[0m [#  74] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+  40:         for j in range(1, len(str1)):
+[34m- 41:             opt = [0, 0, 0][0m
+[32m+ 41:             opt = [0, 1, 0][0m
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+--------------------------------------------------------------------------------
+[0.10002 s] [31msurvived[0m
+[36m   -[0m [#  75] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+  40:         for j in range(1, len(str1)):
+[34m- 41:             opt = [0, 0, 0][0m
+[32m+ 41:             opt = [0, 0, 1][0m
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+--------------------------------------------------------------------------------
+[0.09974 s] [31msurvived[0m
+[36m   -[0m [#  76] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+[34m- 44:             if j > 0:[0m
+[32m+ 44:             if j > 1:[0m
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+--------------------------------------------------------------------------------
+[0.12306 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  77] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[32m+ 45:                 opt[INSERT] = distance[i][j - 2] + 1[0m
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+--------------------------------------------------------------------------------
+[0.12699 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [#  78] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[32m+ 45:                 opt[INSERT] = distance[i][j - 1] + 2[0m
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+--------------------------------------------------------------------------------
+[0.09860 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  79] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+[34m- 46:             if i > 0:[0m
+[32m+ 46:             if i > 1:[0m
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+--------------------------------------------------------------------------------
+[0.11057 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  80] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[32m+ 47:                 opt[DELETE] = distance[i - 2][j] + 1[0m
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+--------------------------------------------------------------------------------
+[0.09848 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  81] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[32m+ 47:                 opt[DELETE] = distance[i - 1][j] + 2[0m
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+--------------------------------------------------------------------------------
+[0.07993 s] [31msurvived[0m
+[36m   -[0m [#  82] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j > 1 and i > 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.10136 s] [31msurvived[0m
+[36m   -[0m [#  83] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j > 0 and i > 1):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.12215 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  84] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 2][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.14983 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  85] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j - 2] + (0 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.11970 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  86] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j - 1] + (1 if str1[j] == str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.12016 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  87] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 2)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.10750 s] [31msurvived[0m
+[36m   -[0m [#  88] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  61:     
+  62:     
+  63:     
+  64:     
+[34m- 65:     current_pos = (len(str2) - 1, len(str1) - 1)[0m
+[32m+ 65:     current_pos = (len(str2) - 2, len(str1) - 1)[0m
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+--------------------------------------------------------------------------------
+[0.12702 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  89] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  61:     
+  62:     
+  63:     
+  64:     
+[34m- 65:     current_pos = (len(str2) - 1, len(str1) - 1)[0m
+[32m+ 65:     current_pos = (len(str2) - 1, len(str1) - 2)[0m
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+--------------------------------------------------------------------------------
+[0.12223 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  90] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('mutpy', 'Insert', 'Substitute')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.12043 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [#  91] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('', 'Insert', 'Substitute')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.09990 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [#  92] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('Delete', 'mutpy', 'Substitute')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.10122 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  93] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('Delete', '', 'Substitute')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.14587 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  94] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('Delete', 'Insert', 'mutpy')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.11857 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  95] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     (D, I, S) = ('Delete', 'Insert', '')[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.11967 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [#  96] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[1]][current_pos[1]] != -1:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.10196 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  97] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[0]][current_pos[2]] != -1:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.09872 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  98] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[0]][current_pos[1]] != -2:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.12180 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [#  99] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+[34m- 69:         parent_val = parent[current_pos[0]][current_pos[1]][0m
+[32m+ 69:         parent_val = parent[current_pos[1]][current_pos[1]][0m
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+--------------------------------------------------------------------------------
+[0.10383 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:69: IndexError
+[36m   -[0m [# 100] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+[34m- 69:         parent_val = parent[current_pos[0]][current_pos[1]][0m
+[32m+ 69:         parent_val = parent[current_pos[0]][current_pos[2]][0m
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+--------------------------------------------------------------------------------
+[0.12916 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:69: IndexError
+[36m   -[0m [# 101] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+[34m- 70:         if parent_val == 0:[0m
+[32m+ 70:         if parent_val == 1:[0m
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+--------------------------------------------------------------------------------
+[0.15328 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [# 102] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+[34m- 71:             if str2[current_pos[0]] == str1[current_pos[1]]:[0m
+[32m+ 71:             if str2[current_pos[1]] == str1[current_pos[1]]:[0m
+  72:                 
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12133 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: string index out of range
+
+edit_distance:71: IndexError
+[36m   -[0m [# 103] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+[34m- 71:             if str2[current_pos[0]] == str1[current_pos[1]]:[0m
+[32m+ 71:             if str2[current_pos[0]] == str1[current_pos[2]]:[0m
+  72:                 
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12068 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:71: IndexError
+[36m   -[0m [# 104] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 trace_stack.append((S + 'mutpy') + str1[current_pos[1]])[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.09745 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 105] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 trace_stack.append((S + '') + str1[current_pos[1]])[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.11958 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 106] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 trace_stack.append((S + ' ') + str1[current_pos[2]])[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12066 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:75: IndexError
+[36m   -[0m [# 107] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[1] - 1, current_pos[1] - 1)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.11832 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 108] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[0] - 2, current_pos[1] - 1)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.12476 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 109] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[0] - 1, current_pos[2] - 1)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.12684 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:77: IndexError
+[36m   -[0m [# 110] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 2)[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[0.15702 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 111] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+[34m- 78:         elif parent_val == 1:[0m
+[32m+ 78:         elif parent_val == 2:[0m
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+--------------------------------------------------------------------------------
+[0.11857 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [# 112] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             trace_stack.append((I + 'mutpy') + str1[current_pos[1]])[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.09719 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 113] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             trace_stack.append((I + '') + str1[current_pos[1]])[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.11981 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 114] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             trace_stack.append((I + ' ') + str1[current_pos[2]])[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.12064 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:79: IndexError
+[36m   -[0m [# 115] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[32m+ 80:             current_pos = (current_pos[1], current_pos[1] - 1)[0m
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+--------------------------------------------------------------------------------
+[0.12368 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 116] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[32m+ 80:             current_pos = (current_pos[0], current_pos[2] - 1)[0m
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+--------------------------------------------------------------------------------
+[0.12306 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:80: IndexError
+[36m   -[0m [# 117] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[32m+ 80:             current_pos = (current_pos[0], current_pos[1] - 2)[0m
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+--------------------------------------------------------------------------------
+[0.10032 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 118] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             trace_stack.append((D + 'mutpy') + str2[current_pos[0]])[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.16163 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 119] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             trace_stack.append((D + '') + str2[current_pos[0]])[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12125 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 120] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             trace_stack.append((D + ' ') + str2[current_pos[1]])[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12878 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 121] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             current_pos = (current_pos[1] - 1, current_pos[1])[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[5.00660 s] [33mtimeout[0m
+[36m   -[0m [# 122] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             current_pos = (current_pos[0] - 2, current_pos[1])[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.11983 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 123] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             current_pos = (current_pos[0] - 1, current_pos[2])[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.12096 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+
+0-ts/test_edit_distance.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' two', str2 = ' one two'
+
+>   ???
+E   IndexError: tuple index out of range
+
+edit_distance:84: IndexError
+[36m   -[0m [# 124] CRP edit_distance: 
+--------------------------------------------------------------------------------
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+[34m- 86:     return trace_stack[::-1][0m
+[32m+ 86:     return trace_stack[::-2][0m
+--------------------------------------------------------------------------------
+[0.10842 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 125] LCR edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j > 0 or i > 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.09951 s] [31msurvived[0m
+[36m   -[0m [# 126] OIL edit_distance: 
+--------------------------------------------------------------------------------
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+  27:         parent[i][0] = DELETE
+[34m- 28:     [0m
+[32m+ 28:         break[0m
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+--------------------------------------------------------------------------------
+[0.15721 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 127] OIL edit_distance: 
+--------------------------------------------------------------------------------
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+[34m- 33:     [0m
+[32m+ 33:         break[0m
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+--------------------------------------------------------------------------------
+[0.12819 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 128] OIL edit_distance: 
+--------------------------------------------------------------------------------
+  53:             parent_opt = opt.index(lowest_cost)
+  54:             
+  55:             distance[i][j] = lowest_cost
+  56:             parent[i][j] = parent_opt
+[34m- 57:     [0m
+[32m+ 57:         break[0m
+  58:     
+  59:     
+  60:     
+  61:     
+--------------------------------------------------------------------------------
+[0.10053 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 129] OIL edit_distance: 
+--------------------------------------------------------------------------------
+  53:             parent_opt = opt.index(lowest_cost)
+  54:             
+  55:             distance[i][j] = lowest_cost
+  56:             parent[i][j] = parent_opt
+[34m- 57:     [0m
+[32m+ 57:             break[0m
+  58:     
+  59:     
+  60:     
+  61:     
+--------------------------------------------------------------------------------
+[0.12678 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 130] OIL edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             current_pos = (current_pos[0] - 1, current_pos[1])break[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.11975 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 131] RIL edit_distance: 
+--------------------------------------------------------------------------------
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+[34m- 25:     for i in range(len(str2)):[0m
+[32m+ 25:     for i in reversed(range(len(str2))):[0m
+  26:         distance[i][0] = i
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+--------------------------------------------------------------------------------
+[0.08425 s] [31msurvived[0m
+[36m   -[0m [# 132] RIL edit_distance: 
+--------------------------------------------------------------------------------
+  26:         distance[i][0] = i
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+[34m- 30:     for j in range(len(str1)):[0m
+[32m+ 30:     for j in reversed(range(len(str1))):[0m
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+--------------------------------------------------------------------------------
+[0.10122 s] [31msurvived[0m
+[36m   -[0m [# 133] RIL edit_distance: 
+--------------------------------------------------------------------------------
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+[34m- 39:     for i in range(1, len(str2)):[0m
+[32m+ 39:     for i in reversed(range(1, len(str2))):[0m
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+--------------------------------------------------------------------------------
+[0.12302 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 134] RIL edit_distance: 
+--------------------------------------------------------------------------------
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+[34m- 40:         for j in range(1, len(str1)):[0m
+[32m+ 40:         for j in reversed(range(1, len(str1))):[0m
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+--------------------------------------------------------------------------------
+[0.15486 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 135] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+[34m- 44:             if j > 0:[0m
+[32m+ 44:             if j < 0:[0m
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+--------------------------------------------------------------------------------
+[0.12749 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 136] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  40:         for j in range(1, len(str1)):
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+[34m- 44:             if j > 0:[0m
+[32m+ 44:             if j >= 0:[0m
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+--------------------------------------------------------------------------------
+[0.09081 s] [31msurvived[0m
+[36m   -[0m [# 137] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+[34m- 46:             if i > 0:[0m
+[32m+ 46:             if i < 0:[0m
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+--------------------------------------------------------------------------------
+[0.10600 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 138] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+[34m- 46:             if i > 0:[0m
+[32m+ 46:             if i >= 0:[0m
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+--------------------------------------------------------------------------------
+[0.09949 s] [31msurvived[0m
+[36m   -[0m [# 139] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j < 0 and i > 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.11941 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 140] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j >= 0 and i > 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.10718 s] [31msurvived[0m
+[36m   -[0m [# 141] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j > 0 and i < 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.14688 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 142] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+[34m- 48:             if (j > 0 and i > 0):[0m
+[32m+ 48:             if (j > 0 and i >= 0):[0m
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+--------------------------------------------------------------------------------
+[0.13439 s] [31msurvived[0m
+[36m   -[0m [# 143] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] != str2[i] else 1)[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.12671 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 144] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+[34m- 68:     while parent[current_pos[0]][current_pos[1]] != -1:[0m
+[32m+ 68:     while parent[current_pos[0]][current_pos[1]] == -1:[0m
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+--------------------------------------------------------------------------------
+[0.12103 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 145] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+[34m- 70:         if parent_val == 0:[0m
+[32m+ 70:         if parent_val != 0:[0m
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+--------------------------------------------------------------------------------
+[0.12767 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [# 146] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+[34m- 71:             if str2[current_pos[0]] == str1[current_pos[1]]:[0m
+[32m+ 71:             if str2[current_pos[0]] != str1[current_pos[1]]:[0m
+  72:                 
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12640 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 147] ROR edit_distance: 
+--------------------------------------------------------------------------------
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+[34m- 78:         elif parent_val == 1:[0m
+[32m+ 78:         elif parent_val != 1:[0m
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+--------------------------------------------------------------------------------
+[0.10108 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [# 148] SDL edit_distance: 
+--------------------------------------------------------------------------------
+   7: 
+   8:     '''
+   9:     
+  10:     
+[34m- 11:     (MATCH, INSERT, DELETE) = (0, 1, 2)[0m
+[32m+ 11:     pass[0m
+  12:     
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+--------------------------------------------------------------------------------
+[0.12734 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'DELETE' is not defined
+
+edit_distance:27: NameError
+[36m   -[0m [# 149] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     (MATCH, INSERT, DELETE) = (0, 1, 2)
+  12:     
+  13:     
+[34m- 14:     opt = [0, 0, 0][0m
+[32m+ 14:     pass[0m
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+--------------------------------------------------------------------------------
+[0.07839 s] [31msurvived[0m
+[36m   -[0m [# 150] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     opt = [0, 0, 0]
+  15:     
+  16:     
+[34m- 17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 17:     pass[0m
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+--------------------------------------------------------------------------------
+[0.15786 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'distance' is not defined
+
+edit_distance:26: NameError
+[36m   -[0m [# 151] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+[34m- 19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)][0m
+[32m+ 19:     pass[0m
+  20:     
+  21:     str1 = ' ' + str1
+  22:     str2 = ' ' + str2
+  23:     
+--------------------------------------------------------------------------------
+[0.12569 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'parent' is not defined
+
+edit_distance:27: NameError
+[36m   -[0m [# 152] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  17:     distance = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+[34m- 21:     str1 = ' ' + str1[0m
+[32m+ 21:     pass[0m
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+--------------------------------------------------------------------------------
+[0.10048 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 153] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     parent = [[0] * (len(str1) + 1) for _ in range(len(str2) + 1)]
+  20:     
+  21:     str1 = ' ' + str1
+[34m- 22:     str2 = ' ' + str2[0m
+[32m+ 22:     pass[0m
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+--------------------------------------------------------------------------------
+[0.12520 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 154] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+[34m- 26:         distance[i][0] = i[0m
+[32m+ 26:         pass[0m
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+--------------------------------------------------------------------------------
+[0.10019 s] [31msurvived[0m
+[36m   -[0m [# 155] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+  26:         distance[i][0] = i
+[34m- 27:         parent[i][0] = DELETE[0m
+[32m+ 27:         pass[0m
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+--------------------------------------------------------------------------------
+[0.12918 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 156] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+[34m- 31:         distance[0][j] = j[0m
+[32m+ 31:         pass[0m
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+--------------------------------------------------------------------------------
+[0.09952 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 157] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+[34m- 32:         parent[0][j] = INSERT[0m
+[32m+ 32:         pass[0m
+  33:     
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+  36:     
+--------------------------------------------------------------------------------
+[0.10825 s] [31msurvived[0m
+[36m   -[0m [# 158] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+[34m- 34:     distance[0][0] = 0[0m
+[32m+ 34:     pass[0m
+  35:     parent[0][0] = -1
+  36:     
+  37:     
+  38:     
+--------------------------------------------------------------------------------
+[0.10815 s] [31msurvived[0m
+[36m   -[0m [# 159] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  31:         distance[0][j] = j
+  32:         parent[0][j] = INSERT
+  33:     
+  34:     distance[0][0] = 0
+[34m- 35:     parent[0][0] = -1[0m
+[32m+ 35:     pass[0m
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+--------------------------------------------------------------------------------
+[0.13110 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   IndexError: list index out of range
+
+edit_distance:68: IndexError
+[36m   -[0m [# 160] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+  40:         for j in range(1, len(str1)):
+[34m- 41:             opt = [0, 0, 0][0m
+[32m+ 41:             pass[0m
+  42:             
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+--------------------------------------------------------------------------------
+[0.07799 s] [31msurvived[0m
+[36m   -[0m [# 161] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  41:             opt = [0, 0, 0]
+  42:             
+  43:             
+  44:             if j > 0:
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[32m+ 45:                 pass[0m
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+--------------------------------------------------------------------------------
+[0.11812 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 162] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  43:             
+  44:             if j > 0:
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[32m+ 47:                 pass[0m
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+--------------------------------------------------------------------------------
+[0.11163 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 163] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  45:                 opt[INSERT] = distance[i][j - 1] + 1
+  46:             if i > 0:
+  47:                 opt[DELETE] = distance[i - 1][j] + 1
+  48:             if (j > 0 and i > 0):
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[32m+ 49:                 pass[0m
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+--------------------------------------------------------------------------------
+[0.12502 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 164] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  48:             if (j > 0 and i > 0):
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+[34m- 52:             lowest_cost = min(opt)[0m
+[32m+ 52:             pass[0m
+  53:             parent_opt = opt.index(lowest_cost)
+  54:             
+  55:             distance[i][j] = lowest_cost
+  56:             parent[i][j] = parent_opt
+--------------------------------------------------------------------------------
+[0.12028 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'lowest_cost' is not defined
+
+edit_distance:53: NameError
+[36m   -[0m [# 165] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)
+  50:             
+  51:             
+  52:             lowest_cost = min(opt)
+[34m- 53:             parent_opt = opt.index(lowest_cost)[0m
+[32m+ 53:             pass[0m
+  54:             
+  55:             distance[i][j] = lowest_cost
+  56:             parent[i][j] = parent_opt
+  57:     
+--------------------------------------------------------------------------------
+[0.13161 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'parent_opt' is not defined
+
+edit_distance:56: NameError
+[36m   -[0m [# 166] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  51:             
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+  54:             
+[34m- 55:             distance[i][j] = lowest_cost[0m
+[32m+ 55:             pass[0m
+  56:             parent[i][j] = parent_opt
+  57:     
+  58:     
+  59:     
+--------------------------------------------------------------------------------
+[0.12763 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 167] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  52:             lowest_cost = min(opt)
+  53:             parent_opt = opt.index(lowest_cost)
+  54:             
+  55:             distance[i][j] = lowest_cost
+[34m- 56:             parent[i][j] = parent_opt[0m
+[32m+ 56:             pass[0m
+  57:     
+  58:     
+  59:     
+  60:     
+--------------------------------------------------------------------------------
+[0.15014 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 168] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  61:     
+  62:     
+  63:     
+  64:     
+[34m- 65:     current_pos = (len(str2) - 1, len(str1) - 1)[0m
+[32m+ 65:     pass[0m
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+--------------------------------------------------------------------------------
+[0.09988 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   UnboundLocalError: local variable 'current_pos' referenced before assignment
+
+edit_distance:68: UnboundLocalError
+[36m   -[0m [# 169] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  62:     
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+[34m- 66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')[0m
+[32m+ 66:     pass[0m
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+--------------------------------------------------------------------------------
+[0.12724 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'S' is not defined
+
+edit_distance:75: NameError
+[36m   -[0m [# 170] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  63:     
+  64:     
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+[34m- 67:     trace_stack = [][0m
+[32m+ 67:     pass[0m
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+  69:         parent_val = parent[current_pos[0]][current_pos[1]]
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+--------------------------------------------------------------------------------
+[0.12878 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'trace_stack' is not defined
+
+edit_distance:75: NameError
+[36m   -[0m [# 171] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+[34m- 69:         parent_val = parent[current_pos[0]][current_pos[1]][0m
+[32m+ 69:         pass[0m
+  70:         if parent_val == 0:
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+--------------------------------------------------------------------------------
+[0.12404 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+
+0-ts/test_edit_distance.py:5: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+str1 = ' hello', str2 = ' teio'
+
+>   ???
+E   NameError: name 'parent_val' is not defined
+
+edit_distance:70: NameError
+[36m   -[0m [# 172] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  71:             if str2[current_pos[0]] == str1[current_pos[1]]:
+  72:                 
+  73:                 pass
+  74:             else:
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[32m+ 75:                 pass[0m
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+--------------------------------------------------------------------------------
+[0.12004 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 173] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  73:                 pass
+  74:             else:
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[32m+ 77:             pass[0m
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+--------------------------------------------------------------------------------
+[5.00664 s] [33mtimeout[0m
+[36m   -[0m [# 174] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[32m+ 79:             pass[0m
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+--------------------------------------------------------------------------------
+[0.13096 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 175] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  76:             
+  77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)
+  78:         elif parent_val == 1:
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[32m+ 80:             pass[0m
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+--------------------------------------------------------------------------------
+[5.00664 s] [33mtimeout[0m
+[36m   -[0m [# 176] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  79:             trace_stack.append((I + ' ') + str1[current_pos[1]])
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[32m+ 83:             pass[0m
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.15317 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 177] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  80:             current_pos = (current_pos[0], current_pos[1] - 1)
+  81:         else:
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 84:             pass[0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[5.00667 s] [33mtimeout[0m
+[36m   -[0m [# 178] SDL edit_distance: 
+--------------------------------------------------------------------------------
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+[34m- 86:     return trace_stack[::-1][0m
+[32m+ 86:     pass[0m
+--------------------------------------------------------------------------------
+[0.12902 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 179] SIR edit_distance: 
+--------------------------------------------------------------------------------
+  82:             
+  83:             trace_stack.append((D + ' ') + str2[current_pos[0]])
+  84:             current_pos = (current_pos[0] - 1, current_pos[1])
+  85:     
+[34m- 86:     return trace_stack[::-1][0m
+[32m+ 86:     return trace_stack[:][0m
+--------------------------------------------------------------------------------
+[0.11935 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 180] ZIL edit_distance: 
+--------------------------------------------------------------------------------
+  22:     str2 = ' ' + str2
+  23:     
+  24:     
+  25:     for i in range(len(str2)):
+[34m- 26:         distance[i][0] = i[0m
+[34m- 27:         parent[i][0] = DELETE[0m
+[32m+ 26:         break[0m
+[32m+ 27:     [0m
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+  31:         distance[0][j] = j
+--------------------------------------------------------------------------------
+[0.10313 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_deletion_required
+
+def test_deletion_required():
+>       assert calculate_edit_distance('two', 'one two') == ['Delete o', 'Delete n', 'Delete e', 'Delete  ']
+E       AssertionError
+
+0-ts/test_edit_distance.py:8: AssertionError
+[36m   -[0m [# 181] ZIL edit_distance: 
+--------------------------------------------------------------------------------
+  27:         parent[i][0] = DELETE
+  28:     
+  29:     
+  30:     for j in range(len(str1)):
+[34m- 31:         distance[0][j] = j[0m
+[34m- 32:         parent[0][j] = INSERT[0m
+[32m+ 31:         break[0m
+[32m+ 32:     [0m
+  33:     
+  34:     distance[0][0] = 0
+  35:     parent[0][0] = -1
+  36:     
+--------------------------------------------------------------------------------
+[0.12859 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 182] ZIL edit_distance: 
+--------------------------------------------------------------------------------
+  36:     
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+[34m- 40:         for j in range(1, len(str1)):[0m
+[34m- 41:             opt = [0, 0, 0][0m
+[34m- 42:             [0m
+[34m- 43:             [0m
+[34m- 44:             if j > 0:[0m
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[34m- 46:             if i > 0:[0m
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[34m- 48:             if (j > 0 and i > 0):[0m
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[34m- 50:             [0m
+[34m- 51:             [0m
+[34m- 52:             lowest_cost = min(opt)[0m
+[34m- 53:             parent_opt = opt.index(lowest_cost)[0m
+[34m- 54:             [0m
+[34m- 55:             distance[i][j] = lowest_cost[0m
+[34m- 56:             parent[i][j] = parent_opt[0m
+[32m+ 40:         break[0m
+[32m+ 41:     [0m
+[32m+ 42:     [0m
+[32m+ 43:     [0m
+[32m+ 44:     [0m
+[32m+ 45:     [0m
+[32m+ 46:     [0m
+[32m+ 47:     [0m
+[32m+ 48:     [0m
+[32m+ 49:     [0m
+[32m+ 50:     [0m
+[32m+ 51:     [0m
+[32m+ 52:     [0m
+[32m+ 53:     [0m
+[32m+ 54:     [0m
+[32m+ 55:     [0m
+[32m+ 56:     [0m
+  57:     
+  58:     
+  59:     
+  60:     
+--------------------------------------------------------------------------------
+[0.12289 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 183] ZIL edit_distance: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     
+  39:     for i in range(1, len(str2)):
+  40:         for j in range(1, len(str1)):
+[34m- 41:             opt = [0, 0, 0][0m
+[34m- 42:             [0m
+[34m- 43:             [0m
+[34m- 44:             if j > 0:[0m
+[34m- 45:                 opt[INSERT] = distance[i][j - 1] + 1[0m
+[34m- 46:             if i > 0:[0m
+[34m- 47:                 opt[DELETE] = distance[i - 1][j] + 1[0m
+[34m- 48:             if (j > 0 and i > 0):[0m
+[34m- 49:                 opt[MATCH] = distance[i - 1][j - 1] + (0 if str1[j] == str2[i] else 1)[0m
+[34m- 50:             [0m
+[34m- 51:             [0m
+[34m- 52:             lowest_cost = min(opt)[0m
+[34m- 53:             parent_opt = opt.index(lowest_cost)[0m
+[34m- 54:             [0m
+[34m- 55:             distance[i][j] = lowest_cost[0m
+[34m- 56:             parent[i][j] = parent_opt[0m
+[32m+ 41:             break[0m
+[32m+ 42:     [0m
+[32m+ 43:     [0m
+[32m+ 44:     [0m
+[32m+ 45:     [0m
+[32m+ 46:     [0m
+[32m+ 47:     [0m
+[32m+ 48:     [0m
+[32m+ 49:     [0m
+[32m+ 50:     [0m
+[32m+ 51:     [0m
+[32m+ 52:     [0m
+[32m+ 53:     [0m
+[32m+ 54:     [0m
+[32m+ 55:     [0m
+[32m+ 56:     [0m
+  57:     
+  58:     
+  59:     
+  60:     
+--------------------------------------------------------------------------------
+[0.11466 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[36m   -[0m [# 184] ZIL edit_distance: 
+--------------------------------------------------------------------------------
+  65:     current_pos = (len(str2) - 1, len(str1) - 1)
+  66:     (D, I, S) = ('Delete', 'Insert', 'Substitute')
+  67:     trace_stack = []
+  68:     while parent[current_pos[0]][current_pos[1]] != -1:
+[34m- 69:         parent_val = parent[current_pos[0]][current_pos[1]][0m
+[34m- 70:         if parent_val == 0:[0m
+[34m- 71:             if str2[current_pos[0]] == str1[current_pos[1]]:[0m
+[34m- 72:                 [0m
+[34m- 73:                 pass[0m
+[34m- 74:             else:[0m
+[34m- 75:                 trace_stack.append((S + ' ') + str1[current_pos[1]])[0m
+[34m- 76:             [0m
+[34m- 77:             current_pos = (current_pos[0] - 1, current_pos[1] - 1)[0m
+[34m- 78:         elif parent_val == 1:[0m
+[34m- 79:             trace_stack.append((I + ' ') + str1[current_pos[1]])[0m
+[34m- 80:             current_pos = (current_pos[0], current_pos[1] - 1)[0m
+[34m- 81:         else:[0m
+[34m- 82:             [0m
+[34m- 83:             trace_stack.append((D + ' ') + str2[current_pos[0]])[0m
+[34m- 84:             current_pos = (current_pos[0] - 1, current_pos[1])[0m
+[32m+ 69:         break[0m
+[32m+ 70:     [0m
+[32m+ 71:     [0m
+[32m+ 72:     [0m
+[32m+ 73:     [0m
+[32m+ 74:     [0m
+[32m+ 75:     [0m
+[32m+ 76:     [0m
+[32m+ 77:     [0m
+[32m+ 78:     [0m
+[32m+ 79:     [0m
+[32m+ 80:     [0m
+[32m+ 81:     [0m
+[32m+ 82:     [0m
+[32m+ 83:     [0m
+[32m+ 84:     [0m
+  85:     
+  86:     return trace_stack[::-1]
+--------------------------------------------------------------------------------
+[0.15905 s] [32mkilled[0m by 0-ts/test_edit_distance.py::test_edit_distance
+
+def test_edit_distance():
+>       assert calculate_edit_distance('hello', 'teio') == ['Substitute h', 'Insert l', 'Substitute l']
+E       AssertionError
+
+0-ts/test_edit_distance.py:5: AssertionError
+[34m[*][0m Mutation score [53.78867 s]: [1m[34m82.4%[0m
+[36m   -[0m all: 184
+[36m   -[0m killed: 136 (73.9%)
+[36m   -[0m survived: 30 (16.3%)
+[36m   -[0m incompetent: 14 (7.6%)
+[36m   -[0m timeout: 4 (2.2%)

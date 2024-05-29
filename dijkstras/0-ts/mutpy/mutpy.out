@@ -1,0 +1,1303 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: dijkstras.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 2 tests passed:
+[36m   -[0m test_dijkstras [0.15993 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOD dijkstras: 
+--------------------------------------------------------------------------------
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+[34m- 41:     return path[::-1][0m
+[32m+ 41:     return path[::1][0m
+--------------------------------------------------------------------------------
+[0.12593 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   2] AOR dijkstras: 
+--------------------------------------------------------------------------------
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+[34m- 41:     return path[::-1][0m
+[32m+ 41:     return path[::+1][0m
+--------------------------------------------------------------------------------
+[0.11690 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   3] BCR dijkstras: 
+--------------------------------------------------------------------------------
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+  20:         if min_dist_node == dst:
+[34m- 21:             break[0m
+[32m+ 21:             continue[0m
+  22:         
+  23:         vertices.remove(min_dist_node)
+  24:         
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+--------------------------------------------------------------------------------
+[5.00648 s] [33mtimeout[0m
+[36m   -[0m [#   4] COI dijkstras: 
+--------------------------------------------------------------------------------
+  13:         prev[vertex] = None
+  14:     
+  15:     dist[src] = 0
+  16:     
+[34m- 17:     while vertices:[0m
+[32m+ 17:     while not vertices:[0m
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+--------------------------------------------------------------------------------
+[0.12727 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   5] COI dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[32m+ 18:         min_dist_node = min(list(filter((lambda x: (x[0] not in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+--------------------------------------------------------------------------------
+[0.12821 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b48bb580>, src = 'a'
+dst = 'c'
+
+>   ???
+E   ValueError: min() arg is an empty sequence
+
+dijkstras:18: ValueError
+[36m   -[0m [#   6] COI dijkstras: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+[34m- 20:         if min_dist_node == dst:[0m
+[32m+ 20:         if not (min_dist_node == dst):[0m
+  21:             break
+  22:         
+  23:         vertices.remove(min_dist_node)
+  24:         
+--------------------------------------------------------------------------------
+[0.12587 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   7] COI dijkstras: 
+--------------------------------------------------------------------------------
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+[34m- 29:             if distance < dist[neighbor]:[0m
+[32m+ 29:             if not (distance < dist[neighbor]):[0m
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+--------------------------------------------------------------------------------
+[0.12698 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   8] COI dijkstras: 
+--------------------------------------------------------------------------------
+  32:     
+  33:     
+  34:     path = []
+  35:     current = dst
+[34m- 36:     while prev[current]:[0m
+[32m+ 36:     while not (prev[current]):[0m
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+--------------------------------------------------------------------------------
+[0.12600 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#   9] CRP dijkstras: 
+--------------------------------------------------------------------------------
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+[34m- 12:         dist[vertex] = float('inf')[0m
+[32m+ 12:         dist[vertex] = float('mutpy')[0m
+  13:         prev[vertex] = None
+  14:     
+  15:     dist[src] = 0
+  16:     
+--------------------------------------------------------------------------------
+[0.12592 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4767160>, src = 'a'
+dst = 'c'
+
+>   ???
+E   ValueError: could not convert string to float: 'mutpy'
+
+dijkstras:12: ValueError
+[36m   -[0m [#  10] CRP dijkstras: 
+--------------------------------------------------------------------------------
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+[34m- 12:         dist[vertex] = float('inf')[0m
+[32m+ 12:         dist[vertex] = float('')[0m
+  13:         prev[vertex] = None
+  14:     
+  15:     dist[src] = 0
+  16:     
+--------------------------------------------------------------------------------
+[0.09762 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b48b9a50>, src = 'a'
+dst = 'c'
+
+>   ???
+E   ValueError: could not convert string to float: ''
+
+dijkstras:12: ValueError
+[36m   -[0m [#  11] CRP dijkstras: 
+--------------------------------------------------------------------------------
+  11:         vertices.add(vertex)
+  12:         dist[vertex] = float('inf')
+  13:         prev[vertex] = None
+  14:     
+[34m- 15:     dist[src] = 0[0m
+[32m+ 15:     dist[src] = 1[0m
+  16:     
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+--------------------------------------------------------------------------------
+[0.10712 s] [31msurvived[0m
+[36m   -[0m [#  12] CRP dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[32m+ 18:         min_dist_node = min(list(filter((lambda x: (x[1] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+--------------------------------------------------------------------------------
+[0.12223 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b46fdbd0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   ValueError: min() arg is an empty sequence
+
+dijkstras:18: ValueError
+[36m   -[0m [#  13] CRP dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[32m+ 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[2]))[0][0m
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+--------------------------------------------------------------------------------
+[0.12586 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dijkstras:18: in dijkstras
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+x = ('a', 0)
+
+>   ???
+E   IndexError: tuple index out of range
+
+dijkstras:18: IndexError
+[36m   -[0m [#  14] CRP dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[32m+ 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[1][0m
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+--------------------------------------------------------------------------------
+[0.13184 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4766680>, src = 'a'
+dst = 'c'
+
+>   ???
+E   KeyError: 0
+
+dijkstras:23: KeyError
+[36m   -[0m [#  15] CRP dijkstras: 
+--------------------------------------------------------------------------------
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+[34m- 41:     return path[::-1][0m
+[32m+ 41:     return path[::-2][0m
+--------------------------------------------------------------------------------
+[0.09710 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  16] OIL dijkstras: 
+--------------------------------------------------------------------------------
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+  12:         dist[vertex] = float('inf')
+  13:         prev[vertex] = None
+[34m- 14:     [0m
+[32m+ 14:         break[0m
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+--------------------------------------------------------------------------------
+[0.10597 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4709c30>, src = 'a'
+dst = 'c'
+
+>   ???
+E   KeyError: 'b'
+
+dijkstras:29: KeyError
+[36m   -[0m [#  17] OIL dijkstras: 
+--------------------------------------------------------------------------------
+  28:             
+  29:             if distance < dist[neighbor]:
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+[34m- 32:     [0m
+[32m+ 32:         break[0m
+  33:     
+  34:     path = []
+  35:     current = dst
+  36:     while prev[current]:
+--------------------------------------------------------------------------------
+[0.12629 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  18] OIL dijkstras: 
+--------------------------------------------------------------------------------
+  28:             
+  29:             if distance < dist[neighbor]:
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+[34m- 32:     [0m
+[32m+ 32:             break[0m
+  33:     
+  34:     path = []
+  35:     current = dst
+  36:     while prev[current]:
+--------------------------------------------------------------------------------
+[0.12044 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_advanced_dij
+
+def test_advanced_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('1','2',7)
+        graph.add_edge('1','3',9)
+        graph.add_edge('1','6',14)
+        graph.add_edge('2','3',10)
+        graph.add_edge('2','4',15)
+        graph.add_edge('3','4',11)
+        graph.add_edge('3','6',2)
+        graph.add_edge('4','5',6)
+        graph.add_edge('6','5',9)
+    
+>       assert dijkstras(graph,'1','5') == ['1','3','6','5']
+E       AssertionError
+
+0-ts/test_dijkstras.py:27: AssertionError
+[36m   -[0m [#  19] OIL dijkstras: 
+--------------------------------------------------------------------------------
+  35:     current = dst
+  36:     while prev[current]:
+  37:         path.append(current)
+  38:         current = prev[current]
+[34m- 39:     path.append(current)[0m
+[34m- 40:     [0m
+[32m+ 39:         break[0m
+[32m+ 40:     path.append(current)[0m
+  41:     return path[::-1]
+--------------------------------------------------------------------------------
+[0.12871 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  20] RIL dijkstras: 
+--------------------------------------------------------------------------------
+   6:     dist = {}
+   7:     prev = {}
+   8:     
+   9:     
+[34m- 10:     for vertex in weighted_graph.vertices:[0m
+[32m+ 10:     for vertex in reversed(weighted_graph.vertices):[0m
+  11:         vertices.add(vertex)
+  12:         dist[vertex] = float('inf')
+  13:         prev[vertex] = None
+  14:     
+--------------------------------------------------------------------------------
+[0.10131 s] [31msurvived[0m
+[36m   -[0m [#  21] RIL dijkstras: 
+--------------------------------------------------------------------------------
+  21:             break
+  22:         
+  23:         vertices.remove(min_dist_node)
+  24:         
+[34m- 25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:[0m
+[32m+ 25:         for neighbor in reversed(weighted_graph.vertices[min_dist_node].adjacent):[0m
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+  29:             if distance < dist[neighbor]:
+--------------------------------------------------------------------------------
+[0.10762 s] [31msurvived[0m
+[36m   -[0m [#  22] ROR dijkstras: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+[34m- 20:         if min_dist_node == dst:[0m
+[32m+ 20:         if min_dist_node != dst:[0m
+  21:             break
+  22:         
+  23:         vertices.remove(min_dist_node)
+  24:         
+--------------------------------------------------------------------------------
+[0.11713 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  23] ROR dijkstras: 
+--------------------------------------------------------------------------------
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+[34m- 29:             if distance < dist[neighbor]:[0m
+[32m+ 29:             if distance > dist[neighbor]:[0m
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+--------------------------------------------------------------------------------
+[0.15279 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  24] ROR dijkstras: 
+--------------------------------------------------------------------------------
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+[34m- 29:             if distance < dist[neighbor]:[0m
+[32m+ 29:             if distance <= dist[neighbor]:[0m
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+--------------------------------------------------------------------------------
+[0.07954 s] [31msurvived[0m
+[36m   -[0m [#  25] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   1: from functools import reduce
+   2: 
+   3: def dijkstras(weighted_graph, src, dst):
+   4:     
+[34m-  5:     vertices = set()[0m
+[32m+  5:     pass[0m
+   6:     dist = {}
+   7:     prev = {}
+   8:     
+   9:     
+--------------------------------------------------------------------------------
+[0.10247 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b46ff010>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'vertices' is not defined
+
+dijkstras:11: NameError
+[36m   -[0m [#  26] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   2: 
+   3: def dijkstras(weighted_graph, src, dst):
+   4:     
+   5:     vertices = set()
+[34m-  6:     dist = {}[0m
+[32m+  6:     pass[0m
+   7:     prev = {}
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+--------------------------------------------------------------------------------
+[0.10573 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4891cf0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'dist' is not defined
+
+dijkstras:12: NameError
+[36m   -[0m [#  27] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   3: def dijkstras(weighted_graph, src, dst):
+   4:     
+   5:     vertices = set()
+   6:     dist = {}
+[34m-  7:     prev = {}[0m
+[32m+  7:     pass[0m
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+--------------------------------------------------------------------------------
+[0.12733 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4798250>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'prev' is not defined
+
+dijkstras:13: NameError
+[36m   -[0m [#  28] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   7:     prev = {}
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+[34m- 11:         vertices.add(vertex)[0m
+[32m+ 11:         pass[0m
+  12:         dist[vertex] = float('inf')
+  13:         prev[vertex] = None
+  14:     
+  15:     dist[src] = 0
+--------------------------------------------------------------------------------
+[0.12853 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  29] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+[34m- 12:         dist[vertex] = float('inf')[0m
+[32m+ 12:         pass[0m
+  13:         prev[vertex] = None
+  14:     
+  15:     dist[src] = 0
+  16:     
+--------------------------------------------------------------------------------
+[0.12943 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4844e20>, src = 'a'
+dst = 'c'
+
+>   ???
+E   KeyError: 'b'
+
+dijkstras:29: KeyError
+[36m   -[0m [#  30] SDL dijkstras: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+  11:         vertices.add(vertex)
+  12:         dist[vertex] = float('inf')
+[34m- 13:         prev[vertex] = None[0m
+[32m+ 13:         pass[0m
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+--------------------------------------------------------------------------------
+[0.10280 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b462bc70>, src = 'a'
+dst = 'c'
+
+>   ???
+E   KeyError: 'a'
+
+dijkstras:36: KeyError
+[36m   -[0m [#  31] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  11:         vertices.add(vertex)
+  12:         dist[vertex] = float('inf')
+  13:         prev[vertex] = None
+  14:     
+[34m- 15:     dist[src] = 0[0m
+[32m+ 15:     pass[0m
+  16:     
+  17:     while vertices:
+  18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+  19:         
+--------------------------------------------------------------------------------
+[0.10565 s] [31msurvived[0m
+[36m   -[0m [#  32] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[32m+ 18:         pass[0m
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+--------------------------------------------------------------------------------
+[0.12804 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b470abc0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'min_dist_node' is not defined
+
+dijkstras:20: NameError
+[36m   -[0m [#  33] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  19:         
+  20:         if min_dist_node == dst:
+  21:             break
+  22:         
+[34m- 23:         vertices.remove(min_dist_node)[0m
+[32m+ 23:         pass[0m
+  24:         
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+--------------------------------------------------------------------------------
+[5.00794 s] [33mtimeout[0m
+[36m   -[0m [#  34] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  23:         vertices.remove(min_dist_node)
+  24:         
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+[34m- 27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor][0m
+[32m+ 27:             pass[0m
+  28:             
+  29:             if distance < dist[neighbor]:
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+--------------------------------------------------------------------------------
+[0.11972 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b48db6d0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'distance' is not defined
+
+dijkstras:29: NameError
+[36m   -[0m [#  35] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  26:             
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+  29:             if distance < dist[neighbor]:
+[34m- 30:                 dist[neighbor] = distance[0m
+[32m+ 30:                 pass[0m
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+  34:     path = []
+--------------------------------------------------------------------------------
+[0.12763 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_advanced_dij
+
+def test_advanced_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('1','2',7)
+        graph.add_edge('1','3',9)
+        graph.add_edge('1','6',14)
+        graph.add_edge('2','3',10)
+        graph.add_edge('2','4',15)
+        graph.add_edge('3','4',11)
+        graph.add_edge('3','6',2)
+        graph.add_edge('4','5',6)
+        graph.add_edge('6','5',9)
+    
+>       assert dijkstras(graph,'1','5') == ['1','3','6','5']
+E       AssertionError
+
+0-ts/test_dijkstras.py:27: AssertionError
+[36m   -[0m [#  36] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+  28:             
+  29:             if distance < dist[neighbor]:
+  30:                 dist[neighbor] = distance
+[34m- 31:                 prev[neighbor] = min_dist_node[0m
+[32m+ 31:                 pass[0m
+  32:     
+  33:     
+  34:     path = []
+  35:     current = dst
+--------------------------------------------------------------------------------
+[0.12763 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  37] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  30:                 dist[neighbor] = distance
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+[34m- 34:     path = [][0m
+[32m+ 34:     pass[0m
+  35:     current = dst
+  36:     while prev[current]:
+  37:         path.append(current)
+  38:         current = prev[current]
+--------------------------------------------------------------------------------
+[0.12858 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b47085e0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   NameError: name 'path' is not defined
+
+dijkstras:37: NameError
+[36m   -[0m [#  38] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  31:                 prev[neighbor] = min_dist_node
+  32:     
+  33:     
+  34:     path = []
+[34m- 35:     current = dst[0m
+[32m+ 35:     pass[0m
+  36:     while prev[current]:
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+--------------------------------------------------------------------------------
+[0.09751 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4818fa0>, src = 'a'
+dst = 'c'
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+dijkstras:36: UnboundLocalError
+[36m   -[0m [#  39] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  33:     
+  34:     path = []
+  35:     current = dst
+  36:     while prev[current]:
+[34m- 37:         path.append(current)[0m
+[32m+ 37:         pass[0m
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+  41:     return path[::-1]
+--------------------------------------------------------------------------------
+[0.12929 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  40] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  34:     path = []
+  35:     current = dst
+  36:     while prev[current]:
+  37:         path.append(current)
+[34m- 38:         current = prev[current][0m
+[32m+ 38:         pass[0m
+  39:     path.append(current)
+  40:     
+  41:     return path[::-1]
+--------------------------------------------------------------------------------
+[5.00769 s] [33mtimeout[0m
+[36m   -[0m [#  41] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  35:     current = dst
+  36:     while prev[current]:
+  37:         path.append(current)
+  38:         current = prev[current]
+[34m- 39:     path.append(current)[0m
+[32m+ 39:     pass[0m
+  40:     
+  41:     return path[::-1]
+--------------------------------------------------------------------------------
+[0.12005 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  42] SDL dijkstras: 
+--------------------------------------------------------------------------------
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+[34m- 41:     return path[::-1][0m
+[32m+ 41:     pass[0m
+--------------------------------------------------------------------------------
+[0.12679 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  43] SIR dijkstras: 
+--------------------------------------------------------------------------------
+  37:         path.append(current)
+  38:         current = prev[current]
+  39:     path.append(current)
+  40:     
+[34m- 41:     return path[::-1][0m
+[32m+ 41:     return path[:][0m
+--------------------------------------------------------------------------------
+[0.12616 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  44] ZIL dijkstras: 
+--------------------------------------------------------------------------------
+   7:     prev = {}
+   8:     
+   9:     
+  10:     for vertex in weighted_graph.vertices:
+[34m- 11:         vertices.add(vertex)[0m
+[34m- 12:         dist[vertex] = float('inf')[0m
+[34m- 13:         prev[vertex] = None[0m
+[32m+ 11:         break[0m
+[32m+ 12:     [0m
+[32m+ 13:     [0m
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+--------------------------------------------------------------------------------
+[0.12480 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+
+0-ts/test_dijkstras.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <graph.WeightedGraph object at 0x7fc9b4798220>, src = 'a'
+dst = 'c'
+
+>   ???
+E   KeyError: 'c'
+
+dijkstras:36: KeyError
+[36m   -[0m [#  45] ZIL dijkstras: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     dist[src] = 0
+  16:     
+  17:     while vertices:
+[34m- 18:         min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0][0m
+[34m- 19:         [0m
+[34m- 20:         if min_dist_node == dst:[0m
+[34m- 21:             break[0m
+[34m- 22:         [0m
+[34m- 23:         vertices.remove(min_dist_node)[0m
+[34m- 24:         [0m
+[34m- 25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:[0m
+[34m- 26:             [0m
+[34m- 27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor][0m
+[34m- 28:             [0m
+[34m- 29:             if distance < dist[neighbor]:[0m
+[34m- 30:                 dist[neighbor] = distance[0m
+[34m- 31:                 prev[neighbor] = min_dist_node[0m
+[32m+ 18:         break[0m
+[32m+ 19:     [0m
+[32m+ 20:     [0m
+[32m+ 21:     [0m
+[32m+ 22:     [0m
+[32m+ 23:     [0m
+[32m+ 24:     [0m
+[32m+ 25:     [0m
+[32m+ 26:     [0m
+[32m+ 27:     [0m
+[32m+ 28:     [0m
+[32m+ 29:     [0m
+[32m+ 30:     [0m
+[32m+ 31:     [0m
+  32:     
+  33:     
+  34:     path = []
+  35:     current = dst
+--------------------------------------------------------------------------------
+[0.11997 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  46] ZIL dijkstras: 
+--------------------------------------------------------------------------------
+  23:         vertices.remove(min_dist_node)
+  24:         
+  25:         for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+  26:             
+[34m- 27:             distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor][0m
+[34m- 28:             [0m
+[34m- 29:             if distance < dist[neighbor]:[0m
+[34m- 30:                 dist[neighbor] = distance[0m
+[34m- 31:                 prev[neighbor] = min_dist_node[0m
+[32m+ 27:             break[0m
+[32m+ 28:     [0m
+[32m+ 29:     [0m
+[32m+ 30:     [0m
+[32m+ 31:     [0m
+  32:     
+  33:     
+  34:     path = []
+  35:     current = dst
+--------------------------------------------------------------------------------
+[0.14960 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[36m   -[0m [#  47] ZIL dijkstras: 
+--------------------------------------------------------------------------------
+  33:     
+  34:     path = []
+  35:     current = dst
+  36:     while prev[current]:
+[34m- 37:         path.append(current)[0m
+[34m- 38:         current = prev[current][0m
+[32m+ 37:         break[0m
+[32m+ 38:     [0m
+  39:     path.append(current)
+  40:     
+  41:     return path[::-1]
+--------------------------------------------------------------------------------
+[0.14233 s] [32mkilled[0m by 0-ts/test_dijkstras.py::test_basic_dij
+
+def test_basic_dij():
+        graph = WeightedGraph()
+    
+        graph.add_edge('a','b',1)
+        graph.add_edge('a','c',4)
+        graph.add_edge('b','c',2)
+    
+>       assert dijkstras(graph,'a','c') == ['a','b','c']
+E       AssertionError
+
+0-ts/test_dijkstras.py:12: AssertionError
+[34m[*][0m Mutation score [22.97386 s]: [1m[34m89.4%[0m
+[36m   -[0m all: 47
+[36m   -[0m killed: 39 (83.0%)
+[36m   -[0m survived: 5 (10.6%)
+[36m   -[0m incompetent: 0 (0.0%)
+[36m   -[0m timeout: 3 (6.4%)

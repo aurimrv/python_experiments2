@@ -1,0 +1,3111 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: binheap.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 9 tests passed:
+[36m   -[0m test_binheap [0.18231 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOD binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[1 - i] // 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.13165 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0447ed10>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#   2] AOR binheap: 
+--------------------------------------------------------------------------------
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+[34m- 23:         size = len(self.container) - 1[0m
+[32m+ 23:         size = len(self.container) + 1[0m
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+--------------------------------------------------------------------------------
+[0.12909 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d04340640>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04340640>
+
+>   ???
+E   IndexError: list index out of range
+
+binheap:25: IndexError
+[36m   -[0m [#   3] AOR binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size / 2 > 0:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.13258 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: '>' not supported between instances of 'int' and 'NoneType'
+
+[36m   -[0m [#   4] AOR binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size * 2 > 0:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.12692 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: '>' not supported between instances of 'int' and 'NoneType'
+
+[36m   -[0m [#   5] AOR binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] > self.container[size / 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.13038 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#   6] AOR binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] > self.container[size * 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.10841 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d044eab90>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+>       empty_heap.push(2)
+
+0-ts/test_binheap.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044eab90>
+
+>   ???
+E   IndexError: list index out of range
+
+binheap:25: IndexError
+[36m   -[0m [#   7] AOR binheap: 
+--------------------------------------------------------------------------------
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+[34m- 26:                 tmp = self.container[size // 2][0m
+[32m+ 26:                 tmp = self.container[size / 2][0m
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+--------------------------------------------------------------------------------
+[0.12754 s] [36mincompetent[0m
+
+TypeError: binheap:26: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#   8] AOR binheap: 
+--------------------------------------------------------------------------------
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+[34m- 26:                 tmp = self.container[size // 2][0m
+[32m+ 26:                 tmp = self.container[size * 2][0m
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+--------------------------------------------------------------------------------
+[0.12475 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d0447e110>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0447e110>
+
+>   ???
+E   IndexError: list index out of range
+
+binheap:26: IndexError
+[36m   -[0m [#   9] AOR binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 self.container[size / 2] = self.container[size][0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.10255 s] [36mincompetent[0m
+
+TypeError: binheap:27: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#  10] AOR binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 self.container[size * 2] = self.container[size][0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.12910 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04231c00>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04231c00>
+
+>   ???
+E   IndexError: list assignment index out of range
+
+binheap:27: IndexError
+[36m   -[0m [#  11] AOR binheap: 
+--------------------------------------------------------------------------------
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+[34m- 29:             size = size // 2[0m
+[32m+ 29:             size = size / 2[0m
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+--------------------------------------------------------------------------------
+[0.13550 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#  12] AOR binheap: 
+--------------------------------------------------------------------------------
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+[34m- 29:             size = size // 2[0m
+[32m+ 29:             size = size * 2[0m
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+--------------------------------------------------------------------------------
+[0.10501 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d04232830>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+>       empty_heap.push(2)
+
+0-ts/test_binheap.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04232830>
+
+>   ???
+E   IndexError: list index out of range
+
+binheap:25: IndexError
+[36m   -[0m [#  13] AOR binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(+1) - i] // 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.10495 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04230610>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  14] AOR binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(-1) + i] // 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.12228 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d044ea740>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  15] AOR binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(-1) - i] / 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.13479 s] [36mincompetent[0m
+
+TypeError: binheap:56: TypeError: can't multiply sequence by non-int of type 'float'
+
+[36m   -[0m [#  16] AOR binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(-1) - i] * 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.13472 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d043ee170>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  17] AOR binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show += buff / ' '[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.15724 s] [36mincompetent[0m
+
+TypeError: binheap:56: TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+[36m   -[0m [#  18] AOR binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show += buff // ' '[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.14832 s] [36mincompetent[0m
+
+TypeError: binheap:56: TypeError: unsupported operand type(s) for //: 'int' and 'str'
+
+[36m   -[0m [#  19] AOR binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show += buff ** ' '[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.12626 s] [36mincompetent[0m
+
+TypeError: binheap:56: TypeError: unsupported operand type(s) for ** or pow(): 'int' and 'str'
+
+[36m   -[0m [#  20] AOR binheap: 
+--------------------------------------------------------------------------------
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 59:                     to_show += str(l.pop(0)) - ' '[0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.10552 s] [36mincompetent[0m
+
+TypeError: binheap:59: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+[36m   -[0m [#  21] ASR binheap: 
+--------------------------------------------------------------------------------
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+[34m- 52:             col *= 2[0m
+[32m+ 52:             col /= 2[0m
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+--------------------------------------------------------------------------------
+[5.00654 s] [33mtimeout[0m
+[36m   -[0m [#  22] ASR binheap: 
+--------------------------------------------------------------------------------
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+[34m- 52:             col *= 2[0m
+[32m+ 52:             col //= 2[0m
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+--------------------------------------------------------------------------------
+[5.00787 s] [33mtimeout[0m
+[36m   -[0m [#  23] ASR binheap: 
+--------------------------------------------------------------------------------
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+[34m- 52:             col *= 2[0m
+[32m+ 52:             col **= 2[0m
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+--------------------------------------------------------------------------------
+[5.00684 s] [33mtimeout[0m
+[36m   -[0m [#  24] ASR binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show -= buff * ' '[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.14007 s] [36mincompetent[0m
+
+TypeError: binheap:56: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+[36m   -[0m [#  25] ASR binheap: 
+--------------------------------------------------------------------------------
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 59:                     to_show -= str(l.pop(0)) + ' '[0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.10926 s] [36mincompetent[0m
+
+TypeError: binheap:59: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+[36m   -[0m [#  26] ASR binheap: 
+--------------------------------------------------------------------------------
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+[34m- 60:             to_show += '\n'[0m
+[32m+ 60:             to_show -= '\n'[0m
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.11634 s] [36mincompetent[0m
+
+TypeError: binheap:60: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+[36m   -[0m [#  27] CDI binheap: 
+--------------------------------------------------------------------------------
+  10:     pop(): removes the top value in the heap, maintaining the heap property.
+  11:     dislplay(): displays the heap as a string representation of a tree.
+  12:     '''
+  13:     
+[34m- 14:     def __init__(self, data=None):[0m
+[34m- 15:         '''Initialize bin heap.'''[0m
+[34m- 16:         self.container = [None][0m
+[34m- 17:         if data:[0m
+[34m- 18:             for val in data:[0m
+[34m- 19:                 self.push(val)[0m
+[34m- 20:     [0m
+[32m+ 14:     @classmethod[0m
+[32m+ 15:     def __init__(self, data=None):[0m
+[32m+ 16:         '''Initialize bin heap.'''[0m
+[32m+ 17:         self.container = [None][0m
+[32m+ 18:         if data:[0m
+[32m+ 19:             for val in data:[0m
+[32m+ 20:                 self.push(val)[0m
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+--------------------------------------------------------------------------------
+[0.13527 s] [36mincompetent[0m
+
+TypeError: binheap:20: TypeError: Binheap.push() missing 1 required positional argument: 'val'
+
+[36m   -[0m [#  28] CDI binheap: 
+--------------------------------------------------------------------------------
+  17:         if data:
+  18:             for val in data:
+  19:                 self.push(val)
+  20:     
+[34m- 21:     def _balance(self):[0m
+[34m- 22:         '''Helper function to balance heap.'''[0m
+[34m- 23:         size = len(self.container) - 1[0m
+[34m- 24:         while size // 2 > 0:[0m
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[34m- 26:                 tmp = self.container[size // 2][0m
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[34m- 28:                 self.container[size] = tmp[0m
+[34m- 29:             size = size // 2[0m
+[34m- 30:     [0m
+[32m+ 21:     @classmethod[0m
+[32m+ 22:     def _balance(self):[0m
+[32m+ 23:         '''Helper function to balance heap.'''[0m
+[32m+ 24:         size = len(self.container) - 1[0m
+[32m+ 25:         while size // 2 > 0:[0m
+[32m+ 26:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 27:                 tmp = self.container[size // 2][0m
+[32m+ 28:                 self.container[size // 2] = self.container[size][0m
+[32m+ 29:                 self.container[size] = tmp[0m
+[32m+ 30:             size = size // 2[0m
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+  34:         self._balance()
+--------------------------------------------------------------------------------
+[0.10527 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d042ed510>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binheap.Binheap'>
+
+>   ???
+E   AttributeError: type object 'Binheap' has no attribute 'container'
+
+binheap:24: AttributeError
+[36m   -[0m [#  29] CDI binheap: 
+--------------------------------------------------------------------------------
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+[34m- 31:     def push(self, val):[0m
+[34m- 32:         '''Put a new value into the heap.'''[0m
+[34m- 33:         self.container.append(val)[0m
+[34m- 34:         self._balance()[0m
+[34m- 35:     [0m
+[32m+ 31:     @classmethod[0m
+[32m+ 32:     def push(self, val):[0m
+[32m+ 33:         '''Put a new value into the heap.'''[0m
+[32m+ 34:         self.container.append(val)[0m
+[32m+ 35:         self._balance()[0m
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+--------------------------------------------------------------------------------
+[0.12803 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d0435a500>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binheap.Binheap'>, val = 3
+
+>   ???
+E   AttributeError: type object 'Binheap' has no attribute 'container'
+
+binheap:34: AttributeError
+[36m   -[0m [#  30] CDI binheap: 
+--------------------------------------------------------------------------------
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+  34:         self._balance()
+  35:     
+[34m- 36:     def pop(self):[0m
+[34m- 37:         '''Remove the top value of the heap.'''[0m
+[34m- 38:         if not (self.container):[0m
+[34m- 39:             raise IndexError("Can't pop from and empty heap")[0m
+[34m- 40:         self.container.pop(1)[0m
+[34m- 41:         self._balance()[0m
+[34m- 42:     [0m
+[32m+ 36:     @classmethod[0m
+[32m+ 37:     def pop(self):[0m
+[32m+ 38:         '''Remove the top value of the heap.'''[0m
+[32m+ 39:         if not (self.container):[0m
+[32m+ 40:             raise IndexError("Can't pop from and empty heap")[0m
+[32m+ 41:         self.container.pop(1)[0m
+[32m+ 42:         self._balance()[0m
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+--------------------------------------------------------------------------------
+[0.11300 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d042c3bb0>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binheap.Binheap'>
+
+>   ???
+E   AttributeError: type object 'Binheap' has no attribute 'container'
+
+binheap:39: AttributeError
+[36m   -[0m [#  31] CDI binheap: 
+--------------------------------------------------------------------------------
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+[34m- 43:     def display(self):[0m
+[34m- 44:         '''Display the heap as a tree.'''[0m
+[34m- 45:         cols = [][0m
+[34m- 46:         col = 1[0m
+[34m- 47:         to_show = ''[0m
+[34m- 48:         l = self.container[1:][0m
+[34m- 49:         [0m
+[34m- 50:         while len(self.container) > col:[0m
+[34m- 51:             cols.append(col)[0m
+[34m- 52:             col *= 2[0m
+[34m- 53:         [0m
+[34m- 54:         for (i, v) in enumerate(cols):[0m
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[34m- 56:             to_show += buff * ' '[0m
+[34m- 57:             for idx in range(v):[0m
+[34m- 58:                 if l:[0m
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[34m- 60:             to_show += '\n'[0m
+[34m- 61:         [0m
+[34m- 62:         return to_show[0m
+[32m+ 43:     @classmethod[0m
+[32m+ 44:     def display(self):[0m
+[32m+ 45:         '''Display the heap as a tree.'''[0m
+[32m+ 46:         cols = [][0m
+[32m+ 47:         col = 1[0m
+[32m+ 48:         to_show = ''[0m
+[32m+ 49:         l = self.container[1:][0m
+[32m+ 50:         [0m
+[32m+ 51:         while len(self.container) > col:[0m
+[32m+ 52:             cols.append(col)[0m
+[32m+ 53:             col *= 2[0m
+[32m+ 54:         [0m
+[32m+ 55:         for (i, v) in enumerate(cols):[0m
+[32m+ 56:             buff = cols[(-1) - i] // 2[0m
+[32m+ 57:             to_show += buff * ' '[0m
+[32m+ 58:             for idx in range(v):[0m
+[32m+ 59:                 if l:[0m
+[32m+ 60:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 61:             to_show += '\n'[0m
+[32m+ 62:         [0m
+[32m+ 63:         return to_show[0m
+--------------------------------------------------------------------------------
+[0.13952 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0421d480>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binheap.Binheap'>
+
+>   ???
+E   AttributeError: type object 'Binheap' has no attribute 'container'
+
+binheap:49: AttributeError
+[36m   -[0m [#  32] COD binheap: 
+--------------------------------------------------------------------------------
+  34:         self._balance()
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+[34m- 38:         if not (self.container):[0m
+[32m+ 38:         if self.container:[0m
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+--------------------------------------------------------------------------------
+[0.11195 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d042c2050>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d042c2050>
+
+>   ???
+E   IndexError: Can't pop from and empty heap
+
+binheap:39: IndexError
+[36m   -[0m [#  33] COI binheap: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     def __init__(self, data=None):
+  15:         '''Initialize bin heap.'''
+  16:         self.container = [None]
+[34m- 17:         if data:[0m
+[32m+ 17:         if not data:[0m
+  18:             for val in data:
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+--------------------------------------------------------------------------------
+[0.10096 s] [36mincompetent[0m
+
+TypeError: binheap:18: TypeError: 'NoneType' object is not iterable
+
+[36m   -[0m [#  34] COI binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while not (size // 2 > 0):[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.12717 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: '>' not supported between instances of 'int' and 'NoneType'
+
+[36m   -[0m [#  35] COI binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if not (self.container[size] > self.container[size // 2]):[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.14175 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d0447c8b0>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+>       assert empty_heap.container == [None, 3, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:31: AssertionError
+[36m   -[0m [#  36] COI binheap: 
+--------------------------------------------------------------------------------
+  34:         self._balance()
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+[34m- 38:         if not (self.container):[0m
+[32m+ 38:         if not ((not (self.container))):[0m
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+--------------------------------------------------------------------------------
+[0.12923 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d0443a830>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0443a830>
+
+>   ???
+E   IndexError: Can't pop from and empty heap
+
+binheap:39: IndexError
+[36m   -[0m [#  37] COI binheap: 
+--------------------------------------------------------------------------------
+  46:         col = 1
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+[34m- 50:         while len(self.container) > col:[0m
+[32m+ 50:         while not (len(self.container) > col):[0m
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+--------------------------------------------------------------------------------
+[0.13520 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0447d810>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  38] COI binheap: 
+--------------------------------------------------------------------------------
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+[34m- 58:                 if l:[0m
+[32m+ 58:                 if not l:[0m
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13619 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0421eef0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  39] CRP binheap: 
+--------------------------------------------------------------------------------
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+[34m- 23:         size = len(self.container) - 1[0m
+[32m+ 23:         size = len(self.container) - 2[0m
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+--------------------------------------------------------------------------------
+[0.13264 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d0447f880>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  40] CRP binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size // 3 > 0:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.12969 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04438a00>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  41] CRP binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size // 2 > 1:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.13378 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d044a45e0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  42] CRP binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] > self.container[size // 3]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.12799 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: '>' not supported between instances of 'int' and 'NoneType'
+
+[36m   -[0m [#  43] CRP binheap: 
+--------------------------------------------------------------------------------
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+[34m- 26:                 tmp = self.container[size // 2][0m
+[32m+ 26:                 tmp = self.container[size // 3][0m
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+--------------------------------------------------------------------------------
+[0.13010 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04341660>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  44] CRP binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 self.container[size // 3] = self.container[size][0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.13105 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04308400>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  45] CRP binheap: 
+--------------------------------------------------------------------------------
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+[34m- 29:             size = size // 2[0m
+[32m+ 29:             size = size // 3[0m
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+--------------------------------------------------------------------------------
+[0.13392 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d042cd720>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  46] CRP binheap: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+[34m- 39:             raise IndexError("Can't pop from and empty heap")[0m
+[32m+ 39:             raise IndexError('mutpy')[0m
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+--------------------------------------------------------------------------------
+[0.11520 s] [31msurvived[0m
+[36m   -[0m [#  47] CRP binheap: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+[34m- 39:             raise IndexError("Can't pop from and empty heap")[0m
+[32m+ 39:             raise IndexError('')[0m
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+--------------------------------------------------------------------------------
+[0.11538 s] [31msurvived[0m
+[36m   -[0m [#  48] CRP binheap: 
+--------------------------------------------------------------------------------
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+[34m- 40:         self.container.pop(1)[0m
+[32m+ 40:         self.container.pop(2)[0m
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+--------------------------------------------------------------------------------
+[0.13384 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d04247610>
+
+    def test_pop(heap):
+        """Test pop method."""
+        heap.pop()
+>       assert heap.container == [None, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:63: AssertionError
+[36m   -[0m [#  49] CRP binheap: 
+--------------------------------------------------------------------------------
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+[34m- 46:         col = 1[0m
+[32m+ 46:         col = 2[0m
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+--------------------------------------------------------------------------------
+[0.11366 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0425fac0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  50] CRP binheap: 
+--------------------------------------------------------------------------------
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+[34m- 47:         to_show = ''[0m
+[32m+ 47:         to_show = 'mutpy'[0m
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+--------------------------------------------------------------------------------
+[0.12495 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d042ce200>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  51] CRP binheap: 
+--------------------------------------------------------------------------------
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+  47:         to_show = ''
+[34m- 48:         l = self.container[1:][0m
+[32m+ 48:         l = self.container[2:][0m
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+--------------------------------------------------------------------------------
+[0.12651 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d042feda0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  52] CRP binheap: 
+--------------------------------------------------------------------------------
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+[34m- 52:             col *= 2[0m
+[32m+ 52:             col *= 3[0m
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+--------------------------------------------------------------------------------
+[0.13684 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04288100>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  53] CRP binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(-2) - i] // 2[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.15890 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04979810>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04979810>
+
+>   ???
+E   IndexError: list index out of range
+
+binheap:55: IndexError
+[36m   -[0m [#  54] CRP binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             buff = cols[(-1) - i] // 3[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.16293 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0435aad0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  55] CRP binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show += buff * 'mutpy'[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.11574 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04244040>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  56] CRP binheap: 
+--------------------------------------------------------------------------------
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+[34m- 56:             to_show += buff * ' '[0m
+[32m+ 56:             to_show += buff * ''[0m
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+--------------------------------------------------------------------------------
+[0.13285 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d044e93f0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  57] CRP binheap: 
+--------------------------------------------------------------------------------
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 59:                     to_show += str(l.pop(1)) + ' '[0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13493 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0425e530>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0425e530>
+
+>   ???
+E   IndexError: pop index out of range
+
+binheap:59: IndexError
+[36m   -[0m [#  58] CRP binheap: 
+--------------------------------------------------------------------------------
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 59:                     to_show += str(l.pop(0)) + 'mutpy'[0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13672 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04167df0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  59] CRP binheap: 
+--------------------------------------------------------------------------------
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 59:                     to_show += str(l.pop(0)) + ''[0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13346 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d042ef940>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  60] CRP binheap: 
+--------------------------------------------------------------------------------
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+[34m- 60:             to_show += '\n'[0m
+[32m+ 60:             to_show += 'mutpy'[0m
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13341 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0447ecb0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  61] CRP binheap: 
+--------------------------------------------------------------------------------
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+[34m- 60:             to_show += '\n'[0m
+[32m+ 60:             to_show += ''[0m
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.10639 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04245690>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  62] OIL binheap: 
+--------------------------------------------------------------------------------
+  16:         self.container = [None]
+  17:         if data:
+  18:             for val in data:
+  19:                 self.push(val)
+[34m- 20:     [0m
+[32m+ 20:                 break[0m
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+--------------------------------------------------------------------------------
+[0.13255 s] [32mkilled[0m by 0-ts/test_binheap.py::test_initialize_iterable
+
+heap = <binheap.Binheap object at 0x7f3d042efb20>
+
+    def test_initialize_iterable(heap):
+        """Test heap can be initialized with iterable."""
+>       assert heap.container == [None, 72, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:51: AssertionError
+[36m   -[0m [#  63] OIL binheap: 
+--------------------------------------------------------------------------------
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+[34m- 30:     [0m
+[32m+ 30:             break[0m
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+  34:         self._balance()
+--------------------------------------------------------------------------------
+[0.13066 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04343fa0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  64] OIL binheap: 
+--------------------------------------------------------------------------------
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+[34m- 53:         [0m
+[32m+ 53:             break[0m
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+--------------------------------------------------------------------------------
+[0.10694 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04340eb0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  65] OIL binheap: 
+--------------------------------------------------------------------------------
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+[34m- 61:         [0m
+[32m+ 61:             break[0m
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13600 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d043086a0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  66] OIL binheap: 
+--------------------------------------------------------------------------------
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+[34m- 60:             to_show += '\n'[0m
+[34m- 61:         [0m
+[32m+ 60:                 break[0m
+[32m+ 61:             to_show += '\n'[0m
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13317 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d042d8760>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  67] RIL binheap: 
+--------------------------------------------------------------------------------
+  14:     def __init__(self, data=None):
+  15:         '''Initialize bin heap.'''
+  16:         self.container = [None]
+  17:         if data:
+[34m- 18:             for val in data:[0m
+[32m+ 18:             for val in reversed(data):[0m
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+--------------------------------------------------------------------------------
+[0.13504 s] [32mkilled[0m by 0-ts/test_binheap.py::test_initialize_iterable
+
+heap = <binheap.Binheap object at 0x7f3d0447cb50>
+
+    def test_initialize_iterable(heap):
+        """Test heap can be initialized with iterable."""
+>       assert heap.container == [None, 72, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:51: AssertionError
+[36m   -[0m [#  68] RIL binheap: 
+--------------------------------------------------------------------------------
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+[34m- 54:         for (i, v) in enumerate(cols):[0m
+[32m+ 54:         for (i, v) in reversed(enumerate(cols)):[0m
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+--------------------------------------------------------------------------------
+[0.13969 s] [36mincompetent[0m
+
+TypeError: binheap:54: TypeError: 'enumerate' object is not reversible
+
+[36m   -[0m [#  69] RIL binheap: 
+--------------------------------------------------------------------------------
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+[34m- 57:             for idx in range(v):[0m
+[32m+ 57:             for idx in reversed(range(v)):[0m
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+  61:         
+--------------------------------------------------------------------------------
+[0.11304 s] [31msurvived[0m
+[36m   -[0m [#  70] ROR binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size // 2 < 0:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.13009 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d042db670>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  71] ROR binheap: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+[34m- 24:         while size // 2 > 0:[0m
+[32m+ 24:         while size // 2 >= 0:[0m
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+--------------------------------------------------------------------------------
+[0.15023 s] [36mincompetent[0m
+
+TypeError: binheap:25: TypeError: '>' not supported between instances of 'int' and 'NoneType'
+
+[36m   -[0m [#  72] ROR binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] < self.container[size // 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.13115 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d0428a6b0>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+>       assert empty_heap.container == [None, 3, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:31: AssertionError
+[36m   -[0m [#  73] ROR binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] >= self.container[size // 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.11626 s] [31msurvived[0m
+[36m   -[0m [#  74] ROR binheap: 
+--------------------------------------------------------------------------------
+  46:         col = 1
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+[34m- 50:         while len(self.container) > col:[0m
+[32m+ 50:         while len(self.container) < col:[0m
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+--------------------------------------------------------------------------------
+[0.13255 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d044eb0d0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  75] ROR binheap: 
+--------------------------------------------------------------------------------
+  46:         col = 1
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+[34m- 50:         while len(self.container) > col:[0m
+[32m+ 50:         while len(self.container) >= col:[0m
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+--------------------------------------------------------------------------------
+[0.09541 s] [31msurvived[0m
+[36m   -[0m [#  76] SDI binheap: 
+--------------------------------------------------------------------------------
+  10:     pop(): removes the top value in the heap, maintaining the heap property.
+  11:     dislplay(): displays the heap as a string representation of a tree.
+  12:     '''
+  13:     
+[34m- 14:     def __init__(self, data=None):[0m
+[34m- 15:         '''Initialize bin heap.'''[0m
+[34m- 16:         self.container = [None][0m
+[34m- 17:         if data:[0m
+[34m- 18:             for val in data:[0m
+[34m- 19:                 self.push(val)[0m
+[34m- 20:     [0m
+[32m+ 14:     @staticmethod[0m
+[32m+ 15:     def __init__(self, data=None):[0m
+[32m+ 16:         '''Initialize bin heap.'''[0m
+[32m+ 17:         self.container = [None][0m
+[32m+ 18:         if data:[0m
+[32m+ 19:             for val in data:[0m
+[32m+ 20:                 self.push(val)[0m
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+--------------------------------------------------------------------------------
+[0.12634 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/binheap/0-ts/test_binheap.py:9: TypeError: Binheap.__init__() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  77] SDI binheap: 
+--------------------------------------------------------------------------------
+  17:         if data:
+  18:             for val in data:
+  19:                 self.push(val)
+  20:     
+[34m- 21:     def _balance(self):[0m
+[34m- 22:         '''Helper function to balance heap.'''[0m
+[34m- 23:         size = len(self.container) - 1[0m
+[34m- 24:         while size // 2 > 0:[0m
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[34m- 26:                 tmp = self.container[size // 2][0m
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[34m- 28:                 self.container[size] = tmp[0m
+[34m- 29:             size = size // 2[0m
+[34m- 30:     [0m
+[32m+ 21:     @staticmethod[0m
+[32m+ 22:     def _balance(self):[0m
+[32m+ 23:         '''Helper function to balance heap.'''[0m
+[32m+ 24:         size = len(self.container) - 1[0m
+[32m+ 25:         while size // 2 > 0:[0m
+[32m+ 26:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 27:                 tmp = self.container[size // 2][0m
+[32m+ 28:                 self.container[size // 2] = self.container[size][0m
+[32m+ 29:                 self.container[size] = tmp[0m
+[32m+ 30:             size = size // 2[0m
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+  34:         self._balance()
+--------------------------------------------------------------------------------
+[0.13111 s] [36mincompetent[0m
+
+TypeError: binheap:34: TypeError: Binheap._balance() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  78] SDI binheap: 
+--------------------------------------------------------------------------------
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+[34m- 31:     def push(self, val):[0m
+[34m- 32:         '''Put a new value into the heap.'''[0m
+[34m- 33:         self.container.append(val)[0m
+[34m- 34:         self._balance()[0m
+[34m- 35:     [0m
+[32m+ 31:     @staticmethod[0m
+[32m+ 32:     def push(self, val):[0m
+[32m+ 33:         '''Put a new value into the heap.'''[0m
+[32m+ 34:         self.container.append(val)[0m
+[32m+ 35:         self._balance()[0m
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+--------------------------------------------------------------------------------
+[0.12220 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/binheap/0-ts/test_binheap.py:23: TypeError: Binheap.push() missing 1 required positional argument: 'val'
+
+[36m   -[0m [#  79] SDI binheap: 
+--------------------------------------------------------------------------------
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+  34:         self._balance()
+  35:     
+[34m- 36:     def pop(self):[0m
+[34m- 37:         '''Remove the top value of the heap.'''[0m
+[34m- 38:         if not (self.container):[0m
+[34m- 39:             raise IndexError("Can't pop from and empty heap")[0m
+[34m- 40:         self.container.pop(1)[0m
+[34m- 41:         self._balance()[0m
+[34m- 42:     [0m
+[32m+ 36:     @staticmethod[0m
+[32m+ 37:     def pop(self):[0m
+[32m+ 38:         '''Remove the top value of the heap.'''[0m
+[32m+ 39:         if not (self.container):[0m
+[32m+ 40:             raise IndexError("Can't pop from and empty heap")[0m
+[32m+ 41:         self.container.pop(1)[0m
+[32m+ 42:         self._balance()[0m
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+--------------------------------------------------------------------------------
+[0.13226 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/binheap/0-ts/test_binheap.py:62: TypeError: Binheap.pop() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  80] SDI binheap: 
+--------------------------------------------------------------------------------
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+[34m- 43:     def display(self):[0m
+[34m- 44:         '''Display the heap as a tree.'''[0m
+[34m- 45:         cols = [][0m
+[34m- 46:         col = 1[0m
+[34m- 47:         to_show = ''[0m
+[34m- 48:         l = self.container[1:][0m
+[34m- 49:         [0m
+[34m- 50:         while len(self.container) > col:[0m
+[34m- 51:             cols.append(col)[0m
+[34m- 52:             col *= 2[0m
+[34m- 53:         [0m
+[34m- 54:         for (i, v) in enumerate(cols):[0m
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[34m- 56:             to_show += buff * ' '[0m
+[34m- 57:             for idx in range(v):[0m
+[34m- 58:                 if l:[0m
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[34m- 60:             to_show += '\n'[0m
+[34m- 61:         [0m
+[34m- 62:         return to_show[0m
+[32m+ 43:     @staticmethod[0m
+[32m+ 44:     def display(self):[0m
+[32m+ 45:         '''Display the heap as a tree.'''[0m
+[32m+ 46:         cols = [][0m
+[32m+ 47:         col = 1[0m
+[32m+ 48:         to_show = ''[0m
+[32m+ 49:         l = self.container[1:][0m
+[32m+ 50:         [0m
+[32m+ 51:         while len(self.container) > col:[0m
+[32m+ 52:             cols.append(col)[0m
+[32m+ 53:             col *= 2[0m
+[32m+ 54:         [0m
+[32m+ 55:         for (i, v) in enumerate(cols):[0m
+[32m+ 56:             buff = cols[(-1) - i] // 2[0m
+[32m+ 57:             to_show += buff * ' '[0m
+[32m+ 58:             for idx in range(v):[0m
+[32m+ 59:                 if l:[0m
+[32m+ 60:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 61:             to_show += '\n'[0m
+[32m+ 62:         [0m
+[32m+ 63:         return to_show[0m
+--------------------------------------------------------------------------------
+[0.13438 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/binheap/0-ts/test_binheap.py:57: TypeError: Binheap.display() missing 1 required positional argument: 'self'
+
+[36m   -[0m [#  81] SDL binheap: 
+--------------------------------------------------------------------------------
+  12:     '''
+  13:     
+  14:     def __init__(self, data=None):
+  15:         '''Initialize bin heap.'''
+[34m- 16:         self.container = [None][0m
+[32m+ 16:         pass[0m
+  17:         if data:
+  18:             for val in data:
+  19:                 self.push(val)
+  20:     
+--------------------------------------------------------------------------------
+[0.13160 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d04308490>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04308490>, val = 3
+
+>   ???
+E   AttributeError: 'Binheap' object has no attribute 'container'
+
+binheap:33: AttributeError
+[36m   -[0m [#  82] SDL binheap: 
+--------------------------------------------------------------------------------
+  15:         '''Initialize bin heap.'''
+  16:         self.container = [None]
+  17:         if data:
+  18:             for val in data:
+[34m- 19:                 self.push(val)[0m
+[32m+ 19:                 pass[0m
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+--------------------------------------------------------------------------------
+[0.13522 s] [32mkilled[0m by 0-ts/test_binheap.py::test_initialize_iterable
+
+heap = <binheap.Binheap object at 0x7f3d04335d20>
+
+    def test_initialize_iterable(heap):
+        """Test heap can be initialized with iterable."""
+>       assert heap.container == [None, 72, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:51: AssertionError
+[36m   -[0m [#  83] SDL binheap: 
+--------------------------------------------------------------------------------
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+[34m- 23:         size = len(self.container) - 1[0m
+[32m+ 23:         pass[0m
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+--------------------------------------------------------------------------------
+[0.12094 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d044eaec0>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044eaec0>
+
+>   ???
+E   UnboundLocalError: local variable 'size' referenced before assignment
+
+binheap:24: UnboundLocalError
+[36m   -[0m [#  84] SDL binheap: 
+--------------------------------------------------------------------------------
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+[34m- 26:                 tmp = self.container[size // 2][0m
+[32m+ 26:                 pass[0m
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+--------------------------------------------------------------------------------
+[0.12968 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d044a74f0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044a74f0>
+
+>   ???
+E   NameError: name 'tmp' is not defined
+
+binheap:28: NameError
+[36m   -[0m [#  85] SDL binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 pass[0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.13315 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d041656c0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  86] SDL binheap: 
+--------------------------------------------------------------------------------
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+[34m- 28:                 self.container[size] = tmp[0m
+[32m+ 28:                 pass[0m
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+--------------------------------------------------------------------------------
+[0.13220 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d044e9270>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  87] SDL binheap: 
+--------------------------------------------------------------------------------
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+[34m- 29:             size = size // 2[0m
+[32m+ 29:             pass[0m
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+--------------------------------------------------------------------------------
+[5.00660 s] [33mtimeout[0m
+[36m   -[0m [#  88] SDL binheap: 
+--------------------------------------------------------------------------------
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+[34m- 33:         self.container.append(val)[0m
+[32m+ 33:         pass[0m
+  34:         self._balance()
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+--------------------------------------------------------------------------------
+[0.15149 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d0412fd60>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+        empty_heap.push(3)
+>       assert empty_heap.container == [None, 3]
+E       AssertionError
+
+0-ts/test_binheap.py:24: AssertionError
+[36m   -[0m [#  89] SDL binheap: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+[34m- 34:         self._balance()[0m
+[32m+ 34:         pass[0m
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+--------------------------------------------------------------------------------
+[0.15255 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d0447fdf0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [#  90] SDL binheap: 
+--------------------------------------------------------------------------------
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+[34m- 40:         self.container.pop(1)[0m
+[32m+ 40:         pass[0m
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+--------------------------------------------------------------------------------
+[0.13732 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d0425f370>
+
+    def test_pop(heap):
+        """Test pop method."""
+        heap.pop()
+>       assert heap.container == [None, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:63: AssertionError
+[36m   -[0m [#  91] SDL binheap: 
+--------------------------------------------------------------------------------
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+[34m- 41:         self._balance()[0m
+[32m+ 41:         pass[0m
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+--------------------------------------------------------------------------------
+[0.11398 s] [31msurvived[0m
+[36m   -[0m [#  92] SDL binheap: 
+--------------------------------------------------------------------------------
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+[34m- 45:         cols = [][0m
+[32m+ 45:         pass[0m
+  46:         col = 1
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+--------------------------------------------------------------------------------
+[0.13767 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04342f50>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04342f50>
+
+>   ???
+E   NameError: name 'cols' is not defined
+
+binheap:51: NameError
+[36m   -[0m [#  93] SDL binheap: 
+--------------------------------------------------------------------------------
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+[34m- 46:         col = 1[0m
+[32m+ 46:         pass[0m
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+--------------------------------------------------------------------------------
+[0.12578 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04309b70>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04309b70>
+
+>   ???
+E   UnboundLocalError: local variable 'col' referenced before assignment
+
+binheap:50: UnboundLocalError
+[36m   -[0m [#  94] SDL binheap: 
+--------------------------------------------------------------------------------
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+[34m- 47:         to_show = ''[0m
+[32m+ 47:         pass[0m
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+--------------------------------------------------------------------------------
+[0.13531 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0447e590>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0447e590>
+
+>   ???
+E   UnboundLocalError: local variable 'to_show' referenced before assignment
+
+binheap:56: UnboundLocalError
+[36m   -[0m [#  95] SDL binheap: 
+--------------------------------------------------------------------------------
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+  47:         to_show = ''
+[34m- 48:         l = self.container[1:][0m
+[32m+ 48:         pass[0m
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+--------------------------------------------------------------------------------
+[0.12727 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d044a5c00>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044a5c00>
+
+>   ???
+E   NameError: name 'l' is not defined
+
+binheap:58: NameError
+[36m   -[0m [#  96] SDL binheap: 
+--------------------------------------------------------------------------------
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+[34m- 51:             cols.append(col)[0m
+[32m+ 51:             pass[0m
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+--------------------------------------------------------------------------------
+[0.12829 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04358a90>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  97] SDL binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[32m+ 55:             pass[0m
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+--------------------------------------------------------------------------------
+[0.12728 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0421d0f0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0421d0f0>
+
+>   ???
+E   NameError: name 'buff' is not defined
+
+binheap:56: NameError
+[36m   -[0m [#  98] SDL binheap: 
+--------------------------------------------------------------------------------
+  58:                 if l:
+  59:                     to_show += str(l.pop(0)) + ' '
+  60:             to_show += '\n'
+  61:         
+[34m- 62:         return to_show[0m
+[32m+ 62:         pass[0m
+--------------------------------------------------------------------------------
+[0.12705 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04288d30>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [#  99] SIR binheap: 
+--------------------------------------------------------------------------------
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+  47:         to_show = ''
+[34m- 48:         l = self.container[1:][0m
+[32m+ 48:         l = self.container[:][0m
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+--------------------------------------------------------------------------------
+[0.12583 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0421cb80>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [# 100] SVD binheap: 
+--------------------------------------------------------------------------------
+  12:     '''
+  13:     
+  14:     def __init__(self, data=None):
+  15:         '''Initialize bin heap.'''
+[34m- 16:         self.container = [None][0m
+[32m+ 16:         container = [None][0m
+  17:         if data:
+  18:             for val in data:
+  19:                 self.push(val)
+  20:     
+--------------------------------------------------------------------------------
+[0.00000 s] [36mincompetent[0m
+
+ValueError: expression must have Store context but has Load instead
+
+[36m   -[0m [# 101] SVD binheap: 
+--------------------------------------------------------------------------------
+  15:         '''Initialize bin heap.'''
+  16:         self.container = [None]
+  17:         if data:
+  18:             for val in data:
+[34m- 19:                 self.push(val)[0m
+[32m+ 19:                 push(val)[0m
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+--------------------------------------------------------------------------------
+[0.13223 s] [32mkilled[0m by 0-ts/test_binheap.py::test_initialize_iterable
+
+@pytest.fixture
+    def heap():
+        """Fixture for a heap."""
+        from binheap import Binheap
+>       bh = Binheap([10, 4, 2, 6, 13, 72, 1, 49])
+
+0-ts/test_binheap.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044a4e50>
+data = [10, 4, 2, 6, 13, 72, ...]
+
+>   ???
+E   NameError: name 'push' is not defined
+
+binheap:19: NameError
+[36m   -[0m [# 102] SVD binheap: 
+--------------------------------------------------------------------------------
+  19:                 self.push(val)
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+[34m- 23:         size = len(self.container) - 1[0m
+[32m+ 23:         size = len(container) - 1[0m
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+--------------------------------------------------------------------------------
+[0.10308 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d0421d8d0>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0421d8d0>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:23: NameError
+[36m   -[0m [# 103] SVD binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if container[size] > self.container[size // 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.12909 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d044a4af0>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+>       empty_heap.push(2)
+
+0-ts/test_binheap.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044a4af0>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:25: NameError
+[36m   -[0m [# 104] SVD binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[32m+ 25:             if self.container[size] > container[size // 2]:[0m
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+--------------------------------------------------------------------------------
+[0.13175 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val
+
+empty_heap = <binheap.Binheap object at 0x7f3d0421c460>
+
+    def test_push_val(empty_heap):
+        """Test push second val adds to the tree."""
+        empty_heap.push(3)
+>       empty_heap.push(2)
+
+0-ts/test_binheap.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0421c460>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:25: NameError
+[36m   -[0m [# 105] SVD binheap: 
+--------------------------------------------------------------------------------
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+[34m- 26:                 tmp = self.container[size // 2][0m
+[32m+ 26:                 tmp = container[size // 2][0m
+  27:                 self.container[size // 2] = self.container[size]
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+--------------------------------------------------------------------------------
+[0.13028 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d043ad570>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d043ad570>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:26: NameError
+[36m   -[0m [# 106] SVD binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 container[size // 2] = self.container[size][0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.13176 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d0443a740>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0443a740>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:27: NameError
+[36m   -[0m [# 107] SVD binheap: 
+--------------------------------------------------------------------------------
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[32m+ 27:                 self.container[size // 2] = container[size][0m
+  28:                 self.container[size] = tmp
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.15355 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d043341f0>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d043341f0>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:27: NameError
+[36m   -[0m [# 108] SVD binheap: 
+--------------------------------------------------------------------------------
+  24:         while size // 2 > 0:
+  25:             if self.container[size] > self.container[size // 2]:
+  26:                 tmp = self.container[size // 2]
+  27:                 self.container[size // 2] = self.container[size]
+[34m- 28:                 self.container[size] = tmp[0m
+[32m+ 28:                 container[size] = tmp[0m
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+--------------------------------------------------------------------------------
+[0.14169 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d0425c670>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+>       empty_heap.push(16)
+
+0-ts/test_binheap.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binheap:34: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0425c670>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:28: NameError
+[36m   -[0m [# 109] SVD binheap: 
+--------------------------------------------------------------------------------
+  29:             size = size // 2
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+[34m- 33:         self.container.append(val)[0m
+[32m+ 33:         container.append(val)[0m
+  34:         self._balance()
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+--------------------------------------------------------------------------------
+[0.10115 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d04343e50>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04343e50>, val = 3
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:33: NameError
+[36m   -[0m [# 110] SVD binheap: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+[34m- 34:         self._balance()[0m
+[32m+ 34:         _balance()[0m
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+--------------------------------------------------------------------------------
+[0.12875 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_to_head
+
+empty_heap = <binheap.Binheap object at 0x7f3d0430a470>
+
+    def test_push_val_to_head(empty_heap):
+        """Test push first val adds to the head."""
+>       empty_heap.push(3)
+
+0-ts/test_binheap.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0430a470>, val = 3
+
+>   ???
+E   NameError: name '_balance' is not defined
+
+binheap:34: NameError
+[36m   -[0m [# 111] SVD binheap: 
+--------------------------------------------------------------------------------
+  34:         self._balance()
+  35:     
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+[34m- 38:         if not (self.container):[0m
+[32m+ 38:         if not container:[0m
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+  41:         self._balance()
+  42:     
+--------------------------------------------------------------------------------
+[0.13104 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d0425e920>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0425e920>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:38: NameError
+[36m   -[0m [# 112] SVD binheap: 
+--------------------------------------------------------------------------------
+  36:     def pop(self):
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+[34m- 40:         self.container.pop(1)[0m
+[32m+ 40:         container.pop(1)[0m
+  41:         self._balance()
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+--------------------------------------------------------------------------------
+[0.13387 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d0447ca00>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0447ca00>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:40: NameError
+[36m   -[0m [# 113] SVD binheap: 
+--------------------------------------------------------------------------------
+  37:         '''Remove the top value of the heap.'''
+  38:         if not (self.container):
+  39:             raise IndexError("Can't pop from and empty heap")
+  40:         self.container.pop(1)
+[34m- 41:         self._balance()[0m
+[32m+ 41:         _balance()[0m
+  42:     
+  43:     def display(self):
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+--------------------------------------------------------------------------------
+[0.13160 s] [32mkilled[0m by 0-ts/test_binheap.py::test_pop
+
+heap = <binheap.Binheap object at 0x7f3d04334430>
+
+    def test_pop(heap):
+        """Test pop method."""
+>       heap.pop()
+
+0-ts/test_binheap.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d04334430>
+
+>   ???
+E   NameError: name '_balance' is not defined
+
+binheap:41: NameError
+[36m   -[0m [# 114] SVD binheap: 
+--------------------------------------------------------------------------------
+  44:         '''Display the heap as a tree.'''
+  45:         cols = []
+  46:         col = 1
+  47:         to_show = ''
+[34m- 48:         l = self.container[1:][0m
+[32m+ 48:         l = container[1:][0m
+  49:         
+  50:         while len(self.container) > col:
+  51:             cols.append(col)
+  52:             col *= 2
+--------------------------------------------------------------------------------
+[0.12587 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d044a55d0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d044a55d0>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:48: NameError
+[36m   -[0m [# 115] SVD binheap: 
+--------------------------------------------------------------------------------
+  46:         col = 1
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+[34m- 50:         while len(self.container) > col:[0m
+[32m+ 50:         while len(container) > col:[0m
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+--------------------------------------------------------------------------------
+[0.13663 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d0435b520>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+
+0-ts/test_binheap.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binheap.Binheap object at 0x7f3d0435b520>
+
+>   ???
+E   NameError: name 'container' is not defined
+
+binheap:50: NameError
+[36m   -[0m [# 116] ZIL binheap: 
+--------------------------------------------------------------------------------
+  15:         '''Initialize bin heap.'''
+  16:         self.container = [None]
+  17:         if data:
+  18:             for val in data:
+[34m- 19:                 self.push(val)[0m
+[32m+ 19:                 break[0m
+  20:     
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+--------------------------------------------------------------------------------
+[0.13402 s] [32mkilled[0m by 0-ts/test_binheap.py::test_initialize_iterable
+
+heap = <binheap.Binheap object at 0x7f3d043096c0>
+
+    def test_initialize_iterable(heap):
+        """Test heap can be initialized with iterable."""
+>       assert heap.container == [None, 72, 49, 13, 10, 6, 2, 1, 4]
+E       AssertionError
+
+0-ts/test_binheap.py:51: AssertionError
+[36m   -[0m [# 117] ZIL binheap: 
+--------------------------------------------------------------------------------
+  21:     def _balance(self):
+  22:         '''Helper function to balance heap.'''
+  23:         size = len(self.container) - 1
+  24:         while size // 2 > 0:
+[34m- 25:             if self.container[size] > self.container[size // 2]:[0m
+[34m- 26:                 tmp = self.container[size // 2][0m
+[34m- 27:                 self.container[size // 2] = self.container[size][0m
+[34m- 28:                 self.container[size] = tmp[0m
+[34m- 29:             size = size // 2[0m
+[32m+ 25:             break[0m
+[32m+ 26:     [0m
+[32m+ 27:     [0m
+[32m+ 28:     [0m
+[32m+ 29:     [0m
+  30:     
+  31:     def push(self, val):
+  32:         '''Put a new value into the heap.'''
+  33:         self.container.append(val)
+--------------------------------------------------------------------------------
+[0.10388 s] [32mkilled[0m by 0-ts/test_binheap.py::test_push_val_large
+
+empty_heap = <binheap.Binheap object at 0x7f3d04337a60>
+
+    def test_push_val_large(empty_heap):
+        """Test push val for larger number."""
+        empty_heap.push(3)
+        empty_heap.push(2)
+        empty_heap.push(1)
+        empty_heap.push(16)
+>       assert empty_heap.container == [None, 16, 3, 1, 2]
+E       AssertionError
+
+0-ts/test_binheap.py:40: AssertionError
+[36m   -[0m [# 118] ZIL binheap: 
+--------------------------------------------------------------------------------
+  47:         to_show = ''
+  48:         l = self.container[1:]
+  49:         
+  50:         while len(self.container) > col:
+[34m- 51:             cols.append(col)[0m
+[34m- 52:             col *= 2[0m
+[32m+ 51:             break[0m
+[32m+ 52:         [0m
+  53:         
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+--------------------------------------------------------------------------------
+[0.13259 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04335420>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [# 119] ZIL binheap: 
+--------------------------------------------------------------------------------
+  51:             cols.append(col)
+  52:             col *= 2
+  53:         
+  54:         for (i, v) in enumerate(cols):
+[34m- 55:             buff = cols[(-1) - i] // 2[0m
+[34m- 56:             to_show += buff * ' '[0m
+[34m- 57:             for idx in range(v):[0m
+[34m- 58:                 if l:[0m
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[34m- 60:             to_show += '\n'[0m
+[32m+ 55:             break[0m
+[32m+ 56:         [0m
+[32m+ 57:         [0m
+[32m+ 58:         [0m
+[32m+ 59:         [0m
+[32m+ 60:         [0m
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.10753 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d043087c0>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[36m   -[0m [# 120] ZIL binheap: 
+--------------------------------------------------------------------------------
+  54:         for (i, v) in enumerate(cols):
+  55:             buff = cols[(-1) - i] // 2
+  56:             to_show += buff * ' '
+  57:             for idx in range(v):
+[34m- 58:                 if l:[0m
+[34m- 59:                     to_show += str(l.pop(0)) + ' '[0m
+[32m+ 58:                 break[0m
+[32m+ 59:             [0m
+  60:             to_show += '\n'
+  61:         
+  62:         return to_show
+--------------------------------------------------------------------------------
+[0.13570 s] [32mkilled[0m by 0-ts/test_binheap.py::test_display
+
+heap = <binheap.Binheap object at 0x7f3d04335750>
+
+    def test_display(heap):
+        """Test the display method."""
+        tree = '    72 \n  49 13 \n 10 6 2 1 \n4 \n'
+>       assert heap.display() == tree
+E       AssertionError
+
+0-ts/test_binheap.py:57: AssertionError
+[34m[*][0m Mutation score [41.02267 s]: [1m[34m93.6%[0m
+[36m   -[0m all: 120
+[36m   -[0m killed: 84 (70.0%)
+[36m   -[0m survived: 6 (5.0%)
+[36m   -[0m incompetent: 26 (21.7%)
+[36m   -[0m timeout: 4 (3.3%)

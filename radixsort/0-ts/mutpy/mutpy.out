@@ -1,0 +1,804 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: radixsort.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 1 tests passed:
+[36m   -[0m test_radixsort [0.16292 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[32m+  8:             digit = (num / (base ** iteration)) % base[0m
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.09711 s] [36mincompetent[0m
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#   2] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[32m+  8:             digit = (num * (base ** iteration)) % base[0m
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.12720 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e262f5e0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#   3] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[32m+  8:             digit = (num // (base * iteration)) % base[0m
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.10463 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e26133d0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], iteration = 0
+
+>   ???
+E   ZeroDivisionError: integer division or modulo by zero
+
+radixsort:8: ZeroDivisionError
+[36m   -[0m [#   4] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[32m+  8:             digit = (num // (base ** iteration)) * base[0m
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.10056 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2610d30>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], iteration = 0
+
+>   ???
+E   IndexError: list index out of range
+
+radixsort:9: IndexError
+[36m   -[0m [#   5] AOR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+[34m- 24:     while base ** iteration <= max_value:[0m
+[32m+ 24:     while base * iteration <= max_value:[0m
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.10772 s] [31msurvived[0m
+[36m   -[0m [#   6] ASR radixsort: 
+--------------------------------------------------------------------------------
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+[34m- 26:         iteration += 1[0m
+[32m+ 26:         iteration -= 1[0m
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.13005 s] [36mincompetent[0m
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+[36m   -[0m [#   7] COI radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+[34m- 24:     while base ** iteration <= max_value:[0m
+[32m+ 24:     while not (base ** iteration <= max_value):[0m
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.13144 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e24c9bd0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#   8] CRP radixsort: 
+--------------------------------------------------------------------------------
+[34m-  1: def radixsort(ar: list, base=10):[0m
+[32m+  1: def radixsort(ar: list, base=11):[0m
+   2:     '''
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+--------------------------------------------------------------------------------
+[0.10863 s] [31msurvived[0m
+[36m   -[0m [#   9] CRP radixsort: 
+--------------------------------------------------------------------------------
+   1: def radixsort(ar: list, base=10):
+   2:     '''
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+[34m-  5:         buckets = [[] for x in range(0, base)][0m
+[32m+  5:         buckets = [[] for x in range(1, base)][0m
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+--------------------------------------------------------------------------------
+[0.12785 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2649e70>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], iteration = 0
+
+>   ???
+E   IndexError: list index out of range
+
+radixsort:9: IndexError
+[36m   -[0m [#  10] CRP radixsort: 
+--------------------------------------------------------------------------------
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+[34m- 22:     iteration = 0[0m
+[32m+ 22:     iteration = 1[0m
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+--------------------------------------------------------------------------------
+[0.09966 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2500250>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  11] CRP radixsort: 
+--------------------------------------------------------------------------------
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+[34m- 26:         iteration += 1[0m
+[32m+ 26:         iteration += 2[0m
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.12737 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e24a4ca0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  12] OIL radixsort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+[34m- 10:         [0m
+[32m+ 10:             break[0m
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+--------------------------------------------------------------------------------
+[0.09758 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e265b7f0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  13] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+[34m- 18:         return nums[0m
+[34m- 19:     [0m
+[32m+ 18:             break[0m
+[32m+ 19:         return nums[0m
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.12896 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e26116c0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  14] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+[34m- 18:         return nums[0m
+[34m- 19:     [0m
+[32m+ 18:                 break[0m
+[32m+ 19:         return nums[0m
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.09923 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2659510>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  15] OIL radixsort: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+[34m- 27:     [0m
+[32m+ 27:         break[0m
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.12816 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e262f010>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  16] RIL radixsort: 
+--------------------------------------------------------------------------------
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+[34m-  7:         for num in ar:[0m
+[32m+  7:         for num in reversed(ar):[0m
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+--------------------------------------------------------------------------------
+[0.10180 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e264b010>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  17] RIL radixsort: 
+--------------------------------------------------------------------------------
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+[34m- 15:         for bucket in buckets:[0m
+[32m+ 15:         for bucket in reversed(buckets):[0m
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+--------------------------------------------------------------------------------
+[0.12566 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2503ca0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  18] RIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+[34m- 16:             for num in bucket:[0m
+[32m+ 16:             for num in reversed(bucket):[0m
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+--------------------------------------------------------------------------------
+[0.12477 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e26ce950>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  19] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+[34m- 24:     while base ** iteration <= max_value:[0m
+[32m+ 24:     while base ** iteration >= max_value:[0m
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.12438 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e265af20>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  20] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+[34m- 24:     while base ** iteration <= max_value:[0m
+[32m+ 24:     while base ** iteration < max_value:[0m
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.10059 s] [31msurvived[0m
+[36m   -[0m [#  21] SDL radixsort: 
+--------------------------------------------------------------------------------
+   1: def radixsort(ar: list, base=10):
+   2:     '''
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+[34m-  5:         buckets = [[] for x in range(0, base)][0m
+[32m+  5:         pass[0m
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+--------------------------------------------------------------------------------
+[0.12807 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2500280>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], iteration = 0
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+radixsort:9: NameError
+[36m   -[0m [#  22] SDL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[32m+  8:             pass[0m
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.13012 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2553c70>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], iteration = 0
+
+>   ???
+E   NameError: name 'digit' is not defined
+
+radixsort:9: NameError
+[36m   -[0m [#  23] SDL radixsort: 
+--------------------------------------------------------------------------------
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+[34m-  9:             buckets[digit].append(num)[0m
+[32m+  9:             pass[0m
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.12824 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e262e350>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  24] SDL radixsort: 
+--------------------------------------------------------------------------------
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+[34m- 11:         return buckets[0m
+[32m+ 11:         pass[0m
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+--------------------------------------------------------------------------------
+[0.09918 s] [36mincompetent[0m
+
+TypeError: radixsort:15: TypeError: 'NoneType' object is not iterable
+
+[36m   -[0m [#  25] SDL radixsort: 
+--------------------------------------------------------------------------------
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+[34m- 14:         nums = [][0m
+[32m+ 14:         pass[0m
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+--------------------------------------------------------------------------------
+[0.12897 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2659240>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+buckets = [[20], [], [12, 2], [3, 3], [24, 84, 4, 4, 24, 4], [], ...]
+
+>   ???
+E   NameError: name 'nums' is not defined
+
+radixsort:17: NameError
+[36m   -[0m [#  26] SDL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+[34m- 17:                 nums.append(num)[0m
+[32m+ 17:                 pass[0m
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.12037 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e25205b0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  27] SDL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+[34m- 18:         return nums[0m
+[32m+ 18:         pass[0m
+  19:     
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+--------------------------------------------------------------------------------
+[0.10017 s] [36mincompetent[0m
+
+TypeError: radixsort:7: TypeError: 'NoneType' object is not iterable
+
+[36m   -[0m [#  28] SDL radixsort: 
+--------------------------------------------------------------------------------
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+[34m- 20:     max_value = max(ar)[0m
+[32m+ 20:     pass[0m
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+--------------------------------------------------------------------------------
+[0.10010 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2612440>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], base = 10
+
+>   ???
+E   NameError: name 'max_value' is not defined
+
+radixsort:24: NameError
+[36m   -[0m [#  29] SDL radixsort: 
+--------------------------------------------------------------------------------
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+[34m- 22:     iteration = 0[0m
+[32m+ 22:     pass[0m
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+--------------------------------------------------------------------------------
+[0.12860 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e262fbe0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+
+0-ts/test_radixsort.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [7, 9, 3, 24, 84, 12, ...], base = 10
+
+>   ???
+E   UnboundLocalError: local variable 'iteration' referenced before assignment
+
+radixsort:24: UnboundLocalError
+[36m   -[0m [#  30] SDL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+[34m- 25:         ar = create_list(create_buckets(ar, iteration))[0m
+[32m+ 25:         pass[0m
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.13073 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2574cd0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  31] SDL radixsort: 
+--------------------------------------------------------------------------------
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+[34m- 28:     return ar[0m
+[32m+ 28:     pass[0m
+--------------------------------------------------------------------------------
+[0.09872 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2503610>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  32] ZIL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+[34m-  8:             digit = (num // (base ** iteration)) % base[0m
+[34m-  9:             buckets[digit].append(num)[0m
+[32m+  8:             break[0m
+[32m+  9:         [0m
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.12877 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2551b40>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  33] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+[34m- 16:             for num in bucket:[0m
+[34m- 17:                 nums.append(num)[0m
+[32m+ 16:             break[0m
+[32m+ 17:         [0m
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.12437 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2522b00>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  34] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+[34m- 17:                 nums.append(num)[0m
+[32m+ 17:                 break[0m
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.13098 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e2611690>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[36m   -[0m [#  35] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+[34m- 25:         ar = create_list(create_buckets(ar, iteration))[0m
+[34m- 26:         iteration += 1[0m
+[32m+ 25:         break[0m
+[32m+ 26:     [0m
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.14506 s] [32mkilled[0m by 0-ts/test_radixsort.py::TestRadixSort::test_radixsort
+
+self = <test_radixsort.TestRadixSort object at 0x7f91e26482b0>
+
+    def test_radixsort(self):
+>       assert radixsort(self.random_list) == self.sorted_list
+E       AssertionError
+
+0-ts/test_radixsort.py:12: AssertionError
+[34m[*][0m Mutation score [5.35084 s]: [1m[34m90.3%[0m
+[36m   -[0m all: 35
+[36m   -[0m killed: 28 (80.0%)
+[36m   -[0m survived: 3 (8.6%)
+[36m   -[0m incompetent: 4 (11.4%)
+[36m   -[0m timeout: 0 (0.0%)

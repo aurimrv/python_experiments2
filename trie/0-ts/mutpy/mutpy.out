@@ -1,0 +1,1246 @@
+[34m[*][0m Start mutation process:
+[36m   -[0m targets: trie.py
+[36m   -[0m tests: ./0-ts
+[34m[*][0m 2 tests passed:
+[36m   -[0m test_trie [0.16152 s]
+[34m[*][0m Start mutants generation and execution:
+[36m   -[0m [#   1] AOR trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+[34m- 34:                 words.extend(getWords(val, prefix + key))[0m
+[32m+ 34:                 words.extend(getWords(val, prefix - key))[0m
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10590 s] [31msurvived[0m
+[36m   -[0m [#   2] ASR trie: 
+--------------------------------------------------------------------------------
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+[34m- 27:             idx += 1[0m
+[32m+ 27:             idx -= 1[0m
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.09877 s] [31msurvived[0m
+[36m   -[0m [#   3] CDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+[34m-  5:     def __init__(self, words):[0m
+[34m-  6:         self.head = {}[0m
+[34m-  7:         for word in words:[0m
+[34m-  8:             current = self.head[0m
+[34m-  9:             for letter in word:[0m
+[34m- 10:                 current = current.setdefault(letter, {})[0m
+[34m- 11:             current[self.eof] = self.eof[0m
+[34m- 12:     [0m
+[32m+  5:     @classmethod[0m
+[32m+  6:     def __init__(self, words):[0m
+[32m+  7:         self.head = {}[0m
+[32m+  8:         for word in words:[0m
+[32m+  9:             current = self.head[0m
+[32m+ 10:             for letter in word:[0m
+[32m+ 11:                 current = current.setdefault(letter, {})[0m
+[32m+ 12:             current[self.eof] = self.eof[0m
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.09813 s] [31msurvived[0m
+[36m   -[0m [#   4] CDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+[34m- 13:     def add(self, word):[0m
+[34m- 14:         current = self.head[0m
+[34m- 15:         for letter in word:[0m
+[34m- 16:             current = current.setdefault(letter, {})[0m
+[34m- 17:         current[self.eof] = self.eof[0m
+[34m- 18:     [0m
+[32m+ 13:     @classmethod[0m
+[32m+ 14:     def add(self, word):[0m
+[32m+ 15:         current = self.head[0m
+[32m+ 16:         for letter in word:[0m
+[32m+ 17:             current = current.setdefault(letter, {})[0m
+[32m+ 18:         current[self.eof] = self.eof[0m
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.12502 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+>       trie.add('2')
+
+0-ts/test_trie.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'trie.Trie'>, word = '2'
+
+>   ???
+E   AttributeError: type object 'Trie' has no attribute 'head'
+
+trie:15: AttributeError
+[36m   -[0m [#   5] CDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+[34m- 19:     def get_all_common_prefix(self, prefix):[0m
+[34m- 20:         idx = 0[0m
+[34m- 21:         node = self.head[0m
+[34m- 22:         while idx < len(prefix):[0m
+[34m- 23:             letter = prefix[idx][0m
+[34m- 24:             if letter not in node:[0m
+[34m- 25:                 return [][0m
+[34m- 26:             node = node[letter][0m
+[34m- 27:             idx += 1[0m
+[34m- 28:         [0m
+[34m- 29:         def getWords(node, prefix):[0m
+[34m- 30:             if self.eof in node:[0m
+[34m- 31:                 return [prefix][0m
+[34m- 32:             words = [][0m
+[34m- 33:             for (key, val) in node.items():[0m
+[34m- 34:                 words.extend(getWords(val, prefix + key))[0m
+[34m- 35:             return words[0m
+[34m- 36:         [0m
+[34m- 37:         return getWords(node, prefix)[0m
+[32m+ 19:     @classmethod[0m
+[32m+ 20:     def get_all_common_prefix(self, prefix):[0m
+[32m+ 21:         idx = 0[0m
+[32m+ 22:         node = self.head[0m
+[32m+ 23:         while idx < len(prefix):[0m
+[32m+ 24:             letter = prefix[idx][0m
+[32m+ 25:             if letter not in node:[0m
+[32m+ 26:                 return [][0m
+[32m+ 27:             node = node[letter][0m
+[32m+ 28:             idx += 1[0m
+[32m+ 29:         [0m
+[32m+ 30:         def getWords(node, prefix):[0m
+[32m+ 31:             if self.eof in node:[0m
+[32m+ 32:                 return [prefix][0m
+[32m+ 33:             words = [][0m
+[32m+ 34:             for (key, val) in node.items():[0m
+[32m+ 35:                 words.extend(getWords(val, prefix + key))[0m
+[32m+ 36:             return words[0m
+[32m+ 37:         [0m
+[32m+ 38:         return getWords(node, prefix)[0m
+--------------------------------------------------------------------------------
+[0.10717 s] [31msurvived[0m
+[36m   -[0m [#   6] COD trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+[34m- 24:             if letter not in node:[0m
+[32m+ 24:             if letter in node:[0m
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.09920 s] [31msurvived[0m
+[36m   -[0m [#   7] COI trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+[34m- 22:         while idx < len(prefix):[0m
+[32m+ 22:         while not (idx < len(prefix)):[0m
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.10021 s] [31msurvived[0m
+[36m   -[0m [#   8] COI trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+[34m- 24:             if letter not in node:[0m
+[32m+ 24:             if not (letter not in node):[0m
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.11067 s] [31msurvived[0m
+[36m   -[0m [#   9] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+[34m- 30:             if self.eof in node:[0m
+[32m+ 30:             if not (self.eof in node):[0m
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.10753 s] [31msurvived[0m
+[36m   -[0m [#  10] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+[34m- 30:             if self.eof in node:[0m
+[32m+ 30:             if self.eof not in node:[0m
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.10504 s] [31msurvived[0m
+[36m   -[0m [#  11] CRP trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+[34m-  3:     eof = '__eof__'[0m
+[32m+  3:     eof = 'mutpy'[0m
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+--------------------------------------------------------------------------------
+[0.09931 s] [31msurvived[0m
+[36m   -[0m [#  12] CRP trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+[34m-  3:     eof = '__eof__'[0m
+[32m+  3:     eof = ''[0m
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+--------------------------------------------------------------------------------
+[0.10809 s] [31msurvived[0m
+[36m   -[0m [#  13] CRP trie: 
+--------------------------------------------------------------------------------
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+[34m- 20:         idx = 0[0m
+[32m+ 20:         idx = 1[0m
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+--------------------------------------------------------------------------------
+[0.10631 s] [31msurvived[0m
+[36m   -[0m [#  14] CRP trie: 
+--------------------------------------------------------------------------------
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+[34m- 27:             idx += 1[0m
+[32m+ 27:             idx += 2[0m
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.07691 s] [31msurvived[0m
+[36m   -[0m [#  15] OIL trie: 
+--------------------------------------------------------------------------------
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+[34m- 12:     [0m
+[32m+ 12:             break[0m
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.09807 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       AssertionError
+
+0-ts/test_trie.py:8: AssertionError
+[36m   -[0m [#  16] OIL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+[34m- 11:             current[self.eof] = self.eof[0m
+[34m- 12:     [0m
+[32m+ 11:                 break[0m
+[32m+ 12:             current[self.eof] = self.eof[0m
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.12707 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       KeyError: 'e'
+
+0-ts/test_trie.py:8: KeyError
+[36m   -[0m [#  17] OIL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+[34m- 17:         current[self.eof] = self.eof[0m
+[34m- 18:     [0m
+[32m+ 17:             break[0m
+[32m+ 18:         current[self.eof] = self.eof[0m
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.09381 s] [31msurvived[0m
+[36m   -[0m [#  18] OIL trie: 
+--------------------------------------------------------------------------------
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+[34m- 28:         [0m
+[32m+ 28:             break[0m
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+--------------------------------------------------------------------------------
+[0.08032 s] [31msurvived[0m
+[36m   -[0m [#  19] OIL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+[34m- 35:             return words[0m
+[34m- 36:         [0m
+[32m+ 35:                 break[0m
+[32m+ 36:             return words[0m
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10867 s] [31msurvived[0m
+[36m   -[0m [#  20] RIL trie: 
+--------------------------------------------------------------------------------
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+[34m-  7:         for word in words:[0m
+[32m+  7:         for word in reversed(words):[0m
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+--------------------------------------------------------------------------------
+[0.11222 s] [31msurvived[0m
+[36m   -[0m [#  21] RIL trie: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+[34m-  9:             for letter in word:[0m
+[32m+  9:             for letter in reversed(word):[0m
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+--------------------------------------------------------------------------------
+[0.12759 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       KeyError: 'h'
+
+0-ts/test_trie.py:8: KeyError
+[36m   -[0m [#  22] RIL trie: 
+--------------------------------------------------------------------------------
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+[34m- 15:         for letter in word:[0m
+[32m+ 15:         for letter in reversed(word):[0m
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+--------------------------------------------------------------------------------
+[0.12896 s] [31msurvived[0m
+[36m   -[0m [#  23] RIL trie: 
+--------------------------------------------------------------------------------
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+[34m- 33:             for (key, val) in node.items():[0m
+[32m+ 33:             for (key, val) in reversed(node.items()):[0m
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10226 s] [31msurvived[0m
+[36m   -[0m [#  24] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+[34m- 22:         while idx < len(prefix):[0m
+[32m+ 22:         while idx > len(prefix):[0m
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.13382 s] [31msurvived[0m
+[36m   -[0m [#  25] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+[34m- 22:         while idx < len(prefix):[0m
+[32m+ 22:         while idx <= len(prefix):[0m
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.07858 s] [31msurvived[0m
+[36m   -[0m [#  26] SDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+[34m-  5:     def __init__(self, words):[0m
+[34m-  6:         self.head = {}[0m
+[34m-  7:         for word in words:[0m
+[34m-  8:             current = self.head[0m
+[34m-  9:             for letter in word:[0m
+[34m- 10:                 current = current.setdefault(letter, {})[0m
+[34m- 11:             current[self.eof] = self.eof[0m
+[34m- 12:     [0m
+[32m+  5:     @staticmethod[0m
+[32m+  6:     def __init__(self, words):[0m
+[32m+  7:         self.head = {}[0m
+[32m+  8:         for word in words:[0m
+[32m+  9:             current = self.head[0m
+[32m+ 10:             for letter in word:[0m
+[32m+ 11:                 current = current.setdefault(letter, {})[0m
+[32m+ 12:             current[self.eof] = self.eof[0m
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.09790 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/trie/0-ts/test_trie.py:6: TypeError: Trie.__init__() missing 1 required positional argument: 'words'
+
+[36m   -[0m [#  27] SDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+[34m- 13:     def add(self, word):[0m
+[34m- 14:         current = self.head[0m
+[34m- 15:         for letter in word:[0m
+[34m- 16:             current = current.setdefault(letter, {})[0m
+[34m- 17:         current[self.eof] = self.eof[0m
+[34m- 18:     [0m
+[32m+ 13:     @staticmethod[0m
+[32m+ 14:     def add(self, word):[0m
+[32m+ 15:         current = self.head[0m
+[32m+ 16:         for letter in word:[0m
+[32m+ 17:             current = current.setdefault(letter, {})[0m
+[32m+ 18:         current[self.eof] = self.eof[0m
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.10718 s] [36mincompetent[0m
+
+TypeError: /home/lucca/desktop/ic/experimento/testes/python_experiments2/trie/0-ts/test_trie.py:19: TypeError: Trie.add() missing 1 required positional argument: 'word'
+
+[36m   -[0m [#  28] SDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+[34m- 19:     def get_all_common_prefix(self, prefix):[0m
+[34m- 20:         idx = 0[0m
+[34m- 21:         node = self.head[0m
+[34m- 22:         while idx < len(prefix):[0m
+[34m- 23:             letter = prefix[idx][0m
+[34m- 24:             if letter not in node:[0m
+[34m- 25:                 return [][0m
+[34m- 26:             node = node[letter][0m
+[34m- 27:             idx += 1[0m
+[34m- 28:         [0m
+[34m- 29:         def getWords(node, prefix):[0m
+[34m- 30:             if self.eof in node:[0m
+[34m- 31:                 return [prefix][0m
+[34m- 32:             words = [][0m
+[34m- 33:             for (key, val) in node.items():[0m
+[34m- 34:                 words.extend(getWords(val, prefix + key))[0m
+[34m- 35:             return words[0m
+[34m- 36:         [0m
+[34m- 37:         return getWords(node, prefix)[0m
+[32m+ 19:     @staticmethod[0m
+[32m+ 20:     def get_all_common_prefix(self, prefix):[0m
+[32m+ 21:         idx = 0[0m
+[32m+ 22:         node = self.head[0m
+[32m+ 23:         while idx < len(prefix):[0m
+[32m+ 24:             letter = prefix[idx][0m
+[32m+ 25:             if letter not in node:[0m
+[32m+ 26:                 return [][0m
+[32m+ 27:             node = node[letter][0m
+[32m+ 28:             idx += 1[0m
+[32m+ 29:         [0m
+[32m+ 30:         def getWords(node, prefix):[0m
+[32m+ 31:             if self.eof in node:[0m
+[32m+ 32:                 return [prefix][0m
+[32m+ 33:             words = [][0m
+[32m+ 34:             for (key, val) in node.items():[0m
+[32m+ 35:                 words.extend(getWords(val, prefix + key))[0m
+[32m+ 36:             return words[0m
+[32m+ 37:         [0m
+[32m+ 38:         return getWords(node, prefix)[0m
+--------------------------------------------------------------------------------
+[0.10038 s] [31msurvived[0m
+[36m   -[0m [#  29] SDL trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+[34m-  3:     eof = '__eof__'[0m
+[32m+  3:     pass[0m
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+--------------------------------------------------------------------------------
+[0.12111 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d283f3430>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'eof'
+
+trie:11: AttributeError
+[36m   -[0m [#  30] SDL trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+[34m-  6:         self.head = {}[0m
+[32m+  6:         pass[0m
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.10240 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d2846b100>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'head'
+
+trie:8: AttributeError
+[36m   -[0m [#  31] SDL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+[34m-  8:             current = self.head[0m
+[32m+  8:             pass[0m
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.11100 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d284bb5e0>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:10: UnboundLocalError
+[36m   -[0m [#  32] SDL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+[34m- 10:                 current = current.setdefault(letter, {})[0m
+[32m+ 10:                 pass[0m
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.12587 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       KeyError: 'h'
+
+0-ts/test_trie.py:8: KeyError
+[36m   -[0m [#  33] SDL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+[34m- 11:             current[self.eof] = self.eof[0m
+[32m+ 11:             pass[0m
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.12452 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       AssertionError
+
+0-ts/test_trie.py:8: AssertionError
+[36m   -[0m [#  34] SDL trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+[34m- 14:         current = self.head[0m
+[32m+ 14:         pass[0m
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.12672 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+>       trie.add('2')
+
+0-ts/test_trie.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d284adff0>, word = '2'
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:16: UnboundLocalError
+[36m   -[0m [#  35] SDL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+[34m- 16:             current = current.setdefault(letter, {})[0m
+[32m+ 16:             pass[0m
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.12849 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+        trie.add('2')
+    
+>       assert Trie.eof in trie.head['2']
+E       KeyError: '2'
+
+0-ts/test_trie.py:21: KeyError
+[36m   -[0m [#  36] SDL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+[34m- 17:         current[self.eof] = self.eof[0m
+[32m+ 17:         pass[0m
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.12604 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+        trie.add('2')
+    
+>       assert Trie.eof in trie.head['2']
+E       AssertionError
+
+0-ts/test_trie.py:21: AssertionError
+[36m   -[0m [#  37] SDL trie: 
+--------------------------------------------------------------------------------
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+[34m- 20:         idx = 0[0m
+[32m+ 20:         pass[0m
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+--------------------------------------------------------------------------------
+[0.10804 s] [31msurvived[0m
+[36m   -[0m [#  38] SDL trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+[34m- 21:         node = self.head[0m
+[32m+ 21:         pass[0m
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.07859 s] [31msurvived[0m
+[36m   -[0m [#  39] SDL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+[34m- 23:             letter = prefix[idx][0m
+[32m+ 23:             pass[0m
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+--------------------------------------------------------------------------------
+[0.10998 s] [31msurvived[0m
+[36m   -[0m [#  40] SDL trie: 
+--------------------------------------------------------------------------------
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+[34m- 25:                 return [][0m
+[32m+ 25:                 pass[0m
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+--------------------------------------------------------------------------------
+[0.10909 s] [31msurvived[0m
+[36m   -[0m [#  41] SDL trie: 
+--------------------------------------------------------------------------------
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+[34m- 26:             node = node[letter][0m
+[32m+ 26:             pass[0m
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+--------------------------------------------------------------------------------
+[0.09973 s] [31msurvived[0m
+[36m   -[0m [#  42] SDL trie: 
+--------------------------------------------------------------------------------
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+[34m- 31:                 return [prefix][0m
+[32m+ 31:                 pass[0m
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+--------------------------------------------------------------------------------
+[0.10139 s] [31msurvived[0m
+[36m   -[0m [#  43] SDL trie: 
+--------------------------------------------------------------------------------
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+[34m- 32:             words = [][0m
+[32m+ 32:             pass[0m
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+--------------------------------------------------------------------------------
+[0.09909 s] [31msurvived[0m
+[36m   -[0m [#  44] SDL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+[34m- 34:                 words.extend(getWords(val, prefix + key))[0m
+[32m+ 34:                 pass[0m
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10228 s] [31msurvived[0m
+[36m   -[0m [#  45] SDL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+[34m- 35:             return words[0m
+[32m+ 35:             pass[0m
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10426 s] [31msurvived[0m
+[36m   -[0m [#  46] SDL trie: 
+--------------------------------------------------------------------------------
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+[34m- 37:         return getWords(node, prefix)[0m
+[32m+ 37:         pass[0m
+--------------------------------------------------------------------------------
+[0.10203 s] [31msurvived[0m
+[36m   -[0m [#  47] SVD trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+[34m-  6:         self.head = {}[0m
+[32m+  6:         head = {}[0m
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.00000 s] [36mincompetent[0m
+
+ValueError: expression must have Store context but has Load instead
+
+[36m   -[0m [#  48] SVD trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+[34m-  8:             current = self.head[0m
+[32m+  8:             current = head[0m
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.14824 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d28260940>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:8: NameError
+[36m   -[0m [#  49] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+[34m- 11:             current[self.eof] = self.eof[0m
+[32m+ 11:             current[eof] = self.eof[0m
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.12083 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d283e36d0>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+[36m   -[0m [#  50] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+[34m- 11:             current[self.eof] = self.eof[0m
+[32m+ 11:             current[self.eof] = eof[0m
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.12468 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+>       trie = Trie(['hello','hel','headway','tree','second','true'])
+
+0-ts/test_trie.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d284ae7d0>
+words = ['hello', 'hel', 'headway', 'tree', 'second', 'true']
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+[36m   -[0m [#  51] SVD trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+[34m- 14:         current = self.head[0m
+[32m+ 14:         current = head[0m
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.10112 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+>       trie.add('2')
+
+0-ts/test_trie.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d284ae170>, word = '2'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:14: NameError
+[36m   -[0m [#  52] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+[34m- 17:         current[self.eof] = self.eof[0m
+[32m+ 17:         current[eof] = self.eof[0m
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.10066 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+>       trie.add('2')
+
+0-ts/test_trie.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d283c47f0>, word = '2'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+[36m   -[0m [#  53] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+[34m- 17:         current[self.eof] = self.eof[0m
+[32m+ 17:         current[self.eof] = eof[0m
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.13024 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+>       trie.add('2')
+
+0-ts/test_trie.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f8d28304af0>, word = '2'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+[36m   -[0m [#  54] SVD trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+[34m- 21:         node = self.head[0m
+[32m+ 21:         node = head[0m
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.10863 s] [31msurvived[0m
+[36m   -[0m [#  55] SVD trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+[34m- 30:             if self.eof in node:[0m
+[32m+ 30:             if eof in node:[0m
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.10645 s] [31msurvived[0m
+[36m   -[0m [#  56] ZIL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+[34m-  8:             current = self.head[0m
+[34m-  9:             for letter in word:[0m
+[34m- 10:                 current = current.setdefault(letter, {})[0m
+[34m- 11:             current[self.eof] = self.eof[0m
+[32m+  8:             break[0m
+[32m+  9:     [0m
+[32m+ 10:     [0m
+[32m+ 11:     [0m
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.13266 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       KeyError: 'h'
+
+0-ts/test_trie.py:8: KeyError
+[36m   -[0m [#  57] ZIL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+[34m- 10:                 current = current.setdefault(letter, {})[0m
+[32m+ 10:                 break[0m
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.12770 s] [32mkilled[0m by 0-ts/test_trie.py::test_trie
+
+def test_trie():
+        trie = Trie(['hello','hel','headway','tree','second','true'])
+    
+>       assert Trie.eof in trie.head['h']['e']['l']
+E       KeyError: 'h'
+
+0-ts/test_trie.py:8: KeyError
+[36m   -[0m [#  58] ZIL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+[34m- 16:             current = current.setdefault(letter, {})[0m
+[32m+ 16:             break[0m
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.12244 s] [32mkilled[0m by 0-ts/test_trie.py::test_add
+
+def test_add():
+        trie = Trie(['1',])
+    
+        with pytest.raises(KeyError):
+            trie.head['2']
+    
+        trie.add('2')
+    
+>       assert Trie.eof in trie.head['2']
+E       KeyError: '2'
+
+0-ts/test_trie.py:21: KeyError
+[36m   -[0m [#  59] ZIL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+[34m- 23:             letter = prefix[idx][0m
+[34m- 24:             if letter not in node:[0m
+[34m- 25:                 return [][0m
+[34m- 26:             node = node[letter][0m
+[34m- 27:             idx += 1[0m
+[32m+ 23:             break[0m
+[32m+ 24:         [0m
+[32m+ 25:         [0m
+[32m+ 26:         [0m
+[32m+ 27:         [0m
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.09983 s] [31msurvived[0m
+[36m   -[0m [#  60] ZIL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+[34m- 34:                 words.extend(getWords(val, prefix + key))[0m
+[32m+ 34:                 break[0m
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.10067 s] [31msurvived[0m
+[34m[*][0m Mutation score [9.43097 s]: [1m[34m36.8%[0m
+[36m   -[0m all: 60
+[36m   -[0m killed: 21 (35.0%)
+[36m   -[0m survived: 36 (60.0%)
+[36m   -[0m incompetent: 3 (5.0%)
+[36m   -[0m timeout: 0 (0.0%)
