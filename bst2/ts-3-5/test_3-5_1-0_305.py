@@ -1,0 +1,78 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+# Test cases for Node class
+def test_node_is_leaf():
+    n = Node(5)
+    assert n._is_leaf() == True
+
+def test_node_is_interior():
+    n = Node(5)
+    assert n._is_interior() == False
+
+def test_node_onlychild_left():
+    n = Node(5)
+    n.left = Node(3)
+    assert n._onlychild() == 'left'
+
+def test_node_onlychild_right():
+    n = Node(5)
+    n.right = Node(7)
+    assert n._onlychild() == 'right'
+
+def test_node_side_right():
+    parent = Node(5)
+    child = Node(7, parent)
+    parent.right = child
+    assert child._side() == 'right'
+
+# Test cases for Bst class
+def test_bst_insert():
+    bst = Bst()
+    bst.insert(5)
+    assert bst.size() == 1
+
+def test_bst_insert_duplicate():
+    bst = Bst([5, 3])
+    bst.insert(5)
+    assert bst.size() == 2
+
+def test_bst_search():
+    bst = Bst([5, 3, 8])
+    node = bst.search(3)
+    assert node.val == 3
+
+def test_bst_size():
+    bst = Bst([5, 3, 8])
+    assert bst.size() == 3
+
+def test_bst_depth():
+    bst = Bst([5, 3, 8, 4, 9])
+    assert bst.depth() == 3
+
+def test_bst_contains_true():
+    bst = Bst([5, 3, 8])
+    assert bst.contains(3) == True
+
+def test_bst_contains_false():
+    bst = Bst([5, 3, 8])
+    assert bst.contains(10) == False
+
+def test_bst_balance_balanced():
+    bst = Bst([5, 3, 8])
+    assert bst.balance() == 0
+
+def test_bst_balance_right_heavy():
+    bst = Bst([5, 3, 8, 10])
+    assert bst.balance() == -1
+
+def test_bst_balance_left_heavy():
+    bst = Bst([5, 3, 8, 2])
+    assert bst.balance() == 1 

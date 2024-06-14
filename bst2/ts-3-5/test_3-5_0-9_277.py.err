@@ -1,0 +1,72 @@
+import os
+import sys
+import pytest
+from bst2 import Bst, Node
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+
+@pytest.fixture
+def setup_bst():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    return bst
+
+
+def test_insert(setup_bst):
+    assert setup_bst.size() == 7
+    setup_bst.insert(9)
+    assert setup_bst.size() == 8
+    assert setup_bst.contains(9)
+
+
+def test_search(setup_bst):
+    assert setup_bst.search(4).val == 4
+    assert setup_bst.search(10) is None
+
+
+def test_size(setup_bst):
+    assert setup_bst.size() == 7
+    setup_bst.insert(10)
+    assert setup_bst.size() == 8
+
+
+def test_depth(setup_bst):
+    assert setup_bst.depth() == 3
+    setup_bst.insert(1)
+    setup_bst.insert(11)
+    assert setup_bst.depth() == 4
+
+
+def test_contains(setup_bst):
+    assert setup_bst.contains(2)
+    assert not setup_bst.contains(9)
+
+
+def test_balance(setup_bst):
+    assert setup_bst.balance() == 0
+    setup_bst.insert(1)
+    assert setup_bst.balance() == -2
+
+
+def test_pre_order(setup_bst):
+    assert list(setup_bst.pre_order()) == [5, 3, 2, 4, 7, 6, 8]
+
+
+def test_in_order(setup_bst):
+    assert list(setup_bst.in_order()) == [2, 3, 4, 5, 6, 7, 8]
+
+
+def test_post_order(setup_bst):
+    assert list(setup_bst.post_order()) == [2, 4, 3, 6, 8, 7, 5]
+
+
+def test_breadth_first(setup_bst):
+    assert list(setup_bst.breadth_first()) == [5, 3, 7, 2, 4, 6, 8]
+
+
+def test_delete(setup_bst):
+    setup_bst.delete(4)
+    assert setup_bst.size() == 6
+    assert not setup_bst.contains(4)

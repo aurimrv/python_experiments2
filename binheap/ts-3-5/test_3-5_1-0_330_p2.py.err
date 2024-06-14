@@ -1,0 +1,38 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+def test_initialization(empty_heap):
+    assert empty_heap.container == [None]
+
+def test_push(empty_heap):
+    empty_heap.push(5)
+    assert empty_heap.container == [None, 5]
+
+    empty_heap.push(8)
+    assert empty_heap.container == [None, 8, 5]
+
+def test_pop(empty_heap):
+    empty_heap.push(5)
+    empty_heap.push(8)
+    
+    empty_heap.pop()
+    assert empty_heap.container == [None, 5]
+    
+def test_display(empty_heap):
+    empty_heap.push(5)
+    empty_heap.push(8)
+    empty_heap.push(2)
+
+    expected_tree = '    8 \n  5 2 \n'
+    assert empty_heap.display().strip() == expected_tree.strip()

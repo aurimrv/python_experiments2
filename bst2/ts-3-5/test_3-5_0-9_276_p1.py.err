@@ -1,0 +1,80 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+@pytest.fixture
+def example_tree():
+    tree = Bst([5, 3, 7, 2, 4, 6, 8])
+    return tree
+
+def test_node_is_leaf():
+    node = Node(1)
+    assert node._is_leaf() == True
+
+def test_node_is_interior():
+    node1 = Node(1)
+    assert node1._is_interior() == False
+
+    node2 = Node(2)
+    node1.left = node2
+    assert node1._is_interior() == True
+
+def test_node_only_child():
+    node = Node(1)
+    child = Node(2)
+    node.left = child
+    assert node._onlychild() == 'left'
+
+def test_node_side():
+    parent = Node(3)
+    left_child = Node(1, parent)
+    parent.left = left_child
+    assert left_child._side() == 'left'
+
+def test_insert(example_tree):
+    example_tree.insert(9)
+    assert example_tree.size() == 8
+    assert example_tree.search(9).val == 9
+
+def test_search(example_tree):
+    assert example_tree.search(3).val == 3
+    assert example_tree.search(10) == None
+
+def test_size(example_tree):
+    assert example_tree.size() == 7
+
+def test_depth(example_tree):
+    assert example_tree.depth() == 3
+
+def test_contains(example_tree):
+    assert example_tree.contains(4) == True
+    assert example_tree.contains(10) == False
+
+def test_balance(example_tree):
+    assert example_tree.balance() == 0
+
+def test_pre_order(example_tree):
+    expected_output = [5, 3, 2, 4, 7, 6, 8]
+    output = list(example_tree.pre_order())
+    assert output == expected_output
+
+def test_in_order(example_tree):
+    expected_output = [2, 3, 4, 5, 6, 7, 8]
+    output = list(example_tree.in_order())
+    assert output == expected_output
+
+def test_post_order(example_tree):
+    expected_output = [2, 4, 3, 6, 8, 7, 5]
+    output = list(example_tree.post_order())
+    assert output == expected_output
+
+def test_breadth_first(example_tree):
+    expected_output = [5, 3, 7, 2, 4, 6, 8]
+    output = list(example_tree.breadth_first())
+    assert output == expected_output

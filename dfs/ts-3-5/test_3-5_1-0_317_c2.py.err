@@ -1,0 +1,53 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import depth_first_search
+
+def test_depth_first_search_empty_grid():
+    assert depth_first_search(depth_first_search.grid=[], start=(0, 0), target=1) is None
+
+def test_depth_first_search_target_at_start():
+    assert depth_first_search(depth_first_search.grid=[[1]], start=(0, 0), target=1) == (0, 0)
+
+def test_depth_first_search_target_found():
+    grid = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ]
+    assert depth_first_search(grid, start=(1, 1), target=1) == (1, 1)
+
+def test_depth_first_search_target_not_found():
+    grid = [
+        [0, 2, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]
+    assert depth_first_search(grid, start=(1, 1), target=1) is None
+
+def test_depth_first_search_boundary_check():
+    grid = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ]
+    assert depth_first_search(grid, start=(0, 0), target=1) == (1, 1)
+
+def test_depth_first_search_multiple_paths():
+    grid = [
+        [0, 2, 0],
+        [1, 1, 0],
+        [0, 0, 0]
+    ]
+    assert depth_first_search(grid, start=(0, 0), target=1) == (1, 1)
+
+def test_depth_first_search_no_path():
+    grid = [
+        [0, 2, 0],
+        [0, 0, 0],
+        [0, 0, 1]
+    ]
+    assert depth_first_search(grid, start=(0, 0), target=1) is None

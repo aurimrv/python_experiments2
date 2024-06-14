@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+def test_init():
+    data = [10, 20, 5, 15]
+    bh = Binheap(data)
+    assert bh.container == [None, 20, 15, 5, 10]
+
+def test_balance(empty_heap):
+    bh = empty_heap
+    bh.container = [None, 10, 20, 5, 15]
+    bh._balance()
+    assert bh.container == [None, 20, 15, 5, 10]
+
+def test_push(empty_heap):
+    bh = empty_heap
+    bh.push(10)
+    assert bh.container == [None, 10]
+    bh.push(20)
+    assert bh.container == [None, 20, 10]
+    bh.push(5)
+    assert bh.container == [None, 20, 10, 5]
+    bh.push(15)
+    assert bh.container == [None, 20, 15, 5, 10]
+
+def test_pop(empty_heap):
+    bh = empty_heap
+    bh.container = [None, 20, 15, 5, 10]
+    bh.pop()
+    assert bh.container == [None, 15, 10, 5]
+    bh.pop()
+    assert bh.container == [None, 10, 5]
+    bh.pop()
+    assert bh.container == [None, 5]
+    bh.pop()
+    assert bh.container == [None]
+
+def test_display(empty_heap):
+    bh = empty_heap
+    bh.container = [None, 20, 15, 5, 10]
+    result = bh.display()
+    expected = "      20 \n    15 5 \n  10 \n"
+    assert result == expected

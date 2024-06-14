@@ -1,0 +1,59 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree, BinaryTreeNode
+
+class TestBinarySearchTree:
+
+    def test_insert(self):
+        bst = BinarySearchTree()
+        bst.insert(5)
+        assert bst.head
+        assert bst.head.value == 5
+
+    def test_min(self):
+        bst = BinarySearchTree()
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.min() == 3
+
+    def test_delete(self):
+        bst = BinarySearchTree()
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        bst.delete(3)
+        assert bst.search(3) is None
+
+    def test_search(self):
+        bst = BinarySearchTree()
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(7).value == 7
+
+    def test_in_order_traversal(self):
+        bst = BinarySearchTree()
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.in_order_traversal() == [3, 5, 7]
+
+    def test_merge(self):
+        bst1 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+
+        bst2 = BinarySearchTree()
+        bst2.insert(7)
+        bst1.merge(bst2)
+
+        assert bst1.search(7) is not None
+        assert bst1.search(7).value == 7
+        assert bst1.in_order_traversal() == [3, 5, 7]

@@ -1,0 +1,62 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree
+
+import pytest
+from tree_node import BinaryTreeNode
+
+
+@pytest.fixture
+def setup_binary_search_tree():
+    bst = BinarySearchTree()
+    bst.insert(5)
+    bst.insert(3)
+    bst.insert(7)
+    bst.insert(2)
+    bst.insert(4)
+    bst.insert(6)
+    bst.insert(8)
+    return bst
+
+
+def test_insert(setup_binary_search_tree):
+    assert setup_binary_search_tree.search(5).value == 5
+    assert setup_binary_search_tree.search(3).value == 3
+    assert setup_binary_search_tree.search(7).value == 7
+    assert setup_binary_search_tree.search(2).value == 2
+    assert setup_binary_search_tree.search(4).value == 4
+    assert setup_binary_search_tree.search(6).value == 6
+    assert setup_binary_search_tree.search(8).value == 8
+
+
+def test_min(setup_binary_search_tree):
+    assert setup_binary_search_tree.min() == 2
+
+
+def test_delete(setup_binary_search_tree):
+    setup_binary_search_tree.delete(3)
+    assert setup_binary_search_tree.search(3) is None
+    setup_binary_search_tree.delete(7)
+    assert setup_binary_search_tree.search(7) is None
+
+
+def test_search(setup_binary_search_tree):
+    assert setup_binary_search_tree.search(6).value == 6
+    assert setup_binary_search_tree.search(9) is None
+
+
+def test_in_order_traversal(setup_binary_search_tree):
+    assert setup_binary_search_tree.in_order_traversal() == [2, 3, 4, 5, 6, 7, 8]
+
+
+def test_merge(setup_binary_search_tree):
+    bst2 = BinarySearchTree()
+    bst2.insert(1)
+    bst2.insert(9)
+    setup_binary_search_tree.merge(bst2)
+    assert setup_binary_search_tree.search(1).value == 1
+    assert setup_binary_search_tree.search(9).value == 9

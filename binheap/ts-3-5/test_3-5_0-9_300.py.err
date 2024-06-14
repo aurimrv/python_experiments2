@@ -1,0 +1,73 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+
+@pytest.fixture
+def empty_binheap():
+    return Binheap()
+
+
+def test_init():
+    # Test initialization with no data
+    binheap = Binheap()
+    assert len(binheap.container) == 1
+
+    # Test initialization with data
+    init_data = [3, 2, 1, 4]
+    binheap = Binheap(data=init_data)
+    assert binheap.container[1:] == init_data
+
+
+def test_balance():
+    # Test balancing with values in ascending order
+    binheap = Binheap()
+    binheap.container = [None, 1, 2, 3, 4]
+    binheap._balance()
+    assert binheap.container == [None, 4, 2, 3, 1]
+
+    # Test balancing with values in descending order
+    binheap.container = [None, 4, 3, 2, 1]
+    binheap._balance()
+    assert binheap.container == [None, 4, 3, 2, 1]
+
+
+def test_push(empty_binheap):
+    # Test pushing a single value
+    empty_binheap.push(5)
+    assert empty_binheap.container == [None, 5]
+
+    # Test pushing multiple values
+    empty_binheap.push(10)
+    empty_binheap.push(7)
+    assert empty_binheap.container == [None, 10, 5, 7]
+
+
+def test_pop(empty_binheap):
+    # Test pop on empty heap
+    with pytest.raises(IndexError):
+        empty_binheap.pop()
+
+    # Test pop on heap with values
+    initial_data = [5, 7, 10]
+    binheap = Binheap(data=initial_data)
+    binheap.pop()
+    assert binheap.container == [None, 7, 5]
+
+
+def test_display():
+    # Test displaying an empty heap
+    binheap = Binheap()
+    assert binheap.display() == ''
+
+    # Test displaying a non-empty heap
+    init_data = [5, 7, 10]
+    binheap = Binheap(data=init_data)
+    expected_display = ' 5 \n7 10 \n'
+    assert binheap.display() == expected_display

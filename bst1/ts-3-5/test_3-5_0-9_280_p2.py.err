@@ -1,0 +1,62 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree
+
+import pytest
+from tree_node import BinaryTreeNode
+
+@pytest.fixture
+def test_tree():
+    bst = BinarySearchTree()
+    return bst
+
+def test_insert(test_tree):
+    test_tree.insert(5)
+    assert test_tree.head.value == 5
+
+    test_tree.insert(3)
+    assert test_tree.head.left.value == 3
+
+    test_tree.insert(7)
+    assert test_tree.head.right.value == 7
+
+def test_min(test_tree):
+    test_tree.insert(15)
+    test_tree.insert(10)
+    test_tree.insert(20)
+    assert test_tree.min() == 10
+
+def test_delete(test_tree):
+    test_tree.insert(8)
+    test_tree.insert(12)
+    test_tree.insert(6)
+    test_tree.delete(8)
+    assert test_tree.search(8) is None
+
+def test_search(test_tree):
+    test_tree.insert(25)
+    test_tree.insert(30)
+    test_tree.insert(20)
+    assert test_tree.search(30).value == 30
+
+def test_in_order_traversal(test_tree):
+    test_tree.insert(50)
+    test_tree.insert(30)
+    test_tree.insert(70)
+    assert test_tree.in_order_traversal() == [30, 50, 70]
+
+def test_merge(test_tree):
+    test_tree.insert(50)
+    test_tree.insert(30)
+    test_tree.insert(70)
+
+    other_tree = BinarySearchTree()
+    other_tree.insert(40)
+    other_tree.insert(60)
+
+    test_tree.merge(other_tree)
+    assert test_tree.in_order_traversal() == [30, 40, 50, 60, 70]

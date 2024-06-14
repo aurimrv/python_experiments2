@@ -1,0 +1,52 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from depth_first_search import depth_first_search
+
+def test_depth_first_search():
+    # Test case 1: Target found in a simple grid
+    grid = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ]
+    start = (1, 1)
+    target = 5
+    assert depth_first_search(grid, start, target) == (1, 1)
+    
+    # Test case 2: Target not found in a simple grid
+    grid = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ]
+    start = (2, 2)
+    target = 10
+    assert depth_first_search(grid, start, target) == None
+    
+    # Test case 3: Target found with multiple possible paths
+    grid = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ]
+    start = (0, 0)
+    target = 6
+    assert depth_first_search(grid, start, target) in [(2, 2), (1, 2)]
+
+    # Test case 4: Target found in a single-element grid
+    grid = [
+        [5]
+    ]
+    start = (0, 0)
+    target = 5
+    assert depth_first_search(grid, start, target) == (0, 0)
+    
+    # Test case 5: No grid provided
+    grid = []
+    start = (0, 0)
+    target = 5
+    assert depth_first_search(grid, start, target) == None

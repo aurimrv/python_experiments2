@@ -1,0 +1,53 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from breadth_first_search import breadth_first_search, breadth_first_search_graph
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.adjacent_list = []
+
+def test_breadth_first_search_empty_grid():
+    grid = []
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == None
+
+def test_breadth_first_search_target_at_start():
+    grid = [[1, 2], [3, 4]]
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == start
+
+def test_breadth_first_search_target_exists_in_grid():
+    grid = [[1, 2], [3, 4]]
+    start = (0, 0)
+    target = 3
+    assert breadth_first_search(grid, start, target) == (0, 1)
+
+def test_breadth_first_search_graph_target_at_head():
+    head = Node(1)
+    target = 1
+    assert breadth_first_search_graph(head, target) == head
+
+def test_breadth_first_search_graph_target_exists_in_graph():
+    head = Node(1)
+    node_2 = Node(2)
+    node_3 = Node(3)
+    head.adjacent_list = [node_2]
+    node_2.adjacent_list = [node_3]
+    target = 3
+    assert breadth_first_search_graph(head, target) == node_3
+
+def test_breadth_first_search_graph_target_not_found():
+    head = Node(1)
+    node_2 = Node(2)
+    head.adjacent_list = [node_2]
+    target = 3
+    assert breadth_first_search_graph(head, target) == None

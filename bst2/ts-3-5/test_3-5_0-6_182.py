@@ -1,0 +1,73 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+def test_node_is_leaf():
+    node = Node(5)
+    assert node._is_leaf() == True
+
+def test_node_is_interior():
+    node = Node(5)
+    assert node._is_interior() == False
+
+def test_node_onlychild():
+    node = Node(5)
+    assert node._onlychild() is None
+
+def test_node_side():
+    parent = Node(10)
+    child = Node(5, parent)
+    parent.left = child
+    assert child._side() == 'left'
+
+def test_bst_insert():
+    bst = Bst()
+    bst.insert(5)
+    assert bst.size() == 1
+
+def test_bst_search():
+    bst = Bst([5, 10, 15])
+    assert bst.search(10).val == 10
+
+def test_bst_size():
+    bst = Bst([5, 10, 15])
+    assert bst.size() == 3
+
+def test_bst_depth():
+    bst = Bst([5, 10, 15])
+    assert bst.depth() == 3
+
+def test_bst_contains():
+    bst = Bst([5, 10, 15])
+    assert bst.contains(10) == True
+
+def test_bst_balance():
+    bst = Bst([5, 10, 15])
+    assert bst.balance() == -2
+
+def test_bst_pre_order():
+    bst = Bst([5, 10, 15])
+    assert list(bst.pre_order()) == [5, 10, 15]
+
+def test_bst_in_order():
+    bst = Bst([5, 10, 15])
+    assert list(bst.in_order()) == [5, 10, 15]
+
+def test_bst_post_order():
+    bst = Bst([5, 10, 15])
+    assert list(bst.post_order()) == [15, 10, 5]
+
+def test_bst_breadth_first():
+    bst = Bst([5, 10, 15])
+    assert list(bst.breadth_first()) == [5, 10, 15]
+
+def test_bst_delete():
+    bst = Bst([5, 10, 15])
+    bst.delete(10)
+    assert bst.size() == 2

@@ -1,0 +1,51 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def combinations_of_word(word):
+    result = []
+    for i in range(len(word)):
+        for j in range(i+1, len(word)+1):
+            result.append(word[i:j])
+    return result
+
+def combinations_of_phone_input(digits):
+    if not digits:
+        return []
+    
+    phone_map = {
+        '2': 'abc',
+        '3': 'def',
+        '4': 'ghi',
+        '5': 'jkl',
+        '6': 'mno',
+        '7': 'pqrs',
+        '8': 'tuv',
+        '9': 'wxyz'
+    }
+    
+    def backtrack(combination, next_digits):
+        if len(next_digits) == 0:
+            result.append(combination)
+        else:
+            for letter in phone_map[next_digits[0]]:
+                backtrack(combination + letter, next_digits[1:])
+    
+    result = []
+    backtrack("", digits)
+    return result
+
+def test_combinations_of_word():
+    assert combinations_of_word("") == []
+    assert combinations_of_word("a") == ["a"]
+    assert combinations_of_word("abc") == ["a", "ab", "abc", "b", "bc", "c"]
+
+def test_combinations_of_phone_input():
+    assert combinations_of_phone_input("2") == ["a", "b", "c"]
+    assert combinations_of_phone_input("23") == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+    assert combinations_of_phone_input("234") == ['adg', 'adh', 'adi', 'aeg', 'aeh', 'aei', 'afg', 'afh', 'afi',
+                                                  'bdg', 'bdh', 'bdi', 'beg', 'beh', 'bei', 'bfg', 'bfh', 'bfi',
+                                                  'cdg', 'cdh', 'cdi', 'ceg', 'ceh', 'cei', 'cfg', 'cfh', 'cfi']

@@ -1,0 +1,51 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+import pytest
+
+def test_push():
+    heap = Binheap()
+    heap.push(5)
+    assert heap.container == [None, 5]
+
+    heap.push(3)
+    assert heap.container == [None, 5, 3]
+
+def test_pop():
+    heap = Binheap([5, 3, 8])
+    heap.pop()
+    assert heap.container == [None, 5, 3]
+
+    heap.pop()
+    assert heap.container == [None, 5]
+
+def test_display():
+    heap = Binheap([5, 3, 8, 2, 7, 6])
+    result = heap.display()
+    expected = "     8 \n  7 6 \n5 3 2 \n"
+    assert result == expected
+
+def test_balance():
+    heap = Binheap()
+    heap.push(5)
+    heap.push(3)
+    heap.push(8)
+    heap.push(2)
+    heap.push(7)
+    heap.push(6)
+    assert heap.container == [None, 8, 7, 6, 2, 3, 5]
+
+    heap.pop()
+    assert heap.container == [None, 7, 6, 5, 2, 3]
+
+    heap.pop()
+    assert heap.container == [None, 6, 5, 2, 3]
+
+    heap.push(10)
+    assert heap.container == [None, 10, 7, 6, 2, 3]

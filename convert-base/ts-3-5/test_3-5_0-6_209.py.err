@@ -1,0 +1,35 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+def test_convert_base():
+    # Test valid conversion from base 2 to base 10
+    assert convert_base('1010', 2) == 10
+    
+    # Test valid conversion from base 16 to base 10
+    assert convert_base('ff', 16) == 255
+    
+    # Test invalid base input
+    assert convert_base('1010', -2) == -1
+    
+    # Test invalid digit in input value
+    assert convert_base('12a', 16) == -1
+
+def test_convert_digit_to_int():
+    # Test valid hexadecimal digit conversion
+    assert convert_digit_to_int('a') == 10
+    
+    # Test valid hexadecimal digit conversion
+    assert convert_digit_to_int('f') == 15
+    
+    # Test invalid input with multiple characters
+    assert convert_digit_to_int('ab') == -1
+    
+    # Test invalid input with character exceeding 'f'
+    assert convert_digit_to_int('g') == -1

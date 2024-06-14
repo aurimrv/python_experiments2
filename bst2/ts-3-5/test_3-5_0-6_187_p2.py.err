@@ -1,0 +1,96 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+def test_node_is_leaf():
+    node = Node(5)
+    assert node._is_leaf() == True
+
+def test_node_is_interior():
+    node = Node(5)
+    assert node._is_interior() == False
+
+def test_node_onlychild_left():
+    node = Node(5)
+    assert node._onlychild() == None
+
+def test_node_onlychild_right():
+    node = Node(5)
+    node.right = Node(10)
+    assert node._onlychild() == 'right'
+
+def test_node_side_left():
+    parent = Node(5)
+    child = Node(3, parent)
+    parent.left = child
+    assert child._side() == 'left'
+
+def test_node_side_right():
+    parent = Node(5)
+    child = Node(7, parent)
+    parent.right = child
+    assert child._side() == 'right'
+
+def test_insert():
+    bst = Bst()
+    bst.insert(5)
+    assert bst.size() == 1
+
+def test_search():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert bst.search(4).val == 4
+
+def test_size():
+    bst = Bst([5, 3, 7])
+    assert bst.size() == 3
+
+def test_depth():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert bst.depth() == 3
+
+def test_contains_true():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert bst.contains(4) == True
+
+def test_contains_false():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert bst.contains(9) == False
+
+def test_balance_positive():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert bst.balance() > 0
+
+def test_balance_negative():
+    bst = Bst([5, 3, 7])
+    assert bst.balance() < 0
+
+def test_balance_zero():
+    bst = Bst([5, 3, 7, 6, 8])
+    assert bst.balance() == 0
+
+def test_pre_order():
+    bst = Bst([5, 3, 7])
+    assert list(bst.pre_order()) == [5, 3, 7]
+
+def test_in_order():
+    bst = Bst([5, 3, 7])
+    assert list(bst.in_order()) == [3, 5, 7]
+
+def test_post_order():
+    bst = Bst([5, 3, 7])
+    assert list(bst.post_order()) == [3, 7, 5]
+
+def test_breadth_first():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    assert list(bst.breadth_first()) == [5, 3, 7, 2, 4, 6, 8]
+
+def test_delete():
+    bst = Bst([5, 3, 7, 2, 4, 6, 8])
+    bst.delete(3)
+    assert bst.size() == 6

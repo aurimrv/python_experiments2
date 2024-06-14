@@ -1,0 +1,31 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+def test_convert_base_positive():
+    assert convert_base('1010', 2) == 10
+    assert convert_base('A5', 16) == 165
+
+def test_convert_base_negative():
+    assert convert_base('12', 2) == -1
+    assert convert_base('G0', 16) == -1
+
+def test_convert_base_boundary():
+    assert convert_base('1111', 2) == 15
+    assert convert_base('FF', 16) == 255
+
+def test_convert_digit_to_int_positive():
+    assert convert_digit_to_int('A') == 10
+    assert convert_digit_to_int('3') == 3
+
+def test_convert_digit_to_int_negative():
+    assert convert_digit_to_int('F') == -1
+    assert convert_digit_to_int('15') == -1
+
+def test_convert_digit_to_int_boundary():
+    assert convert_digit_to_int('F') == 15
+    assert convert_digit_to_int('0') == 0

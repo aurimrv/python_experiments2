@@ -1,0 +1,100 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+# Test cases for Node class
+class TestNode:
+    def test_is_leaf(self):
+        node = Node(5)
+        assert node._is_leaf() == True
+
+    def test_is_interior(self):
+        node = Node(5)
+        assert node._is_interior() == False
+
+    def test_onlychild_left(self):
+        node = Node(5)
+        node.left = Node(3)
+        assert node._onlychild() == 'left'
+
+    def test_onlychild_right(self):
+        node = Node(5)
+        node.right = Node(8)
+        assert node._onlychild() == 'right'
+
+    def test_side_left(self):
+        parent = Node(5)
+        child = Node(3, parent)
+        parent.left = child
+        assert child._side() == 'left'
+
+# Test cases for Bst class
+class TestBst:
+    def test_insert(self):
+        bst = Bst()
+        bst.insert(5)
+        assert bst.size() == 1
+
+    def test_search_existing(self):
+        bst = Bst([3, 5, 8])
+        assert bst.search(5).val == 5
+
+    def test_search_non_existing(self):
+        bst = Bst([3, 5, 8])
+        assert bst.search(10) is None
+
+    def test_size(self):
+        bst = Bst([3, 5, 8])
+        assert bst.size() == 3
+
+    def test_depth_empty(self):
+        bst = Bst()
+        assert bst.depth() == 0
+
+    def test_depth_non_empty(self):
+        bst = Bst([3, 5, 8])
+        assert bst.depth() == 2
+
+    def test_contains_existing(self):
+        bst = Bst([3, 5, 8])
+        assert bst.contains(5) == True
+
+    def test_contains_non_existing(self):
+        bst = Bst([3, 5, 8])
+        assert bst.contains(10) == False
+
+    def test_balance(self):
+        bst = Bst([3, 5, 8])
+        assert bst.balance() == 1
+
+    def test_pre_order(self):
+        bst = Bst([3, 5, 8])
+        assert list(bst.pre_order()) == [3, 5, 8]
+
+    def test_in_order(self):
+        bst = Bst([3, 5, 8])
+        assert list(bst.in_order()) == [3, 5, 8]
+
+    def test_post_order(self):
+        bst = Bst([3, 5, 8])
+        assert list(bst.post_order()) == [3, 8, 5]
+
+    def test_breadth_first(self):
+        bst = Bst([3, 5, 8])
+        assert list(bst.breadth_first()) == [3, 5, 8]
+
+    def test_delete_leaf_node(self):
+        bst = Bst([3])
+        bst.delete(3)
+        assert bst.size() == 0
+
+    def test_delete_interior_node(self):
+        bst = Bst([3, 5, 8])
+        bst.delete(5)
+        assert bst.size() == 2

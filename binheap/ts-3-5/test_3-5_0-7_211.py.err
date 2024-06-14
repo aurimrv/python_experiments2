@@ -1,0 +1,67 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+# Test cases for Binheap class
+class TestBinheap:
+    def test_init_empty(self):
+        heap = Binheap()
+        assert heap.container == [None]
+
+    def test_init_with_data(self):
+        data = [5, 3, 7, 2]
+        heap = Binheap(data)
+        assert heap.container == [None, 7, 3, 5, 2]
+
+    def test_balance_empty(self):
+        heap = Binheap()
+        heap._balance()
+        assert heap.container == [None]
+
+    def test_balance_single_element(self):
+        heap = Binheap()
+        heap.push(5)
+        heap._balance()
+        assert heap.container == [None, 5]
+
+    def test_balance_multiple_elements(self):
+        heap = Binheap([5, 3, 7, 2])
+        heap._balance()
+        assert heap.container == [None, 7, 3, 5, 2]
+
+    def test_push_single_element(self):
+        heap = Binheap()
+        heap.push(5)
+        assert heap.container == [None, 5]
+
+    def test_push_multiple_elements(self):
+        heap = Binheap()
+        heap.push(5)
+        heap.push(3)
+        heap.push(7)
+        heap.push(2)
+        assert heap.container == [None, 7, 3, 5, 2]
+
+    def test_pop_single_element(self):
+        heap = Binheap([5])
+        heap.pop()
+        assert heap.container == [None]
+
+    def test_pop_multiple_elements(self):
+        heap = Binheap([7, 3, 5, 2])
+        heap.pop()
+        assert heap.container == [None, 5, 3, 2]
+
+    def test_display_empty_heap(self):
+        heap = Binheap()
+        assert heap.display() == ''
+
+    def test_display_non_empty_heap(self):
+        heap = Binheap([7, 3, 5, 2])
+        assert heap.display() == '   7 \n  3 5 \n 2 \n'

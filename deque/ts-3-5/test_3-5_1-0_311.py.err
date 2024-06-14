@@ -1,0 +1,85 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from deque import Deque
+
+
+@pytest.fixture
+def deque_fixture():
+    return Deque()
+
+
+def test_init():
+    deque = Deque()
+    assert deque._container.head is None
+    assert deque._container.tail is None
+    assert deque._container._length == 0
+
+
+def test_append(deque_fixture):
+    deque_fixture.append(1)
+    assert deque_fixture._container.head.data == 1
+    assert deque_fixture._container.tail.data == 1
+    assert deque_fixture._container._length == 1
+
+
+def test_appendleft(deque_fixture):
+    deque_fixture.appendleft(2)
+    assert deque_fixture._container.head.data == 2
+    assert deque_fixture._container.tail.data == 2
+    assert deque_fixture._container._length == 1
+
+
+def test_pop(deque_fixture):
+    deque_fixture.append(1)
+    popped = deque_fixture.pop()
+    assert popped == 1
+    assert deque_fixture._container.head is None
+    assert deque_fixture._container.tail is None
+    assert deque_fixture._container._length == 0
+
+
+def test_popleft(deque_fixture):
+    deque_fixture.appendleft(2)
+    popped = deque_fixture.popleft()
+    assert popped == 2
+    assert deque_fixture._container.head is None
+    assert deque_fixture._container.tail is None
+    assert deque_fixture._container._length == 0
+
+
+def test_peek_when_empty(deque_fixture):
+    assert deque_fixture.peek() is None
+
+
+def test_peek(deque_fixture):
+    deque_fixture.append(1)
+    peeked = deque_fixture.peek()
+    assert peeked == 1
+    assert deque_fixture._container.head.data == 1
+    assert deque_fixture._container.tail.data == 1
+    assert deque_fixture._container._length == 1
+
+
+def test_peekleft_when_empty(deque_fixture):
+    assert deque_fixture.peekleft() is None
+
+
+def test_peekleft(deque_fixture):
+    deque_fixture.appendleft(2)
+    peeked = deque_fixture.peekleft()
+    assert peeked == 2
+    assert deque_fixture._container.head.data == 2
+    assert deque_fixture._container.tail.data == 2
+    assert deque_fixture._container._length == 1
+
+
+def test_size(deque_fixture):
+    deque_fixture.append(1)
+    deque_fixture.append(2)
+    assert deque_fixture.size() == 2

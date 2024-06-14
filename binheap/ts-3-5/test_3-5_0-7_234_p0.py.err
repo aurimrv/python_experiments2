@@ -1,0 +1,41 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+def test_init_with_data():
+    heap = Binheap([3, 1, 4, 1, 5, 9, 2, 6, 5])
+    assert heap.container == [None, 9, 6, 5, 5, 1, 3, 2, 4, 1]
+
+def test_push(empty_heap):
+    empty_heap.push(10)
+    assert empty_heap.container == [None, 10]
+
+def test_pop(empty_heap):
+    empty_heap.push(10)
+    empty_heap.pop()
+    assert empty_heap.container == [None]
+
+def test_pop_empty_heap(empty_heap):
+    with pytest.raises(IndexError):
+        empty_heap.pop()
+
+def test_display(empty_heap, capsys):
+    empty_heap.push(10)
+    empty_heap.push(20)
+    empty_heap.push(5)
+    empty_heap.push(15)
+    
+    empty_heap.display()
+    captured = capsys.readouterr()
+    
+    assert captured.out == '    20 \n  15 10 \n 5 \n'

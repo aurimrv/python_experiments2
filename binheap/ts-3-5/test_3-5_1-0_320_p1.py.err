@@ -1,0 +1,51 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+
+@pytest.fixture
+def new_heap():
+    return Binheap()
+
+
+def test_push(new_heap):
+    new_heap.push(5)
+    assert new_heap.container == [None, 5]
+
+    new_heap.push(10)
+    assert new_heap.container == [None, 10, 5]
+
+    new_heap.push(2)
+    assert new_heap.container == [None, 10, 5, 2]
+
+
+def test_pop(new_heap):
+    new_heap.container = [None, 10, 5, 2]
+    new_heap.pop()
+    assert new_heap.container == [None, 5, 2]
+
+    new_heap.pop()
+    assert new_heap.container == [None, 2]
+
+    new_heap.pop()
+    assert new_heap.container == [None]
+
+
+def test_display(new_heap):
+    new_heap.container = [None, 10, 5, 2]
+    tree_representation = new_heap.display()
+    assert tree_representation == ' 10 \n5 2 \n'
+
+    new_heap.container = [None, 6, 3, 8, 2, 5, 1]
+    tree_representation = new_heap.display()
+    assert tree_representation == '   6 \n  3 8 2 5 1 \n'
+
+    new_heap.container = [None]
+    tree_representation = new_heap.display()
+    assert tree_representation == ''

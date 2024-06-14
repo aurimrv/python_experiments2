@@ -1,0 +1,41 @@
+import os
+import sys
+from binheap import Binheap
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+# Test cases for push method
+def test_push_single_value():
+    heap = Binheap()
+    heap.push(5)
+    assert heap.container == [None, 5]
+
+def test_push_multiple_values():
+    heap = Binheap([5, 3, 7])
+    heap.push(10)
+    assert heap.container == [None, 10, 5, 7, 3]
+
+# Test cases for pop method
+def test_pop_single_value():
+    heap = Binheap([5])
+    heap.pop()
+    assert heap.container == [None]
+
+def test_pop_multiple_values():
+    heap = Binheap([8, 3, 7, 11])
+    heap.pop()
+    assert heap.container == [None, 7, 3, 8]
+
+# Test cases for display method
+def test_display_empty_heap():
+    heap = Binheap()
+    assert heap.display() == ''
+
+def test_display_full_heap():
+    heap = Binheap([5, 3, 7, 1, 9])
+    assert heap.display() == ' 9 \n7 1 \n5 3 \n'
+

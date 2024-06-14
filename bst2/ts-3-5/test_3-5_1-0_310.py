@@ -1,0 +1,53 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+import pytest
+
+@pytest.fixture
+def sample_tree():
+    return Bst([5, 3, 7, 2, 4, 6, 8])
+
+def test_insert(sample_tree):
+    assert sample_tree.size() == 7
+
+def test_search(sample_tree):
+    assert sample_tree.search(4).val == 4
+
+def test_size(sample_tree):
+    assert sample_tree.size() == 7
+
+def test_depth(sample_tree):
+    assert sample_tree.depth() == 3
+
+def test_contains(sample_tree):
+    assert sample_tree.contains(6) == True
+    assert sample_tree.contains(9) == False
+
+def test_balance(sample_tree):
+    assert sample_tree.balance() == 0
+
+def test_pre_order(sample_tree):
+    result = list(sample_tree.pre_order())
+    assert result == [5, 3, 2, 4, 7, 6, 8]
+
+def test_in_order(sample_tree):
+    result = list(sample_tree.in_order())
+    assert result == [2, 3, 4, 5, 6, 7, 8]
+
+def test_post_order(sample_tree):
+    result = list(sample_tree.post_order())
+    assert result == [2, 4, 3, 6, 8, 7, 5]
+
+def test_breadth_first(sample_tree):
+    result = list(sample_tree.breadth_first())
+    assert result == [5, 3, 7, 2, 4, 6, 8]
+
+def test_delete(sample_tree):
+    sample_tree.delete(2)
+    assert sample_tree.size() == 6

@@ -1,0 +1,37 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+@pytest.fixture
+def heap_with_data():
+    return Binheap([5, 3, 8, 1, 2])
+
+def test_push(empty_heap):
+    empty_heap.push(10)
+    assert empty_heap.container == [None, 10]
+    
+    empty_heap.push(7)
+    assert empty_heap.container == [None, 10, 7]
+
+def test_pop(heap_with_data):
+    heap_with_data.pop()
+    assert heap_with_data.container == [None, 5, 3, 2]
+
+    heap_with_data.pop()
+    assert heap_with_data.container == [None, 5, 3]
+
+def test_display(empty_heap):
+    assert empty_heap.display() == '\n'
+
+def test_display_with_data(heap_with_data):
+    assert heap_with_data.display() == '5 \n3 8 \n1 2 \n'

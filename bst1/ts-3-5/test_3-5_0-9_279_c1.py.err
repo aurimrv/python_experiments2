@@ -1,0 +1,108 @@
+import os
+import sys
+from tree_node import BinaryTreeNode
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree
+
+import pytest
+
+def test_binary_search_tree_initialization_empty():
+    bst = BinarySearchTree()
+    assert bst.head is None
+
+def test_binary_search_tree_insert_single_value():
+    bst = BinarySearchTree()
+    bst.insert(5)
+    assert bst.head.value == 5
+
+def test_binary_search_tree_insert_multiple_values():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    assert bst.head.value == 10
+    assert bst.head.left.value == 5
+    assert bst.head.right.value == 15
+
+def test_binary_search_tree_min_single_node():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    assert bst.min() == 10
+
+def test_binary_search_tree_min_multiple_nodes():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    assert bst.min() == 5
+
+def test_binary_search_tree_delete_single_node():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.delete(10)
+    assert bst.head is None
+
+def test_binary_search_tree_delete_node_with_children():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    bst.insert(12)
+    bst.delete(15)
+    assert bst.head.right.value == 12
+
+def test_binary_search_tree_search_existing_value():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    node = bst.search(5)
+    assert node.value == 5
+
+def test_binary_search_tree_search_non_existing_value():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    node = bst.search(20)
+    assert node is None
+
+def test_binary_search_tree_in_order_traversal():
+    bst = BinarySearchTree()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    bst.insert(7)
+    assert bst.in_order_traversal() == [5, 7, 10, 15]
+
+def test_binary_search_tree_merge_single_node_trees():
+    bst1 = BinarySearchTree()
+    bst1.insert(5)
+
+    bst2 = BinarySearchTree()
+    bst2.insert(10)
+
+    bst1.merge(bst2)
+
+    assert bst1.head.value == 15
+    assert bst1.head.left is None
+    assert bst1.head.right is None
+
+def test_binary_search_tree_merge_multiple_node_trees():
+    bst1 = BinarySearchTree()
+    bst1.insert(5)
+    bst1.insert(3)
+
+    bst2 = BinarySearchTree()
+    bst2.insert(10)
+    bst2.insert(8)
+
+    bst1.merge(bst2)
+
+    assert bst1.head.value == 15
+    assert bst1.head.left.value == 3
+    assert bst1.head.right.value == 18 

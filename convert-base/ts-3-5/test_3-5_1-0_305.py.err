@@ -1,0 +1,39 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+import pytest
+
+@pytest.mark.parametrize(
+    "val, base, expected",
+    [
+        ("1010", 2, 10),
+        ("A5", 16, 165),
+        ("123", 10, 123),
+        ("FF", 16, 255),
+        ("101010", 2, 42),
+    ]
+)
+def test_convert_base_positive(val, base, expected):
+    assert convert_base(val, base) == expected
+
+@pytest.mark.parametrize(
+    "val, base",
+    [
+        ("5", 2),  # Invalid base
+        ("G", 16), # Invalid character for base 16
+        ("123", 8), # Invalid digit for base 8
+    ]
+)
+def test_convert_base_negative(val, base):
+    assert convert_base(val, base) == -1
+
+def test_convert_digit_to_int():
+    assert convert_digit_to_int('A') == 10
+    assert convert_digit_to_int('0') == 0
+    assert convert_digit_to_int('F') == 15

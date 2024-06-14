@@ -1,0 +1,46 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+def test_init(empty_heap):
+    assert empty_heap.container == [None]
+
+def test_init_with_data():
+    heap = Binheap([3, 5, 1])
+    assert heap.container == [None, 3, 5, 1]
+
+def test_balance_single_item_empty_heap(empty_heap):
+    empty_heap.container = [None, 5]
+    empty_heap._balance()
+    assert empty_heap.container == [None, 5]
+
+def test_balance_multiple_items():
+    heap = Binheap([5, 3, 7, 2, 8])
+    heap._balance()
+    assert heap.container == [None, 8, 5, 7, 2, 3]
+
+def test_push():
+    heap = Binheap([5, 3, 7])
+    heap.push(10)
+    assert heap.container == [None, 10, 5, 7, 3]
+
+def test_pop():
+    heap = Binheap([5, 3, 7])
+    heap.pop()
+    assert heap.container == [None, 3, 5]
+
+def test_display():
+    heap = Binheap([5, 3, 7, 2, 8])
+    display_output = heap.display()
+    expected_output = '8 \n5 7 \n3 2 \n'
+    assert display_output == expected_output 

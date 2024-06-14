@@ -1,0 +1,42 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def new_binheap():
+    return Binheap()
+
+def test_push_multiple_values(new_binheap):
+    new_binheap.push(5)
+    new_binheap.push(4)
+    assert new_binheap.container == [None, 5, 4]
+
+def test_pop_from_empty_heap_raises_error(new_binheap):
+    with pytest.raises(IndexError):
+        new_binheap.pop()
+
+def test_pop_single_value_heap(new_binheap):
+    new_binheap.push(3)
+    new_binheap.pop()
+    assert new_binheap.container == [None]
+
+def test_display_single_value_heap(new_binheap, capsys):
+    new_binheap.push(10)
+    new_binheap.display()
+    captured = capsys.readouterr()
+    assert captured.out == "10 \n"
+
+def test_display_multiple_values_heap(new_binheap, capsys):
+    new_binheap.push(5)
+    new_binheap.push(10)
+    new_binheap.push(4)
+    new_binheap.push(2)
+    new_binheap.display()
+    captured = capsys.readouterr()
+    assert captured.out == "2 5 4 10 \n"

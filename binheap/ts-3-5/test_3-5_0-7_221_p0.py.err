@@ -1,0 +1,40 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def sample_binheap():
+    return Binheap([3, 7, 2, 9, 5, 8, 4])
+
+def test_push(sample_binheap):
+    sample_binheap.push(6)
+    assert sample_binheap.container == [None, 9, 7, 4, 6, 5, 8, 3, 2]
+
+def test_pop(sample_binheap):
+    sample_binheap.pop()
+    assert sample_binheap.container == [None, 8, 7, 4, 2, 5, 3]
+
+def test_display(sample_binheap):
+    expected_output = "    9 \n   7 8 \n  4 2 5 3 \n"
+    assert sample_binheap.display() == expected_output
+
+def test_push_multiple(sample_binheap):
+    sample_binheap.push(1)
+    assert sample_binheap.container == [None, 9, 7, 4, 1, 5, 8, 3, 2]
+
+def test_pop_multiple(sample_binheap):
+    sample_binheap.pop()
+    sample_binheap.pop()
+    assert sample_binheap.container == [None, 8, 7, 4, 2, 5, 3]
+
+def test_display_multiple(sample_binheap):
+    sample_binheap.push(6)
+    sample_binheap.push(10)
+    expected_output = "     10 \n    9 8 \n   7 4 5 3 \n  2 6 \n"
+    assert sample_binheap.display() == expected_output

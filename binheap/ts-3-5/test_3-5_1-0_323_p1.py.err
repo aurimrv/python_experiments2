@@ -1,0 +1,40 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def binheap_empty():
+    return Binheap()
+
+@pytest.fixture
+def binheap_with_data():
+    return Binheap([3, 6, 2, 9, 1, 5, 7])
+
+def test_push(binheap_empty):
+    binheap_empty.push(5)
+    assert binheap_empty.container == [None, 5]
+
+    binheap_empty.push(8)
+    assert binheap_empty.container == [None, 8, 5]
+
+def test_pop(binheap_with_data):
+    binheap_with_data.pop()
+    assert binheap_with_data.container == [None, 7, 6, 5, 3, 1, 2]
+
+    # Test popping when heap is empty
+    empty_heap = Binheap()
+    with pytest.raises(IndexError):
+        empty_heap.pop()
+
+def test_display(binheap_with_data):
+    expected_display = '    9 \n   6 5 \n  3 1 2 7 \n'
+    assert binheap_with_data.display() == expected_display
+
+    empty_heap = Binheap()
+    assert empty_heap.display() == ''

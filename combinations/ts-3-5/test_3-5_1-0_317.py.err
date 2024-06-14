@@ -1,0 +1,31 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from combinations import combinations_of_word, combinations_of_phone_input
+
+def test_combinations_of_word():
+    # Test with a single letter word
+    assert combinations_of_word('a') == ['a']
+    
+    # Test with a word with different characters
+    assert combinations_of_word('abc') == ['a', 'ab', 'abc', 'b', 'bc', 'c']
+    
+    # Test with a word containing repeated characters
+    assert combinations_of_word('aab') == ['a', 'aa', 'a', 'ab', 'aab', 'a', 'b', 'b']
+    
+def test_combinations_of_phone_input():
+    # Test with a single digit input
+    assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+    # Test with a sequence of numbers resulting in multiple combinations
+    assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+    
+    # Test with a longer input string
+    assert combinations_of_phone_input('469') == ['gmt', 'gmu', 'gmv', 'gnt', 'gnu', 'gnv', 'got', 'gou', 'gov',
+                                                  'hmt', 'hmu', 'hmv', 'hnt', 'hnu', 'hnv', 'hot', 'hou', 'hov',
+                                                  'imt', 'imu', 'imv', 'int', 'inu', 'inv', 'iot', 'iou', 'iov']

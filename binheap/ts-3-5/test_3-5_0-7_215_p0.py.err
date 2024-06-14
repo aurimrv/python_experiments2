@@ -1,0 +1,48 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+@pytest.fixture
+def initialized_heap():
+    return Binheap([5, 3, 7, 2, 8])
+
+def test_init(empty_heap):
+    assert empty_heap.container == [None]
+
+def test_push(empty_heap):
+    empty_heap.push(10)
+    assert empty_heap.container == [None, 10]
+
+def test_pop(initialized_heap):
+    initialized_heap.pop()
+    assert initialized_heap.container == [None, 7, 5, 2, 3]
+
+def test_display(initialized_heap):
+    assert initialized_heap.display() == '    8 \n  5 2 \n3 7 \n'
+
+def test_push_multiple(empty_heap):
+    empty_heap.push(20)
+    empty_heap.push(15)
+    empty_heap.push(25)
+    assert empty_heap.container == [None, 25, 20, 15]
+
+def test_pop_multiple(initialized_heap):
+    initialized_heap.pop()
+    initialized_heap.pop()
+    assert initialized_heap.container == [None, 7, 5, 3]
+
+def test_display_multiple(initialized_heap):
+    initialized_heap.push(1)
+    initialized_heap.push(10)
+    initialized_heap.push(4)
+    assert initialized_heap.display() == '       10 \n  7 5 4 \n3 1 \n'

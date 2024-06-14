@@ -1,0 +1,46 @@
+import os
+import sys
+from dll import DoubleLinkedList
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.fixture
+def setup_deque():
+    return Deque()
+
+def test_init():
+    deque = Deque([1, 2, 3])
+    assert deque.size() == 3
+
+def test_append(setup_deque):
+    setup_deque.append(1)
+    setup_deque.append(2)
+    assert setup_deque.peek() == 2
+
+def test_appendleft(setup_deque):
+    setup_deque.appendleft(1)
+    setup_deque.appendleft(2)
+    assert setup_deque.peekleft() == 2
+
+def test_pop(setup_deque):
+    setup_deque.append(1)
+    setup_deque.append(2)
+    assert setup_deque.pop() == 2
+
+def test_popleft(setup_deque):
+    setup_deque.appendleft(1)
+    setup_deque.appendleft(2)
+    assert setup_deque.popleft() == 2
+
+def test_peek_empty(setup_deque):
+    assert setup_deque.peek() is None
+
+def test_peekleft_empty(setup_deque):
+    assert setup_deque.peekleft() is None
+
+def test_size_empty(setup_deque):
+    assert setup_deque.size() == 0

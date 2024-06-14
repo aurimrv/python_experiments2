@@ -1,0 +1,63 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+
+@pytest.fixture
+def empty_binheap():
+    return Binheap()
+
+
+def test_init():
+    binheap = Binheap()
+    assert len(binheap.container) == 1
+
+    init_data = [3, 2, 1, 4]
+    binheap = Binheap(data=init_data)
+    assert binheap.container[1:] == init_data
+
+
+def test_balance():
+    binheap = Binheap()
+    binheap.container = [None, 1, 2, 3, 4]
+    binheap._balance()
+    assert binheap.container == [None, 4, 2, 3, 1]
+
+    binheap.container = [None, 4, 3, 2, 1]
+    binheap._balance()
+    assert binheap.container == [None, 4, 3, 2, 1]
+
+
+def test_push(empty_binheap):
+    empty_binheap.push(5)
+    assert empty_binheap.container == [None, 5]
+
+    empty_binheap.push(10)
+    empty_binheap.push(7)
+    assert empty_binheap.container == [None, 10, 5, 7]
+
+
+def test_pop(empty_binheap):
+    with pytest.raises(IndexError):
+        empty_binheap.pop()
+
+    initial_data = [5, 7, 10]
+    binheap = Binheap(data=initial_data)
+    binheap.pop()
+    assert binheap.container == [None, 7, 5]
+
+
+def test_display():
+    binheap = Binheap()
+    assert binheap.display() == ''
+
+    init_data = [5, 7, 10]
+    binheap = Binheap(data=init_data)
+    expected_display = ' 5 \n7 10 \n'
+    assert binheap.display() == expected_display

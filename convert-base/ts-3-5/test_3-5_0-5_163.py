@@ -1,0 +1,32 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+# Test cases for convert_digit_to_int function
+def test_convert_digit_to_int_valid_hex():
+    assert convert_digit_to_int('a') == 10
+
+def test_convert_digit_to_int_invalid_hex():
+    assert convert_digit_to_int('g') == -1
+
+def test_convert_digit_to_int_non_hex():
+    assert convert_digit_to_int('x') == -1
+
+# Test cases for convert_base function
+def test_convert_base_valid_binary():
+    assert convert_base('1010', 2) == 10
+
+def test_convert_base_valid_decimal():
+    assert convert_base('123', 10) == 123
+
+def test_convert_base_invalid_base():
+    assert convert_base('1010', -2) == -1
+
+def test_convert_base_invalid_digit():
+    assert convert_base('123', 2) == -1

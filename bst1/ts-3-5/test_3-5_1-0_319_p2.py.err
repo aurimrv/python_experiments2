@@ -1,0 +1,45 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree
+
+@pytest.fixture
+def filled_tree():
+    tree = BinarySearchTree()
+    for val in [8, 3, 10, 1, 6, 4, 7]:
+        tree.insert(val)
+    return tree
+
+def test_insert(filled_tree):
+    assert filled_tree.search(6) is not None
+    assert filled_tree.search(2) is None
+
+def test_min(filled_tree):
+    assert filled_tree.min() == 1
+
+def test_delete(filled_tree):
+    assert filled_tree.search(3) is not None
+    filled_tree.delete(3)
+    assert filled_tree.search(3) is None
+
+def test_search(filled_tree):
+    assert filled_tree.search(4) is not None
+    assert filled_tree.search(9) is None
+
+def test_in_order_traversal(filled_tree):
+    assert filled_tree.in_order_traversal() == [1, 3, 4, 6, 7, 8, 10]
+
+def test_merge(filled_tree):
+    tree2 = BinarySearchTree()
+    for val in [9, 2, 5, 12]:
+        tree2.insert(val)
+    
+    filled_tree.merge(tree2)
+    
+    assert filled_tree.search(9) is not None
+    assert filled_tree.search(5) is not None

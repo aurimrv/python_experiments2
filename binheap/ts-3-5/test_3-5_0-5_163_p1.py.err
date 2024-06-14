@@ -1,0 +1,28 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def binheap_instance():
+    return Binheap()
+
+def test_push(binheap_instance):
+    binheap_instance.push(10)
+    assert binheap_instance.container == [None, 10]
+
+def test_pop(binheap_instance):
+    binheap_instance.push(10)
+    binheap_instance.push(5)
+    binheap_instance.pop()
+    assert binheap_instance.container == [None, 5]
+
+def test_display(binheap_instance):
+    binheap_instance.push(10)
+    binheap_instance.push(5)
+    assert binheap_instance.display() == '10 \n5 \n'

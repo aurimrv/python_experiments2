@@ -1,0 +1,79 @@
+import os
+import sys
+from deque import Deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+class TestDeque:
+    
+    def test_append(self):
+        d = Deque()
+        d.append(1)
+        assert d.peek() == 1
+        assert d.size() == 1
+    
+    def test_append_multiple_values(self):
+        d = Deque()
+        d.append(1)
+        d.append(2)
+        d.append(3)
+        assert d.peek() == 3
+        assert d.size() == 3
+    
+    def test_appendleft(self):
+        d = Deque()
+        d.appendleft(1)
+        assert d.peekleft() == 1
+        assert d.size() == 1
+    
+    def test_appendleft_multiple_values(self):
+        d = Deque()
+        d.appendleft(1)
+        d.appendleft(2)
+        d.appendleft(3)
+        assert d.peekleft() == 3
+        assert d.size() == 3
+    
+    def test_pop(self):
+        d = Deque()
+        d.append(1)
+        assert d.pop() == 1
+        assert d.size() == 0
+    
+    def test_pop_multiple_values(self):
+        d = Deque()
+        d.append(1)
+        d.append(2)
+        d.append(3)
+        assert d.pop() == 3
+        assert d.size() == 2
+    
+    def test_popleft(self):
+        d = Deque()
+        d.appendleft(1)
+        assert d.popleft() == 1
+        assert d.size() == 0
+    
+    def test_popleft_multiple_values(self):
+        d = Deque()
+        d.appendleft(1)
+        d.appendleft(2)
+        d.appendleft(3)
+        assert d.popleft() == 3
+        assert d.size() == 2
+    
+    def test_peek_empty_deque(self):
+        d = Deque()
+        assert d.peek() == None
+    
+    def test_peekleft_empty_deque(self):
+        d = Deque()
+        assert d.peekleft() == None
+    
+    def test_size_empty_deque(self):
+        d = Deque()
+        assert d.size() == 0

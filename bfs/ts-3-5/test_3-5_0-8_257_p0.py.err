@@ -1,0 +1,76 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from breadth_first_search import breadth_first_search, breadth_first_search_graph
+
+# Test cases for `breadth_first_search` function
+
+def test_breadth_first_search_empty_grid():
+    grid = []
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == None
+
+def test_breadth_first_search_single_element_grid():
+    grid = [[1]]
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == (0, 0)
+
+def test_breadth_first_search_not_in_grid():
+    grid = [[0, 0, 0],
+            [0, 0, 0]]
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == None
+
+def test_breadth_first_search_target_found():
+    grid = [[0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0]]
+    start = (0, 0)
+    target = 1
+    assert breadth_first_search(grid, start, target) == (1, 1)
+
+
+# Test cases for `breadth_first_search_graph` function
+
+class Node:
+    def __init__(self, val, adjacent_list=None):
+        self.val = val
+        self.adjacent_list = adjacent_list if adjacent_list is not None else []
+
+def test_breadth_first_search_graph_no_adjacent_nodes():
+    head = Node(1)
+    target = 2
+    assert breadth_first_search_graph(head, target) == None
+
+def test_breadth_first_search_graph_single_node():
+    head = Node(1)
+    target = 1
+    assert breadth_first_search_graph(head, target) == head
+
+def test_breadth_first_search_graph_target_found():
+    node1 = Node(1)
+    node2 = Node(2)
+    node3 = Node(3, [node2])
+    node4 = Node(4, [node1, node3])
+    
+    head = node4
+    target = 2
+    assert breadth_first_search_graph(head, target) == node2
+
+def test_breadth_first_search_graph_target_not_found():
+    node1 = Node(1)
+    node2 = Node(2)
+    node3 = Node(3, [node2])
+    node4 = Node(4, [node1, node3])
+    
+    head = node4
+    target = 5
+    assert breadth_first_search_graph(head, target) == None

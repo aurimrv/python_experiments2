@@ -1,0 +1,85 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Bst, Node
+
+class TestNodeClass:
+    def test_is_leaf(self):
+        node = Node(5)
+        assert node._is_leaf() == True
+
+    def test_is_interior(self):
+        node = Node(5)
+        assert node._is_interior() == False
+
+class TestBstClass:
+    def test_insert(self):
+        bst = Bst()
+        bst.insert(5)
+        bst.insert(3)
+        assert bst.size() == 2
+
+    def test_search(self):
+        bst = Bst([5, 3, 7])
+        node = bst.search(3)
+        assert node.val == 3
+
+    def test_size(self):
+        bst = Bst([5, 3, 7])
+        assert bst.size() == 3
+
+    def test_depth(self):
+        bst = Bst([5, 3, 7])
+        assert bst.depth() == 2
+
+    def test_contains(self):
+        bst = Bst([5, 3, 7])
+        assert bst.contains(3) == True
+
+    def test_balance(self):
+        bst = Bst([5, 3, 7])
+        assert bst.balance() == 0
+
+    def test_pre_order(self):
+        bst = Bst([5, 3, 7])
+        assert list(bst.pre_order()) == [5, 3, 7]
+
+    def test_in_order(self):
+        bst = Bst([5, 3, 7])
+        assert list(bst.in_order()) == [3, 5, 7]
+
+    def test_post_order(self):
+        bst = Bst([5, 3, 7])
+        assert list(bst.post_order()) == [3, 7, 5]
+
+    def test_breadth_first(self):
+        bst = Bst([5, 3, 7])
+        assert list(bst.breadth_first()) == [5, 3, 7]
+
+class TestNodeMethods:
+    def test_only_child_left(self):
+        node = Node(5)
+        node.left = Node(3)
+        assert node._onlychild() == 'left'
+
+    def test_only_child_right(self):
+        node = Node(5)
+        node.right = Node(7)
+        assert node._onlychild() == 'right'
+
+    def test_side_left(self):
+        parent = Node(5)
+        child = Node(3, parent)
+        parent.left = child
+        assert child._side() == 'left'
+
+    def test_side_right(self):
+        parent = Node(5)
+        child = Node(7, parent)
+        parent.right = child
+        assert child._side() == 'right'

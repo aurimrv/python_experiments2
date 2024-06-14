@@ -1,0 +1,35 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+import pytest
+
+@pytest.fixture
+def empty_bh():
+    return Binheap()
+
+@pytest.fixture
+def populated_bh():
+    return Binheap([5, 9, 2, 17, 15, 10, 8, 11])
+
+def test_push(empty_bh):
+    empty_bh.push(3)
+    assert empty_bh.container == [None, 3]
+    empty_bh.push(8)
+    assert empty_bh.container == [None, 8, 3]
+    empty_bh.push(6)
+    assert empty_bh.container == [None, 8, 3, 6]
+
+def test_pop(populated_bh):
+    assert populated_bh.pop() == None
+    assert populated_bh.container == [None, 15, 10, 11, 9, 2, 8, 5]
+    populated_bh.pop()
+    assert populated_bh.container == [None, 15, 11, 10, 9, 2, 8, 5]
+
+def test_display(populated_bh):
+    assert populated_bh.display() == '     15 \n   11 10 \n 9 2 8 5 \n'

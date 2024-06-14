@@ -1,0 +1,54 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree, BinaryTreeNode
+
+import pytest
+
+@pytest.fixture
+def bst():
+    return BinarySearchTree()
+
+@pytest.fixture
+def example_bst():
+    bst = BinarySearchTree()
+    bst.insert(5)
+    bst.insert(3)
+    bst.insert(8)
+    bst.insert(2)
+    bst.insert(4)
+    bst.insert(7)
+    bst.insert(9)
+    return bst
+
+def test_insert(bst):
+    bst.insert(5)
+    assert bst.head.value == 5
+
+    bst.insert(3)
+    assert bst.head.left.value == 3
+
+def test_min(example_bst):
+    assert example_bst.min() == 2
+
+def test_delete(example_bst):
+    node_to_delete = example_bst.search(3)
+    example_bst.delete(3)
+    assert example_bst.search(3) is None
+
+def test_search(example_bst):
+    assert example_bst.search(7).value == 7
+    assert example_bst.search(10) is None
+
+def test_in_order_traversal(example_bst):
+    assert example_bst.in_order_traversal() == [2, 3, 4, 5, 7, 8, 9]
+
+def test_merge(example_bst):
+    another_bst = BinarySearchTree()
+    another_bst.insert(1)
+    merged_bst = example_bst.merge(another_bst)
+    assert merged_bst is not None
+    assert merged_bst.in_order_traversal() == [1, 2, 3, 4, 5, 7, 8, 9]

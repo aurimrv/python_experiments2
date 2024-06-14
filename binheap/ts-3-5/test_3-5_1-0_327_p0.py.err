@@ -1,0 +1,42 @@
+import os
+import sys
+import pytest
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def new_binheap():
+    return Binheap()
+
+def test_push(new_binheap):
+    new_binheap.push(5)
+    assert new_binheap.container == [None, 5]
+
+    new_binheap.push(10)
+    assert new_binheap.container == [None, 10, 5]
+
+def test_pop(new_binheap):
+    new_binheap.push(5)
+    new_binheap.push(10)
+    
+    new_binheap.pop()
+    assert new_binheap.container == [None, 5]
+
+    new_binheap.pop()
+    assert new_binheap.container == [None]
+
+    with pytest.raises(IndexError):
+        new_binheap.pop()
+
+def test_display(new_binheap):
+    new_binheap.push(5)
+    new_binheap.push(10)
+    new_binheap.push(8)
+    new_binheap.push(12)
+    
+    display_result = new_binheap.display()
+    expected_display = "      12 \n    10 8 \n  5 \n"
+    assert display_result == expected_display

@@ -1,0 +1,65 @@
+import os
+import sys
+from tree_node import BinaryTreeNode
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree
+
+
+def test_insert():
+    tree = BinarySearchTree()
+    tree.insert(5)
+    assert tree.head.value == 5
+    tree.insert(3)
+    tree.insert(7)
+    assert tree.head.left.value == 3
+    assert tree.head.right.value == 7
+
+
+def test_min():
+    tree = BinarySearchTree()
+    tree.insert(5)
+    tree.insert(3)
+    tree.insert(7)
+    assert tree.min() == 3
+
+
+def test_delete():
+    tree = BinarySearchTree()
+    tree.insert(5)
+    tree.insert(3)
+    tree.insert(7)
+    tree.delete(3)
+    assert tree.head.left is None
+    tree.delete(5)
+    assert tree.head.value == 7
+
+
+def test_search():
+    tree = BinarySearchTree()
+    tree.insert(5)
+    tree.insert(3)
+    tree.insert(7)
+    assert tree.search(3).value == 3
+    assert tree.search(10) is None
+
+
+def test_in_order_traversal():
+    tree = BinarySearchTree()
+    tree.insert(5)
+    tree.insert(3)
+    tree.insert(7)
+    assert tree.in_order_traversal() == [3, 5, 7]
+
+
+def test_merge():
+    tree1 = BinarySearchTree()
+    tree1.insert(5)
+    tree2 = BinarySearchTree()
+    tree2.insert(3)
+    tree2.insert(7)
+    tree1.merge(tree2)
+    assert tree1.in_order_traversal() == [8, 5, 7]  # 5 + 3 + 7 = 15, 5 -> 8

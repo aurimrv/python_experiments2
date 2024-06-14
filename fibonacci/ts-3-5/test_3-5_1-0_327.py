@@ -1,0 +1,27 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+import fibonacci
+
+def test_fibonacci_dp_base_case():
+    assert fibonacci.fibonacci_dp(0) == 0
+    
+def test_fibonacci_dp_positive_number():
+    assert fibonacci.fibonacci_dp(5) == 5
+    
+def test_fibonacci_dp_negative_number():
+    assert fibonacci.fibonacci_dp(-1) == 0
+
+def test_fibonacci_recursive_base_case():
+    assert fibonacci.fibonacci_recursive(0) == 0
+
+def test_fibonacci_recursive_positive_number():
+    assert fibonacci.fibonacci_recursive(7) == 13
+    
+def test_fibonacci_recursive_negative_number():
+    assert fibonacci.fibonacci_recursive(-2) == 0

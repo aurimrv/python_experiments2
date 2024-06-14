@@ -1,0 +1,47 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from deque import Deque
+
+@pytest.fixture
+def empty_deque():
+    return Deque()
+
+@pytest.fixture
+def filled_deque():
+    d = Deque()
+    d.append(1)
+    d.append(2)
+    d.append(3)
+    return d
+
+def test_append(empty_deque):
+    empty_deque.append(1)
+    assert empty_deque.peek() == 1
+
+def test_appendleft(empty_deque):
+    empty_deque.appendleft(1)
+    assert empty_deque.peekleft() == 1
+
+def test_pop(filled_deque):
+    assert filled_deque.pop() == 3
+
+def test_popleft(filled_deque):
+    assert filled_deque.popleft() == 1
+
+def test_peek_empty(empty_deque):
+    assert empty_deque.peek() == None
+
+def test_peekleft_empty(empty_deque):
+    assert empty_deque.peekleft() == None
+
+def test_size_empty(empty_deque):
+    assert empty_deque.size() == 0
+
+def test_size_filled(filled_deque):
+    assert filled_deque.size() == 3

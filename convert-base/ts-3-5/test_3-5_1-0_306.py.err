@@ -1,0 +1,29 @@
+import pytest
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+def test_convert_base_valid():
+    assert convert_base('10', 2) == 2
+    assert convert_base('1010', 2) == 10
+    assert convert_base('ff', 16) == 255
+    assert convert_base('11', 8) == 9
+
+def test_convert_base_invalid():
+    assert convert_base('12', 2) == -1
+    assert convert_base('fff', 16) == -1
+    assert convert_base('gg', 16) == -1
+    assert convert_base('7', 8) == -1
+
+def test_convert_digit_to_int_valid():
+    assert convert_digit_to_int('0') == 0
+    assert convert_digit_to_int('a') == 10
+    assert convert_digit_to_int('f') == 15
+
+def test_convert_digit_to_int_invalid():
+    assert convert_digit_to_int('g') == -1
+    assert convert_digit_to_int('aa') == -1

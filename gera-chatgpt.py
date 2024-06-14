@@ -6,6 +6,7 @@ from openai import OpenAI
 import datetime
 import subprocess
 import csv
+import shutil
 
 def read_python_files(folder_path):
     print(f"Lendo códigos fonte {clazz} \n")
@@ -33,9 +34,10 @@ def request_test_generation(messages, temperature):
     )
 
     content = completion.choices[0].message.content
+    usage = completion.usage.total_tokens
 
     print(f"Request success: {clazz}\n")
-    return content
+    return content, usage
 
 
 def extract_code(code, clazz, n, only_code):
@@ -65,31 +67,31 @@ def generate_tests(code, temperature, n):
         {"role": "system", "content": "You are a senior software tester specialized in mutation testing."},
         {"role": "user", "content": f"I am using mutation testing on the Python code below. I want to create tests that cover every module of the code. Do not leave any method untested. Give me more than one test per method. As a senior software tester, give me a set of test cases on the Pytest format. Correctly import the file {clazz} and its modules being tested, utilize {message_path_import} to correctly import the file. Please, no additional information. Just the test cases. \n\n{code}"}
     ]
-    generated_tests = request_test_generation(messages, temperature)
+    generated_tests, usage = request_test_generation(messages, temperature)
     generated_tests = remove_other_test_classes(generated_tests, clazz, n)
-    return generated_tests, messages
+    return generated_tests, messages, usage
 
-def get_test_path(prj, model, clazz, number):
-    return os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{number}.py")
+def get_test_path(prj, model, clazz, number, fix = ""):
+    return os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{number}{fix}.py")
 
 def set_temperature(i):
-    if(i <= 3): return 0.0
-    if(i <= 6): return 0.1
-    if(i <= 9): return 0.2
-    if(i <= 12): return 0.3
-    if(i <= 15): return 0.4
-    if(i <= 18): return 0.5
-    if(i <= 21): return 0.6
-    if(i <= 24): return 0.7
-    if(i <= 27): return 0.8
-    if(i <= 30): return 0.9
+    if(i <= 30): return 0.0
+    if(i <= 60): return 0.1
+    if(i <= 90): return 0.2
+    if(i <= 120): return 0.3
+    if(i <= 150): return 0.4
+    if(i <= 180): return 0.5
+    if(i <= 210): return 0.6
+    if(i <= 240): return 0.7
+    if(i <= 270): return 0.8
+    if(i <= 300): return 0.9
     return 1.0
 
-def transform_temperature(temperature):
-    temperature = int(temperature*10)
+def transform_temperature(temperature):    
     if temperature == 1.0:
         return "1-0"
     else:
+        temperature = int(temperature*10)
         return "0-" + str(temperature)
 
 def compile_and_test(file_path):
@@ -103,26 +105,58 @@ def compile_and_test(file_path):
 
 def feed_error_to_api(generated_tests, error_message, clazz, n, temperature):
     messages = [
-        {"role": "user", "content": f"The following error was encountered when executing the test code for the file {clazz}. Return me the full test set with the necessary corrections based on the error message. \n\n Tests: {generated_tests} \n\nError Message: {error_message}"}
+        {"role": "user", "content": f"The following Pytest test set result in these error messages. \n#########\n {generated_tests} \n#########\n.  You must keep all the correct tests and fix the assertion in the failed tests according to the error below. \n\nError Message: {error_message} \n Give me the full test set with no comments, only the full python code."}
     ]
-    print(messages)
-    corrected_tests = request_test_generation(messages, temperature)
-    corrected_tests = remove_other_test_classes(generated_tests, clazz, n)
-    return corrected_tests, messages
+    corrected_tests, usage = request_test_generation(messages, temperature)
+    corrected_tests = remove_other_test_classes(corrected_tests, clazz, n)
+    return corrected_tests, usage
 
-def run_pytest_and_check(prj, number):
-    test_path = os.path.join(".", f"ts-{model}", f"test_{model}_{temperature_string}_{number}.py")
-    result = subprocess.run(['pytest', test_path, '--disable-warnings', '-q', '--tb=short'], capture_output=True, text=True, cwd=prj)
+def run_pytest_and_check(prj, test_file_path, number):
+    result = subprocess.run(['pytest', test_file_path, '--disable-warnings', '-q', '--tb=short'], capture_output=True, text=True)
     if result.returncode != 0:
-        print(f"Pytest stdout:\n{result.stdout}")
         return result.stdout
     return None
 
-def record_failed_tests(prj, model, clazz, number, failed_tests_count):
+def record_failed_tests(prj, model, clazz, number, attempt, failed_tests_count):
     failed_tests_path = os.path.join(".", prj, f"failed_tests_{model}.csv")
     with open(failed_tests_path, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([f"test_{model}_{temperature_string}_{number}.py", failed_tests_count])
+        if attempt == -1:
+            writer.writerow([f"test_{model}_{temperature_string}_{number}_orig.py", failed_tests_count])
+        else:
+            writer.writerow([f"test_{model}_{temperature_string}_{number}_p{attempt}.py", failed_tests_count]) 
+
+def rename_test_files(prj, model, clazz, i, temperature_string):
+    test_file_base = os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{i}.py")
+    corrections = ["_c0", "_c1", "_c2", "_p0", "_p1", "_p2"]
+    
+    original_test_file = test_file_base
+    latest_test_file = None
+    
+    for suffix in corrections:
+        test_file_path = os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{i}{suffix}.py")
+        if os.path.exists(test_file_path):
+            # Renomeia arquivos intermediários para ".py.p{n}" ou ".py.c{n}"
+            new_suffix = f".py{suffix}"
+            new_test_file_path = test_file_path.replace(".py", new_suffix)
+            os.rename(test_file_path, new_test_file_path)
+            latest_test_file = new_test_file_path
+    
+    # Renomeia o arquivo original e o último arquivo gerado conforme especificado
+    if latest_test_file:
+        os.rename(original_test_file, original_test_file.replace(".py", ".py.orig"))
+        os.rename(latest_test_file, test_file_base)
+        print(f"Arquivos renomeados: {original_test_file} -> {original_test_file.replace('.py', '.py.orig')}, {latest_test_file} -> {test_file_base}")
+
+def rename_test_files_with_error(prj, model, clazz, i, temperature_string):
+    test_file_base = os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{i}.py")
+    corrections = ["", "_c0", "_c1", "_c2", "_p0", "_p1", "_p2"]
+    
+    for suffix in corrections:
+        test_file_path = os.path.join(".", prj, f"ts-{model}", f"test_{model}_{temperature_string}_{i}{suffix}.py")
+        if os.path.exists(test_file_path):
+            os.rename(test_file_path, test_file_path.replace(".py", ".py.err"))
+            print(f"Arquivo renomeado devido a erro: {test_file_path} -> {test_file_path.replace('.py', '.py.err')}")
 
 if len(sys.argv) < 1:
     print("error: gera-chatgpt.py")
@@ -135,25 +169,39 @@ for x in dados:
 
     model="3-5"
 
-    os.makedirs(os.path.join(".", prj, f"ts-{model}"), exist_ok=True)
+    dir_path = os.path.join(".", prj, f"ts-{model}")
+
+    # Verifica se o diretório existe
+    if os.path.exists(dir_path):
+        shutil.rmtree(dir_path)
+
+    failed_tests_path = os.path.join(".", prj, f"failed_tests_{model}.csv")
+    if os.path.exists(failed_tests_path):
+        os.remove(failed_tests_path)
+
+    os.makedirs(dir_path, exist_ok=True)
 
     outputTime = open(os.path.join(".", prj, f"gpt-{model}-time.csv"), "w")
+    outputTokens = open(os.path.join(".", prj, f"gpt-{model}-tokens.csv"), "w")
     
     outputTime.write(f"LABEL;#TS;TEMP;TIMESTAMP\n")
+    outputTokens.write(f"LABEL;#TS;TEMP;TOKENS\n")
 
     source_path = os.path.join(".", prj)
     
     code = read_python_files(source_path)
 
-    for i in range(1, 31):
-        temperature = 0.7
+    for i in range(1, 331):
+        total_usage = 0
+        temperature = set_temperature(i)
         temperature_string = transform_temperature(temperature)
         timestamp = datetime.datetime.now()
         outputTime.write(f"BEGIN_TS;{i};{temperature};{timestamp};")
        
         messages = [] 
 
-        generated_tests, messages = generate_tests(code, temperature, i)
+        generated_tests, messages, usage = generate_tests(code, temperature, i)
+        total_usage += usage
         
         test_file_path = get_test_path(prj, model, clazz, i)
         with open(test_file_path, "w") as file:
@@ -166,29 +214,51 @@ for x in dados:
             error_message = compile_and_test(test_file_path)
             if not error_message:
                 break
-            corrected_tests, messages = feed_error_to_api(generated_tests, error_message, clazz, i, temperature)
+            corrected_tests, usage = feed_error_to_api(generated_tests, error_message, clazz, i, temperature)
+            total_usage += usage
+            test_file_path = get_test_path(prj, model, clazz, i, f"_c{attempt}")
             with open(test_file_path, "w") as file:
                 file.write(corrected_tests)
             print(f"Tentativa de correção {attempt + 1} para o arquivo de teste {i} gerada.\n")
         
         # Verifica se os testes passam no pytest
         if not error_message:
+            pytest_error = None
             for attempt in range(3):
-                pytest_error = run_pytest_and_check(prj, i)
+                pytest_error = run_pytest_and_check(prj, test_file_path, i)
                 if not pytest_error:
                     break
-                corrected_tests, messages = feed_error_to_api(generated_tests, pytest_error, clazz, i, temperature)
+                # Registrar número de falhas no teste
+                match = re.search("(\d+) failed", pytest_error) 
+                if match is not None:
+                    failed_tests_count = match.group(1)
+                    record_failed_tests(prj, model, clazz, i, attempt-1, failed_tests_count)
+                # Realimentar erro
+                corrected_tests, usage = feed_error_to_api(generated_tests, pytest_error, clazz, i, temperature)
+                total_usage += usage
+                generated_tests = corrected_tests
+                test_file_path = get_test_path(prj, model, clazz, i, f"_p{attempt}")
                 with open(test_file_path, "w") as file:
                     file.write(corrected_tests)
                 print(f"Tentativa de correção {attempt + 1} para o pytest do arquivo de teste {i} gerada.\n")
-                messages.pop()
-            
-            # Registra erros no pytest se ainda houver falhas após 3 tentativas
             if pytest_error:
-                failed_tests_count = pytest_error.count('= FAILURES =')
-                record_failed_tests(prj, model, clazz, i, failed_tests_count)
+                # Registrar número de falhas da ultima iteração
+                match = re.search("(\d+) failed", pytest_error) 
+                if match is not None:
+                    failed_tests_count = match.group(1)
+                    record_failed_tests(prj, model, clazz, i, attempt, failed_tests_count)
+      
+
+        # Renomeia os arquivos conforme necessário
+        if not error_message and not pytest_error:
+            rename_test_files(prj, model, clazz, i, temperature_string)
+        else:
+            rename_test_files_with_error(prj, model, clazz, i, temperature_string)
         
         timestamp = datetime.datetime.now()
         outputTime.write(f"END_TS;{timestamp}\n")
+        outputTokens.write(f"END_TS;{i};{temperature};{total_usage}\n")
+    
     outputTime.close()
+    outputTokens.close()
 dados.close()

@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from bst2 import Node, Bst
+
+@pytest.fixture
+def bst_filled():
+    bst = Bst([5, 3, 7])
+    return bst
+
+def test_insert(bst_filled):
+    bst_filled.insert(4)
+    assert bst_filled.root.left.val == 4
+
+def test_search(bst_filled):
+    assert bst_filled.search(5).val == 5
+
+def test_size(bst_filled):
+    assert bst_filled.size() == 3
+
+def test_depth_empty():
+    bst_empty = Bst()
+    assert bst_empty.depth() == 0
+
+def test_depth(bst_filled):
+    assert bst_filled.depth() == 2
+
+def test_contains(bst_filled):
+    assert bst_filled.contains(7) == True
+    assert bst_filled.contains(9) == False
+
+def test_balance(bst_filled):
+    assert bst_filled.balance() == 0
+
+def test_pre_order(bst_filled):
+    assert list(bst_filled.pre_order()) == [5, 3, 7]
+
+def test_in_order(bst_filled):
+    assert list(bst_filled.in_order()) == [3, 5, 7]
+
+def test_post_order(bst_filled):
+    assert list(bst_filled.post_order()) == [3, 7, 5]
+
+def test_breadth_first(bst_filled):
+    assert list(bst_filled.breadth_first()) == [5, 3, 7]
+
+def test_delete(bst_filled):
+    bst_filled.delete(3)
+    assert bst_filled.size() == 2

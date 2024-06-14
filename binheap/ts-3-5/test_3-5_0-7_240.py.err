@@ -1,0 +1,44 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def binheap_empty():
+    return Binheap()
+
+@pytest.fixture
+def binheap_with_data():
+    return Binheap([5, 3, 8, 1, 9])
+
+def test_push(binheap_empty):
+    binheap_empty.push(7)
+    assert binheap_empty.container == [None, 7]
+    binheap_empty.push(4)
+    assert binheap_empty.container == [None, 7, 4]
+
+def test_pop(binheap_with_data):
+    binheap_with_data.pop()
+    assert binheap_with_data.container == [None, 9, 3, 8, 1]
+
+def test_display(binheap_with_data):
+    displayed = binheap_with_data.display()
+    assert displayed == ' 9 3 \n8 1 \n'
+
+def test_push_pop_integration(binheap_empty):
+    binheap_empty.push(5)
+    binheap_empty.push(3)
+    binheap_empty.push(8)
+    assert binheap_empty.container == [None, 8, 5, 3]
+    binheap_empty.pop()
+    assert binheap_empty.container == [None, 5, 3]
+
+def test_pop_push_integration(binheap_with_data):
+    binheap_with_data.pop()
+    binheap_with_data.push(7)
+    assert binheap_with_data.container == [None, 9, 3, 8, 1, 7]

@@ -16,11 +16,11 @@ class Node(object):
 
     def _is_leaf(self):
         """Return true if a leaf."""
-        return not (self.right or self.left)
+        return (self.right is None and self.left is None)
 
     def _is_interior(self):
         """Return true if a interior node."""
-        return (self.right and self.left)
+        return (self.right is not None) and (self.left is not None)
 
     def _onlychild(self):
         """Return string depending on children."""

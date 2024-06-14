@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binheap import Binheap
+
+@pytest.fixture
+def binary_heap():
+    return Binheap()
+
+def test_push(binary_heap):
+    binary_heap.push(5)
+    binary_heap.push(3)
+    binary_heap.push(7)
+    assert binary_heap.container == [None, 7, 3, 5]
+
+def test_pop(binary_heap):
+    binary_heap.push(5)
+    binary_heap.push(3)
+    binary_heap.push(7)
+    binary_heap.pop()
+    assert binary_heap.container == [None, 5, 3]
+
+def test_balance(binary_heap):
+    binary_heap.push(5)
+    binary_heap.push(10)
+    binary_heap.push(7)
+    binary_heap._balance()
+    assert binary_heap.container == [None, 10, 5, 7]
+
+def test_display(binary_heap):
+    binary_heap.push(5)
+    binary_heap.push(3)
+    binary_heap.push(7)
+    assert binary_heap.display() == " 7 \n5 3 \n"  # Check the display format

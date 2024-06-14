@@ -1,0 +1,27 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from convert_base import convert_base, convert_digit_to_int
+
+def test_convert_base():
+    assert convert_base("10", 2) == 2
+    assert convert_base("1010", 2) == 10
+    assert convert_base("A", 16) == 10
+    assert convert_base("FF", 16) == 255
+    assert convert_base("12345", 10) == 12345
+    assert convert_base("54321", 10) == 54321
+    assert convert_base("12345", 8) == 5349
+    assert convert_base("54321", 8) == 22529
+    assert convert_base("1010", 5) == -1
+    assert convert_base("12345", 16) == -1
+
+def test_convert_digit_to_int():
+    assert convert_digit_to_int("0") == 0
+    assert convert_digit_to_int("A") == 10
+    assert convert_digit_to_int("F") == 15
+    assert convert_digit_to_int("5") == 5
+    assert convert_digit_to_int("G") == -1
+    assert convert_digit_to_int("12") == -1

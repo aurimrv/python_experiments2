@@ -1,0 +1,59 @@
+import os
+import sys
+from dll import DoubleLinkedList
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from deque import Deque
+
+import pytest
+
+@pytest.fixture
+def empty_deque():
+    return Deque()
+
+@pytest.fixture
+def initialized_deque():
+    return Deque([1, 2, 3])
+
+def test_init(empty_deque, initialized_deque):
+    assert empty_deque.size() == 0
+    assert initialized_deque.size() == 3
+
+def test_append(empty_deque, initialized_deque):
+    empty_deque.append(5)
+    initialized_deque.append(4)
+    assert empty_deque.size() == 1
+    assert initialized_deque.size() == 4
+
+def test_appendleft(empty_deque, initialized_deque):
+    empty_deque.appendleft(5)
+    initialized_deque.appendleft(4)
+    assert empty_deque.size() == 1
+    assert initialized_deque.size() == 4
+
+def test_pop(empty_deque, initialized_deque):
+    with pytest.raises(Exception):
+        empty_deque.pop()
+    assert initialized_deque.pop() == 3
+    assert initialized_deque.size() == 2
+
+def test_popleft(empty_deque, initialized_deque):
+    with pytest.raises(Exception):
+        empty_deque.popleft()
+    assert initialized_deque.popleft() == 1
+    assert initialized_deque.size() == 2
+
+def test_peek(empty_deque, initialized_deque):
+    assert empty_deque.peek() is None
+    assert initialized_deque.peek() == 3
+
+def test_peekleft(empty_deque, initialized_deque):
+    assert empty_deque.peekleft() is None
+    assert initialized_deque.peekleft() == 1
+
+def test_size(empty_deque, initialized_deque):
+    assert empty_deque.size() == 0
+    assert initialized_deque.size() == 3

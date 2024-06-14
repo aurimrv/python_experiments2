@@ -1,0 +1,32 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from combinations import combinations_of_word, combinations_of_phone_input
+
+def test_combinations_of_word():
+    # Test combinations_of_word with empty string
+    assert combinations_of_word('') == []
+
+    # Test combinations_of_word with single character
+    assert combinations_of_word('a') == ['a']
+
+    # Test combinations_of_word with a word
+    assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+
+def test_combinations_of_phone_input():
+    # Test combinations_of_phone_input with single digit
+    assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+
+    # Test combinations_of_phone_input with two digits
+    assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+
+    # Test combinations_of_phone_input with three digits
+    assert combinations_of_phone_input('234') == ['adg', 'adh', 'adi', 'aeg', 'aeh', 'aei', 'afg', 'afh', 'afi', 'bdg', 'bdh', 'bdi', 'beg', 'beh', 'bei', 'bfg', 'bfh', 'bfi', 'cdg', 'cdh', 'cdi', 'ceg', 'ceh', 'cei', 'cfg', 'cfh', 'cfi']
+
+    # Test combinations_of_phone_input with repeating digits
+    assert combinations_of_phone_input('222') == ['aaa', 'aab', 'aac', 'aba', 'abb', 'abc', 'aca', 'acb', 'acc', 'baa', 'bab', 'bac', 'bba', 'bbb', 'bbc', 'bca', 'bcb', 'bcc', 'caa', 'cab', 'cac', 'cba', 'cbb', 'cbc', 'cca', 'ccb', 'ccc']

@@ -1,0 +1,56 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from binary_search_tree import BinarySearchTree, BinaryTreeNode
+
+@pytest.fixture
+def sample_bst():
+    bst = BinarySearchTree()
+    bst.insert(50)
+    bst.insert(30)
+    bst.insert(20)
+    bst.insert(40)
+    bst.insert(70)
+    bst.insert(60)
+    bst.insert(80)
+    return bst
+
+def test_insert(sample_bst):
+    # Test insert method with various values
+    sample_bst.insert(35)
+    assert sample_bst.search(35) is not None
+
+    sample_bst.insert(55)
+    assert sample_bst.search(55) is not None
+
+def test_min(sample_bst):
+    # Test min method on a non-empty tree
+    assert sample_bst.min() == 20
+
+def test_delete(sample_bst):
+    # Test delete method on a value present in the tree
+    sample_bst.delete(30)
+    assert sample_bst.search(30) is None
+
+def test_search(sample_bst):
+    # Test search method for values present and not present in the tree
+    assert sample_bst.search(20) is not None
+    assert sample_bst.search(100) is None
+
+def test_in_order_traversal(sample_bst):
+    # Test in_order_traversal method correctness
+    assert sample_bst.in_order_traversal() == [20, 30, 40, 50, 60, 70, 80]
+
+def test_merge(sample_bst):
+    # Test merge method by merging two trees
+    bst2 = BinarySearchTree()
+    bst2.insert(45)
+    bst2.insert(65)
+    sample_bst.merge(bst2)
+    assert sample_bst.search(45) is not None
+    assert sample_bst.search(65) is not None

@@ -1,0 +1,47 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from binheap import Binheap
+
+
+@pytest.fixture
+def empty_heap():
+    return Binheap()
+
+
+@pytest.fixture
+def heap_with_data():
+    return Binheap([5, 2, 8, 1, 7])
+
+
+def test_push_method_empty_heap(empty_heap):
+    empty_heap.push(10)
+    assert empty_heap.container == [None, 10]
+
+
+def test_push_method_heap_with_data(heap_with_data):
+    heap_with_data.push(3)
+    assert heap_with_data.container == [None, 8, 7, 5, 1, 2, 3]
+
+
+def test_pop_method_empty_heap(empty_heap):
+    with pytest.raises(IndexError):
+        empty_heap.pop()
+
+
+def test_pop_method_heap_with_data(heap_with_data):
+    heap_with_data.pop()
+    assert heap_with_data.container == [None, 7, 2, 5, 1]
+
+
+def test_display_method_empty_heap(empty_heap):
+    assert empty_heap.display() == ""
+
+
+def test_display_method_heap_with_data(heap_with_data):
+    expected_output = "5 \n2 8 \n1 7 \n"
+    assert heap_with_data.display() == expected_output
