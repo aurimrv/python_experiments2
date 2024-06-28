@@ -1,0 +1,29 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from permutations import permutations_of_word
+
+def test_permutations_of_word():
+    # Test empty string
+    assert permutations_of_word('') == ['']
+
+    # Test string with one character
+    assert permutations_of_word('a') == ['a']
+
+    # Test string with all unique characters
+    assert set(permutations_of_word('abc')) == {'abc', 'acb', 'bac', 'bca', 'cab', 'cba'}
+
+    # Test string with repeated characters
+    assert set(permutations_of_word('aab')) == {'aab', 'aba', 'baa'}
+
+    # Test string with special characters
+    assert set(permutations_of_word('!@#')) == {'!@#', '!#@', '@!#', '@#!', '#!@', '#@!'}
+
+    # Test longer string
+    assert set(permutations_of_word('abcd')) == {'abcd', 'abdc', 'acbd', 'acdb', 'adbc', 'adcb',
+                                                  'bacd', 'badc', 'bcad', 'bcda', 'bdac', 'bdca',
+                                                  'cabd', 'cadb', 'cbad', 'cbda', 'cdab', 'cdba',
+                                                  'dabc', 'dacb', 'dbac', 'dbca', 'dcab', 'dcba'}

@@ -1,0 +1,26 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    test_cases = [
+        ("kitten", "sitting", ['Substitute s', 'Match t', 'Insert t', 'Match i', 'Match t', 'Match e', 'Insert n']),
+        ("intention", "execution", ['Substitute e', 'Substitute c', 'Match u', 'Match t', 'Match i', 'Insert o', 'Insert n']),
+        ("abc", "yabd", ['Substitute y', 'Match a', 'Match b', 'Insert d']),
+        ("abc", "def", ['Delete a', 'Delete b', 'Delete c', 'Insert d', 'Insert e', 'Insert f']),
+        ("", "", []),
+        ("a", "b", ['Substitute b'])
+    ]
+
+    for str1, str2, expected_trace in test_cases:
+        trace = calculate_edit_distance(str1, str2)
+        assert trace == expected_trace
+
+    assert calculate_edit_distance("cat", "dog") == ['Delete c', 'Delete a', 'Substitute d', 'Insert g']
+    assert calculate_edit_distance("hello", "hallo") == ['Match h', 'Match a', 'Match l', 'Match l', 'Insert o']

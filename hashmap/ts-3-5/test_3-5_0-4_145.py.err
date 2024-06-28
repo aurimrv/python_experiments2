@@ -1,0 +1,48 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+# Test cases for HashMap class
+class TestHashMap:
+
+    def test_insert_and_get(self):
+        h = HashMap()
+        h.insert('key1', 'value1')
+        assert h.get('key1') == 'value1'
+
+    def test_insert_override(self):
+        h = HashMap()
+        h.insert('key2', 'value2')
+        h.insert('key2', 'new_value2')
+        assert h.get('key2') == 'new_value2'
+
+    def test_get_nonexistent_key(self):
+        h = HashMap()
+        with pytest.raises(KeyError):
+            h.get('nonexistent_key')
+
+    def test_delete(self):
+        h = HashMap()
+        h.insert('key3', 'value3')
+        deleted_value = h.delete('key3')
+        assert deleted_value == ('key3', 'value3')
+        with pytest.raises(KeyError):
+            h.get('key3')
+
+# Test cases for hash functions
+class TestHashFunctions:
+
+    def test_djb2(self):
+        assert djb2('test') == 2090770988
+
+    def test_sdbm(self):
+        assert sdbm('test') == -2128831038
+
+    def test_lose_lose(self):
+        assert lose_lose('test') == 448

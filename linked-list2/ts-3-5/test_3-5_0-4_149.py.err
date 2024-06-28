@@ -1,0 +1,44 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+@pytest.fixture
+def empty_linked_list():
+    return LinkedList()
+
+@pytest.fixture
+def linked_list_with_values():
+    return LinkedList([1, 2, 3, 4, 5])
+
+def test_push(empty_linked_list):
+    empty_linked_list.push(10)
+    assert empty_linked_list.size() == 1
+    assert empty_linked_list.display() == '(10)'
+
+def test_pop(linked_list_with_values):
+    popped_value = linked_list_with_values.pop()
+    assert popped_value == 1
+    assert linked_list_with_values.size() == 4
+
+def test_size(empty_linked_list, linked_list_with_values):
+    assert empty_linked_list.size() == 0
+    assert linked_list_with_values.size() == 5
+
+def test_search(linked_list_with_values):
+    node = linked_list_with_values.search(3)
+    assert node.data == 3
+
+def test_remove(linked_list_with_values):
+    linked_list_with_values.remove(3)
+    assert linked_list_with_values.size() == 4
+    assert linked_list_with_values.display() == '(1, 2, 4, 5)'
+
+def test_display(empty_linked_list, linked_list_with_values):
+    assert empty_linked_list.display() == '()'
+    assert linked_list_with_values.display() == '(1, 2, 3, 4, 5)'

@@ -1,0 +1,50 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    # Test create_buckets function with a simple list
+    ar = [123, 456, 789]
+    iteration = 0
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10
+    assert buckets[1] == [123]
+    assert buckets[4] == [456]
+    assert buckets[9] == [789]
+
+    # Test create_buckets function with a list containing negative numbers
+    ar = [-12, 34, -56, 78]
+    iteration = 1
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10
+    assert buckets[8] == [-12]
+    assert buckets[4] == [34, -56]
+    assert buckets[7] == [78]
+
+def test_create_list():
+    # Test create_list function with a simple list of buckets
+    buckets = [[123], [456], [789]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [123, 456, 789]
+
+    # Test create_list function with empty buckets
+    buckets = [[], [], []]
+    nums = radixsort.create_list(buckets)
+    assert nums == []
+
+def test_radixsort():
+    # Test radixsort function with a list of integers
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [2, 24, 45, 66, 75, 90, 170, 802]
+
+    # Test radixsort function with a list of negative integers
+    ar = [-170, 45, -75, 90, -802, 24, 2, -66]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [-802, -170, -75, -66, 2, 24, 45, 90]

@@ -1,0 +1,41 @@
+import os
+import sys
+from collections import deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from mergesort import mergesort
+
+def test_mergesort():
+    # Test mergesort with an empty list
+    assert mergesort([]) == []
+
+    # Test mergesort with a list of one element
+    assert mergesort([5]) == [5]
+
+    # Test mergesort with a list of multiple elements in ascending order
+    assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+    # Test mergesort with a list of multiple elements in descending order
+    assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+
+    # Test mergesort with a list of multiple elements in random order
+    assert mergesort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_merge():
+    # Test merge with two empty lists
+    assert mergesort.merge([], []) == []
+
+    # Test merge with one empty list and one non-empty list
+    assert mergesort.merge([], [1, 2, 3]) == [1, 2, 3]
+
+    # Test merge with two non-empty lists of equal length
+    assert mergesort.merge([1, 3, 5], [2, 4, 6]) == [1, 2, 3, 4, 5, 6]
+
+    # Test merge with two non-empty lists of different lengths
+    assert mergesort.merge([1, 3, 5, 7], [2, 4, 6]) == [1, 2, 3, 4, 5, 6, 7]
+
+    # Test merge with two non-empty lists with duplicate elements
+    assert mergesort.merge([1, 2, 3, 3, 5], [2, 4, 4, 6]) == [1, 2, 2, 3, 3, 4, 4, 5, 6]

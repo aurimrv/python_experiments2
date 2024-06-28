@@ -1,0 +1,50 @@
+import os
+import sys
+from copy import deepcopy
+from heapq import heapify, heappop
+from heap import Heap
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heapsort import heap_sort, max_heap_sort, custom_heap_sort
+
+def test_heap_sort():
+    # Test empty list
+    assert heap_sort([]) == []
+    
+    # Test already sorted list
+    assert heap_sort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    
+    # Test reversed list
+    assert heap_sort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+
+def test_max_heap_sort():
+    # Test empty list
+    assert max_heap_sort([]) == []
+    
+    # Test already sorted list
+    assert max_heap_sort([5, 4, 3, 2, 1]) == [5, 4, 3, 2, 1]
+    
+    # Test reversed list
+    assert max_heap_sort([1, 2, 3, 4, 5]) == [5, 4, 3, 2, 1]
+
+def test_custom_heap_sort():
+    # Test empty list for min heap
+    assert custom_heap_sort([], sort='min') == []
+    
+    # Test empty list for max heap
+    assert custom_heap_sort([], sort='max') == []
+    
+    # Test already sorted list for min heap
+    assert custom_heap_sort([1, 2, 3, 4, 5], sort='min') == [1, 2, 3, 4, 5]
+    
+    # Test reversed list for max heap
+    assert custom_heap_sort([5, 4, 3, 2, 1], sort='max') == [5, 4, 3, 2, 1]
+    
+    # Test random list for min heap
+    assert custom_heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5], sort='min') == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+    
+    # Test random list for max heap
+    assert custom_heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5], sort='max') == [9, 6, 5, 5, 5, 4, 3, 3, 2, 1, 1]

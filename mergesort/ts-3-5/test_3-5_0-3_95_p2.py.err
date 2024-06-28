@@ -1,0 +1,32 @@
+import os
+import sys
+from collections import deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from mergesort import mergesort
+
+def test_mergesort():
+    assert mergesort([]) == []
+    assert mergesort([5]) == [5]
+    assert mergesort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_sort():
+    assert mergesort([]) == []
+    assert mergesort([5]) == [5]
+    assert mergesort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_merge():
+    assert mergesort([]) == []
+    assert mergesort([5]) == [5]
+    assert mergesort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+    assert mergesort(deque([])) == deque([])
+    assert mergesort(deque([5])) == deque([5])
+    assert mergesort(deque([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5])) == deque([1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9])
+    assert mergesort(deque([]), deque([])) == deque([])
+    assert mergesort(deque([1, 3, 5]), deque([])) == deque([1, 3, 5])
+    assert mergesort(deque([]), deque([2, 4, 6])) == deque([2, 4, 6])
+    assert mergesort(deque([1, 3, 5]), deque([2, 4, 6])) == deque([1, 2, 3, 4, 5, 6])
+    assert mergesort(deque([1, 2, 3]), deque([4, 5, 6])) == deque([1, 2, 3, 4, 5, 6])

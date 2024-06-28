@@ -1,0 +1,84 @@
+import os
+import sys
+import pytest
+
+# Add the project directory to the sys path for correct imports
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+# Test cases for Graph class methods
+
+def test_nodes_empty_graph():
+    g = Graph()
+    assert len(g.nodes()) == 0
+
+def test_nodes_populated_graph():
+    g = Graph([1, 2, 3])
+    assert len(g.nodes()) == 3
+
+def test_edges_empty_graph():
+    g = Graph()
+    assert len(g.edges()) == 0
+
+def test_edges_populated_graph():
+    g = Graph([1, 2, 3])
+    g.add_edge(1, 2)
+    g.add_edge(2, 3)
+    assert len(g.edges()) == 2
+
+def test_add_node():
+    g = Graph()
+    g.add_node(4)
+    assert 4 in g.nodes()
+
+def test_add_edge():
+    g = Graph()
+    g.add_node(5)
+    g.add_node(6)
+    g.add_edge(5, 6)
+    assert (5, 6) in g.edges()
+
+def test_del_node():
+    g = Graph([7])
+    g.del_node(7)
+    assert len(g.nodes()) == 0
+
+def test_del_edge():
+    g = Graph()
+    g.add_node(8)
+    g.add_node(9)
+    g.add_edge(8, 9)
+    g.del_edge(8, 9)
+    assert len(g.edges()) == 0
+
+def test_has_node_true():
+    g = Graph()
+    g.add_node(10)
+    assert g.has_node(10) == True
+
+def test_has_node_false():
+    g = Graph([11])
+    assert g.has_node(12) == False
+
+def test_neighbors():
+    g = Graph()
+    g.add_node(13)
+    g.add_node(14)
+    g.add_edge(13, 14)
+    assert 14 in g.neighbors(13)
+
+def test_adjacent_true():
+    g = Graph()
+    g.add_node(15)
+    g.add_node(16)
+    g.add_edge(15, 16)
+    assert g.adjacent(15, 16) == True
+
+def test_adjacent_false():
+    g = Graph()
+    g.add_node(17)
+    g.add_node(18)
+    assert g.adjacent(17, 18) == False

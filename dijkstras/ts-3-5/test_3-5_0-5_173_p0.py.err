@@ -1,0 +1,43 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex('A'))
+    weighted_graph.add_vertex(Vertex('B'))
+    weighted_graph.add_edge('A', 'B', 5)
+    assert dijkstras(weighted_graph, 'A', 'B') == ['A', 'B']
+
+def test_dijkstras_no_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex('A'))
+    weighted_graph.add_vertex(Vertex('B'))
+    weighted_graph.add_vertex(Vertex('C'))
+    weighted_graph.add_edge('A', 'B', 3)
+    weighted_graph.add_edge('B', 'C', 4)
+    assert dijkstras(weighted_graph, 'A', 'C') == []
+
+def test_dijkstras_same_node():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex('A'))
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        self.vertices[vertex.name] = vertex
+
+    def add_edge(self, start, end, weight):
+        self.vertices[start].adjacent[end] = weight
+
+class Vertex:
+    def __init__(self, name):
+        self.name = name
+        self.adjacent = {}

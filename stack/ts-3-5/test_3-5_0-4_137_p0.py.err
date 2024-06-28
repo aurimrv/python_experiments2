@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from stack import Stack
+
+@pytest.fixture
+def empty_stack():
+    return Stack()
+
+@pytest.fixture
+def stack_with_data():
+    return Stack([1, 2, 3])
+
+def test_stack_initialization(empty_stack):
+    assert empty_stack is not None
+
+def test_push(empty_stack):
+    empty_stack.push(5)
+    assert empty_stack.pop() == 5
+
+def test_push_multiple_values(empty_stack):
+    empty_stack.push(1)
+    empty_stack.push(2)
+    empty_stack.push(3)
+    assert empty_stack.pop() == 3
+    assert empty_stack.pop() == 2
+    assert empty_stack.pop() == 1
+
+def test_pop(stack_with_data):
+    assert stack_with_data.pop() == 3
+
+def test_pop_empty_stack(empty_stack):
+    with pytest.raises(Exception):
+        empty_stack.pop()
+
+def test_push_and_pop_alternating(empty_stack):
+    empty_stack.push(1)
+    assert empty_stack.pop() == 1
+    empty_stack.push(2)
+    assert empty_stack.pop() == 2

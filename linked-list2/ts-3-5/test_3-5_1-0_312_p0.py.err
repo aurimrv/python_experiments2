@@ -1,0 +1,70 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_initialization():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+
+def test_node_next_pointer():
+    node1 = Node(10)
+    node2 = Node(20, node1)
+    assert node2.next == node1
+
+def test_linked_list_push():
+    linked_list = LinkedList()
+    linked_list.push(10)
+    linked_list.push(20)
+    assert linked_list.size() == 2
+    assert linked_list.head.data == 20
+
+def test_linked_list_pop():
+    linked_list = LinkedList([5, 10, 15])
+    popped_value = linked_list.pop()
+    assert popped_value == 15
+    assert linked_list.size() == 2
+
+def test_linked_list_size():
+    linked_list = LinkedList()
+    assert linked_list.size() == 0
+    linked_list.push(100)
+    assert linked_list.size() == 1
+
+def test_linked_list_search():
+    linked_list = LinkedList([5, 10, 15])
+    node = linked_list.search(10)
+    assert node.data == 10
+
+def test_linked_list_remove():
+    linked_list = LinkedList([5, 10, 15])
+    linked_list.remove(10)
+    assert linked_list.size() == 2
+    assert linked_list.head.next.data == 15
+
+def test_linked_list_display():
+    linked_list = LinkedList([5, 'abc', 10])
+    assert linked_list.display() == '(5, abc, 10)'
+
+def test_linked_list_push_pop():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push(10)
+    assert linked_list.pop() == 10
+    assert linked_list.size() == 1
+
+def test_linked_list_remove_head():
+    linked_list = LinkedList([5, 10, 15])
+    linked_list.remove(5)
+    assert linked_list.size() == 2
+    assert linked_list.head.data == 10
+
+def test_linked_list_remove_non_existing():
+    linked_list = LinkedList([5, 10, 15])
+    linked_list.remove(20)
+    assert linked_list.size() == 3

@@ -1,0 +1,50 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+# Test cases for Node class
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+
+# Test cases for LinkedList class
+def test_linked_list_initialization():
+    ll = LinkedList()
+    assert ll.head is None
+    assert ll.size() == 0
+
+def test_push_method():
+    ll = LinkedList()
+    ll.push(10)
+    assert ll.head.data == 10
+    assert ll.size() == 1
+
+def test_pop_method():
+    ll = LinkedList([1, 2, 3])
+    assert ll.pop() == 3
+    assert ll.size() == 2
+
+def test_size_method():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    assert ll.size() == 5
+
+def test_search_method():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    node = ll.search(3)
+    assert node.data == 3
+
+def test_remove_method():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    ll.remove(3)
+    assert ll.size() == 4
+
+def test_display_method():
+    ll = LinkedList([1, 'apple', 3.14, 'banana'])
+    assert ll.display() == "(1, 'apple', 3.14, 'banana')"

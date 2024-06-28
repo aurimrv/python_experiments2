@@ -1,0 +1,39 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute k', 'Delete i', 'Match', 'Match', 'Match', 'Match', 'Match', 'Insert g']
+
+def test_calculate_edit_distance_insert():
+    str1 = "abcdef"
+    str2 = "azcdef"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute a', 'Insert z', 'Match', 'Match', 'Match', 'Match', 'Match']
+
+def test_calculate_edit_distance_delete():
+    str1 = "programming"
+    str2 = "program"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Delete m', 'Delete i', 'Delete n', 'Delete g']
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    result = calculate_edit_distance(str1, str2)
+    assert result == []
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "supercalifragilisticexpialidocious"
+    str2 = "antidisestablishmentarianism"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute a', 'Substitute n', 'Substitute t', 'Substitute i', 'Substitute d', 'Substitute i', 'Substitute s', 'Delete e', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Insert i', 'Insert s', 'Insert h', 'Insert m']  

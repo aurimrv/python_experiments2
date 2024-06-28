@@ -1,0 +1,32 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_quicksort():
+    # Test an already sorted list
+    assert quicksort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+    # Test a reversed list
+    assert quicksort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+
+    # Test a list with duplicate elements
+    assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_sort():
+    # Test sorting a list with only one element
+    assert quicksort([1]) == [1]
+
+    # Test sorting an empty list
+    assert quicksort([]) == []
+
+def test_partition():
+    # Test partitioning with elements lesser than pivot
+    assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5], 0, 10) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+    # Test partitioning with elements greater than pivot
+    assert quicksort([5, 9, 2, 6, 5], 0, 4) == [2, 5, 5, 6, 9]

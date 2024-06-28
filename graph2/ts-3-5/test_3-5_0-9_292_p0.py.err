@@ -1,0 +1,85 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+
+@pytest.fixture
+def empty_graph():
+    return Graph()
+
+@pytest.fixture
+def example_graph():
+    g = Graph([1, 2, 3, 4])
+    g.add_edge(1, 2)
+    g.add_edge(1, 3)
+    g.add_edge(2, 3)
+    g.add_edge(3, 4)
+    return g
+
+
+def test_nodes(empty_graph, example_graph):
+    assert empty_graph.nodes() == []
+    assert example_graph.nodes() == [1, 2, 3, 4]
+
+
+def test_edges(empty_graph, example_graph):
+    assert empty_graph.edges() == []
+    assert example_graph.edges() == [(1, 2), (1, 3), (2, 3), (3, 4)]
+
+
+def test_add_node(empty_graph, example_graph):
+    empty_graph.add_node(1)
+    assert 1 in empty_graph.nodes()
+    example_graph.add_node(5)
+    assert 5 in example_graph.nodes()
+
+
+def test_add_edge(empty_graph, example_graph):
+    empty_graph.add_edge(1, 2)
+    assert empty_graph.edges() == [(1, 2)]
+    example_graph.add_edge(2, 4)
+    assert (2, 4) in example_graph.edges()
+
+
+def test_del_node(empty_graph, example_graph):
+    empty_graph.add_node(1)
+    empty_graph.add_node(2)
+    empty_graph.del_node(1)
+    assert 1 not in empty_graph.nodes()
+    example_graph.del_node(3)
+    assert 3 not in example_graph.nodes()
+    assert (1, 3) not in example_graph.edges()
+    assert (2, 3) not in example_graph.edges()
+
+
+def test_del_edge(empty_graph, example_graph):
+    empty_graph.add_edge(1, 2)
+    empty_graph.del_edge(1, 2)
+    assert empty_graph.edges() == []
+    example_graph.del_edge(1, 3)
+    assert (1, 3) not in example_graph.edges()
+
+
+def test_has_node(empty_graph, example_graph):
+    empty_graph.add_node(1)
+    assert empty_graph.has_node(1) is True
+    assert empty_graph.has_node(2) is False
+    assert example_graph.has_node(1) is True
+    assert example_graph.has_node(5) is False
+
+
+def test_neighbors(empty_graph, example_graph):
+    example_graph.add_edge(2, 4)
+    assert example_graph.neighbors(2) == {3, 4}
+
+
+def test_adjacent(empty_graph, example_graph):
+    example_graph.add_edge(1, 3)
+    assert example_graph.adjacent(1, 3) is True
+    assert example_graph.adjacent(2, 4) is False

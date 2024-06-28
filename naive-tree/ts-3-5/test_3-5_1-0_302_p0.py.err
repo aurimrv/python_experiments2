@@ -1,0 +1,77 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+
+
+def test_pre_order_traversal():
+    tree = NaiveBinaryTree()
+    node_a = NaiveBinaryTree.Node(1)
+    node_b = NaiveBinaryTree.Node(2)
+    node_c = NaiveBinaryTree.Node(3)
+    node_a.left = node_b
+    node_a.right = node_c
+    tree.head = node_a
+
+    assert tree.pre_order_traversal() == [1, 2, 3]
+
+    node_d = NaiveBinaryTree.Node(4)
+    node_c.left = node_d
+
+    assert tree.pre_order_traversal() == [1, 2, 4, 3]
+
+
+def test_in_order_traversal():
+    tree = NaiveBinaryTree()
+    node_a = NaiveBinaryTree.Node(1)
+    node_b = NaiveBinaryTree.Node(2)
+    node_c = NaiveBinaryTree.Node(3)
+    node_a.left = node_b
+    node_a.right = node_c
+    tree.head = node_a
+
+    assert tree.in_order_traversal() == [2, 1, 3]
+
+    node_d = NaiveBinaryTree.Node(4)
+    node_c.left = node_d
+
+    assert tree.in_order_traversal() == [2, 1, 4, 3]
+
+
+def test_post_order_traversal():
+    tree = NaiveBinaryTree()
+    node_a = NaiveBinaryTree.Node(1)
+    node_b = NaiveBinaryTree.Node(2)
+    node_c = NaiveBinaryTree.Node(3)
+    node_a.left = node_b
+    node_a.right = node_c
+    tree.head = node_a
+
+    assert tree.post_order_traversal() == [2, 3, 1]
+
+    node_d = NaiveBinaryTree.Node(4)
+    node_c.left = node_d
+
+    assert tree.post_order_traversal() == [2, 4, 3, 1]
+
+
+def test_level_order_traversal():
+    tree = NaiveBinaryTree()
+    node_a = NaiveBinaryTree.Node(1)
+    node_b = NaiveBinaryTree.Node(2)
+    node_c = NaiveBinaryTree.Node(3)
+    node_d = NaiveBinaryTree.Node(4)
+    node_a.left = node_b
+    node_a.right = node_c
+    node_b.left = node_d
+    tree.head = node_a
+
+    assert tree.level_order_traversal() == [1, 2, 3, 4]
+
+    node_e = NaiveBinaryTree.Node(5)
+    node_c.right = node_e
+
+    assert tree.level_order_traversal() == [1, 2, 3, 4, 5]

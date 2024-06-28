@@ -1,0 +1,27 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+from fenwick_tree import FenwickTree
+
+def test_fenwick_tree_update():
+    ft = FenwickTree([1, 2, 3, 4, 5])
+    assert ft.tree == [0, 1, 3, 3, 10, 5]
+    
+    ft.update(2, 10)
+    assert ft.tree == [0, 1, 13, 3, 23, 5]
+
+def test_fenwick_tree_sum_of_n():
+    ft = FenwickTree([1, 2, 3, 4, 5])
+    assert ft.sum_of_n(2) == 6
+    
+    ft.update(2, 10)
+    assert ft.sum_of_n(2) == 12
+
+def test_fenwick_tree_sum_of_range():
+    ft = FenwickTree([1, 2, 3, 4, 5])
+    assert ft.sum_of_range(1, 3) == 6
+    
+    ft.update(2, 10)
+    assert ft.sum_of_range(1, 3) == 16
+    assert ft.sum_of_range(2, 4) == 17

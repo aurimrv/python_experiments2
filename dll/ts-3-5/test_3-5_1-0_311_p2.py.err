@@ -1,0 +1,55 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+@pytest.fixture
+def setup_empty_list():
+    dll = DoubleLinkedList()
+    return dll
+
+@pytest.fixture
+def setup_list():
+    dll = DoubleLinkedList(data=[1, 2, 3, 4, 5])
+    return dll
+
+def test_push(setup_empty_list):
+    setup_empty_list.push(5)
+    assert setup_empty_list.head.data == 5
+
+def test_pop(setup_list):
+    assert setup_list.pop() == 5
+    assert setup_list.head.data == 2
+
+def test_append(setup_empty_list):
+    setup_empty_list.append(3)
+    assert setup_empty_list.tail.data == 3
+
+def test_shift(setup_list):
+    assert setup_list.shift() == 1
+    assert setup_list.tail.data == 4
+
+def test_remove(setup_list):
+    setup_list.remove(3)
+    assert setup_list._repr() == [1, 2, 4, 5]
+
+def test_remove_invalid_val(setup_list):
+    with pytest.raises(ValueError):
+        setup_list.remove(6)
+
+def test_empty_list_pop(setup_empty_list):
+    with pytest.raises(IndexError):
+        setup_empty_list.pop()
+
+def test_empty_list_shift(setup_empty_list):
+    with pytest.raises(IndexError):
+        setup_empty_list.shift()
+
+def test_empty_list_remove(setup_empty_list):
+    with pytest.raises(ValueError):
+        setup_empty_list.remove(6)

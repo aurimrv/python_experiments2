@@ -1,0 +1,35 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("hello", "ll") == 2
+    assert rabin_karp_find_substring("world", "or") == 1
+
+def test_rabin_karp_find_substring_no_match():
+    assert rabin_karp_find_substring("hello", "abc") == -1
+    assert rabin_karp_find_substring("world", "xyz") == -1
+
+def test_rabin_karp_find_substring_multiple_occurrences():
+    assert rabin_karp_find_substring("abacabadabacaba", "aba") == 0
+    assert rabin_karp_find_substring("abacabadabacaba", "aca") == 2
+    assert rabin_karp_find_substring("abacabadabacaba", "ada") == 5
+
+def test_rabin_karp_find_substring_long_string():
+    long_string = "a" * 1000 + "bcd" + "a" * 1000
+    assert rabin_karp_find_substring(long_string, "bcd") == 1000
+
+def test_rabin_karp_find_substring_empty_string():
+    assert rabin_karp_find_substring("", "") == 0
+
+def test_rabin_karp_find_substring_same_string():
+    assert rabin_karp_find_substring("hello", "hello") == 0
+
+def test_rabin_karp_find_substring_large_prime():
+    assert rabin_karp_find_substring("abcdefg", "def", prime_modulus=7919) == 3

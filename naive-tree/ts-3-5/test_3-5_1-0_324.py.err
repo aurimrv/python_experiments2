@@ -1,0 +1,33 @@
+import os
+import sys
+import pytest
+from collections import deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+
+@pytest.fixture
+def sample_tree():
+    """
+    Fixture to create a sample binary tree for testing.
+    """
+    tree = NaiveBinaryTree()
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    return tree
+
+def test_pre_order_traversal(sample_tree):
+    assert sample_tree.pre_order_traversal() == [1, 2, 3]
+
+def test_in_order_traversal(sample_tree):
+    assert sample_tree.in_order_traversal() == [2, 1, 3]
+
+def test_post_order_traversal(sample_tree):
+    assert sample_tree.post_order_traversal() == [2, 3, 1]
+
+def test_level_order_traversal(sample_tree):
+    assert sample_tree.level_order_traversal() == [1, 2, 3]

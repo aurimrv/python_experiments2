@@ -1,0 +1,39 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "abc"
+    str2 = "abc"
+    expected = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_different_lengths():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = [['Substitute', 's'], ['Substitute', 'i'], ['Substitute', 't'], ['Substitute', 't'], ['Substitute', 'i'], ['Insert', 'g']]
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_string():
+    str1 = ""
+    str2 = "Python"
+    expected = [['Insert', 'P'], ['Insert', 'y'], ['Insert', 't'], ['Insert', 'h'], ['Insert', 'o'], ['Insert', 'n']]
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "mutation"
+    str2 = "testing"
+    expected = [['Delete', 'u'], ['Delete', 't'], ['Delete', 'a'], ['Substitute', 'i'], ['Substitute', 'n'], ['Substitute', 'g']]
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_both_empty():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected

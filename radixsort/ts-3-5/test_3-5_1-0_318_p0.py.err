@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    iteration = 1
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10  # 10 buckets for base 10
+
+def test_create_list():
+    buckets = [[90, 802], [2], [24], [45, 75], [66], [], [], [], [], [170]]
+    nums = radixsort.create_list(buckets)
+    assert len(nums) == 9  # All numbers in buckets combined
+
+def test_radix_sort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [2, 24, 45, 66, 75, 90, 170, 802]  # Sorted array
+
+def test_radix_sort_large_input():
+    ar = [345, 219, 376, 582, 123, 634, 788, 921]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [123, 219, 345, 376, 582, 634, 788, 921]  # Sorted large input
+
+def test_radix_sort_negative_numbers():
+    ar = [50, -30, -20, -10, 40, 30, -70, 0]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [-70, -30, -20, -10, 0, 30, 40, 50]  # Sorted negative numbers
+
+def test_radix_sort_single_element():
+    ar = [5]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [5]  # Sorted single element input
+
+def test_radix_sort_empty_input():
+    ar = []
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == []  # Sorted empty input

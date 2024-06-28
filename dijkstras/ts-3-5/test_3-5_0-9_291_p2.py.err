@@ -1,0 +1,77 @@
+import os
+import sys
+from functools import reduce
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+        A = Vertex('A')
+        B = Vertex('B')
+        C = Vertex('C')
+        D = Vertex('D')
+        E = Vertex('E')
+
+        A.add_adjacent(B, 1)
+        B.add_adjacent(A, 1)
+        B.add_adjacent(C, 2)
+        B.add_adjacent(D, 3)
+        D.add_adjacent(E, 2)
+
+        self.vertices = {
+            'A': A,
+            'B': B,
+            'C': C,
+            'D': D,
+            'E': E
+        }
+
+class Vertex:
+    def __init__(self, key):
+        self.key = key
+        self.adjacent = {}
+
+    def add_adjacent(self, vertex, weight):
+        self.adjacent[vertex.key] = weight 
+
+def test_dijkstras():
+    weighted_graph = WeightedGraph()
+
+    src = 'A'
+    dst = 'E'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'B', 'D', 'E']
+
+def test_dijkstras_with_no_possible_path():
+    weighted_graph = WeightedGraph()
+
+    src = 'A'
+    dst = 'I'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == []
+
+def test_dijkstras_with_same_source_and_destination():
+    weighted_graph = WeightedGraph()
+
+    src = 'C'
+    dst = 'C'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['C']
+
+def test_dijkstras_with_single_node_graph():
+    weighted_graph = WeightedGraph()
+
+    src = 'A'
+    dst = 'A'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A'] 

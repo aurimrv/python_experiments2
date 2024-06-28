@@ -1,0 +1,64 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def sample_list():
+    return DoubleLinkedList([1, 2, 3, 4])
+
+def test_node_init():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_dll_init_empty():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_dll_init_with_data():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.head.data == 1
+    assert dll.tail.data == 3
+    assert dll._length == 3
+
+def test_dll_push(sample_list):
+    sample_list.push(0)
+    assert sample_list.head.data == 0
+    assert sample_list.head.next.data == 1
+
+def test_dll_pop(sample_list):
+    popped_value = sample_list.pop()
+    assert popped_value == 1
+    assert sample_list.head.data == 2
+
+def test_dll_append(sample_list):
+    sample_list.append(5)
+    assert sample_list.tail.data == 5
+    assert sample_list.tail.prev.data == 4
+
+def test_dll_shift(sample_list):
+    shifted_value = sample_list.shift()
+    assert shifted_value == 4
+    assert sample_list.tail.data == 3
+
+def test_dll_remove(sample_list):
+    sample_list.remove(2)
+    assert sample_list.head.data == 1
+    assert sample_list.tail.data == 3
+    assert sample_list._length == 3
+
+def test_dll_remove_nonexistent_value(sample_list):
+    with pytest.raises(ValueError):
+        sample_list.remove(5)
+
+def test_dll_repr(sample_list):
+    assert sample_list._repr() == [4, 3, 2, 1]

@@ -1,0 +1,24 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heapsort import heap_sort, max_heap_sort, custom_heap_sort
+
+def test_heap_sort():
+    assert heap_sort([]) == []
+    assert heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_max_heap_sort():
+    assert max_heap_sort([]) == []
+    assert max_heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [9, 6, 5, 5, 5, 4, 3, 3, 2, 1, 1]
+
+def test_custom_heap_sort_min():
+    assert custom_heap_sort([]) == []
+    assert custom_heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_custom_heap_sort_max():
+    assert custom_heap_sort([], sort='max') == []
+    assert custom_heap_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5], sort='max') == [9, 6, 5, 5, 5, 4, 3, 3, 2, 1, 1]

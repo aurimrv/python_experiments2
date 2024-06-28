@@ -1,0 +1,39 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute s', 'No Operation i', 'No Operation t', 'No Operation t', 'No Operation i', 'Substitute n', 'No Operation g']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_insert():
+    str1 = "algorithm"
+    str2 = "altruism"
+    expected_output = ['Substitute a', 'No Operation l', 'Substitute g', 'Delete o', 'No Operation r', 'No Operation i', 'No Operation t', 'Substitute h', 'Insert s', 'No Operation m']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_delete():
+    str1 = "testing"
+    str2 = "test"
+    expected_output = ['No Operation t', 'No Operation e', 'No Operation s', 'Delete t', 'Delete i', 'Delete n', 'Delete g']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_empty_string():
+    str1 = ""
+    str2 = "hello"
+    expected_output = ['Insert h', 'Insert e', 'Insert l', 'Insert l', 'Insert o']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "apple"
+    str2 = "apple"
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output

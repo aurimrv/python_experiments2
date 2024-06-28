@@ -1,0 +1,50 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+from collections import deque
+
+import pytest
+
+@pytest.fixture
+def sample_binary_tree():
+    binary_tree = NaiveBinaryTree()
+    binary_tree.head = NaiveBinaryTree.Node(5)
+    binary_tree.head.left = NaiveBinaryTree.Node(3)
+    binary_tree.head.right = NaiveBinaryTree.Node(7)
+    binary_tree.head.left.left = NaiveBinaryTree.Node(2)
+    binary_tree.head.left.right = NaiveBinaryTree.Node(4)
+    binary_tree.head.right.left = NaiveBinaryTree.Node(6)
+    binary_tree.head.right.right = NaiveBinaryTree.Node(8)
+    return binary_tree
+
+def test_pre_order_traversal(sample_binary_tree):
+    assert sample_binary_tree.pre_order_traversal() == [5, 3, 2, 4, 7, 6, 8]
+    sample_binary_tree.head = NaiveBinaryTree.Node(1)
+    sample_binary_tree.head.left = NaiveBinaryTree.Node(2)
+    sample_binary_tree.head.right = NaiveBinaryTree.Node(3)
+    assert sample_binary_tree.pre_order_traversal() == [1, 2, 3]
+
+def test_in_order_traversal(sample_binary_tree):
+    assert sample_binary_tree.in_order_traversal() == [2, 3, 4, 5, 6, 7, 8]
+    sample_binary_tree.head = NaiveBinaryTree.Node(2)
+    sample_binary_tree.head.right = NaiveBinaryTree.Node(3)
+    sample_binary_tree.head.right.right = NaiveBinaryTree.Node(4)
+    assert sample_binary_tree.in_order_traversal() == [2, 3, 4]
+
+def test_post_order_traversal(sample_binary_tree):
+    assert sample_binary_tree.post_order_traversal() == [2, 4, 3, 6, 8, 7, 5]
+    sample_binary_tree.head = NaiveBinaryTree.Node(1)
+    sample_binary_tree.head.left = NaiveBinaryTree.Node(2)
+    sample_binary_tree.head.right = NaiveBinaryTree.Node(3)
+    assert sample_binary_tree.post_order_traversal() == [2, 3, 1]
+
+def test_level_order_traversal(sample_binary_tree):
+    assert sample_binary_tree.level_order_traversal() == [5, 3, 7, 2, 4, 6, 8]
+    sample_binary_tree.head = NaiveBinaryTree.Node(1)
+    sample_binary_tree.head.left = NaiveBinaryTree.Node(2)
+    sample_binary_tree.head.right = NaiveBinaryTree.Node(3)
+    assert sample_binary_tree.level_order_traversal() == [1, 2, 3]

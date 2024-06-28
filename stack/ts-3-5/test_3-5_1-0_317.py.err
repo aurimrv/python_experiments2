@@ -1,0 +1,41 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from stack import Stack
+
+def test_stack_push():
+    # Test case 1: Adding a single value to the stack
+    stack = Stack()
+    stack.push(1)
+    assert stack.pop() == 1
+
+    # Test case 2: Adding multiple values to the stack
+    stack.push(2)
+    stack.push(3)
+    stack.push(4)
+    assert stack.pop() == 4
+    assert stack.pop() == 3
+    assert stack.pop() == 2
+
+def test_stack_pop():
+    # Test case 1: Removing item from an empty stack should raise an exception
+    stack = Stack()
+    with pytest.raises(Exception):
+        stack.pop()
+
+    # Test case 2: Removing item from a non-empty stack
+    stack.push(5)
+    stack.push(6)
+    assert stack.pop() == 6
+    assert stack.pop() == 5
+
+    # Test case 3: Removing item from a stack with only one element
+    stack.push(7)
+    assert stack.pop() == 7
+    with pytest.raises(Exception):
+        stack.pop()

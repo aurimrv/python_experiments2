@@ -1,0 +1,98 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+    def test_node_creation(self):
+        node = ListNode(1, 'a')
+        assert node.key == 1
+        assert node.val == 'a'
+        assert node.next is None
+        assert node.prev is None
+
+    def test_node_update(self):
+        node = ListNode(1, 'a')
+        node.key = 2
+        node.val = 'b'
+        assert node.key == 2
+        assert node.val == 'b'
+
+class TestLruCache:
+    def test_cache_initialization(self):
+        cache = LruCache(3)
+        assert cache.capacity == 3
+        assert cache.head.key == cache.terminal_value
+        assert cache.tail.val == cache.terminal_value
+        assert len(cache.lookup_map) == 0
+
+    def test_cache_put_get(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.get(1) == 'a'
+        cache.put(3, 'c')
+        assert cache.get(2) == -1
+
+    def test_cache_capacity_handling(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        cache.put(3, 'c')
+        assert cache.get(1) == -1
+
+    def test_cache_get_non_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        assert cache.get(2) == -1
+
+    def test_cache_put_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(1, 'b')
+        assert cache.get(1) == 'b'
+
+    def test_cache_put_same_key_multiple_times(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(1, 'b')
+        cache.put(1, 'c')
+        assert cache.get(1) == 'c'
+
+    def test_cache_put_capacity_1(self):
+        with pytest.raises(ValueError):
+            cache = LruCache(0)
+
+    def test_cache_get_after_put(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        cache.get(1)
+        cache.put(3, 'c')
+        assert cache.get(2) == -1
+
+    def test_cache_get_after_put_multiple_times(self):
+        with pytest.raises(ValueError):
+            cache = LruCache(0)
+
+    def test_cache_get_non_existing_key_after_put(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.get(1)
+        assert cache.get(2) == -1
+
+    def test_cache_put_same_key_multiple_times_after_get(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.get(1)
+        cache.put(1, 'b')
+        assert cache.get(1) == 'b'
+
+    def test_cache_put_same_key_multiple_times_after_get_multiple_times_capacity_1(self):
+        with pytest.raises(ValueError):
+            cache = LruCache(0)

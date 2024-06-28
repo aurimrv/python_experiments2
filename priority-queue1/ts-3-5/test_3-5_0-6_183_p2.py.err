@@ -1,0 +1,57 @@
+import os
+import sys
+from priority_queue1 import PriorityQueue
+
+def test_priority_queue_init():
+    pq = PriorityQueue()
+    assert pq.pq == []
+    assert pq.mapper == {}
+    assert pq.REMOVED == '__removed-task__'
+
+def test_add_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    assert pq.pq == [[1, 0, 'task1']]
+    assert pq.mapper == {'task1': [1, 0, 'task1']}
+
+    pq.add_task('task2', 2)
+    assert pq.pq == [[1, 0, 'task1'], [2, 1, 'task2']]
+    assert pq.mapper == {'task1': [1, 0, 'task1'], 'task2': [2, 1, 'task2']}
+
+def test_remove_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.add_task('task2', 2)
+
+    pq.remove_task('task1')
+    assert pq.pq == [[2, 1, 'task2']]
+    assert pq.mapper == {'task2': [2, 1, 'task2']}
+
+def test_set_priority():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.add_task('task2', 2)
+
+    pq.set_priority('task1', 3)
+    assert pq.pq == [[2, 1, 'task2'], [3, 3, 'task1']]
+    assert pq.mapper == {'task2': [2, 1, 'task2'], 'task1': [3, 3, 'task1']}
+
+def test_pop_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.add_task('task2', 2)
+
+    assert pq.pop_task() == 'task1'
+    assert pq.pq == [[2, 1, 'task2']]
+    assert pq.mapper == {'task2': [2, 1, 'task2']}
+
+    assert pq.pop_task() == 'task2'
+    assert pq.pq == []
+    assert pq.mapper == {}
+
+def test_pop_task_empty_queue():
+    pq = PriorityQueue()
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

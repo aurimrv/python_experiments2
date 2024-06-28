@@ -1,0 +1,44 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+# Test cases for Graph class
+def test_graph_add_edge():
+    graph = Graph(3)
+    graph.add_edge(0, 1)
+    assert graph.graph == {0: [1], 1: []}
+
+def test_graph_has_cycle():
+    graph = Graph(3)
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    assert not graph.has_cycle()
+
+def test_graph_topological_sort():
+    graph = Graph(3)
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    assert graph.topological_sort() == [0, 1, 2]
+
+# Test cases for WeightedGraph class
+def test_weighted_graph_add_vertex():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(1)
+    assert len(weighted_graph.vertices) == 1
+
+def test_weighted_graph_add_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge(1, 2, 5)
+    assert weighted_graph.vertices[1].adjacent == {2: 5}
+
+def test_weighted_graph_remove_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge(1, 2, 5)
+    weighted_graph.remove_edge(1, 2)
+    assert weighted_graph.vertices[1].adjacent == {}

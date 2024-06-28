@@ -1,0 +1,29 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    # Test when substring is found in the string
+    assert rabin_karp_find_substring("hello", "ell") == 1
+    assert rabin_karp_find_substring("world", "or") == 1
+
+    # Test when substring is not found in the string
+    assert rabin_karp_find_substring("hello", "abc") == -1
+    assert rabin_karp_find_substring("world", "xyz") == -1
+
+def test_rabin_karp_find_substring_edge_cases():
+    # Test when string and substring are empty
+    assert rabin_karp_find_substring("", "") == 0
+
+    # Test when string is empty
+    assert rabin_karp_find_substring("", "abc") == -1
+
+    # Test when substring is longer than the string
+    assert rabin_karp_find_substring("hello", "hello world") == -1
+
+    # Test when string and substring are the same
+    assert rabin_karp_find_substring("hello", "hello") == 0

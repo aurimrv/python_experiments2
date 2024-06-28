@@ -1,0 +1,90 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    # Test case 1: Shortest path between two directly connected nodes
+    weighted_graph = {
+        'A': {'B': 5},
+        'B': {'A': 5}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    # Test case 2: Shortest path between two nodes with intermediate nodes
+    weighted_graph = {
+        'A': {'B': 5, 'C': 10},
+        'B': {'A': 5, 'C': 3},
+        'C': {'A': 10, 'B': 3}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+
+    # Test case 3: Shortest path with multiple possible paths
+    weighted_graph = {
+        'A': {'B': 2, 'C': 5},
+        'B': {'A': 2, 'C': 2, 'D': 1},
+        'C': {'A': 5, 'B': 2, 'D': 4},
+        'D': {'B': 1, 'C': 4}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+
+    # Test case 4: Shortest path with negative weights
+    weighted_graph = {
+        'A': {'B': 2, 'C': -3},
+        'B': {'A': 2, 'C': 2, 'D': 1},
+        'C': {'A': -3, 'B': 2, 'D': 4},
+        'D': {'B': 1, 'C': 4}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+
+    # Test case 5: Shortest path with no direct connection
+    weighted_graph = {
+        'A': {'B': 2},
+        'B': {'A': 2},
+        'C': {'D': 3},
+        'D': {'C': 3}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+
+    # Test case 6: Shortest path with self-loop
+    weighted_graph = {
+        'A': {'A': 0, 'B': 2},
+        'B': {'A': 2}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    # Test case 7: Shortest path with no path available
+    weighted_graph = {
+        'A': {'B': 2},
+        'B': {'A': 2},
+        'C': {'D': 3},
+        'D': {'C': 3}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+    # Test case 8: Shortest path with all nodes having same weight
+    weighted_graph = {
+        'A': {'B': 1, 'C': 1},
+        'B': {'A': 1, 'C': 1},
+        'C': {'A': 1, 'B': 1}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C']

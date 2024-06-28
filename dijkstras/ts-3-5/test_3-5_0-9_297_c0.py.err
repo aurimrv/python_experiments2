@@ -1,0 +1,64 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+from weighted_graph import WeightedGraph, Vertex
+
+import pytest
+
+@pytest.fixture
+def weighted_graph():
+    wg = WeightedGraph()
+    v1 = Vertex('A')
+    v2 = Vertex('B')
+    v3 = Vertex('C')
+    
+    v1.add_neighbor(v2, 1)
+    v1.add_neighbor(v3, 3)
+    v2.add_neighbor(v3, 1)
+    
+    wg.add_vertex(v1)
+    wg.add_vertex(v2)
+    wg.add_vertex(v3)
+    
+    return wg
+
+def test_dijkstras_shortest_path(weighted_graph):
+    path = dijkstras(weighted_graph, 'A', 'C')
+    assert path == ['A', 'C']
+
+def test_dijkstras_shortest_path_single_node(weighted_graph):
+    path = dijkstras(weighted_graph, 'A', 'A')
+    assert path == ['A']
+
+def test_dijkstras_shortest_path_unreachable(weighted_graph):
+    path = dijkstras(weighted_graph, 'B', 'C')
+    assert path == []
+
+def test_dijkstras_shortest_path_no_path(weighted_graph):
+    path = dijkstras(weighted_graph, 'C', 'A')
+    assert path == []
+
+def test_dijkstras_shortest_path_same_weight(weighted_graph):
+    v4 = Vertex('D')
+    weighted_graph.add_vertex(v4)
+    v3.add_neighbor(v4, 1)
+    
+    path = dijkstras(weighted_graph, 'A', 'D')
+    assert path == ['A', 'C', 'D']
+
+def test_dijkstras_shortest_path_duplicate_edges(weighted_graph):
+    v4 = Vertex('D')
+    weighted_graph.add_vertex(v4)
+    v1.add_neighbor(v4, 2)
+    v3.add_neighbor(v4, 1)
+    
+    path = dijkstras(weighted_graph, 'A', 'D')
+    assert path == ['A', 'C', 'D']
+
+def test_dijkstras_shortest_path_no_nodes(weighted_graph):
+    path = dijkstras(weighted_graph, 'E', 'F')
+    assert path == []

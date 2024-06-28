@@ -1,0 +1,36 @@
+import os
+import sys
+import pytest
+
+# Add project directory to sys.path
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring_empty_string():
+    assert rabin_karp_find_substring('', 'pattern') == -1
+
+def test_rabin_karp_find_substring_empty_pattern():
+    assert rabin_karp_find_substring('text', '') == -1
+
+def test_rabin_karp_find_substring_single_character():
+    assert rabin_karp_find_substring('a', 'a') == 0
+
+def test_rabin_karp_find_substring_pattern_not_found():
+    assert rabin_karp_find_substring('abcdef', 'xyz') == -1
+
+def test_rabin_karp_find_substring_pattern_at_end():
+    assert rabin_karp_find_substring('abcdeff', 'eff') == 4
+
+def test_rabin_karp_find_substring_pattern_at_beginning():
+    assert rabin_karp_find_substring('effabcde', 'eff') == 0
+
+def test_rabin_karp_find_substring_multiple_occurrences():
+    assert rabin_karp_find_substring('ababcabcdab', 'abcd') == 5
+
+def test_rabin_karp_find_substring_large_text_and_pattern():
+    text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    pattern = 'consectetur'
+    assert rabin_karp_find_substring(text, pattern) == 22

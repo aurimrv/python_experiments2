@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+@pytest.fixture
+def graph_instance():
+    graph = Graph(5)
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 4)
+    return graph
+
+def test_graph_add_edge(graph_instance):
+    graph_instance.add_edge(4, 0)
+    assert 0 in graph_instance.graph
+    assert 4 in graph_instance.graph[0]
+
+def test_graph_has_cycle_cycle_exists(graph_instance):
+    graph_instance.add_edge(4, 0)
+    assert graph_instance.has_cycle()
+
+def test_graph_has_cycle_no_cycle(graph_instance):
+    assert not graph_instance.has_cycle()
+
+def test_graph_topological_sort(graph_instance):
+    assert graph_instance.topological_sort() == [0, 1, 2, 3, 4]
+
+@pytest.fixture
+def weighted_graph_instance():
+    w_graph = WeightedGraph()
+    w_graph.add_edge(0, 1, 5)
+    w_graph.add_edge(1, 2, 3)
+    w_graph.add_edge(2, 3, 2)
+    w_graph.add_edge(3, 4, 1)
+    return w_graph
+
+def test_weighted_graph_add_vertex(weighted_graph_instance):
+    weighted_graph_instance.add_vertex(5)
+    assert 5 in weighted_graph_instance.vertices
+
+def test_weighted_graph_add_edge(weighted_graph_instance):
+    weighted_graph_instance.add_edge(4, 0, 4)
+    assert weighted_graph_instance.vertices[4].adjacent[0] == 4
+
+def test_weighted_graph_remove_edge(weighted_graph_instance):
+    weighted_graph_instance.remove_edge(3, 4)
+    assert 4 not in weighted_graph_instance.vertices[3].adjacent

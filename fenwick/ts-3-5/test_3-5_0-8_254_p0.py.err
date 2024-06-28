@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from fenwick_tree import FenwickTree
+
+arr = [1, 2, 3, 4, 5]
+ft = FenwickTree(arr)
+
+def test_update():
+    ft.update(2, 10)
+    assert ft.tree == [0, 1, 3, 10, 4, 5]
+
+    ft.update(4, 7)
+    assert ft.tree == [0, 1, 3, 10, 17, 12]
+
+def test_sum_of_n():
+    assert ft.sum_of_n(2) == 13
+    assert ft.sum_of_n(4) == 19
+
+def test_sum_of_range():
+    assert ft.sum_of_range(1, 3) == 6
+    assert ft.sum_of_range(2, 4) == 17

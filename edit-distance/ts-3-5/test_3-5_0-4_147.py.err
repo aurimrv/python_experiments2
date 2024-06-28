@@ -1,0 +1,44 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "abc"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_one_insertion():
+    str1 = "abc"
+    str2 = "abcd"
+    assert calculate_edit_distance(str1, str2) == ['Insert d']
+
+def test_calculate_edit_distance_one_deletion():
+    str1 = "abcd"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == ['Delete d']
+
+def test_calculate_edit_distance_one_substitution():
+    str1 = "abc"
+    str2 = "axc"
+    assert calculate_edit_distance(str1, str2) == ['Substitute x']
+
+def test_calculate_edit_distance_multiple_operations():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute s', 'Substitute k', 'Insert g']
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string to test edit distance calculation"
+    str2 = "This is another long string to test edit distance"
+    assert calculate_edit_distance(str1, str2) == ['Delete c', 'Delete u', 'Delete l', 'Delete a', 'Delete t', 'Delete i', 'Delete o', 'Delete n', 'Delete ', 'Delete g', 'Delete n', 'Delete i', 'Delete s', 'Delete t', 'Delete ', 'Delete g', 'Delete n', 'Delete i', 'Delete r', 'Delete t', 'Delete ', 'Delete o', 'Delete ', 'Delete t', 'Delete e', 'Delete s', 'Delete t', 'Delete ', 'Delete d', 'Delete i', 'Delete s', 'Delete t', 'Delete a', 'Delete n', 'Delete c', 'Delete e', 'Delete ', 'Delete c', 'Delete a', 'Delete l', 'Delete c', 'Delete u', 'Delete l', 'Delete a', 'Delete t', 'Delete i', 'Delete o', 'Delete n']

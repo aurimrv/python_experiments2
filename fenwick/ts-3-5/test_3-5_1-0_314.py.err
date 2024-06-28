@@ -1,0 +1,50 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from fenwick_tree import FenwickTree
+
+# Test case for the init method
+def test_fenwick_tree_init():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.tree == [0, 1, 3, 3, 10, 5]
+
+# Test cases for the update method
+def test_fenwick_tree_update_single():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    ft.update(2, 8)
+    assert ft.tree == [0, 1, 3, 11, 18, 5]
+
+def test_fenwick_tree_update_multiple():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    ft.update(0, 10)
+    ft.update(3, 6)
+    assert ft.tree == [0, 11, 13, 10, 20, 5]
+
+# Test cases for the sum_of_n method
+def test_fenwick_tree_sum_of_n_single():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.sum_of_n(2) == 6
+
+def test_fenwick_tree_sum_of_n_multiple():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.sum_of_n(3) == 10
+    assert ft.sum_of_n(4) == 15
+
+# Test case for the sum_of_range method
+def test_fenwick_tree_sum_of_range():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.sum_of_range(1, 4) == 9
+    assert ft.sum_of_range(2, 5) == 14
+    assert ft.sum_of_range(0, 3) == 6
+    assert ft.sum_of_range(0, 5) == 15

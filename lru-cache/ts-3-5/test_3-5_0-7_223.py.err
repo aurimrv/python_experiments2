@@ -1,0 +1,62 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+# Test cases for ListNode class
+def test_list_node_init():
+    node = ListNode(1, 'a')
+    assert node.key == 1
+    assert node.val == 'a'
+    assert node.next is None
+    assert node.prev is None
+
+def test_list_node_next():
+    node1 = ListNode(1, 'a')
+    node2 = ListNode(2, 'b')
+    node1.next = node2
+    assert node1.next == node2
+
+# Test cases for LruCache class
+def test_lru_cache_put():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    assert cache.head.next.val == 'b'  # 'b' should be the most recently used
+    assert cache.tail.prev.val == 'a'  # 'a' should be the least recently used
+
+def test_lru_cache_get():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    assert cache.get(1) == 'a'  # Accessing key 1 should make it the most recently used
+    assert cache.head.next.val == 'a'  # 'a' should be the most recently used now
+
+def test_lru_cache_capacity():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')  # Adding a third item should drop the least recently used item
+    assert cache.get(1) == -1  # Key 1 should have been dropped
+    assert cache.get(2) == 'b'  # Key 2 should still be in the cache
+
+def test_lru_cache_remove():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')  # Adding a third item should drop the least recently used item
+    assert cache.tail.prev.val == 'c'  # 'c' should be the most recently used after dropping 'a'
+
+def test_lru_cache_exceptions():
+    with pytest.raises(ValueError):
+        LruCache(0)  # Capacity must be >= 1
+    with pytest.raises(KeyError):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        cache.get(3)  # Accessing a non-existent key should raise KeyError

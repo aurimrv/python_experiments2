@@ -1,0 +1,65 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph_fixture():
+    return Graph()
+
+def test_nodes(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    assert graph_fixture.nodes() == [1, 2]
+
+def test_edges(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    assert graph_fixture.edges() == [(1, 2)]
+
+def test_add_node(graph_fixture):
+    graph_fixture.add_node(1)
+    assert graph_fixture.nodes() == [1]
+
+def test_add_edge(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    assert graph_fixture.edges() == [(1, 2)]
+
+def test_del_node(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    graph_fixture.del_node(1)
+    assert graph_fixture.nodes() == [2]
+    assert graph_fixture.edges() == []
+
+def test_del_edge(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    graph_fixture.del_edge(1, 2)
+    assert graph_fixture.edges() == []
+
+def test_has_node(graph_fixture):
+    graph_fixture.add_node(1)
+    assert graph_fixture.has_node(1) == True
+
+def test_neighbors(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    assert graph_fixture.neighbors(1) == {2}
+
+def test_adjacent(graph_fixture):
+    graph_fixture.add_node(1)
+    graph_fixture.add_node(2)
+    graph_fixture.add_edge(1, 2)
+    assert graph_fixture.adjacent(1, 2) == True

@@ -1,0 +1,61 @@
+import os
+import sys
+from collections import defaultdict, deque
+from graph1 import GraphNode, Graph, WeightedGraphNode, WeightedGraph
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_graph_node_add_remove_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    
+    node1.add_adjacent(node2)
+    assert node1.adjacent_list == {node2}
+    
+    node1.remove_adjacent(node2)
+    assert node1.adjacent_list == set()
+
+def test_graph_add_edge():
+    graph = Graph(3)
+    
+    graph.add_edge(1, 2)
+    assert graph.graph == {1: [2], 2: []}
+    
+    graph.add_edge(2, 3)
+    assert graph.graph == {1: [2], 2: [3], 3: []}
+
+def test_graph_has_cycle():
+    graph = Graph(4)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 1)
+    
+    assert graph.has_cycle() == True
+
+def test_weighted_graph_node_add_remove_adjacent():
+    node1 = WeightedGraphNode(1)
+    node2 = WeightedGraphNode(2)
+    
+    node1.add_adjacent(node2, 5)
+    assert node1.adjacent == {node2: 5}
+    
+    node1.remove_adjacent(node2)
+    assert node1.adjacent == {}
+
+def test_weighted_graph_add_edge():
+    weighted_graph = WeightedGraph()
+    
+    weighted_graph.add_edge(1, 2, 3)
+    assert str(weighted_graph) == "1 adjacent: [2]"
+    
+    weighted_graph.add_edge(2, 3, 4)
+    assert str(weighted_graph) == "1 adjacent: [2], 2 adjacent: [3]"
+
+def test_weighted_graph_remove_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge(1, 2, 3)
+    
+    weighted_graph.remove_edge(1, 2)
+    assert str(weighted_graph) == ""

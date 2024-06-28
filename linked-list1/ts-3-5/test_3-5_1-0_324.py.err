@@ -1,0 +1,48 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+import pytest
+
+
+class TestListNode:
+
+    @pytest.fixture
+    def create_linked_list(self):
+        # Create a sample linked list for testing purposes
+        tail = ListNode(3)
+        node2 = ListNode(2, tail)
+        node1 = ListNode(1, node2)
+        tail.next = node1
+        return node1
+
+    def test_contains_cycle(self, create_linked_list):
+        assert not create_linked_list.contains_cycle()
+        # Creating a cycle manually for testing
+        create_linked_list.next.next.next = create_linked_list.next
+        assert create_linked_list.contains_cycle()
+
+    def test_get_beginning_of_cycle_if_exists(self, create_linked_list):
+        assert create_linked_list.get_beginning_of_cycle_if_exists() is None
+        # Creating a cycle manually for testing
+        create_linked_list.next.next.next = create_linked_list.next
+        assert create_linked_list.get_beginning_of_cycle_if_exists() == create_linked_list.next
+
+    def test_reverse(self, create_linked_list):
+        reversed_linked_list = create_linked_list.reverse()
+        assert reversed_linked_list.val == 3
+        assert reversed_linked_list.next.val == 2
+        assert reversed_linked_list.next.next.val == 1
+        assert reversed_linked_list.next.next.next == reversed_linked_list  # Check circular
+
+    def test_reverse_recursive(self, create_linked_list):
+        reversed_linked_list = create_linked_list.reverse_recursive()
+        assert reversed_linked_list.val == 3
+        assert reversed_linked_list.next.val == 2
+        assert reversed_linked_list.next.next.val == 1
+        assert reversed_linked_list.next.next.next == reversed_linked_list  # Check circular

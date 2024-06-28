@@ -1,0 +1,60 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+@pytest.fixture
+def lru_cache():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    cache.put(2, 20)
+    return cache
+
+# Tests for ListNode class
+def test_list_node_creation():
+    node = ListNode(1, 10)
+    assert node.key == 1
+    assert node.val == 10
+
+# Tests for LruCache class
+def test_lru_cache_creation():
+    cache = LruCache(2)
+    assert cache.capacity == 2
+
+def test_put_method_adds_new_node(lru_cache):
+    lru_cache.put(3, 30)
+    assert lru_cache.get(3) == 30
+
+def test_put_method_over_capacity(lru_cache):
+    lru_cache.put(3, 30)
+    lru_cache.put(4, 40)
+    assert lru_cache.get(1) == -1
+
+def test_get_method_existing_node(lru_cache):
+    assert lru_cache.get(2) == 20
+
+def test_get_method_non_existing_node(lru_cache):
+    assert lru_cache.get(3) == -1
+
+def test_get_method_refreshes_lru_order(lru_cache):
+    lru_cache.get(1)
+    lru_cache.put(3, 30)
+    assert lru_cache.get(2) == -1
+
+def test_internal_add_method(lru_cache):
+    node = ListNode(3, 30)
+    lru_cache._add(node)
+    assert lru_cache.head.next == node
+    assert lru_cache.tail.prev == node
+
+def test_internal_remove_method(lru_cache):
+    node = ListNode(3, 30)
+    lru_cache._add(node)
+    lru_cache._remove(node)
+    assert lru_cache.head.next == lru_cache.tail
+    assert lru_cache.tail.prev == lru_cache.head

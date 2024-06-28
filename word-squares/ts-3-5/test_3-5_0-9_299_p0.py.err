@@ -1,0 +1,30 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_word_squares_empty_input():
+    words = []
+    assert word_squares(words) == []
+
+def test_word_squares_single_word_input():
+    words = ["abcde"]
+    assert word_squares(words) == [["abcde"]]
+
+def test_word_squares_multiple_words_input():
+    words = ["ball", "area", "lead", "lady"]
+    expected_result = [
+        ["ball", "area", "lead", "lady"],
+        ["lead", "area", "lady", "ball"]
+    ]
+    assert word_squares(words) == expected_result
+
+def test_word_squares_duplicate_words_input():
+    words = ["area", "area", "area", "area"]
+    expected_result = [
+        ["area", "area", "area", "area"]
+    ]
+    assert word_squares(words) == expected_result

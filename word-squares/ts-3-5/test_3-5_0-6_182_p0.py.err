@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_word_squares_single_word():
+    words = ['ball']
+    result = word_squares(words)
+    assert result == [['ball']]
+
+def test_word_squares_multiple_words():
+    words = ['area', 'ball', 'lead', 'lady']
+    result = word_squares(words)
+    assert result == [['area', 'lead', 'area', 'lead'], ['area', 'lead', 'area', 'lady'], ['ball', 'area', 'lead', 'lead'], ['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lead', 'area'], ['lead', 'area', 'lead', 'lady'], ['lady', 'area', 'lead', 'area'], ['lady', 'area', 'lead', 'lady']]
+
+def test_word_squares_empty_input():
+    words = []
+    result = word_squares(words)
+    assert result == []
+
+def test_word_squares_same_word():
+    words = ['test']
+    result = word_squares(words)
+    assert result == [['test']]
+
+def test_word_squares_repeated_word():
+    words = ['hello', 'hello']
+    result = word_squares(words)
+    assert result == [['hello', 'hello'], ['hello', 'hello']]
+
+def test_word_squares_long_words():
+    words = ['programming', 'language', 'python']
+    result = word_squares(words)
+    assert result == [['programming', 'language', 'programming'], ['programming', 'language', 'python'], ['language', 'programming', 'language'], ['language', 'programming', 'python'], ['python', 'programming', 'language'], ['python', 'programming', 'python']]

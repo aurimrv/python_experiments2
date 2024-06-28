@@ -1,0 +1,69 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph
+
+def test_dijkstras_shortest_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('C', 'D', 3)
+    weighted_graph.add_edge('A', 'D', 10)
+    
+    src = 'A'
+    dst = 'D'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_no_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('C', 'D', 3)
+    
+    src = 'A'
+    dst = 'D'
+    
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_dijkstras_same_source_destination():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    
+    src = 'A'
+    dst = 'A'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['A']
+
+def test_dijkstras_multiple_paths():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_vertex('E')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('A', 'C', 3)
+    weighted_graph.add_edge('B', 'D', 2)
+    weighted_graph.add_edge('C', 'D', 1)
+    weighted_graph.add_edge('D', 'E', 2)
+    
+    src = 'A'
+    dst = 'E'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D', 'E']

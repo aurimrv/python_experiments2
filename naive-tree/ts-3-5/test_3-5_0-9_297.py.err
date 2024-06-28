@@ -1,0 +1,49 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+
+@pytest.fixture
+def binary_tree():
+    binary_tree = NaiveBinaryTree()
+    binary_tree.head = Node(1)
+    binary_tree.head.left = Node(2)
+    binary_tree.head.right = Node(3)
+    binary_tree.head.left.left = Node(4)
+    binary_tree.head.left.right = Node(5)
+    binary_tree.head.right.left = Node(6)
+    binary_tree.head.right.right = Node(7)
+    return binary_tree
+
+def test_pre_order_traversal(binary_tree):
+    assert binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+    binary_tree.head = Node(10)
+    binary_tree.head.left = Node(20)
+    binary_tree.head.right = Node(30)
+    assert binary_tree.pre_order_traversal() == [10, 20, 30]
+
+def test_in_order_traversal(binary_tree):
+    assert binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+    binary_tree.head = Node(50)
+    binary_tree.head.left = Node(60)
+    binary_tree.head.right = Node(70)
+    assert binary_tree.in_order_traversal() == [60, 50, 70]
+
+def test_post_order_traversal(binary_tree):
+    assert binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+    binary_tree.head = Node(100)
+    binary_tree.head.left = Node(200)
+    binary_tree.head.right = Node(300)
+    assert binary_tree.post_order_traversal() == [200, 300, 100]
+
+def test_level_order_traversal(binary_tree):
+    assert binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+    binary_tree.head = Node(500)
+    binary_tree.head.left = Node(600)
+    binary_tree.head.right = Node(700)
+    assert binary_tree.level_order_traversal() == [500, 600, 700]

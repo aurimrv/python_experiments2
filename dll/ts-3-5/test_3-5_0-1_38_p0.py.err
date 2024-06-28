@@ -1,0 +1,60 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def filled_list():
+    return DoubleLinkedList([1, 2, 3, 4])
+
+def test_node_repr():
+    node = Node(5)
+    assert repr(node) == "Value: 5"
+
+def test_push(empty_list):
+    empty_list.push(10)
+    assert empty_list.head.data == 10
+    assert empty_list.tail.data == 10
+
+def test_pop(filled_list):
+    assert filled_list.pop().data == 1
+    assert filled_list.head.data == 2
+
+def test_append(empty_list):
+    empty_list.append(20)
+    assert empty_list.tail.data == 20
+    assert empty_list.head.data == 20
+
+def test_shift(filled_list):
+    assert filled_list.shift().data == 4
+    assert filled_list.tail.data == 3
+
+def test_remove(filled_list):
+    filled_list.remove(2)
+    assert filled_list.head.data == 1
+    assert filled_list.tail.data == 4
+
+def test_remove_nonexistent(filled_list):
+    with pytest.raises(ValueError):
+        filled_list.remove(5)
+
+def test_push_multiple(empty_list):
+    empty_list.push(30)
+    empty_list.push(40)
+    assert empty_list.head.data == 40
+    assert empty_list.tail.data == 30
+
+def test_append_multiple(empty_list):
+    empty_list.append(50)
+    empty_list.append(60)
+    assert empty_list.tail.data == 60
+    assert empty_list.head.data == 50

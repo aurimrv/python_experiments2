@@ -1,0 +1,46 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_empty():
+    return Trie([])
+
+def test_init(trie_empty):
+    assert trie_empty.head == {}
+
+def test_add_single_word(trie_empty):
+    trie_empty.add('apple')
+    assert trie_empty.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}}
+
+def test_add_multiple_words(trie_empty):
+    trie_empty.add('apple')
+    trie_empty.add('app')
+    trie_empty.add('banana')
+    assert trie_empty.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+def test_get_all_common_prefix_single_word(trie_empty):
+    trie_empty.add('apple')
+    trie_empty.add('app')
+    common_prefix = trie_empty.get_all_common_prefix('ap')
+    assert common_prefix == ['apple', 'app']
+
+def test_get_all_common_prefix_multiple_words(trie_empty):
+    trie_empty.add('apple')
+    trie_empty.add('app')
+    trie_empty.add('banana')
+    common_prefix = trie_empty.get_all_common_prefix('ban')
+    assert common_prefix == ['banana']
+
+def test_get_all_common_prefix_no_prefix(trie_empty):
+    trie_empty.add('apple')
+    trie_empty.add('app')
+    trie_empty.add('banana')
+    common_prefix = trie_empty.get_all_common_prefix('kiwi')
+    assert common_prefix == []

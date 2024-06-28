@@ -1,0 +1,66 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def example_graph():
+    graph_data = ['A', 'B', 'C', 'D']
+    graph = Graph(graph_data)
+    graph.add_edge('A', 'B')
+    graph.add_edge('B', 'C')
+    graph.add_edge('C', 'D')
+    return graph
+
+def test_nodes(example_graph):
+    nodes = example_graph.nodes()
+    assert len(nodes) == 4
+    assert 'A' in nodes
+    assert 'B' in nodes
+    assert 'C' in nodes
+    assert 'D' in nodes
+
+def test_edges(example_graph):
+    edges = example_graph.edges()
+    assert len(edges) == 3
+    assert ('A', 'B') in edges
+    assert ('B', 'C') in edges
+    assert ('C', 'D') in edges
+
+def test_add_node(example_graph):
+    example_graph.add_node('E')
+    nodes = example_graph.nodes()
+    assert 'E' in nodes
+
+def test_add_edge(example_graph):
+    example_graph.add_edge('A', 'C')
+    assert example_graph.adjacent('A', 'C')
+    assert example_graph.adjacent('C', 'D')
+
+def test_del_node(example_graph):
+    example_graph.del_node('A')
+    nodes = example_graph.nodes()
+    assert 'A' not in nodes
+    assert 'B' not in example_graph.neighbors('C')
+
+def test_del_edge(example_graph):
+    example_graph.del_edge('B', 'C')
+    assert not example_graph.adjacent('B', 'C')
+
+def test_has_node(example_graph):
+    assert example_graph.has_node('D')
+    assert not example_graph.has_node('E')
+
+def test_neighbors(example_graph):
+    neighbors = example_graph.neighbors('C')
+    assert 'B' in neighbors
+    assert 'D' in neighbors
+
+def test_adjacent(example_graph):
+    assert example_graph.adjacent('A', 'B')
+    assert not example_graph.adjacent('A', 'D')

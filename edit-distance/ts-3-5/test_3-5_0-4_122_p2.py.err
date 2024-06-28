@@ -1,0 +1,21 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("abc", "abc") == []
+    assert calculate_edit_distance("", "abc") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("abc", "") == ['Insert a', 'Insert b', 'Insert c']
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Substitute n']
+    assert calculate_edit_distance("Saturday", "Sunday") == ['Substitute u', 'Substitute n', 'Substitute d', 'Substitute y', 'Insert y']
+    assert calculate_edit_distance("This is a long string for testing", "This is a long string for testing purposes") == ['Insert  ', 'Insert p']
+    assert calculate_edit_distance("123!@#", "123$@#") == ['Substitute $']
+    assert calculate_edit_distance("hello world", "hello   world") == ['Insert  ', 'Insert  ', 'Insert  ']
+    assert calculate_edit_distance("short", "a very long string") == ['Insert a', 'Insert  ', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert  ', 'Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert  ', 'Insert s', 'Insert t', 'Insert r', 'Insert i', 'Insert n', 'Insert g']

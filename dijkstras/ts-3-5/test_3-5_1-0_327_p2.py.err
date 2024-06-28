@@ -1,0 +1,55 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+from dijkstras import WeightedGraph
+from dijkstras import Vertex
+
+
+def test_dijkstras():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex(1))
+    weighted_graph.add_vertex(Vertex(2))
+    weighted_graph.add_vertex(Vertex(3))
+    weighted_graph.add_vertex(Vertex(4))
+    
+    weighted_graph.add_edge(1, 2, 2)
+    weighted_graph.add_edge(1, 3, 4)
+    weighted_graph.add_edge(2, 3, 1)
+    weighted_graph.add_edge(3, 4, 3)
+    
+    assert dijkstras(weighted_graph, 1, 4) == [1, 3, 4]
+    assert dijkstras(weighted_graph, 1, 2) == [1, 2]
+    
+    
+def test_empty_graph():
+    weighted_graph = WeightedGraph()
+    
+    assert dijkstras(weighted_graph, 1, 2) == []
+    
+    
+def test_unreachable_destination():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex(1))
+    weighted_graph.add_vertex(Vertex(2))
+    
+    weighted_graph.add_edge(1, 2, 3)
+    
+    assert dijkstras(weighted_graph, 1, 3) == []
+    
+    
+def test_negative_weight_edges():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(Vertex(1))
+    weighted_graph.add_vertex(Vertex(2))
+    weighted_graph.add_vertex(Vertex(3))
+    
+    weighted_graph.add_edge(1, 2, -2)
+    weighted_graph.add_edge(2, 3, 1)
+    weighted_graph.add_edge(1, 3, 1)
+    
+    assert dijkstras(weighted_graph, 1, 3) == [1, 2, 3]

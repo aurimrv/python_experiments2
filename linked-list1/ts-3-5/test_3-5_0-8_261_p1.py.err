@@ -1,0 +1,57 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+import pytest
+
+def test_contains_cycle():
+    node1 = ListNode(None)
+    assert node1.contains_cycle() == False
+
+    node2 = ListNode(5)
+    assert node2.contains_cycle() == False
+
+    node3 = ListNode(1)
+    node3.next = ListNode(2)
+    node3.next.next = node3
+    assert node3.contains_cycle() == True
+
+def test_get_beginning_of_cycle_if_exists():
+    node1 = ListNode(None)
+    assert node1.get_beginning_of_cycle_if_exists() == None
+
+    node2 = ListNode(5)
+    assert node2.get_beginning_of_cycle_if_exists() == None
+
+    node3 = ListNode(1)
+    node3.next = ListNode(2)
+    node3.next.next = node3
+    assert node3.get_beginning_of_cycle_if_exists() == node3
+
+def test_reverse():
+    node1 = ListNode(None)
+    assert node1.reverse() == None
+
+    node2 = ListNode(1)
+    node2.next = ListNode(2)
+    node2.next.next = ListNode(3)
+    reversed_node2 = node2.reverse()
+    assert reversed_node2.val == 3
+    assert reversed_node2.next.val == 2
+    assert reversed_node2.next.next.val == 1
+
+def test_reverse_recursive():
+    node1 = ListNode(None)
+    assert node1.reverse_recursive() == None
+
+    node2 = ListNode(1)
+    node2.next = ListNode(2)
+    node2.next.next = ListNode(3)
+    reversed_node2 = node2.reverse_recursive()
+    assert reversed_node2.val == 3
+    assert reversed_node2.next.val == 2
+    assert reversed_node2.next.next.val == 1

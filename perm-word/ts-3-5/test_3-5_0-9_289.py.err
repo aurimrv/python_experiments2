@@ -1,0 +1,34 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from permutations import permutations_of_word
+
+def test_permutations_of_word():
+    # Test empty string
+    assert permutations_of_word('') == ['']
+
+    # Test single letter
+    assert permutations_of_word('a') == ['a']
+
+    # Test word with unique letters
+    assert permutations_of_word('abc') == ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+
+    # Test word with repeated letters
+    assert permutations_of_word('aab') == ['aab', 'aba', 'baa']
+
+    # Test longer word with unique letters
+    assert permutations_of_word('abcd') == ['abcd', 'abdc', 'acbd', 'acdb', 'adbc', 'adcb',
+                                            'bacd', 'badc', 'bcad', 'bcda', 'bdac', 'bdca',
+                                            'cabd', 'cadb', 'cbad', 'cbda', 'cdab', 'cdba',
+                                            'dabc', 'dacb', 'dbac', 'dbca', 'dcab', 'dcba']
+
+    # Test word with mix of unique and repeated letters
+    assert permutations_of_word('aabb') == ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']
+
+    # Test word with all letters being the same
+    assert permutations_of_word('aaa') == ['aaa']

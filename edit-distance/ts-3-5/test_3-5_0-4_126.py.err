@@ -1,0 +1,37 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for single character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for insertion
+    assert calculate_edit_distance("abc", "abdc") == ['Insert d']
+
+    # Test case for deletion
+    assert calculate_edit_distance("abc", "ac") == ['Delete b']
+
+    # Test case for multiple edits
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Substitute n']
+
+    # Test case for long strings
+    assert calculate_edit_distance("This is a long string for testing", "This is a long string for testing purposes") == ['Insert  ', 'Insert p', 'Insert u', 'Insert r', 'Insert p', 'Insert o', 'Insert s', 'Insert e']
+
+    # Test case for special characters
+    assert calculate_edit_distance("123!@#", "12345") == ['Substitute 4', 'Insert 5']
+
+    # Test case for different lengths
+    assert calculate_edit_distance("short", "a very long string") == ['Insert a', 'Insert  ', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert  ', 'Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert  ', 'Insert s', 'Insert t', 'Insert r', 'Insert i', 'Insert n', 'Insert g']

@@ -1,0 +1,55 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph():
+    g = Graph()
+    g.add_node('A')
+    g.add_node('B')
+    g.add_node('C')
+    g.add_edge('A', 'B')
+    g.add_edge('B', 'C')
+    return g
+
+def test_nodes(graph):
+    assert 'A' in graph.nodes()
+    assert 'B' in graph.nodes()
+    assert 'C' in graph.nodes()
+
+def test_edges(graph):
+    assert ('A', 'B') in graph.edges()
+    assert ('B', 'C') in graph.edges()
+
+def test_add_node(graph):
+    graph.add_node('D')
+    assert 'D' in graph.nodes()
+
+def test_add_edge(graph):
+    graph.add_edge('C', 'D')
+    assert ('C', 'D') in graph.edges()
+
+def test_del_node(graph):
+    graph.del_node('A')
+    assert 'A' not in graph.nodes()
+
+def test_del_edge(graph):
+    graph.del_edge('B', 'C')
+    assert ('B', 'C') not in graph.edges()
+
+def test_has_node(graph):
+    assert graph.has_node('B') == True
+    assert graph.has_node('D') == False
+
+def test_neighbors(graph):
+    assert graph.neighbors('B') == {'A', 'C'}
+
+def test_adjacent(graph):
+    assert graph.adjacent('B', 'A') == True
+    assert graph.adjacent('A', 'C') == False

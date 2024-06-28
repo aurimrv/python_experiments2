@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [123, 45, 678, 90, 21]
+    buckets = radixsort.create_buckets(ar, 0)
+    assert len(buckets) == 10
+    assert len(buckets[0]) == 1
+    assert len(buckets[1]) == 1
+    assert len(buckets[2]) == 1
+    assert len(buckets[3]) == 1
+    assert len(buckets[4]) == 0
+    assert len(buckets[5]) == 0
+    assert len(buckets[6]) == 1
+    assert len(buckets[7]) == 1
+    assert len(buckets[8]) == 1
+    assert len(buckets[9]) == 0
+
+def test_create_list():
+    buckets = [[123, 213], [45, 54, 45], [678, 876], [90, 900], [21, 12]]
+    sorted_list = radixsort.create_list(buckets)
+    assert sorted_list == [123, 213, 45, 54, 45, 678, 876, 90, 900, 21, 12]
+
+def test_radixsort():
+    ar = [123, 45, 678, 90, 21]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [21, 45, 90, 123, 678]
+
+def test_radixsort_large_input():
+    ar = [987654321, 123456789, 87654321, 234567890]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [87654321, 123456789, 234567890, 987654321]

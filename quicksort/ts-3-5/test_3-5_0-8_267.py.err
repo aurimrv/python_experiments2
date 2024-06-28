@@ -1,0 +1,57 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+import quicksort
+
+def test_quicksort():
+    # Test case for an already sorted list
+    input_list = [1, 2, 3, 4, 5]
+    expected_output = [1, 2, 3, 4, 5]
+    quicksort.quicksort(input_list)
+    assert input_list == expected_output
+
+    # Test case for a reverse sorted list
+    input_list = [5, 4, 3, 2, 1]
+    expected_output = [1, 2, 3, 4, 5]
+    quicksort.quicksort(input_list)
+    assert input_list == expected_output
+
+    # Test case for a randomly shuffled list
+    input_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8]
+    expected_output = [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 8, 9]
+    quicksort.quicksort(input_list)
+    assert input_list == expected_output
+
+def test_sort():
+    # Test case for sorting a single element list
+    input_list = [1]
+    quicksort.sort(input_list, 0, len(input_list)-1)
+    assert input_list == [1]
+
+    # Test case for sorting an already sorted sublist
+    input_list = [2, 3, 4]
+    quicksort.sort(input_list, 0, len(input_list)-1)
+    assert input_list == [2, 3, 4]
+
+    # Test case for sorting a reverse sorted sublist
+    input_list = [4, 3, 2]
+    quicksort.sort(input_list, 0, len(input_list)-1)
+    assert input_list == [2, 3, 4]
+
+def test_partition():
+    # Test case for partitioning a list with pivot at the end
+    input_list = [5, 2, 7, 4, 1]
+    pivot_index = quicksort.partition(input_list, 0, len(input_list)-1)
+    assert pivot_index == 2
+    assert input_list == [2, 1, 4, 5, 7]
+
+    # Test case for partitioning a list with pivot in the middle
+    input_list = [3, 6, 1, 4, 2, 5]
+    pivot_index = quicksort.partition(input_list, 0, len(input_list)-1)
+    assert pivot_index == 3
+    assert input_list == [3, 1, 2, 4, 6, 5]

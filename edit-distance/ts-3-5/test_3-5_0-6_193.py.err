@@ -1,0 +1,30 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_empty_strings():
+    assert calculate_edit_distance("", "") == []
+
+def test_calculate_edit_distance_same_string():
+    assert calculate_edit_distance("abc", "abc") == []
+
+def test_calculate_edit_distance_insertion():
+    assert calculate_edit_distance("abc", "abdc") == ['Insert d']
+
+def test_calculate_edit_distance_deletion():
+    assert calculate_edit_distance("abc", "ac") == ['Delete b']
+
+def test_calculate_edit_distance_substitution():
+    assert calculate_edit_distance("abc", "adc") == ['Substitute d b']
+
+def test_calculate_edit_distance_complex_case():
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s k', 'Substitute i e', 'Insert g']
+
+def test_calculate_edit_distance_long_strings():
+    assert calculate_edit_distance("This is a long string", "This is another long string") == ['Insert a', 'Insert n', 'Insert o', 'Insert t', 'Insert h', 'Insert e', 'Insert r']

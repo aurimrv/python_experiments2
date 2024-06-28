@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_word_squares_single_input():
+    words = ["ball"]
+    assert word_squares(words) == [['ball']]
+
+def test_word_squares_multiple_inputs():
+    words = ["area", "ball", "lead", "lady"]
+    assert word_squares(words) == [['area', 'lead', 'area', 'lead'],
+                                   ['ball', 'area', 'lead', 'lady'],
+                                   ['lead', 'area', 'ball', 'lady'],
+                                   ['lady', 'area', 'ball', 'lead']]
+
+def test_word_squares_empty_input():
+    words = []
+    assert word_squares(words) == []
+
+def test_word_squares_repeated_words():
+    words = ["stop", "pot", "band", "toss"]
+    assert word_squares(words) == [['stop', 'toss', 'pot', 'pot']]
+
+def test_word_squares_long_input():
+    words = ["wall", "ally", "load", "lama", "ally"]
+    assert word_squares(words) == [['wall', 'ally', 'load', 'lama'],
+                                   ['ally', 'load', 'load', 'lama']]

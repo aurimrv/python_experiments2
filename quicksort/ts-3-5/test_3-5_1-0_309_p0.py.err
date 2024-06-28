@@ -1,0 +1,62 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_partition_basic_case():
+    ar = [5]
+    partitioned_index = quicksort.partition(ar, 0, 0)
+    assert partitioned_index == 0
+    assert ar == [5]
+
+def test_partition_multiple_elements():
+    ar = [3, 1, 4, 1, 5, 9, 2]
+    partitioned_index = quicksort.partition(ar, 0, len(ar)-1)
+    assert partitioned_index == 4
+    assert ar == [3, 1, 4, 1, 2, 9, 5]
+
+def test_sort_empty_list():
+    ar = []
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == []
+
+def test_sort_single_element():
+    ar = [5]
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == [5]
+
+def test_sort_already_sorted_list():
+    ar = [1, 2, 3, 4, 5]
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == [1, 2, 3, 4, 5]
+
+def test_sort_reverse_sorted_list():
+    ar = [5, 4, 3, 2, 1]
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == [1, 2, 3, 4, 5]
+
+def test_quicksort_empty_list():
+    ar = []
+    sorted_ar = quicksort(ar)
+    assert sorted_ar == []
+
+def test_quicksort_single_element():
+    ar = [5]
+    sorted_ar = quicksort(ar)
+    assert sorted_ar == [5]
+
+def test_quicksort_multiple_elements():
+    ar = [3, 1, 4, 1, 5, 9, 2]
+    sorted_ar = quicksort(ar)
+    assert sorted_ar == [1, 1, 2, 3, 4, 5, 9]
+
+def test_quicksort_large_list():
+    ar = [7, 2, 11, 15, 1, 4, 9, 6, 3, 8, 5, 14, 10, 13, 12]
+    sorted_ar = quicksort(ar)
+    assert sorted_ar == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]

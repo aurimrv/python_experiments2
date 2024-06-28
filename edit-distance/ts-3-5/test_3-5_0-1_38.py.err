@@ -1,0 +1,38 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute k', 'Substitute i', 'Substitute t', 'Match', 'Match', 'Match', 'Match']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_insert():
+    str1 = "hello"
+    str2 = "hell"
+    expected = ['Delete o']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_delete():
+    str1 = "world"
+    str2 = "word"
+    expected = ['Match', 'Delete l']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string for testing purposes"
+    str2 = "This is a long string for other testing purposes"
+    expected = ['Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', '

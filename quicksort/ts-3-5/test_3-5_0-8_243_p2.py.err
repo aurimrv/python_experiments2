@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_partition():
+    ar = [3, 5, 1, 4, 2]
+    partition_index = quicksort(ar.copy(), 0, len(ar)-1)
+    assert ar == [1, 2, 3, 4, 5]
+    assert partition_index == 2
+
+    ar2 = [10, 7, 8, 9, 1, 5]
+    partition_index2 = quicksort(ar2.copy(), 0, len(ar2)-1)
+    assert ar2 == [1, 7, 8, 9, 10, 5]
+    assert partition_index2 == 0
+
+def test_sort():
+    ar = [3, 5, 1, 4, 2]
+    quicksort(ar.copy(), 0, len(ar)-1)
+    assert ar == [1, 2, 3, 4, 5]
+
+    ar2 = [10, 7, 8, 9, 1, 5]
+    quicksort(ar2.copy(), 0, len(ar2)-1)
+    assert ar2 == [1, 5, 7, 8, 9, 10]
+
+def test_quicksort():
+    ar = [3, 5, 1, 4, 2]
+    sorted_ar = quicksort(ar.copy())
+    assert sorted_ar == [1, 2, 3, 4, 5]
+
+    ar2 = [10, 7, 8, 9, 1, 5]
+    sorted_ar2 = quicksort(ar2.copy())
+    assert sorted_ar2 == [1, 5, 7, 8, 9, 10]

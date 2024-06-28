@@ -1,0 +1,78 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+# Test cases for Node class
+def test_node_creation():
+    # Test creating a node with integer data
+    n = Node(5)
+    assert n.data == 5
+    assert n.next == None
+
+    # Test creating a node with string data
+    n = Node('hello')
+    assert n.data == 'hello'
+    assert n.next == None
+
+# Test cases for LinkedList class
+def test_linked_list_initialization():
+    # Test creating an empty linked list
+    ll = LinkedList()
+    assert ll.head == None
+    assert ll.size() == 0
+
+    # Test creating a linked list with initial data
+    ll = LinkedList([1, 2, 3, 4, 5])
+    assert ll.head.data == 1
+    assert ll.size() == 5
+
+def test_linked_list_push():
+    ll = LinkedList([1, 2, 3])
+    
+    ll.push(4)
+    assert ll.head.data == 4
+    assert ll.size() == 4
+
+    ll.push(5)
+    assert ll.head.data == 5
+    assert ll.size() == 5
+
+def test_linked_list_pop():
+    ll = LinkedList([1, 2, 3])
+    
+    popped = ll.pop()
+    assert popped == 1
+    assert ll.head.data == 2
+    assert ll.size() == 2
+
+    popped = ll.pop()
+    assert popped == 2
+    assert ll.head.data == 3
+    assert ll.size() == 1
+
+def test_linked_list_search():
+    ll = LinkedList([1, 2, 3])
+    
+    assert ll.search(2).data == 2
+    assert ll.search(4) == None
+
+def test_linked_list_remove():
+    ll = LinkedList([1, 2, 3])
+    
+    ll.remove(2)
+    assert ll.size() == 2
+
+    ll.remove(1)
+    assert ll.size() == 1
+
+    ll.remove(5)  # Removing non-existing value
+    assert ll.size() == 1
+
+def test_linked_list_display():
+    ll = LinkedList([1, 'hello', 3, 'world'])
+    
+    assert ll.display() == '(1, hello, 3, world)'

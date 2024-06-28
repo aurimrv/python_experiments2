@@ -1,0 +1,29 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_instance():
+    words = ['apple', 'app', 'apply', 'banana', 'bat']
+    return Trie(words)
+
+def test_trie_initialization(trie_instance):
+    assert trie_instance.head != {}
+    assert trie_instance.head['a']['p']['p']['l']['e'][Trie.eof] == Trie.eof
+    assert trie_instance.head['b']['a']['t'][Trie.eof] == Trie.eof
+
+def test_add_method(trie_instance):
+    trie_instance.add('ball')
+    assert trie_instance.head['b']['a']['l']['l'][Trie.eof] == Trie.eof
+
+def test_get_all_common_prefix_method(trie_instance):
+    assert trie_instance.get_all_common_prefix('a') == ['apple', 'app', 'apply']
+    assert trie_instance.get_all_common_prefix('b') == ['banana', 'bat']
+    assert trie_instance.get_all_common_prefix('ba') == ['banana', 'bat']
+    assert trie_instance.get_all_common_prefix('c') == [] 

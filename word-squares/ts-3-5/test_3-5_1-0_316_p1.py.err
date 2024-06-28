@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_trie_insert():
+    trie = Trie(['apple', 'banana', 'apricot'])
+    assert 'a' in trie.root.children
+    assert 'b' in trie.root.children
+
+def test_trie_search():
+    trie = Trie(['apple', 'banana', 'apricot'])
+    assert trie.search('apple')
+    assert not trie.search('grape')
+
+def test_trie_get_all_common_prefix():
+    trie = Trie(['apple', 'banana', 'apricot'])
+    assert trie.get_all_common_prefix('app') == ['apple']
+
+def test_word_squares_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    result = word_squares(words)
+    assert len(result) == 8
+
+def test_word_squares_construct_square():
+    words = ['ball', 'area', 'lead', 'lady']
+    result = word_squares(words)
+    assert ['ball', 'area', 'lead', 'lady'] in result
+
+def test_word_squares_construct_empty():
+    words = []
+    result = word_squares(words)
+    assert len(result) == 0

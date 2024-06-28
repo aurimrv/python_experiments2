@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import Trie, word_squares
+
+# Test cases for Trie class
+def test_trie_insert():
+    trie = Trie([])
+    trie.insert("cat")
+    assert trie.root['c']['a']['t'] == {'*': True}
+
+def test_trie_search():
+    trie = Trie(["cat"])
+    assert trie.search("cat") is True
+    assert trie.search("dog") is False
+
+def test_trie_get_all_common_prefix():
+    trie = Trie(["cat", "car", "dog"])
+    assert trie.get_all_common_prefix("ca") == ["cat", "car"]
+
+# Test cases for word_squares function
+def test_word_squares_single_word():
+    words = ["ball"]
+    assert word_squares(words) == [['ball']]
+
+def test_word_squares_multiple_words():
+    words = ["area", "ball", "lead", "lady"]
+    assert word_squares(words) == [['area', 'lead', 'area', 'lead'], ['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lead', 'area'], ['lady', 'area', 'lead', 'lady']]
+
+def test_word_squares_empty_input():
+    words = []
+    assert word_squares(words) == []

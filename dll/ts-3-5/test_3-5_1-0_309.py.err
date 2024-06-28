@@ -1,0 +1,79 @@
+import os
+import sys
+import pytest
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from dll import Node, DoubleLinkedList
+
+# Test cases for Node class
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_node_string_representation():
+    node = Node(10)
+    assert str(node) == 'Value: 10'
+
+# Test cases for DoubleLinkedList class
+def test_init_empty_list():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_push_method():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    assert dll.head.data == 1
+    assert dll.tail.data == 1
+
+def test_pop_method():
+    dll = DoubleLinkedList([3, 7, 9])
+    popped = dll.pop()
+    assert popped == 3
+    assert dll.head.data == 7
+
+def test_append_method():
+    dll = DoubleLinkedList()
+    dll.append(4)
+    assert dll.head.data == 4
+    assert dll.tail.data == 4
+
+def test_shift_method():
+    dll = DoubleLinkedList([8, 2, 6])
+    shifted = dll.shift()
+    assert shifted == 6
+    assert dll.tail.data == 2
+
+def test_remove_method():
+    dll = DoubleLinkedList([1, 2, 3, 4, 5])
+    dll.remove(3)
+    assert dll._length == 4
+    dll.remove(1)
+    assert dll.head.data == 2
+    dll.remove(5)
+    assert dll.tail.data == 4
+
+def test_remove_nonexistent_value():
+    dll = DoubleLinkedList([10, 20, 30])
+    with pytest.raises(ValueError):
+        dll.remove(15)
+
+def test_remove_only_value():
+    dll = DoubleLinkedList(5)
+    dll.remove(5)
+    assert dll.head is None
+    assert dll.tail is None
+
+def test_popping_from_empty_list():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.pop()
+
+def test_shifting_from_empty_list():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.shift()

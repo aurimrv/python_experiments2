@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_radixsort_single_number():
+    assert radixsort([5]) == [5]
+    
+def test_radixsort_distinct_numbers():
+    assert radixsort([170, 45, 75, 90, 802, 24, 2, 66]) == [2, 24, 45, 66, 75, 90, 170, 802]
+    
+def test_radixsort_duplicate_numbers():
+    assert radixsort([8, 6, 7, 8, 2, 5, 6]) == [2, 5, 6, 6, 7, 8, 8]
+    
+def test_radixsort_empty_list():
+    if radixsort([]) == []:
+        assert radixsort([]) == []
+    else:
+        assert radixsort([]) == None
+        
+def test_radixsort_large_numbers():
+    assert radixsort([12345, 67890, 54321, 98765, 24680]) == [12345, 24680, 54321, 67890, 98765] 

@@ -1,0 +1,184 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for strings with one character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for strings with one character addition
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for strings with one character deletion
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+
+    # Test case for strings with multiple differences
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Substitute n']
+
+    # Test case for long strings with multiple operations
+    assert calculate_edit_distance("intention", "execution") == ['Substitute e', 'Substitute x', 'Insert e', 'Substitute c', 'Substitute u', 'Substitute t', 'Substitute i', 'Insert n']
+
+    # Test case for strings with spaces
+    assert calculate_edit_distance("hello world", "hello there") == ['Substitute t', 'Substitute h', 'Substitute e', 'Substitute r', 'Substitute e', 'Substitute r', 'Substitute e', 'Substitute ', 'Substitute w', 'Substitute o', 'Substitute l']
+
+    # Test case for strings with special characters
+    assert calculate_edit_distance("abc@123", "abc#123") == ['Substitute #']
+
+    # Test case for strings with numbers
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1']
+
+    # Test case for strings with uppercase and lowercase characters
+    assert calculate_edit_distance("AbCdEfG", "aBcDeFg") == ['Substitute a', 'Substitute e', 'Substitute G']
+
+    # Test case for strings with different lengths
+    assert calculate_edit_distance("short", "thisisaverylongstring") == ['Insert t', 'Insert h', 'Insert i', 'Insert s', 'Insert i', 'Insert s', 'Insert a', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert l', 'Insert o', 'Insert n', 'Insert g']
+
+    # Test case for strings with multiple operations at the same position
+    assert calculate_edit_distance("abc", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z']
+
+    # Test case for strings with no common characters
+    assert calculate_edit_distance("123", "456") == ['Substitute 4', 'Substitute 5', 'Substitute 6']
+
+    # Test case for strings with all operations
+    assert calculate_edit_distance("abc", "xyz123") == ['Substitute x', 'Substitute y', 'Substitute z', 'Insert 1', 'Insert 2', 'Insert 3']
+
+    # Test case for long strings with no differences
+    assert calculate_edit_distance("this is a long string with no differences", "this is a long string with no differences") == []
+
+    # Test case for strings with multiple spaces
+    assert calculate_edit_distance("a b c", "a   b c") == ['Insert  ', 'Insert  ']
+
+    # Test case for strings with leading and trailing spaces
+    assert calculate_edit_distance("  abc", "abc  ") == ['Delete  ', 'Delete  ']
+
+    # Test case for strings with special characters and numbers
+    assert calculate_edit_distance("abc123!@#", "xyz456$%^") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for strings with repeated characters
+    assert calculate_edit_distance("aaabbbccc", "aabbbccc") == ['Delete a']
+
+    # Test case for strings with repeated characters and differences
+    assert calculate_edit_distance("aaabbbccc", "aabbdccc") == ['Substitute d', 'Delete a']
+
+    # Test case for strings with multiple operations at different positions
+    assert calculate_edit_distance("abcdef", "axcxex") == ['Substitute x', 'Substitute c', 'Substitute e']
+
+    # Test case for strings with multiple operations in a sequence
+    assert calculate_edit_distance("abc", "xyzabc") == ['Insert x', 'Insert y', 'Insert z']
+
+    # Test case for strings with multiple operations in reverse order
+    assert calculate_edit_distance("abc", "abcxyz") == ['Insert x', 'Insert y', 'Insert z']
+
+    # Test case for strings with multiple operations in random order
+    assert calculate_edit_distance("abc", "zaybxc") == ['Substitute z', 'Substitute x', 'Substitute y', 'Insert z', 'Insert a']
+
+    # Test case for strings with multiple operations and spaces
+    assert calculate_edit_distance("a b c", "a x b y c z") == ['Substitute x', 'Substitute y', 'Substitute z', 'Insert  ', 'Insert  ', 'Insert  ']
+
+    # Test case for strings with multiple operations and special characters
+    assert calculate_edit_distance("abc!@#", "xyz$%^") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for strings with multiple operations and numbers
+    assert calculate_edit_distance("123abc456", "xyz789") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 7', 'Substitute 8', 'Substitute 9', 'Delete 1', 'Delete 2', 'Delete 3', 'Insert 7', 'Insert 8', 'Insert 9']
+
+    # Test case for strings with multiple operations and uppercase characters
+    assert calculate_edit_distance("AbCdEfG", "xYzWvU") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute W', 'Substitute v', 'Substitute U']
+
+    # Test case for strings with multiple operations and lowercase characters
+    assert calculate_edit_distance("abcdefg", "xyzuvw") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute u', 'Substitute v', 'Substitute w']
+
+    # Test case for strings with multiple operations and mixed characters
+    assert calculate_edit_distance("aBcD1eFg", "xYz2uW") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W']
+
+    # Test case for strings with multiple operations and mixed characters in reverse order
+    assert calculate_edit_distance("aBcD1eFg", "Wu2zYx") == ['Substitute W', 'Substitute u', 'Substitute z', 'Substitute Y', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters in random order
+    assert calculate_edit_distance("aBcD1eFg", "zY2uWx") == ['Substitute z', 'Substitute Y', 'Substitute 2', 'Substitute u', 'Substitute W', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with spaces
+    assert calculate_edit_distance("a B c D 1 e F g", "x Y z 2 u W") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W']
+
+    # Test case for strings with multiple operations and mixed characters with special characters
+    assert calculate_edit_distance("a!BcD1eFg", "x@Yz2uW") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W']
+
+    # Test case for strings with multiple operations and mixed characters with numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uW") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase
+    assert calculate_edit_distance("aBcD1eFg", "xYz2uWv") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W', 'Insert v']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase in reverse order
+    assert calculate_edit_distance("aBcD1eFg", "vWu2zYx") == ['Substitute v', 'Substitute W', 'Substitute u', 'Substitute z', 'Substitute Y', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase in random order
+    assert calculate_edit_distance("aBcD1eFg", "zY2uWvX") == ['Substitute z', 'Substitute Y', 'Substitute 2', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert X']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase with spaces
+    assert calculate_edit_distance("a B c D 1 e F g", "x Y z 2 u W v") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W', 'Insert v']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase with special characters
+    assert calculate_edit_distance("a!BcD1eFg", "x@Yz2uWv") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W', 'Insert v']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase with numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Insert v']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters
+    assert calculate_edit_distance("a!BcD1eFg", "x@Yz2uWv$") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 2', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv7") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Insert v', 'Insert 7']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers
+    assert calculate_edit_distance("a!BcD123eFg", "x@Yz456uWv$") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers in reverse order
+    assert calculate_edit_distance("a!BcD123eFg", "$vWu654zYx") == ['Substitute $', 'Substitute v', 'Substitute W', 'Substitute u', 'Substitute 6', 'Substitute 5', 'Substitute 4', 'Substitute z', 'Substitute Y', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers in random order
+    assert calculate_edit_distance("a!BcD123eFg", "zY6uWv$2x") == ['Substitute z', 'Substitute Y', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Substitute $', 'Substitute 2', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with spaces
+    assert calculate_edit_distance("a! BcD123eFg", "x@ Yz456uWv$") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with special characters
+    assert calculate_edit_distance("a!BcD123eFg", "x@Yz456uWv$%") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $', 'Insert %']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv7") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert 7']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWvV") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert V']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase in reverse order
+    assert calculate_edit_distance("aBcD123eFg", "VWu654zYx") == ['Substitute V', 'Substitute W', 'Substitute u', 'Substitute 6', 'Substitute 5', 'Substitute 4', 'Substitute z', 'Substitute Y', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase in random order
+    assert calculate_edit_distance("aBcD123eFg", "zY6uWvVx") == ['Substitute z', 'Substitute Y', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Substitute V', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with spaces
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv V") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert  ']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with special characters
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv$V") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $', 'Insert V']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv7V") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert 7', 'Insert V']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with special characters and numbers
+    assert calculate_edit_distance("aBcD123eFg", "xYz456uWv$7V") == ['Substitute x', 'Substitute Y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute u', 'Substitute W', 'Substitute v', 'Insert $', 'Insert 7', 'Insert V']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with special characters and numbers in reverse order
+    assert calculate_edit_distance("aBcD123eFg", "V7$vu654zYx") == ['Substitute V', 'Substitute 7', 'Substitute $', 'Substitute v', 'Substitute u', 'Substitute 6', 'Substitute 5', 'Substitute 4', 'Substitute z', 'Substitute Y', 'Substitute x']
+
+    # Test case for strings with multiple operations and mixed characters with uppercase and lowercase and special characters and numbers with uppercase and lowercase with

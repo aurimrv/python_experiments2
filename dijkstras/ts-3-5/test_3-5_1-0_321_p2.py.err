@@ -1,0 +1,73 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class WeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+class Vertex:
+    def __init__(self, value):
+        self.value = value
+        self.adjacent = {}
+
+def test_dijkstras_shortest_path():
+    graph = WeightedGraph({
+        'A': Vertex('A'),
+        'B': Vertex('B'),
+        'C': Vertex('C'),
+        'D': Vertex('D'),
+        'E': Vertex('E')
+    })
+    graph.vertices['A'].adjacent = {'B': 6, 'D': 1}
+    graph.vertices['B'].adjacent = {'C': 5}
+    graph.vertices['C'].adjacent = {'D': 2}
+    graph.vertices['D'].adjacent = {'E': 5}
+    graph.vertices['E'].adjacent = {}
+
+    assert dijkstras(graph, 'A', 'E') == ['A', 'D', 'E']
+
+def test_dijkstras_same_node():
+    graph = WeightedGraph({
+        'X': Vertex('X')
+    })
+
+    assert dijkstras(graph, 'X', 'X') == ['X']
+
+def test_dijkstras_unreachable_node():
+    graph = WeightedGraph({
+        'P': Vertex('P'),
+        'Q': Vertex('Q')
+    })
+    graph.vertices['P'].adjacent = {'Q': 3}
+
+    assert dijkstras(graph, 'Q', 'P') == []
+
+def test_dijkstras_path_not_optimal():
+    graph = WeightedGraph({
+        'S': Vertex('S'),
+        'T': Vertex('T'),
+        'U': Vertex('U'),
+        'V': Vertex('V')
+    })
+    graph.vertices['S'].adjacent = {'T': 3, 'U': 2}
+    graph.vertices['T'].adjacent = {'V': 4}
+    graph.vertices['U'].adjacent = {'V': 1}
+    graph.vertices['V'].adjacent = {}
+
+    assert dijkstras(graph, 'S', 'V') == ['S', 'U', 'V']
+
+def test_dijkstras_no_path():
+    graph = WeightedGraph({
+        'M': Vertex('M'),
+        'N': Vertex('N'),
+        'O': Vertex('O')
+    })
+    graph.vertices['M'].adjacent = {'O': 2}
+    graph.vertices['O'].adjacent = {'N': 1}
+
+    assert dijkstras(graph, 'M', 'N') == []

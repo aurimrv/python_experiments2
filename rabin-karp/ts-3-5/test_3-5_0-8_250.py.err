@@ -1,0 +1,29 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("hello", "ell") == 1
+    assert rabin_karp_find_substring("hello", "llo") == 2
+    assert rabin_karp_find_substring("hello", "hello") == 0
+
+def test_rabin_karp_find_substring_empty_input():
+    assert rabin_karp_find_substring("", "") == 0
+    assert rabin_karp_find_substring("hello", "") == 0
+    assert rabin_karp_find_substring("", "hello") == -1
+
+def test_rabin_karp_find_substring_long_strings():
+    assert rabin_karp_find_substring("abracadabra", "cad") == 5
+    assert rabin_karp_find_substring("thisisalongstring", "long") == 9
+    assert rabin_karp_find_substring("aaaaabbbbbccccc", "bbbbb") == 5
+
+def test_rabin_karp_find_substring_special_characters():
+    assert rabin_karp_find_substring("apple$%#banana", "$%#") == 5
+    assert rabin_karp_find_substring("12345", "5") == 4
+    assert rabin_karp_find_substring(" !@#$%^&*()", "$%^") == 5

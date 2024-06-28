@@ -1,0 +1,35 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_create_buckets():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    iteration = 1
+    expected_buckets = [[90], [802], [], [2], [24], [75], [45], [66], [170]]
+    assert radixsort.create_buckets(ar, iteration) == expected_buckets
+
+    ar = [754, 12, 946, 112, 345, 123, 789]
+    iteration = 2
+    expected_buckets = [[12, 112, 123], [], [754], [345], [], [946], [], [789]]
+    assert radixsort.create_buckets(ar, iteration) == expected_buckets
+
+def test_create_list():
+    buckets = [[90], [802], [], [2], [24], [75], [45], [66], [170]]
+    expected_list = [90, 802, 2, 24, 75, 45, 66, 170]
+    assert radixsort.create_list(buckets) == expected_list
+
+    buckets = [[12, 112, 123], [], [754], [345], [], [946], [], [789]]
+    expected_list = [12, 112, 123, 754, 345, 946, 789]
+    assert radixsort.create_list(buckets) == expected_list
+
+def test_radixsort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = [2, 24, 45, 66, 75, 90, 170, 802]
+    assert radixsort.radixsort(ar) == sorted_ar
+
+    ar = [754, 12, 946, 112, 345, 123, 789]
+    sorted_ar = [12, 112, 123, 345, 754, 789, 946]
+    assert radixsort.radixsort(ar) == sorted_ar

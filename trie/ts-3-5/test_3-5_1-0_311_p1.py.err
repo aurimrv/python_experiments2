@@ -1,0 +1,30 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie():
+    words = ["apple", "app", "banana", "bat", "cat"]
+    return Trie(words)
+
+def test_init(trie):
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, '__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, 't': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'c': {'a': {'t': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}
+
+def test_add_word(trie):
+    trie.add("dog")
+    assert trie.head['d']['o']['g']['__eof__'] == '__eof__'
+
+@pytest.mark.parametrize("prefix, expected", [
+    ("ap", ["apple", "app"]),
+    ("ba", ["banana", "bat"]),
+    ("ca", ["cat"]),
+    ("cattle", [])
+])
+def test_get_all_common_prefix(trie, prefix, expected):
+    assert trie.get_all_common_prefix(prefix) == expected

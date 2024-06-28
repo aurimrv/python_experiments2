@@ -1,0 +1,93 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+# Test class ListNode contains_cycle method
+def test_contains_cycle_empty_list():
+    node = ListNode(5)
+    assert node.contains_cycle() == False
+
+def test_contains_cycle_no_cycle():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    assert node1.contains_cycle() == False
+
+def test_contains_cycle_with_cycle():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    node3.next = node1
+    assert node1.contains_cycle() == True
+
+# Test class ListNode get_beginning_of_cycle_if_exists method
+def test_get_beginning_of_cycle_if_exists_empty_list():
+    node = ListNode(5)
+    assert node.get_beginning_of_cycle_if_exists() == None
+
+def test_get_beginning_of_cycle_if_exists_no_cycle():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    assert node1.get_beginning_of_cycle_if_exists() == None
+
+def test_get_beginning_of_cycle_if_exists_with_cycle():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node4 = ListNode(4)
+    node1.next = node2
+    node2.next = node3
+    node3.next = node4
+    node4.next = node2
+    assert node1.get_beginning_of_cycle_if_exists().val == 2
+
+# Test class ListNode reverse method
+def test_reverse_empty_list():
+    node = ListNode(5)
+    new_head = node.reverse()
+    assert new_head.val == 5
+    assert new_head.next == None
+
+def test_reverse_non_empty_list():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    new_head = node1.reverse()
+    assert new_head.val == 3
+    assert new_head.next.val == 2
+    assert new_head.next.next.val == 1
+    assert new_head.next.next.next == None
+
+# Test class ListNode reverse_recursive method
+def test_reverse_recursive_empty_list():
+    node = ListNode(5)
+    new_head = node.reverse_recursive()
+    assert new_head.val == 5
+    assert new_head.next == None
+
+def test_reverse_recursive_non_empty_list():
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    new_head = node1.reverse_recursive()
+    assert new_head.val == 3
+    assert new_head.next.val == 2
+    assert new_head.next.next.val == 1
+    assert new_head.next.next.next == None

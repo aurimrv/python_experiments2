@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+# Test cases for Graph class
+class TestGraph:
+    def setup_method(self):
+        self.graph = Graph(5)
+
+    def test_add_edge(self):
+        self.graph.add_edge(1, 2)
+        assert self.graph.graph == {1: [2], 2: []}
+    
+    def test_has_cycle(self):
+        self.graph.add_edge(1, 2)
+        self.graph.add_edge(2, 3)
+        self.graph.add_edge(3, 1)
+        assert self.graph.has_cycle() is True
+    
+    def test_topological_sort(self):
+        self.graph.add_edge(1, 2)
+        self.graph.add_edge(2, 3)
+        self.graph.add_edge(4, 3)
+        assert self.graph.topological_sort() == [4, 1, 2, 3]
+
+# Test cases for WeightedGraph class
+class TestWeightedGraph:
+    def setup_method(self):
+        self.w_graph = WeightedGraph()
+
+    def test_add_edge(self):
+        self.w_graph.add_edge(1, 2, 5)
+        assert self.w_graph.vertices[1].adjacent == {2: 5}
+    
+    def test_remove_edge(self):
+        self.w_graph.add_edge(1, 2, 5)
+        self.w_graph.remove_edge(1, 2)
+        assert self.w_graph.vertices[1].adjacent == {}
+
+    def test_add_vertex(self):
+        self.w_graph.add_vertex(1)
+        assert self.w_graph.vertices[1].val == 1
+
+    def test_str(self):
+        self.w_graph.add_vertex(1)
+        self.w_graph.add_vertex(2)
+        self.w_graph.add_edge(1, 2, 3)
+        assert str(self.w_graph) == "1 adjacent: [2], 2 adjacent: []"

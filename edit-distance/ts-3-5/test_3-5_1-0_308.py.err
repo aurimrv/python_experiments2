@@ -1,0 +1,34 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test empty strings
+    assert calculate_edit_distance('', '') == []
+
+    # Test identical strings
+    assert calculate_edit_distance('abcd', 'abcd') == []
+
+    # Test strings with one character difference
+    assert calculate_edit_distance('abc', 'abd') == ['Substitute d']
+
+    # Test strings with different lengths
+    assert calculate_edit_distance('abc', 'abcd') == ['Insert d']
+
+    # Test strings with multiple edits required
+    assert calculate_edit_distance('kitten', 'sitting') == ['Substitute s', 'Substitute k', 'Substitute n', 'Substitute e', 'Substitute k', 'Insert g']
+
+    # Test strings where only deletions are needed
+    assert calculate_edit_distance('abc', 'c') == ['Delete a', 'Delete b']
+
+    # Test strings where only insertions are needed
+    assert calculate_edit_distance('x', 'xyz') == ['Insert y', 'Insert z']
+
+    # Test very long strings
+    assert calculate_edit_distance('This is a very long input string for testing purposes', 'This is the very long output for the testing objective purposes') == ['Substitute t', 'Substitute o', 'Substitute f', 'Substitute t', 'Substitute j', 'Substitute e', 'Substitute b', 'Substitute c', 'Substitute t', 'Substitute i', 'Substitute s', 'Insert h', 'Insert e', 'Insert l', 'Insert l', 'Insert o']
+
+    # Add more test cases as needed

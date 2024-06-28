@@ -1,0 +1,47 @@
+import os
+import sys
+import pytest
+
+# Set the correct project directory
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+# Import the file for testing
+from quicksort import quicksort
+
+def test_quicksort():
+    # Test case for an empty list
+    assert quicksort([]) == []
+
+    # Test case for a list with a single element
+    assert quicksort([1]) == [1]
+
+    # Test case for a list with already sorted elements
+    assert quicksort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+    # Test case for a list in descending order
+    assert quicksort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+
+    # Test case for a list with duplicate elements
+    assert quicksort([3, 2, 1, 3, 0]) == [0, 1, 2, 3, 3]
+
+def test_partition():
+    # Test case for partition with basic input
+    ar = [3, 8, 1, 5, 9, 6]
+    result = quicksort.partition(ar, 0, 5)
+    assert ar == [3, 1, 5, 6, 9, 8]
+    assert result == 2
+
+    # Test case for partition on an already sorted list
+    ar = [1, 2, 3, 4, 5, 6]
+    result = quicksort.partition(ar, 0, 5)
+    assert ar == [1, 2, 3, 4, 5, 6]
+    assert result == 5
+
+    # Test case for partition on a list in descending order
+    ar = [6, 5, 4, 3, 2, 1]
+    result = quicksort.partition(ar, 0, 5)
+    assert ar == [1, 5, 4, 3, 2, 6]
+    assert result == 0

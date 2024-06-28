@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph():
+    g = Graph()
+    g.add_node(1)
+    g.add_node(2)
+    g.add_edge(1, 2)
+    return g
+
+def test_nodes(graph):
+    assert graph.nodes() == [1, 2]
+
+def test_edges(graph):
+    assert graph.edges() == [(1, 2)]
+
+def test_add_node(graph):
+    graph.add_node(3)
+    assert graph.nodes() == [1, 2, 3]
+
+def test_add_edge(graph):
+    graph.add_edge(2, 3)
+    assert graph.edges() == [(1, 2), (2, 3)]
+
+def test_del_node(graph):
+    graph.del_node(1)
+    assert graph.nodes() == [2]
+
+def test_del_edge(graph):
+    graph.del_edge(1, 2)
+    assert graph.edges() == []
+
+def test_has_node(graph):
+    assert graph.has_node(1) == True
+    assert graph.has_node(3) == False
+
+def test_neighbors(graph):
+    assert graph.neighbors(1) == {2}
+    with pytest.raises(KeyError):
+        graph.neighbors(3)
+
+def test_adjacent(graph):
+    assert graph.adjacent(1, 2) == True
+    assert graph.adjacent(2, 1) == False
+    with pytest.raises(KeyError):
+        graph.adjacent(1, 3)

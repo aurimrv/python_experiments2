@@ -1,0 +1,36 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_word_squares_no_words():
+    words = []
+    assert word_squares(words) == []
+
+def test_word_squares_single_word():
+    words = ["hello"]
+    assert word_squares(words) == [["hello"]]
+
+def test_word_squares_two_words():
+    words = ["ball", "area"]
+    assert word_squares(words) == [['ball', 'area'], ['area', 'ball']]
+
+def test_word_squares_three_words():
+    words = ["area", "lead", "wall"]
+    assert word_squares(words) == [['wall', 'area', 'lead'], ['area', 'wall', 'lead']]
+
+def test_word_squares_longer_words():
+    words = ["apple", "puppy", "plume", "lemon", "ember"]
+    assert word_squares(words) == [['apple', 'puppy', 'plume', 'lemon'], ['puppy', 'apple', 'lemon', 'plume'], ['plume', 'lemon', 'apple', 'puppy'], ['lemon', 'plume', 'puppy', 'apple']]
+
+def test_word_squares_repeated_words():
+    words = ["hello", "hello", "hello", "hello"]
+    assert word_squares(words) == [['hello', 'hello', 'hello', 'hello']]
+
+def test_word_squares_empty_square():
+    words = ["ball", "area"]
+    assert word_squares(words) != [[]] 

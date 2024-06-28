@@ -1,0 +1,32 @@
+import os
+import sys
+import pytest
+
+# Add the project directory to the sys.path
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    # Test case for finding a substring that exists in the string
+    assert rabin_karp_find_substring("hello world", "world") == 6
+
+    # Test case for finding a substring that does not exist in the string
+    assert rabin_karp_find_substring("hello world", "python") == -1
+
+    # Test case for an empty string as the substring
+    assert rabin_karp_find_substring("hello world", "") == 0
+
+    # Test case for an empty string as the main string
+    assert rabin_karp_find_substring("", "hello") == -1
+
+    # Test case for substring appearing multiple times in the string
+    assert rabin_karp_find_substring("ababab", "bab") == 1
+
+    # Test case for substring being longer than the main string
+    assert rabin_karp_find_substring("hello", "hello world") == -1
+
+    # Test case for using a prime modulus that is not the default
+    assert rabin_karp_find_substring("hello world", "world", prime_modulus=101) == 6

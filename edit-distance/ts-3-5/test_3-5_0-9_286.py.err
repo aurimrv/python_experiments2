@@ -1,0 +1,46 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case 1: Test with two identical strings
+    str1 = "abc"
+    str2 = "abc"
+    result = calculate_edit_distance(str1, str2)
+    assert result == []
+
+    # Test case 2: Test with two completely different strings
+    str1 = "abc"
+    str2 = "def"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Delete a', 'Delete b', 'Delete c', 'Insert d', 'Insert e', 'Insert f']
+
+    # Test case 3: Test with one string being a substring of the other
+    str1 = "abc"
+    str2 = "ab"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Delete c']
+
+    # Test case 4: Test with one empty string
+    str1 = ""
+    str2 = "abc"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Insert a', 'Insert b', 'Insert c']
+
+    # Test case 5: Test with both strings being empty
+    str1 = ""
+    str2 = ""
+    result = calculate_edit_distance(str1, str2)
+    assert result == []
+
+    # Test case 6: Test with one string being longer than the other
+    str1 = "abcd"
+    str2 = "def"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Delete a', 'Delete b', 'Delete c', 'Insert d']
+
+    # Add more test cases as needed

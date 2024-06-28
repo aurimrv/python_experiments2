@@ -1,0 +1,85 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from lru_cache import ListNode, LruCache
+
+import pytest
+
+def test_list_node_init():
+    node = ListNode(1, 'a')
+    assert node.key == 1
+    assert node.val == 'a'
+    assert node.prev == None
+    assert node.next == None
+
+def test_list_node_update():
+    node = ListNode(1, 'a')
+    node.key = 2
+    node.val = 'b'
+    assert node.key == 2
+    assert node.val == 'b'
+
+def test_lru_cache_init():
+    cache = LruCache(3)
+    assert cache.capacity == 3
+    assert cache.head.val == 0
+    assert cache.tail.val == 0
+    assert cache.head.next == cache.tail
+    assert cache.tail.prev == cache.head
+
+def test_lru_cache_put():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+    assert cache.lookup_map[1].val == 'a'
+    assert cache.lookup_map[2].val == 'b'
+    assert cache.lookup_map[3].val == 'c'
+
+def test_lru_cache_get():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+    assert cache.get(2) == 'b'
+    assert cache.get(1) == 'a'
+    assert cache.get(4) == -1
+
+def test_lru_cache_eviction():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+    cache.put(4, 'd')
+    assert cache.get(1) == -1
+    assert cache.get(2) == 'b'
+    assert cache.get(3) == 'c'
+    assert cache.get(4) == 'd'
+
+def test_lru_cache_get_updates_order():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+    cache.get(1)
+    assert cache.tail.prev.val == 'a'
+
+def test_lru_cache_remove():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    node = cache.lookup_map[1]
+    cache._remove(node)
+    assert cache.head.next.key == 2
+    assert cache.tail.prev.key == 2
+
+def test_lru_cache_add():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    node = ListNode(2, 'b')
+    cache._add(node)
+    assert cache.tail.prev.val == 'b'
+    assert node.prev.key == 1
+    assert node.next is None

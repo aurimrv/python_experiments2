@@ -1,0 +1,97 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+def test_node_repr():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+def test_empty_double_linked_list():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_push_single_value():
+    dll = DoubleLinkedList()
+    dll.push(5)
+    assert dll.head.data == 5
+    assert dll.tail.data == 5
+    assert dll._length == 1
+
+def test_push_multiple_values():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    assert dll.head.data == 3
+    assert dll.tail.data == 1
+    assert dll.head.next.data == 2
+
+def test_pop_empty_list():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.pop()
+
+def test_pop_single_value():
+    dll = DoubleLinkedList()
+    dll.push(100)
+    result = dll.pop()
+    assert result == 100
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_append_single_value():
+    dll = DoubleLinkedList()
+    dll.append(50)
+    assert dll.head.data == 50
+    assert dll.tail.data == 50
+    assert dll._length == 1
+
+def test_append_multiple_values():
+    dll = DoubleLinkedList()
+    dll.append(4)
+    dll.append(6)
+    dll.append(8)
+    assert dll.head.data == 4
+    assert dll.tail.data == 8
+    assert dll.tail.prev.data == 6
+
+def test_shift_empty_list():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.shift()
+
+def test_shift_single_value():
+    dll = DoubleLinkedList()
+    dll.push(200)
+    result = dll.shift()
+    assert result == 200
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_remove_value_not_in_list():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    with pytest.raises(ValueError):
+        dll.remove(5)
+
+def test_remove_head_value():
+    dll = DoubleLinkedList([1, 2, 3])
+    dll.remove(1)
+    assert dll.head.data == 2
+    assert dll._length == 2
+
+def test_remove_tail_value():
+    dll = DoubleLinkedList([1, 2, 3])
+    dll.remove(3)
+    assert dll.tail.data == 2
+    assert dll._length == 2 

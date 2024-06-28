@@ -1,0 +1,32 @@
+import os
+import sys
+from collections import deque
+from naive_tree import NaiveBinaryTree
+
+import pytest
+
+class TestNaiveBinaryTree:
+
+    @pytest.fixture()
+    def binary_tree(self):
+        binary_tree = NaiveBinaryTree()
+        binary_tree.head = NaiveBinaryTree.Node(1)
+        binary_tree.head.left = NaiveBinaryTree.Node(2)
+        binary_tree.head.right = NaiveBinaryTree.Node(3)
+        binary_tree.head.left.left = NaiveBinaryTree.Node(4)
+        binary_tree.head.left.right = NaiveBinaryTree.Node(5)
+        binary_tree.head.right.left = NaiveBinaryTree.Node(6)
+        binary_tree.head.right.right = NaiveBinaryTree.Node(7)
+        return binary_tree
+
+    def test_pre_order_traversal(self, binary_tree):
+        assert binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+
+    def test_in_order_traversal(self, binary_tree):
+        assert binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+
+    def test_post_order_traversal(self, binary_tree):
+        assert binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+
+    def test_level_order_traversal(self, binary_tree):
+        assert binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]

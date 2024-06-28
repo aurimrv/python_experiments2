@@ -1,0 +1,71 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_simple():
+    class Vertex:
+        def __init__(self):
+            self.adjacent = {}
+    
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
+    
+    graph = WeightedGraph()
+    graph.vertices = {
+        'A': Vertex(),
+        'B': Vertex(),
+        'C': Vertex(),
+        'D': Vertex()
+    }
+    graph.vertices['A'].adjacent = {'B': 1, 'C': 4}
+    graph.vertices['B'].adjacent = {'A': 1, 'C': 2, 'D': 5}
+    graph.vertices['C'].adjacent = {'A': 4, 'B': 2, 'D': 1}
+    graph.vertices['D'].adjacent = {'B': 5, 'C': 1}
+    
+    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+    assert dijkstras(graph, 'B', 'D') == ['B', 'C', 'D']
+
+def test_dijkstras_no_path():
+    class Vertex:
+        def __init__(self):
+            self.adjacent = {}
+    
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
+    
+    graph = WeightedGraph()
+    graph.vertices = {
+        'A': Vertex(),
+        'B': Vertex(),
+        'C': Vertex()
+    }
+    graph.vertices['A'].adjacent = {'B': 1}
+    graph.vertices['B'].adjacent = {'A': 1}
+    
+    assert dijkstras(graph, 'A', 'C') == []
+
+def test_dijkstras_same_node():
+    class Vertex:
+        def __init__(self):
+            self.adjacent = {}
+    
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
+    
+    graph = WeightedGraph()
+    graph.vertices = {
+        'A': Vertex(),
+        'B': Vertex(),
+        'C': Vertex()
+    }
+    graph.vertices['A'].adjacent = {'B': 1}
+    graph.vertices['B'].adjacent = {'A': 1}
+    
+    assert dijkstras(graph, 'A', 'A') == ['A']

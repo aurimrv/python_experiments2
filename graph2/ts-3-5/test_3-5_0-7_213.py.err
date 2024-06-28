@@ -1,0 +1,60 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def setup_graph():
+    graph = Graph()
+    graph.add_node(1)
+    graph.add_node(2)
+    graph.add_edge(1, 2)
+    return graph
+
+def test_nodes(setup_graph):
+    assert setup_graph.nodes() == [1, 2]
+
+def test_edges(setup_graph):
+    assert setup_graph.edges() == [(1, 2)]
+
+def test_add_node():
+    graph = Graph()
+    graph.add_node(3)
+    assert graph.nodes() == [3]
+
+def test_add_edge():
+    graph = Graph()
+    graph.add_node(4)
+    graph.add_node(5)
+    graph.add_edge(4, 5)
+    assert graph.edges() == [(4, 5)]
+
+def test_del_node():
+    graph = Graph()
+    graph.add_node(6)
+    graph.del_node(6)
+    assert graph.nodes() == []
+
+def test_del_edge():
+    graph = Graph()
+    graph.add_node(7)
+    graph.add_node(8)
+    graph.add_edge(7, 8)
+    graph.del_edge(7, 8)
+    assert graph.edges() == []
+
+def test_has_node(setup_graph):
+    assert setup_graph.has_node(1) == True
+    assert setup_graph.has_node(3) == False
+
+def test_neighbors(setup_graph):
+    assert setup_graph.neighbors(1) == {2}
+
+def test_adjacent(setup_graph):
+    assert setup_graph.adjacent(1, 2) == True
+    assert setup_graph.adjacent(2, 1) == False

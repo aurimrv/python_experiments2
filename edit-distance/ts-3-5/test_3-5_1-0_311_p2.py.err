@@ -1,0 +1,30 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+def test_calculate_edit_distance():
+    str1 = "abc"
+    str2 = "abc"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+    
+    str1 = "abc"
+    str2 = "abcd"
+    expected = ['Insert d']
+    assert calculate_edit_distance(str1, str2) == expected
+    
+    str1 = "abc"
+    str2 = "axc"
+    expected = ['Substitute x']
+    assert calculate_edit_distance(str1, str2) == expected
+    
+    str1 = "abc"
+    str2 = "ab"
+    expected = ['Delete c']
+    assert calculate_edit_distance(str1, str2) == expected

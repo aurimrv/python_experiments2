@@ -1,0 +1,59 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case 1: Testing edit distance for completely different strings
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute s', 'Insert k', 'Substitute i', 'Insert e']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 2: Testing edit distance for similar strings with some substitutions
+    str1 = "Saturday"
+    str2 = "Sunday"
+    expected_output = ['Substitute u', 'Substitute n', 'Substitute d', 'Substitute y', 'Insert y']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 3: Testing edit distance for identical strings
+    str1 = "hello"
+    str2 = "hello"
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 4: Testing edit distance for strings with only one character difference
+    str1 = "test"
+    str2 = "testt"
+    expected_output = ['Insert t']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 5: Testing edit distance for empty strings
+    str1 = ""
+    str2 = ""
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 6: Testing edit distance for one string being empty
+    str1 = "hello"
+    str2 = ""
+    expected_output = ['Insert h', 'Insert e', 'Insert l', 'Insert l', 'Insert o']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 7: Testing edit distance for long strings
+    str1 = "This is a long string to test edit distance calculation."
+    str2 = "This is another long string for testing edit distance."
+    expected_output = ['Substitute f', 'Substitute c', 'Substitute i', 'Substitute l', 'Substitute a',
+                       'Substitute t', 'Substitute i', 'Substitute n', 'Substitute a', 'Substitute l',
+                       'Substitute n', 'Substitute g', 'Substitute t', 'Substitute h', 'Substitute a', 'Substitute t',
+                       'Substitute i', 'Substitute o', 'Substitute n', 'Substitute a', 'Substitute l', 'Substitute c',
+                       'Substitute u', 'Substitute l', 'Substitute a', 'Substitute t', 'Substitute i', 'Substitute o',
+                       'Substitute n', 'Substitute.', 'Insert g']
+    assert calculate_edit_distance(str1, str2) == expected_output

@@ -1,0 +1,50 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+# Define test cases
+
+# Test case with a simple graph
+def test_dijkstras_simple_graph():
+    graph = {
+        'A': {'B': 2, 'C': 1},
+        'B': {'A': 2, 'C': 3},
+        'C': {'A': 1, 'B': 3}
+    }
+    path = dijkstras(graph, 'A', 'B')
+    assert path == ['A', 'B']
+
+# Test case with a larger graph
+def test_dijkstras_larger_graph():
+    graph = {
+        'A': {'B': 2, 'C': 1, 'D': 4},
+        'B': {'A': 2, 'C': 3, 'D': 1},
+        'C': {'A': 1, 'B': 3, 'D': 2},
+        'D': {'A': 4, 'B': 1, 'C': 2}
+    }
+    path = dijkstras(graph, 'A', 'D')
+    assert path == ['A', 'B', 'D']
+
+# Test case with unreachable destination
+def test_dijkstras_unreachable_destination():
+    graph = {
+        'A': {'B': 2, 'C': 1},
+        'B': {'A': 2, 'C': 3},
+        'C': {'A': 1, 'B': 3}
+    }
+    path = dijkstras(graph, 'A', 'D')
+    assert path == []
+
+# Test case with same source and destination
+def test_dijkstras_same_source_destination():
+    graph = {
+        'A': {'B': 2, 'C': 1},
+        'B': {'A': 2, 'C': 3},
+        'C': {'A': 1, 'B': 3}
+    }
+    path = dijkstras(graph, 'A', 'A')
+    assert path == ['A']

@@ -1,0 +1,36 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [123, 45, 678, 90, 12]
+    iteration = 0
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10
+    assert sum(len(bucket) for bucket in buckets) == len(ar)
+
+def test_create_list():
+    buckets = [[123, 90], [12], [45], [678]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [123, 90, 12, 45, 678]
+
+def test_radixsort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [2, 24, 45, 66, 75, 90, 170, 802]
+
+def test_radixsort_large_numbers():
+    ar = [999999, 123456, 987654, 555555, 111111]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [111111, 123456, 555555, 987654, 999999]
+
+def test_radixsort_negative_numbers():
+    ar = [-5, -10, -3, -1, -8]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [-10, -8, -5, -3, -1]

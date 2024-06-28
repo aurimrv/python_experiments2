@@ -1,0 +1,72 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph, GraphNode, WeightedGraphNode
+
+def test_graph_node_add_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    assert node2 in node1.adjacent_list
+
+def test_graph_node_remove_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent_list
+
+def test_graph_add_edge():
+    graph = Graph(3)
+    graph.add_edge(1, 2)
+    assert graph.graph == {1: [2], 2: []}
+
+def test_graph_has_cycle_no_cycle():
+    graph = Graph(3)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    assert not graph.has_cycle()
+
+def test_graph_has_cycle_with_cycle():
+    graph = Graph(3)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 1)
+    assert graph.has_cycle()
+
+def test_graph_topological_sort():
+    graph = Graph(4)
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 4)
+    assert graph.topological_sort() == [1, 3, 2, 4]
+
+def test_weighted_graph_node_add_adjacent():
+    node1 = WeightedGraphNode(1)
+    node2 = WeightedGraphNode(2)
+    node1.add_adjacent(node2, 5)
+    assert node2 in node1.adjacent and node1.adjacent[node2] == 5
+
+def test_weighted_graph_node_remove_adjacent():
+    node1 = WeightedGraphNode(1)
+    node2 = WeightedGraphNode(2)
+    node1.add_adjacent(node2, 5)
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent
+
+def test_weighted_graph_add_edge():
+    w_graph = WeightedGraph()
+    w_graph.add_edge(1, 2, 5)
+    assert w_graph.vertices[1].adjacent == {2: 5}
+
+def test_weighted_graph_remove_edge():
+    w_graph = WeightedGraph()
+    w_graph.add_edge(1, 2, 5)
+    w_graph.remove_edge(1, 2)
+    assert 2 not in w_graph.vertices[1].adjacent

@@ -1,0 +1,29 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    trie = Trie(['ball', 'area', 'lead', 'lady'])
+    square = ['ball']
+    word_squares.construct(square)
+    assert word_squares.squares == [['ball', 'area', 'lead', 'lady']]
+    square = ['area', 'ball']
+    word_squares.construct(square)
+    assert word_squares.squares == [['ball', 'area', 'lead', 'lady'], ['area', 'lead', 'lady', 'ball']]
+
+def test_word_squares():
+    words = ['area', 'ball', 'lead', 'lady']
+    squares = word_squares.word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+def test_get_all_common_prefix():
+    trie = Trie(['area', 'ball', 'lead', 'lady'])
+    prefix_words = trie.get_all_common_prefix('le')
+    assert prefix_words == ['lead', 'lady']
+    prefix_words = trie.get_all_common_prefix('a')
+    assert prefix_words == ['area']

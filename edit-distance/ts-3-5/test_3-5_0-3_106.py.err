@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for exact match
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for single character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for addition at the beginning
+    assert calculate_edit_distance("abc", "zabc") == ['Insert z']
+
+    # Test case for deletion at the end
+    assert calculate_edit_distance("abc", "ab") == ['Delete c']
+
+    # Test case for multiple edits
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Substitute i', 'Insert g']
+
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for one empty string
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+
+    # Test case for one empty string
+    assert calculate_edit_distance("", "xyz") == ['Insert x', 'Insert y', 'Insert z']
+
+    # Test case for long strings
+    assert calculate_edit_distance("This is a long string", "This is a long string with some changes") == ['Insert  w', 'Insert  s', 'Insert  o', 'Insert  m', 'Insert  e', 'Insert  c', 'Insert  h', 'Insert  a', 'Insert  n', 'Insert  g', 'Insert  e', 'Insert  s', 'Insert  ', 'Insert  w', 'Insert  i', 'Insert  t', 'Insert  h', 'Insert  ', 'Insert  s', 'Insert  o', 'Insert  m', 'Insert  e', 'Insert  ', 'Insert  c', 'Insert  h', 'Insert  a', 'Insert  n', 'Insert  g', 'Insert  e', 'Insert  s']
+
+    # Add more test cases as needed

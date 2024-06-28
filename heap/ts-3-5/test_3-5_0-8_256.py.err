@@ -1,0 +1,52 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heap import Heap
+
+# Test cases for the Heap class
+
+def test_insert():
+    heap = Heap()
+    heap.insert(5)
+    assert heap.size() == 1
+    assert heap.min() == 5
+
+def test_percolate():
+    heap = Heap()
+    heap.heap_list = [0, 3, 2, 4, 1]
+    heap.percolate(4)
+    assert heap.heap_list == [0, 1, 2, 4, 3]
+
+def test_sift():
+    heap = Heap()
+    heap.heap_list = [0, 3, 2, 4, 1]
+    heap.sift(1)
+    assert heap.heap_list == [0, 1, 2, 4, 3]
+
+def test_find_min_child_index():
+    heap = Heap()
+    heap.heap_list = [0, 3, 2, 4, 1]
+    assert heap.find_min_child_index(1) == 4
+    assert heap.find_min_child_index(2) == 3
+
+def test_min():
+    heap = Heap()
+    heap.heap_list = [0, 3, 2, 4, 1]
+    assert heap.min() == 1
+
+def test_delete_min():
+    heap = Heap()
+    heap.heap_list = [0, 3, 2, 4, 1]
+    assert heap.delete_min() == 1
+    assert heap.size() == 4
+
+def test_build():
+    heap = Heap()
+    heap.build([3, 5, 1, 2, 4])
+    assert heap.size() == 5
+    assert heap.min() == 1

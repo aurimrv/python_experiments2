@@ -1,0 +1,42 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_push():
+    linked_list = LinkedList()
+    linked_list.push(10)
+    assert linked_list.head.data == 10
+    linked_list.push(20)
+    assert linked_list.head.data == 20
+
+def test_pop():
+    linked_list = LinkedList([10, 20, 30])
+    assert linked_list.pop() == 30
+    assert linked_list.pop() == 20
+    assert linked_list.pop() == 10
+
+def test_size():
+    linked_list = LinkedList([10, 20, 30])
+    assert linked_list.size() == 3
+    linked_list.pop()
+    assert linked_list.size() == 2
+
+def test_search():
+    linked_list = LinkedList([10, 20, 30])
+    assert linked_list.search(20).data == 20
+    assert linked_list.search(40) is None
+
+def test_remove():
+    linked_list = LinkedList([10, 20, 30])
+    linked_list.remove(20)
+    assert linked_list.size() == 2
+    assert linked_list.display() == '(10, 30)'
+
+def test_display():
+    linked_list = LinkedList([10, 'abc', 30, 'xyz'])
+    assert linked_list.display() == '(10, abc, 30, xyz)'

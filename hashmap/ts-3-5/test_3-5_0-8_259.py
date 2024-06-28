@@ -1,0 +1,32 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+import pytest
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    hashmap.insert('key1', 'value1')
+    assert hashmap.get('key1') == 'value1'
+
+    hashmap.insert('key2', 'value2')
+    assert hashmap.get('key2') == 'value2'
+
+def test_get(hashmap):
+    with pytest.raises(KeyError):
+        hashmap.get('non_existent_key')
+
+    hashmap.insert('key1', 'value1')
+    assert hashmap.get('key1') == 'value1'
+
+def test_delete(hashmap):
+    hashmap.insert('key1', 'value1')
+    deleted_value = hashmap.delete('key1')
+    with pytest.raises(KeyError):
+        hashmap.get('key1')

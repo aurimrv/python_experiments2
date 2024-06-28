@@ -1,0 +1,61 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+# Initialize graph with nodes
+def test_nodes():
+    g = Graph(['A', 'B', 'C'])
+    assert g.nodes() == ['A', 'B', 'C']
+
+# Add new node
+def test_add_node():
+    g = Graph()
+    g.add_node('A')
+    assert g.nodes() == ['A']
+
+    g.add_node('B')
+    assert g.nodes() == ['A', 'B']
+
+# Add new edge
+def test_add_edge():
+    g = Graph(['A', 'B'])
+    g.add_edge('A', 'B')
+    assert g.edges() == [('A', 'B')]
+
+# Delete node
+def test_del_node():
+    g = Graph(['A', 'B'])
+    g.del_node('A')
+    assert g.nodes() == ['B']
+
+# Delete edge
+def test_del_edge():
+    g = Graph()
+    g.add_edge('A', 'B')
+    g.del_edge('A', 'B')
+    assert g.edges() == []
+
+# Check if node is in graph
+def test_has_node():
+    g = Graph(['A'])
+    assert g.has_node('A') == True
+    assert g.has_node('B') == False
+
+# Get neighbors of a node
+def test_neighbors():
+    g = Graph()
+    g.add_edge('A', 'B')
+    assert g.neighbors('A') == {'B'}
+
+# Check if nodes are adjacent
+def test_adjacent():
+    g = Graph()
+    g.add_edge('A', 'B')
+    assert g.adjacent('A', 'B') == True
+    assert g.adjacent('B', 'A') == False

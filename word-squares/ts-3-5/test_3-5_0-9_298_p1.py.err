@@ -1,0 +1,30 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+import pytest
+
+@pytest.fixture
+def sample_words():
+    return ['ball', 'area', 'lead', 'lady', 'wall']
+
+def test_construct(sample_words):
+    square1 = word_squares(sample_words)
+    assert len(square1) == 2
+
+def test_construct_square_length(sample_words):
+    square1 = word_squares(sample_words)
+    assert all(len(sq) == len(sample_words) for sq in square1)
+
+def test_construct_contains_word(sample_words):
+    square1 = word_squares(sample_words)
+    assert all(all(word in sample_words for word in sq) for sq in square1)
+
+def test_construct_no_duplicate_words(sample_words):
+    square1 = word_squares(sample_words)
+    assert all(len(sq) == len(set(sq)) for sq in square1)

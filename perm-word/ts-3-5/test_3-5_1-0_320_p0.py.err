@@ -1,0 +1,32 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from permutations import permutations_of_word
+
+def test_permutations_of_word_empty_string():
+    assert permutations_of_word('') == ['']
+
+def test_permutations_of_word_single_character():
+    assert permutations_of_word('a') == ['a']
+
+def test_permutations_of_word_two_characters():
+    assert permutations_of_word('ab') == ['ab', 'ba']
+
+def test_permutations_of_word_long_string():
+    assert set(permutations_of_word('abc')) == set(['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+
+def test_permutations_of_word_duplicates():
+    assert set(permutations_of_word('aab')) == set(['aab', 'aba', 'baa'])
+
+def test_permutations_of_word_special_characters():
+    assert set(permutations_of_word('!@#')) == set(['!@#', '#@!', '#!@', '##@', '@!#', '@#!'])
+
+def test_permutations_of_word_mixed_characters():
+    assert set(permutations_of_word('abc123')) == set(['abc123', 'abc132', 'abc213', 'abc231', 'abc312', 'abc321',
+                                                       'ab1c23', 'ab1c32', 'ab12c3', 'ab123c', 'ab13c2', 'ab132c',
+                                                       'a1bc23', 'a1bc32', 'a1b2c3', 'a1b23c', 'a1b3c2', 'a1b32c',
+                                                       'a12bc3', 'a12b3c', 'a12cb3', 'a123bc', 'a123cb', 'a13bc2', 'a13b2c',
+                                                       'a13cb2', 'a132bc', 'a132cb'])

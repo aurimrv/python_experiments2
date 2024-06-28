@@ -1,0 +1,39 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "abc"
+    str2 = "abc"
+    result = calculate_edit_distance(str1, str2)
+    assert result == []
+
+def test_calculate_edit_distance_one_empty_string():
+    str1 = "abc"
+    str2 = ""
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Delete a', 'Delete b', 'Delete c']
+
+def test_calculate_edit_distance_different_lengths():
+    str1 = "kitten"
+    str2 = "sitting"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute s k', 'M', 'M', 'Substitute i e', 'M', 'Substitute n g']
+
+def test_calculate_edit_distance_random_strings():
+    str1 = "car"
+    str2 = "truck"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute t a', 'Substitute r k', 'Substitute u r', 'Insert c']
+
+def test_calculate_edit_distance_special_characters():
+    str1 = "hello123"
+    str2 = "h@ll0-1"
+    result = calculate_edit_distance(str1, str2)
+    assert result == ['Substitute @ e', 'Substitute l l', 'Substitute 0 l', 'Substitute 1 3', 'Delete 2', 'Delete 3']

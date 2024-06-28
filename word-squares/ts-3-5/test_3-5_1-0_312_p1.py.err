@@ -1,0 +1,34 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+@pytest.fixture
+def example_words():
+    return ["area", "lead", "wall", "lady", "ball"]
+
+def test_word_squares_construction(example_words):
+    result = word_squares(example_words)
+    assert len(result) > 0
+    for square in result:
+        assert len(square) == len(square[0])
+        for i in range(len(square)):
+            assert square[i] in example_words
+
+def test_word_squares_extra_long_squares(example_words):
+    example_words += ["ab", "rd", "ea", "ql"]
+    result = word_squares(example_words)
+    assert len(result) > 0
+    for square in result:
+        assert len(square) == len(square[0])
+        for i in range(len(square):
+            assert square[i] in example_words
+
+def test_word_squares_empty_input():
+    assert word_squares([]) == []

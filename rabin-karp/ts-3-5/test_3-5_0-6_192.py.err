@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+import pytest
+
+# Test Cases for rabin_karp_find_substring method
+
+def test_rabin_karp_find_substring_empty_string():
+    string = ""
+    substring = "abc"
+    assert rabin_karp_find_substring(string, substring) == -1
+
+def test_rabin_karp_find_substring_empty_substring():
+    string = "abcdef"
+    substring = ""
+    assert rabin_karp_find_substring(string, substring) == -1
+
+def test_rabin_karp_find_substring_substring_at_beginning():
+    string = "abcdef"
+    substring = "abc"
+    assert rabin_karp_find_substring(string, substring) == 0
+
+def test_rabin_karp_find_substring_substring_at_end():
+    string = "abcdef"
+    substring = "def"
+    assert rabin_karp_find_substring(string, substring) == 3
+
+def test_rabin_karp_find_substring_substring_in_middle():
+    string = "abcdefg"
+    substring = "cde"
+    assert rabin_karp_find_substring(string, substring) == 2
+
+def test_rabin_karp_find_substring_substring_not_found():
+    string = "abcdef"
+    substring = "xyz"
+    assert rabin_karp_find_substring(string, substring) == -1

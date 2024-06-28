@@ -1,0 +1,44 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue2 import PriorityQ
+
+import pytest
+
+# Test cases for PriorityQ class
+class TestPriorityQ:
+
+    def test_insert_single_value(self):
+        pq = PriorityQ()
+        pq.insert(5)
+        assert pq.peek() == 5
+
+    def test_insert_multiple_values(self):
+        pq = PriorityQ()
+        pq.insert(10, 2)
+        pq.insert(5, 1)
+        assert pq.peek() == 5
+
+    def test_pop_single_value(self):
+        pq = PriorityQ()
+        pq.insert(10, 2)
+        assert pq.pop() == 10
+
+    def test_pop_multiple_values(self):
+        pq = PriorityQ()
+        pq.insert(10, 2)
+        pq.insert(5, 1)
+        assert pq.pop() == 5
+
+    def test_peek_empty_queue(self):
+        pq = PriorityQ()
+        assert pq.peek() is None
+
+    def test_peek_non_empty_queue(self):
+        pq = PriorityQ()
+        pq.insert(10, 2)
+        pq.insert(5, 1)
+        assert pq.peek() == 5

@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init():
+    trie = Trie(['apple', 'banana', 'app'])
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'p': {'__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+def test_trie_add():
+    trie = Trie(['apple', 'banana', 'app'])
+    trie.add('grape')
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'p': {'__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}, 'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}}}}
+
+def test_trie_get_all_common_prefix():
+    trie = Trie(['apple', 'banana', 'app'])
+    assert trie.get_all_common_prefix('ap') == ['apple', 'app']
+
+def test_trie_get_all_common_prefix_no_match():
+    trie = Trie(['apple', 'banana', 'app'])
+    assert trie.get_all_common_prefix('ora') == []
+
+def test_trie_get_all_common_prefix_partial_match():
+    trie = Trie(['apple', 'banana', 'app'])
+    assert trie.get_all_common_prefix('bananatree') == ['banana']

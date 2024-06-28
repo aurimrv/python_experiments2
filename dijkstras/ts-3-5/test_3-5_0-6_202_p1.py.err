@@ -1,0 +1,60 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_basic(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'D'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'B', 'C', 'D']
+
+    def test_dijkstras_no_path(self):
+        weighted_graph = {
+            'A': {'B': 1},
+            'B': {'A': 1},
+            'C': {}
+        }
+        src = 'A'
+        dst = 'C'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'B']
+
+    def test_dijkstras_same_source_dest(self):
+        weighted_graph = {
+            'A': {'B': 1}
+        }
+        src = 'A'
+        dst = 'A'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A']
+
+    def test_dijkstras_multiple_paths(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1, 'E': 2},
+            'E': {'D': 2}
+        }
+        src = 'A'
+        dst = 'E'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'B', 'C', 'D', 'E']
+
+    def test_dijkstras_empty_graph(self):
+        weighted_graph = {}
+        src = 'A'
+        dst = 'B'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == [] 

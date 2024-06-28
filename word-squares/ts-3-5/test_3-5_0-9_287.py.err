@@ -1,0 +1,33 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+@pytest.fixture
+def example_words():
+    return ['ball', 'area', 'lead', 'lady']
+
+def test_construct_single_word_square(example_words):
+    result = word_squares(example_words)
+    assert len(result) == 1
+    assert result[0] == ['ball', 'area', 'lead', 'lady']
+
+def test_construct_multiple_word_squares(example_words):
+    example_words.append('late')
+    result = word_squares(example_words)
+    assert len(result) == 2
+    assert ['ball', 'area', 'lead', 'lady'] in result
+    assert ['ball', 'area', 'late', 'lead'] in result
+
+def test_construct_word_squares_with_repeated_words(example_words):
+    example_words.append('ball')
+    result = word_squares(example_words)
+    assert len(result) == 3
+    assert ['ball', 'area', 'lead', 'lady'] in result
+    assert ['ball', 'area', 'ball', 'lady'] in result
+    assert ['ball', 'area', 'lead', 'ball'] in result

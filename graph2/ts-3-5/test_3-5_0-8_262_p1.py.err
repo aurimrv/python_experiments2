@@ -1,0 +1,53 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph():
+    return Graph()
+
+def test_add_node(graph):
+    graph.add_node('A')
+    assert 'A' in graph.nodes()
+
+def test_add_edge(graph):
+    graph.add_edge('A', 'B')
+    assert ('A', 'B') in graph.edges()
+    assert graph.adjacent('A', 'B') == True
+
+def test_del_node(graph):
+    graph.add_node('C')
+    graph.add_edge('C', 'D')
+    graph.del_node('C')
+    assert 'C' not in graph.nodes()
+    assert ('C', 'D') not in graph.edges()
+
+def test_del_edge(graph):
+    graph.add_node('E')
+    graph.add_node('F')
+    graph.add_edge('E', 'F')
+    graph.del_edge('E', 'F')
+    assert ('E', 'F') not in graph.edges()
+
+def test_has_node(graph):
+    graph.add_node('G')
+    assert graph.has_node('G') == True
+
+def test_neighbors(graph):
+    graph.add_node('H')
+    graph.add_node('I')
+    graph.add_edge('H', 'I')
+    neighbors = graph.neighbors('H')
+    assert 'I' in neighbors
+
+def test_adjacent(graph):
+    graph.add_node('J')
+    graph.add_node('K')
+    graph.add_edge('J', 'K')
+    assert graph.adjacent('J', 'K') == True

@@ -1,0 +1,49 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for strings with one character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for strings with one character addition
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for strings with one character deletion
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+
+    # Test case for strings with multiple differences
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Substitute n']
+
+    # Test case for long strings with multiple differences
+    assert calculate_edit_distance("This is a long string to test", "This is another long string to test") == ['Substitute a', 'Substitute n', 'Substitute o', 'Substitute t', 'Substitute h', 'Substitute e', 'Substitute r', 'Substitute a', 'Substitute n', 'Substitute o', 'Substitute t', 'Substitute h', 'Substitute e', 'Substitute r']
+
+    # Test case for strings with no common characters
+    assert calculate_edit_distance("1234", "5678") == ['Delete 4', 'Delete 3', 'Delete 2', 'Delete 1', 'Insert 5', 'Insert 6', 'Insert 7', 'Insert 8']
+
+    # Test case for strings with all different characters
+    assert calculate_edit_distance("abc", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z']
+
+    # Test case for strings with spaces
+    assert calculate_edit_distance("hello world", "hello  world") == ['Insert  ', 'Insert  ']
+
+    # Test case for strings with special characters
+    assert calculate_edit_distance("!@#$", "$#@!") == ['Substitute $', 'Substitute #', 'Substitute @', 'Substitute !']
+
+    # Test case for long strings with no differences
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxyz") == []
+
+    # Test case for long strings with all differences
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba") == ['Substitute z', 'Substitute y', 'Substitute x', 'Substitute w', 'Substitute v', 'Substitute u', 'Substitute t', 'Substitute s', 'Substitute r', 'Substitute q', 'Substitute p', 'Substitute o', 'Substitute n', 'Substitute m', 'Substitute l', 'Substitute k', 'Substitute j', 'Substitute i', 'Substitute h', 'Substitute g', 'Substitute f', 'Substitute e', 'Substitute d', 'Substitute c', 'Substitute b', 'Substitute a']

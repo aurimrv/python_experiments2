@@ -1,0 +1,25 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heapsort import heap_sort, max_heap_sort, custom_heap_sort
+
+def test_heap_sort():
+    assert heap_sort([4, 1, 5, 3, 2]) == [1, 2, 3, 4, 5]
+    assert heap_sort([7, 2, 9, 1]) == [1, 2, 7, 9]
+
+def test_max_heap_sort():
+    assert max_heap_sort([4, 1, 5, 3, 2]) == [5, 4, 3, 2, 1]
+    assert max_heap_sort([7, 2, 9, 1]) == [9, 7, 2, 1]
+
+def test_custom_heap_sort_min():
+    assert custom_heap_sort([4, 1, 5, 3, 2]) == [1, 2, 3, 4, 5]
+    assert custom_heap_sort([7, 2, 9, 1]) == [1, 2, 7, 9]
+
+def test_custom_heap_sort_max():
+    assert custom_heap_sort([4, 1, 5, 3, 2], sort='max') == [5, 4, 3, 2, 1]
+    assert custom_heap_sort([7, 2, 9, 1], sort='max') == [9, 7, 2, 1]

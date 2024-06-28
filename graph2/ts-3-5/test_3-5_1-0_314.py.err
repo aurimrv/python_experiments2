@@ -1,0 +1,89 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph():
+    return Graph()
+
+def test_nodes(graph):
+    assert graph.nodes() == []
+    
+    graph.add_node('A')
+    graph.add_node('B')
+    assert sorted(graph.nodes()) == ['A', 'B']
+
+def test_edges(graph):
+    assert graph.edges() == []
+    
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_edge('A', 'B')
+    assert graph.edges() == [('A', 'B')]
+    
+    graph.add_node('C')
+    graph.add_edge('A', 'C')
+    assert sorted(graph.edges()) == [('A', 'B'), ('A', 'C')]
+
+def test_add_node(graph):
+    graph.add_node('A')
+    assert 'A' in graph.graph
+    
+    graph.add_node('B')
+    assert 'B' in graph.graph
+
+def test_add_edge(graph):
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_edge('A', 'B')
+    assert 'B' in graph.graph['A']
+    assert 'A' not in graph.graph['B']
+
+def test_del_node(graph):
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_node('C')
+    graph.add_edge('A', 'B')
+    graph.add_edge('A', 'C')
+    
+    graph.del_node('A')
+    assert 'A' not in graph.graph
+    assert 'A' not in graph.graph.values()
+    assert 'A' not in graph.nodes()
+
+def test_del_edge(graph):
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_edge('A', 'B')
+    
+    graph.del_edge('A', 'B')
+    assert 'B' not in graph.graph['A']
+
+def test_has_node(graph):
+    graph.add_node('A')
+    assert graph.has_node('A')
+    
+    assert not graph.has_node('B')
+
+def test_neighbors(graph):
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_edge('A', 'B')
+    
+    assert graph.neighbors('A') == {'B'}
+
+def test_adjacent(graph):
+    graph.add_node('A')
+    graph.add_node('B')
+    graph.add_edge('A', 'B')
+    
+    assert graph.adjacent('A', 'B')
+    assert not graph.adjacent('B', 'A')
+    with pytest.raises(KeyError):
+        graph.adjacent('C', 'A')

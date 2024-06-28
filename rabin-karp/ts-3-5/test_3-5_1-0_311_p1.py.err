@@ -1,0 +1,28 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring_basic():
+    assert rabin_karp_find_substring("hello", "ell") == 1
+    assert rabin_karp_find_substring("world", "ld") == 3
+
+def test_rabin_karp_find_substring_invalid_substring():
+    assert rabin_karp_find_substring("hello", "abc") == -1
+    assert rabin_karp_find_substring("world", "xyz") == -1
+
+def test_rabin_karp_find_substring_long_substring():
+    assert rabin_karp_find_substring("this is a long string for testing", "testing") == 26
+    assert rabin_karp_find_substring("another long string for testing purposes", "purposes") == 32  
+
+def test_rabin_karp_find_substring_empty_string():
+    assert rabin_karp_find_substring("", "substring") == -1
+    assert rabin_karp_find_substring("nonempty", "") == -1
+
+def test_rabin_karp_find_substring_duplicate_substring():
+    assert rabin_karp_find_substring("testingtesting", "testing") == 0
+    assert rabin_karp_find_substring("abcdabcdabcd", "ab") == 0

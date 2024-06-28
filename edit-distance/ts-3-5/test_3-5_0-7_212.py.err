@@ -1,0 +1,160 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance
+
+    # Test case 1: Strings are equal
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case 2: One string is empty
+    assert calculate_edit_distance("", "abc") == ['Insert a a', 'Insert b b', 'Insert c c']
+
+    # Test case 3: Completely different strings
+    assert calculate_edit_distance("hello", "world") == ['Substitute h w', 'Substitute e o', 'Substitute l r', 'Substitute l l', 'Substitute o d']
+
+    # Test case 4: Different lengths with some matching characters
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k s', 'Insert s i', 'Substitute i t', 'Insert t t', 'Substitute t t', 'Substitute e i', 'Insert t n']
+
+    # Test case 5: Case sensitivity
+    assert calculate_edit_distance("Python", "python") == ['Substitute P p']
+
+    # Test case 6: Strings with spaces
+    assert calculate_edit_distance("hello world", "hello python") == ['Substitute w p']
+
+    # Test case 7: Strings with special characters
+    assert calculate_edit_distance("123!@#", "abc") == ['Delete 1', 'Delete 2', 'Delete 3', 'Delete !', 'Delete @', 'Delete #', 'Insert a a', 'Insert b b', 'Insert c c']
+
+    # Test case 8: Long strings with many additions and deletions
+    assert calculate_edit_distance("This is a long sentence.", "") == ['Delete T', 'Delete h', 'Delete i', 'Delete s', 'Delete  ', 'Delete i', 'Delete s', 'Delete  ', 'Delete a', 'Delete  ', 'Delete l', 'Delete o', 'Delete n', 'Delete g', 'Delete  ', 'Delete s', 'Delete e', 'Delete n', 'Delete t', 'Delete e', 'Delete n', 'Delete c', 'Delete e', 'Delete .']
+
+    # Test case 9: Strings with numbers
+    assert calculate_edit_distance("1234", "5678") == ['Substitute 1 5', 'Substitute 2 6', 'Substitute 3 7', 'Substitute 4 8']
+
+    # Test case 10: Repeating characters
+    assert calculate_edit_distance("aaa", "a") == ['Delete a', 'Delete a']
+
+    # Test case 11: Strings with mixed characters
+    assert calculate_edit_distance("abc123!@#", "def456$%") == ['Substitute a d', 'Substitute b e', 'Substitute c f', 'Substitute 1 4', 'Substitute 2 5', 'Substitute 3 6', 'Delete !', 'Insert 4 4', 'Insert 5 5', 'Insert 6 6', 'Insert $ %']
+
+    # Test case 12: Same strings with different cases
+    assert calculate_edit_distance("Hello", "hello") == ['Substitute H h']
+
+    # Test case 13: Unequal strings with common prefix
+    assert calculate_edit_distance("common_prefix_suffix", "common_prefix") == ['Delete _', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s']
+
+    # Test case 14: Empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case 15: Strings with emojis
+    assert calculate_edit_distance("😀😃😄", "😅😆😇") == ['Substitute 😀 😅', 'Substitute 😃 😆', 'Substitute 😄 😇']
+
+    # Test case 16: Strings with multiple spaces
+    assert calculate_edit_distance("hello     world", "hello world") == ['Delete  ', 'Delete  ', 'Delete  ', 'Delete  ', 'Delete  ']
+
+    # Test case 17: Strings with tabs
+    assert calculate_edit_distance("hello\tworld", "hello world") == ['Substitute \t  ']
+
+    # Test case 18: Strings with escape characters
+    assert calculate_edit_distance("hello\nworld", "hello world") == ['Substitute \n  ']
+
+    # Test case 19: Strings with leading/trailing spaces
+    assert calculate_edit_distance("  hello world  ", "hello world") == ['Delete  ', 'Delete  ', 'Delete  ', 'Delete  ', 'Delete  ', 'Delete  ']
+
+    # Test case 20: Strings with special characters and numbers
+    assert calculate_edit_distance("!@#$%^", "123456") == ['Substitute ! 1', 'Substitute @ 2', 'Substitute # 3', 'Substitute $ 4', 'Substitute % 5', 'Substitute ^ 6']
+
+    # Test case 21: Strings with URLs
+    assert calculate_edit_distance("https://www.example.com", "http://www.example.org") == ['Substitute s h', 'Substitute : :', 'Substitute / /', 'Substitute / /', 'Substitute w t', 'Substitute c o', 'Substitute . o']
+
+    # Test case 22: Strings with repeated patterns
+    assert calculate_edit_distance("abcabcabc", "abc") == ['Delete a', 'Delete b', 'Delete c', 'Delete a', 'Delete b', 'Delete c']
+
+    # Test case 23: Strings with alternating characters
+    assert calculate_edit_distance("abababab", "babababa") == ['Substitute a b', 'Substitute b a', 'Substitute a b', 'Substitute b a', 'Substitute a b', 'Substitute b a', 'Substitute a b', 'Substitute b a']
+
+    # Test case 24: Strings with mixed cases and spaces
+    assert calculate_edit_distance("Hello World", "hello world") == ['Substitute H h']
+
+    # Test case 25: Strings with multiple matches and substitutions
+    assert calculate_edit_distance("abbc", "abcc") == ['Substitute b c']
+
+    # Test case 26: Strings with punctuation marks
+    assert calculate_edit_distance("Hello, World!", "Hello World") == ['Delete ,']
+
+    # Test case 27: Strings with one-letter difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute c d']
+
+    # Test case 28: Strings with multiple spaces in between
+    assert calculate_edit_distance("hello    world", "hello world") == ['Delete  ', 'Delete  ', 'Delete  ']
+
+    # Test case 29: Strings with accented characters
+    assert calculate_edit_distance("fiancée", "fiancé") == ['Substitute é é']
+
+    # Test case 30: Strings with mixed characters and numbers
+    assert calculate_edit_distance("abc123", "def456") == ['Substitute a d', 'Substitute b e', 'Substitute c f', 'Substitute 1 4', 'Substitute 2 5', 'Substitute 3 6']
+
+    # Test case 31: Strings with large differences
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "1234567890") == ['Substitute a 1', 'Substitute b 2', 'Substitute c 3', 'Substitute d 4', 'Substitute e 5', 'Substitute f 6', 'Substitute g 7', 'Substitute h 8', 'Substitute i 9', 'Substitute j 0', 'Substitute k 0', 'Substitute l 0', 'Substitute m 0', 'Substitute n 0', 'Substitute o 0', 'Substitute p 0', 'Substitute q 0', 'Substitute r 0', 'Substitute s 0', 'Substitute t 0', 'Substitute u 0', 'Substitute v 0', 'Substitute w 0', 'Substitute x 0', 'Substitute y 0', 'Substitute z 0']
+
+    # Test case 32: Strings with same characters
+    assert calculate_edit_distance("aaaa", "aaaa") == []
+
+    # Test case 33: Strings with different cases
+    assert calculate_edit_distance("HELLO", "hello") == ['Substitute H h', 'Substitute E e', 'Substitute L l', 'Substitute L l', 'Substitute O o']
+
+    # Test case 34: Strings with spaces and special characters
+    assert calculate_edit_distance("hello world!", "hello world") == ['Delete !']
+
+    # Test case 35: Strings with only one character
+    assert calculate_edit_distance("a", "b") == ['Substitute a b']
+
+    # Test case 36: Strings with common suffix
+    assert calculate_edit_distance("prefix_common", "suffix_common") == ['Delete p', 'Delete r', 'Delete e', 'Delete f', 'Delete i', 'Delete x']
+
+    # Test case 37: Strings with common suffix and prefix
+    assert calculate_edit_distance("common_prefix_suffix", "suffix_common_prefix") == ['Delete _', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s', 'Delete _', 'Delete p', 'Delete r', 'Delete e', 'Delete c', 'Delete i', 'Delete x']
+
+    # Test case 38: Strings with different lengths
+    assert calculate_edit_distance("short", "thisisaverylongstring") == ['Insert t t', 'Insert h h', 'Insert i i', 'Insert s s', 'Insert i i', 'Insert s i', 'Insert a s', 'Insert v v', 'Insert e e', 'Insert r r', 'Insert y y', 'Insert l o', 'Insert o n', 'Insert n g', 'Insert g s', 'Insert s t', 'Insert t r', 'Insert r i', 'Insert i n', 'Insert n g']
+
+    # Test case 39: Strings with similar patterns
+    assert calculate_edit_distance("abab", "abba") == ['Substitute b b', 'Substitute a b']
+
+    # Test case 40: Strings with same characters in different order
+    assert calculate_edit_distance("abcd", "dcba") == ['Substitute a d', 'Substitute b c', 'Substitute c b', 'Substitute d a']
+
+    # Test case 41: Strings with common prefix
+    assert calculate_edit_distance("common_prefix_suffix", "common_prefix") == ['Delete _', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s']
+
+    # Test case 42: Strings with common prefix and suffix
+    assert calculate_edit_distance("common_prefix_suffix", "prefix_suffix_common") == ['Delete _', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s', 'Delete _', 'Delete c', 'Delete o', 'Delete m', 'Delete m', 'Delete o', 'Delete n']
+
+    # Test case 43: Strings with multiple replacements and deletions
+    assert calculate_edit_distance("abcdefg", "hijklmn") == ['Substitute a h', 'Substitute b i', 'Substitute c j', 'Substitute d k', 'Substitute e l', 'Substitute f m', 'Substitute g n']
+
+    # Test case 44: Strings with multiple matches
+    assert calculate_edit_distance("abcabc", "abc") == ['Delete a', 'Delete b', 'Delete c', 'Delete a', 'Delete b', 'Delete c']
+
+    # Test case 45: Strings with multiple substitutions
+    assert calculate_edit_distance("abc", "def") == ['Substitute a d', 'Substitute b e', 'Substitute c f']
+
+    # Test case 46: Strings with common suffix
+    assert calculate_edit_distance("common_suffix", "prefix_common_suffix") == ['Delete p', 'Delete r', 'Delete e', 'Delete f', 'Delete i', 'Delete x']
+
+    # Test case 47: Strings with common prefix and suffix
+    assert calculate_edit_distance("common_prefix_suffix", "prefix_common_suffix") == ['Delete _', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s']
+
+    # Test case 48: Strings with different characters but same length
+    assert calculate_edit_distance("12345", "abcde") == ['Substitute 1 a', 'Substitute 2 b', 'Substitute 3 c', 'Substitute 4 d', 'Substitute 5 e']
+
+    # Test case 49: Strings with similar patterns
+    assert calculate_edit_distance("abab", "baba") == ['Substitute a b', 'Substitute b a']
+
+    # Test case 50: Strings with mixed cases
+    assert calculate_edit_distance("Hello World", "hello world") == ['Substitute H h']

@@ -1,0 +1,88 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+import pytest
+
+@pytest.fixture
+def graph():
+    return Graph()
+
+def test_add_node(graph):
+    # Test adding a single node
+    graph.add_node('A')
+    assert 'A' in graph.nodes()
+
+    # Test adding multiple nodes
+    graph.add_node('B')
+    graph.add_node('C')
+    assert 'B' in graph.nodes()
+    assert 'C' in graph.nodes()
+
+def test_add_edge(graph):
+    graph.add_node('X')
+    graph.add_node('Y')
+    
+    # Test adding a single edge
+    graph.add_edge('X', 'Y')
+    assert ('X', 'Y') in graph.edges()
+
+    # Test adding multiple edges
+    graph.add_node('Z')
+    graph.add_edge('X', 'Z')
+    graph.add_edge('Y', 'Z')
+    assert ('X', 'Z') in graph.edges()
+    assert ('Y', 'Z') in graph.edges()
+
+def test_del_node(graph):
+    graph.add_node('M')
+    graph.add_node('N')
+    
+    # Test deleting a node
+    graph.del_node('M')
+    assert 'M' not in graph.nodes()
+
+    # Test deleting a node with associated edges
+    graph.add_edge('N', 'O')
+    graph.del_node('N')
+    assert 'N' not in graph.nodes()
+    assert ('N', 'O') not in graph.edges()
+
+def test_del_edge(graph):
+    graph.add_node('P')
+    graph.add_node('Q')
+    graph.add_edge('P', 'Q')
+    
+    # Test deleting an edge
+    graph.del_edge('P', 'Q')
+    assert ('P', 'Q') not in graph.edges()
+
+def test_has_node(graph):
+    graph.add_node('R')
+    
+    # Test checking for existing node
+    assert graph.has_node('R') == True
+    
+    # Test checking for non-existing node
+    assert graph.has_node('S') == False
+
+def test_neighbors(graph):
+    graph.add_node('D')
+    graph.add_node('E')
+    graph.add_edge('D', 'E')
+    
+    # Test getting neighbors of a node
+    assert 'E' in graph.neighbors('D')
+
+def test_adjacent(graph):
+    graph.add_node('F')
+    graph.add_node('G')
+    graph.add_edge('F', 'G')
+    
+    # Test checking adjacency of two nodes
+    assert graph.adjacent('F', 'G') == True
+    assert graph.adjacent('G', 'F') == False

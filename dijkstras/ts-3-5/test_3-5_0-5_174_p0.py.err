@@ -1,0 +1,56 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('A', 'C', 4)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('B', 'D', 5)
+    weighted_graph.add_edge('C', 'D', 1)
+    
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'C', 'D']
+
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('X')
+    weighted_graph.add_vertex('Y')
+    weighted_graph.add_vertex('Z')
+    weighted_graph.add_edge('X', 'Y', -2)
+    weighted_graph.add_edge('X', 'Z', -5)
+    weighted_graph.add_edge('Y', 'Z', -3)
+    
+    assert dijkstras(weighted_graph, 'X', 'Z') == ['X', 'Z']
+    
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('P')
+    weighted_graph.add_vertex('Q')
+    weighted_graph.add_edge('P', 'Q', 3)
+    
+    assert dijkstras(weighted_graph, 'P', 'P') == ['P']
+
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('M')
+    weighted_graph.add_vertex('N')
+    weighted_graph.add_vertex('O')
+    weighted_graph.add_edge('M', 'N', 2)
+    weighted_graph.add_edge('N', 'O', 4)
+    
+    assert dijkstras(weighted_graph, 'M', 'O') == ['M', 'N', 'O']
+
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('R')
+    weighted_graph.add_vertex('S')
+    weighted_graph.add_vertex('T')
+    weighted_graph.add_edge('R', 'S', 1)
+    weighted_graph.add_edge('S', 'T', 2)
+    
+    assert dijkstras(weighted_graph, 'R', 'T') == ['R', 'S', 'T']

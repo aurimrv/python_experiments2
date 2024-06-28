@@ -1,0 +1,92 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+# Test cases for ListNode class
+class TestListNode:
+    def test_node_initialization(self):
+        node = ListNode(1, 'a')
+        assert node.key == 1
+        assert node.val == 'a'
+        assert node.prev is None
+        assert node.next is None
+
+    def test_node_update(self):
+        node = ListNode(2, 'b')
+        node.key = 3
+        node.val = 'c'
+        assert node.key == 3
+        assert node.val == 'c'
+
+# Test cases for LruCache class
+class TestLruCache:
+    def test_cache_initialization(self):
+        cache = LruCache(3)
+        assert cache.head.key == cache.terminal_value
+        assert cache.head.val == cache.terminal_value
+        assert cache.tail.key == cache.terminal_value
+        assert cache.tail.val == cache.terminal_value
+        assert len(cache.lookup_map) == 0
+        assert cache.capacity == 3
+
+    def test_put_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert len(cache.lookup_map) == 2
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'b'
+        assert cache.head.next.prev.key == cache.terminal_value
+        assert cache.head.next.next.key == cache.terminal_value
+
+    def test_get_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.get(1) == 'a'
+        assert cache.head.next.key == 1
+        assert cache.head.next.val == 'a'
+        assert cache.head.next.prev.key == cache.terminal_value
+        assert cache.head.next.next.key == 2
+
+    def test_put_capacity_exceeded(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        cache.put(3, 'c')
+        assert len(cache.lookup_map) == 2
+        assert 1 not in cache.lookup_map
+        assert 3 in cache.lookup_map
+
+    def test_get_key_not_found(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.get(3) == -1
+
+    def test_add_remove_methods(self):
+        cache = LruCache(3)
+        node1 = ListNode(1, 'a')
+        node2 = ListNode(2, 'b')
+
+        cache._add(node1)
+        assert cache.head.next == node1
+        assert cache.tail.prev == node1
+
+        cache._add(node2)
+        assert cache.head.next == node1
+        assert cache.tail.prev == node2
+
+        cache._remove(node1)
+        assert cache.head.next == node2
+        assert cache.tail.prev == node2
+
+# Run the tests
+if __name__ == '__main__':
+    pytest.main()

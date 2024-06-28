@@ -1,0 +1,72 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+# Test cases for Node class
+def test_node_init():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_node_repr():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+
+# Test cases for DoubleLinkedList class
+def test_dll_init():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.head.data == 3
+    assert dll.tail.data == 1
+    assert dll._length == 3
+
+def test_dll_push():
+    dll = DoubleLinkedList()
+    dll.push(7)
+    assert dll.head.data == 7
+    assert dll.tail.data == 7
+    assert dll._length == 1
+
+def test_dll_pop():
+    dll = DoubleLinkedList([1, 2, 3])
+    popped = dll.pop()
+    assert popped == 3
+    assert dll.head.data == 2
+    assert dll.tail.data == 1
+    assert dll._length == 2
+
+def test_dll_append():
+    dll = DoubleLinkedList()
+    dll.append(4)
+    assert dll.head.data == 4
+    assert dll.tail.data == 4
+    assert dll._length == 1
+
+def test_dll_shift():
+    dll = DoubleLinkedList([1, 2, 3])
+    shifted = dll.shift()
+    assert shifted == 1
+    assert dll.head.data == 3
+    assert dll.tail.data == 2
+    assert dll._length == 2
+
+def test_dll_remove():
+    dll = DoubleLinkedList([1, 2, 3])
+    dll.remove(2)
+    assert dll.head.data == 3
+    assert dll.tail.data == 1
+    assert dll._length == 2
+
+    with pytest.raises(ValueError):
+        dll.remove(5)
+
+def test_dll_repr():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll._repr() == [3, 2, 1]

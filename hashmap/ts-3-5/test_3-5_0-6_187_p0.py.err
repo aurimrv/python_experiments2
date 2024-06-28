@@ -1,0 +1,47 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+import pytest
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    hashmap.insert('key1', 'value1')
+    assert hashmap.get('key1') == 'value1'
+
+def test_get(hashmap):
+    hashmap.insert('key1', 'value1')
+    assert hashmap.get('key1') == 'value1'
+    with pytest.raises(KeyError):
+        hashmap.get('key2')
+
+def test_delete(hashmap):
+    hashmap.insert('key1', 'value1')
+    assert hashmap.delete('key1') == ('key1', 'value1')
+    with pytest.raises(KeyError):
+        hashmap.delete('key1')
+
+def test_djb2():
+    assert djb2('test') == 6385723493
+    assert djb2('hello') == 110974
+    assert djb2('python') == 136617
+    assert djb2('mutation') == 234886
+
+def test_sdbm():
+    assert sdbm('test') == 32745785343201586
+    assert sdbm('hello') == 110974
+    assert sdbm('python') == 136617
+    assert sdbm('mutation') == 234886
+
+def test_lose_lose():
+    assert lose_lose('test') == 448
+    assert lose_lose('hello') == 532
+    assert lose_lose('python') == 648
+    assert lose_lose('mutation') == 758

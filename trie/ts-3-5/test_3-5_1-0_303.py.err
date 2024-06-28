@@ -1,0 +1,36 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init():
+    words = ['apple', 'application', 'banana']
+    my_trie = Trie(words)
+    assert my_trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    words = ['a', 'ab', 'abc']
+    my_trie = Trie(words)
+    assert my_trie.head == {'a': {'__eof__': '__eof__', 'b': {'__eof__': '__eof__', 'c': {'__eof__': '__eof__'}}}}
+
+def test_trie_add():
+    words = ['apple', 'application']
+    my_trie = Trie(words)
+    my_trie.add('app')
+    assert my_trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}, 'p': {'__eof__': '__eof__'}}}}, 'b': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}
+
+    words = ['python', 'java']
+    my_trie = Trie(words)
+    my_trie.add('javascript')
+    assert my_trie.head == {'p': {'y': {'t': {'h': {'o': {'n': {'__eof__': '__eof__'}}}}}, 'j': {'a': {'v': {'a': {'s': {'c': {'r': {'i': {'p': {'t': {'__eof__': '__eof__'}}}}}}}}}}}
+
+def test_trie_get_all_common_prefix():
+    words = ['apple', 'application', 'banana']
+    my_trie = Trie(words)
+    assert my_trie.get_all_common_prefix('app') == ['apple', 'application']
+
+    words = ['a', 'ab', 'abc']
+    my_trie = Trie(words)
+    assert my_trie.get_all_common_prefix('ab') == ['ab', 'abc']

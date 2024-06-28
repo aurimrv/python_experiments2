@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+class TestTrie:
+    @pytest.fixture
+    def trie_setup(self):
+        t = Trie(['apple', 'banana', 'apricot', 'application'])
+        return t
+
+    def test_initialization(self, trie_setup):
+        assert trie_setup.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}},
+                                                 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}},
+                                                 'p': {'l': {'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}},
+                                       'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    def test_add_word(self, trie_setup):
+        trie_setup.add('car')
+        assert trie_setup.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}},
+                                                 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}},
+                                                 'p': {'l': {'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}},
+                                       'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                       'c': {'a': {'r': {'__eof__': '__eof__'}}}}
+
+    def test_get_all_common_prefix(self, trie_setup):
+        assert trie_setup.get_all_common_prefix('ap') == ['apple', 'apricot', 'application']
+        assert trie_setup.get_all_common_prefix('ba') == ['banana']
+        assert trie_setup.get_all_common_prefix('c') == []

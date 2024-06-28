@@ -1,0 +1,60 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_empty_graph():
+    weighted_graph = {'vertices': {}}
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_direct_path():
+    weighted_graph = {
+        'vertices': {
+            'A': {'adjacent': {'B': 1}},
+            'B': {'adjacent': {}}
+        }
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+def test_shortest_path():
+    weighted_graph = {
+        'vertices': {
+            'A': {'adjacent': {'B': 1, 'C': 2}},
+            'B': {'adjacent': {'C': 1, 'D': 3}},
+            'C': {'adjacent': {'D': 1}},
+            'D': {'adjacent': {}}
+        }
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+
+def test_disconnected_graph():
+    weighted_graph = {
+        'vertices': {
+            'A': {'adjacent': {}},
+            'B': {'adjacent': {}}
+        }
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_negative_weights():
+    weighted_graph = {
+        'vertices': {
+            'A': {'adjacent': {'B': -2}},
+            'B': {'adjacent': {'C': -3}},
+            'C': {'adjacent': {}}
+        }
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']

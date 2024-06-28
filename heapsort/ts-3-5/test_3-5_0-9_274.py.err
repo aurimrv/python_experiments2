@@ -1,0 +1,50 @@
+import os
+import sys
+import pytest
+from copy import deepcopy
+from heapq import heapify, heappop
+from heap import Heap
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heapsort import heap_sort, max_heap_sort, custom_heap_sort
+
+# Test heap_sort
+
+def test_heap_sort_sorted_output():
+    input_list = [4, 2, 9, 5, 1]
+    assert heap_sort(input_list) == [1, 2, 4, 5, 9]
+
+def test_heap_sort_empty_list():
+    input_list = []
+    assert heap_sort(input_list) == []
+
+# Test max_heap_sort
+
+def test_max_heap_sort_sorted_output():
+    input_list = [4, 2, 9, 5, 1]
+    assert max_heap_sort(input_list) == [9, 5, 4, 2, 1]
+
+def test_max_heap_sort_negative_elements():
+    input_list = [-4, -2, -9, -5, -1]
+    assert max_heap_sort(input_list) == [-1, -2, -4, -5, -9]
+
+# Test custom_heap_sort
+
+def test_custom_heap_sort_min_sorted_output():
+    input_list = [4, 2, 9, 5, 1]
+    assert custom_heap_sort(input_list, sort='min') == [1, 2, 4, 5, 9]
+
+def test_custom_heap_sort_max_sorted_output():
+    input_list = [4, 2, 9, 5, 1]
+    assert custom_heap_sort(input_list, sort='max') == [9, 5, 4, 2, 1]
+
+def test_custom_heap_sort_negative_elements_min_sort():
+    input_list = [-4, -2, -9, -5, -1]
+    assert custom_heap_sort(input_list, sort='min') == [-9, -5, -4, -2, -1]
+
+def test_custom_heap_sort_negative_elements_max_sort():
+    input_list = [-4, -2, -9, -5, -1]
+    assert custom_heap_sort(input_list, sort='max') == [-1, -2, -4, -5, -9]

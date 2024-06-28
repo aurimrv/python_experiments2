@@ -1,0 +1,88 @@
+import os
+import sys
+import pytest
+from collections import defaultdict, deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import GraphNode, Graph, WeightedGraphNode, WeightedGraph
+
+# Test cases for GraphNode
+def test_graph_node_init():
+    node = GraphNode(1)
+    assert node.val == 1
+    assert node.adjacent_list == set()
+
+def test_graph_node_add_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    assert node2 in node1.adjacent_list
+
+def test_graph_node_remove_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent_list
+
+# Test cases for Graph
+def test_graph_init():
+    graph = Graph(5)
+    assert graph.graph == {}
+    assert graph.verticies == 5
+
+def test_graph_add_edge():
+    graph = Graph(3)
+    graph.add_edge(1, 2)
+    assert graph.graph[1] == [2]
+    graph.add_edge(2, 3)
+    assert graph.graph[2] == [3]
+    assert graph.graph[3] == []
+
+def test_graph_has_cycle():
+    graph = Graph(4)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 1)
+    assert graph.has_cycle() == True
+
+def test_graph_topological_sort():
+    graph = Graph(5)
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 4)
+    sorted_vertices = graph.topological_sort()
+    assert sorted_vertices == [1, 3, 2, 4]
+
+# Test cases for WeightedGraphNode
+def test_weighted_graph_node_init():
+    w_node = WeightedGraphNode(10)
+    assert w_node.val == 10
+    assert w_node.adjacent == {}
+
+def test_weighted_graph_node_add_adjacent():
+    w_node1 = WeightedGraphNode(10)
+    w_node2 = WeightedGraphNode(20)
+    w_node1.add_adjacent(w_node2, 5)
+    assert w_node1.adjacent == {w_node2: 5}
+
+# Test cases for WeightedGraph
+def test_weighted_graph_init():
+    w_graph = WeightedGraph()
+    assert w_graph.vertices == {}
+
+def test_weighted_graph_add_edge():
+    w_graph = WeightedGraph()
+    w_graph.add_edge(1, 2, 3)
+    assert len(w_graph.vertices) == 2
+    assert 2 in w_graph.vertices[1].adjacent and w_graph.vertices[1].adjacent[2] == 3
+
+def test_weighted_graph_remove_edge():
+    w_graph = WeightedGraph()
+    w_graph.add_edge(1, 2, 3)
+    w_graph.remove_edge(1, 2)
+    assert 2 not in w_graph.vertices[1].adjacent

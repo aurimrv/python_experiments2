@@ -1,0 +1,64 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_init():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+def test_linked_list_init():
+    linked_list = LinkedList()
+    assert linked_list.head is None
+    assert linked_list.size() == 0
+
+def test_linked_list_push():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push(10)
+    assert linked_list.size() == 2
+    assert linked_list.head.data == 10
+
+def test_linked_list_pop():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push(10)
+
+    popped_value = linked_list.pop()
+    assert popped_value == 10
+    assert linked_list.size() == 1
+
+def test_linked_list_search():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push(10)
+
+    node_5 = linked_list.search(5)
+    assert node_5.data == 5
+
+    node_10 = linked_list.search(10)
+    assert node_10.data == 10
+
+def test_linked_list_remove():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push(10)
+    linked_list.remove(5)
+
+    assert linked_list.size() == 1
+    assert linked_list.head.data == 10
+
+def test_linked_list_display():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    linked_list.push('sam')
+    linked_list.push(37)
+
+    assert linked_list.display() == "(37, 'sam', 5)" 
+    assert linked_list.display() == "(37, sam, 5)"

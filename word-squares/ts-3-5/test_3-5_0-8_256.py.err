@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct_empty_square():
+    words = ["abc", "def", "ghi"]
+    result = word_squares(words)
+    assert result == []
+
+def test_construct_single_word_square():
+    words = ["abc", "def", "ghi"]
+    result = word_squares(words)
+    assert len(result) == 1
+    assert result[0] == ["abc", "def", "ghi"]
+
+def test_construct_multiple_word_squares():
+    words = ["ball", "area", "lead", "lady"]
+    result = word_squares(words)
+    assert len(result) == 4
+    assert ["ball", "area", "lead", "lady"] in result
+    assert ["lead", "area", "area", "lead"] in result
+    assert ["lady", "area", "defy", "yard"] in result
+    assert ["lead", "area", "defy", "yard"] in result
+
+def test_construct_long_words_square():
+    words = ["hello", "elepaio", "longer", "oracle", "world"]
+    result = word_squares(words)
+    assert len(result) == 1
+    assert result[0] == ["hello", "elepaio", "longer", "oracle", "world"]
+
+def test_construct_duplicate_words_square():
+    words = ["apple", "puppy", "puppy", "puppy"]
+    result = word_squares(words)
+    assert len(result) == 2
+    assert ["apple", "puppy", "puppy", "puppy"] in result
+    assert ["puppy", "puppy", "apple", "puppy"] in result

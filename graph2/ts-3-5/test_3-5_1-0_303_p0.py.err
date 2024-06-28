@@ -1,0 +1,70 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+import pytest
+
+@pytest.fixture
+def graph():
+    return Graph()
+
+def test_nodes_method(graph):
+    graph.add_node('A')
+    assert 'A' in graph.nodes()
+
+    graph.add_node('B')
+    graph.add_node('C')
+    assert 'B' in graph.nodes()
+    assert 'C' in graph.nodes()
+
+def test_edges_method(graph):
+    graph.add_edge('A', 'B')
+    graph.add_edge('B', 'C')
+    assert ('A', 'B') in graph.edges()
+    assert ('B', 'C') in graph.edges()
+
+def test_add_node_method(graph):
+    graph.add_node('D')
+    assert 'D' in graph.nodes()
+
+def test_add_edge_method(graph):
+    graph.add_node('E')
+    graph.add_node('F')
+    graph.add_edge('E', 'F')
+    assert graph.adjacent('E', 'F')
+
+def test_del_node_method(graph):
+    graph.add_node('G')
+    graph.add_node('H')
+    graph.add_edge('G', 'H')
+    graph.del_node('G')
+    assert 'G' not in graph.nodes()
+    assert 'H' not in graph.neighbors('G')
+
+def test_del_edge_method(graph):
+    graph.add_node('I')
+    graph.add_node('J')
+    graph.add_edge('I', 'J')
+    graph.del_edge('I', 'J')
+    assert not graph.adjacent('I', 'J')
+
+def test_has_node_method(graph):
+    graph.add_node('K')
+    assert graph.has_node('K')
+
+def test_neighbors_method(graph):
+    graph.add_node('L')
+    graph.add_node('M')
+    graph.add_edge('L', 'M')
+    assert 'M' in graph.neighbors('L')
+
+def test_adjacent_method(graph):
+    graph.add_node('N')
+    graph.add_node('O')
+    graph.add_edge('N', 'O')
+    assert graph.adjacent('N', 'O')
+    assert not graph.adjacent('O', 'N')

@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from fenwick_tree import FenwickTree
+
+def test_fenwick_tree_init():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.tree == [0, 1, 3, 3, 10, 5]
+
+def test_fenwick_tree_update():
+    arr = [1, 2, 3]
+    ft = FenwickTree(arr)
+    ft.update(1, 5)
+    assert ft.tree == [0, 1, 6, 3]
+
+def test_fenwick_tree_sum_of_n():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.sum_of_n(2) == 6
+
+def test_fenwick_tree_sum_of_range():
+    arr = [1, 2, 3, 4, 5]
+    ft = FenwickTree(arr)
+    assert ft.sum_of_range(1, 3) == 9  # Corrected assertion to match the expected output, which is 9.

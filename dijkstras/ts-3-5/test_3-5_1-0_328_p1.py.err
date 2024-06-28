@@ -1,0 +1,43 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class WeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+class Vertex:
+    def __init__(self, adjacent):
+        self.adjacent = adjacent
+
+@pytest.fixture
+def graph_example():
+    vertex_a = Vertex({"B": 4, "C": 2})
+    vertex_b = Vertex({"A": 4, "C": 5})
+    vertex_c = Vertex({"A": 2, "B": 5})
+    vertices = {'A': vertex_a, 'B': vertex_b, 'C': vertex_c}
+    return WeightedGraph(vertices)
+
+def test_dijkstras_shortest_path(graph_example):
+    assert dijkstras(graph_example, 'A', 'B') == ['A', 'B']
+
+def test_dijkstras_no_path(graph_example):
+    assert dijkstras(graph_example, 'A', 'E') == []
+
+def test_dijkstras_same_source_dest(graph_example):
+    assert dijkstras(graph_example, 'A', 'A') == ['A']
+
+def test_dijkstras_different_path(graph_example):
+    assert dijkstras(graph_example, 'A', 'C') == ['A', 'C']
+
+def test_dijkstras_longer_path(graph_example):
+    assert dijkstras(graph_example, 'B', 'C') == ['B', 'C']
+
+def test_dijkstras_longest_path(graph_example):
+    assert dijkstras(graph_example, 'C', 'B') == ['C', 'A', 'B'] 

@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+@pytest.fixture
+def graph():
+    vertices = 5
+    g = Graph(vertices)
+    g.add_edge(0, 1)
+    g.add_edge(1, 2)
+    g.add_edge(2, 3)
+    g.add_edge(3, 4)
+    g.add_edge(4, 0)
+    return g
+
+def test_graph_add_edge(graph):
+    assert graph.graph == {0: [1], 1: [2], 2: [3], 3: [4], 4: [0]}
+
+def test_graph_has_cycle(graph):
+    assert graph.has_cycle() == True
+
+def test_graph_topological_sort(graph):
+    assert graph.topological_sort() == [0, 1, 2, 3, 4]
+
+@pytest.fixture
+def weighted_graph():
+    wg = WeightedGraph()
+    wg.add_edge('A', 'B', 5)
+    wg.add_edge('A', 'C', 3)
+    wg.add_edge('B', 'C', 1)
+    wg.add_edge('C', 'D', 2)
+    return wg
+
+def test_weighted_graph_add_edge(weighted_graph):
+    assert weighted_graph.vertices == {
+        'A': 'A adjacent: ['B', 'C']',
+        'B': 'B adjacent: ['C']',
+        'C': 'C adjacent: ['D']'
+    }

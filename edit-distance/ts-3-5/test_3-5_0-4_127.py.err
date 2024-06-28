@@ -1,0 +1,53 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for identical strings
+    str1 = "abc"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == []
+
+    # Test case for strings with one character difference
+    str1 = "abc"
+    str2 = "abd"
+    assert calculate_edit_distance(str1, str2) == ['Substitute d']
+
+    # Test case for strings with multiple differences
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute s', 'Substitute i', 'Insert t', 'Substitute t', 'Substitute e', 'Substitute n']
+
+    # Test case for empty strings
+    str1 = ""
+    str2 = "test"
+    assert calculate_edit_distance(str1, str2) == ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+
+    # Test case for one empty string
+    str1 = "hello"
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Delete o']
+
+    # Test case for long strings
+    str1 = "This is a long string with many characters"
+    str2 = "This is another long string with some characters"
+    assert calculate_edit_distance(str1, str2) == ['Substitute a', 'Substitute n', 'Substitute o', 'Substitute t', 'Substitute h', 'Substitute e', 'Substitute r', 'Insert s', 'Insert o', 'Insert m', 'Insert e', 'Substitute c', 'Substitute h', 'Substitute a', 'Substitute r', 'Substitute a', 'Substitute c', 'Substitute t', 'Substitute e', 'Substitute r', 'Substitute s']
+
+    # Test case for strings with no common characters
+    str1 = "1234"
+    str2 = "5678"
+    assert calculate_edit_distance(str1, str2) == ['Insert 5', 'Insert 6', 'Insert 7', 'Insert 8']
+
+    # Test case for strings with all common characters but in different order
+    str1 = "abc"
+    str2 = "bca"
+    assert calculate_edit_distance(str1, str2) == ['Delete a', 'Delete b', 'Insert b', 'Insert c', 'Insert a']
+
+    # Test case for very large strings
+    str1 = "a" * 1000
+    str2 = "b" * 1000
+    assert calculate_edit_distance(str1, str2) == ['Substitute b'] * 1000

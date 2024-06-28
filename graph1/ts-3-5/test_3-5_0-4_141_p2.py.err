@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+@pytest.fixture
+def sample_graph():
+    g = Graph(5)
+    g.add_edge(0, 1)
+    g.add_edge(1, 2)
+    g.add_edge(2, 3)
+    g.add_edge(3, 4)
+    return g
+
+def test_add_edge(sample_graph):
+    assert len(sample_graph.graph) == 5
+    assert sample_graph.graph[0] == [1]
+    assert sample_graph.graph[1] == [2]
+    assert sample_graph.graph[2] == [3]
+    assert sample_graph.graph[3] == [4]
+
+def test_has_cycle_no_cycle(sample_graph):
+    assert not sample_graph.has_cycle()
+
+def test_has_cycle_with_cycle():
+    g = Graph(3)
+    g.add_edge(0, 1)
+    g.add_edge(1, 2)
+    g.add_edge(2, 0)
+    assert g.has_cycle()
+
+def test_topological_sort(sample_graph):
+    assert sample_graph.topological_sort() == [0, 1, 2, 3, 4]
+
+@pytest.fixture
+def sample_weighted_graph():
+    wg = WeightedGraph()
+    wg.add_edge('A', 'B', 5)
+    wg.add_edge('B', 'C', 3)
+    wg.add_edge('C', 'D', 2)
+    return wg
+
+def test_weighted_graph_add_edge(sample_weighted_graph):
+    assert sample_weighted_graph.vertices['A'].adjacent['B'] == 5
+    assert sample_weighted_graph.vertices['B'].adjacent['C'] == 3
+    assert sample_weighted_graph.vertices['C'].adjacent['D'] == 2
+
+def test_weighted_graph_remove_edge(sample_weighted_graph):
+    sample_weighted_graph.remove_edge('B', 'C')
+    assert 'C' not in sample_weighted_graph.vertices['B'].adjacent
+
+def test_weighted_graph_str(sample_weighted_graph):
+    assert str(sample_weighted_graph) == "A adjacent: ['B'], B adjacent: ['C'], C adjacent: ['D']"

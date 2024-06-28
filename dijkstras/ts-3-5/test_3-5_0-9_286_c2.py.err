@@ -1,0 +1,73 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import WeightedGraph, Vertex, dijkstras
+
+import pytest
+
+def test_dijkstras_shortest_path_when_path_exists():
+    graph = WeightedGraph()
+    vertex_a = Vertex('A')
+    vertex_b = Vertex('B')
+    vertex_c = Vertex('C')
+    vertex_d = Vertex('D')
+    
+    graph.add_vertex(vertex_a)
+    graph.add_vertex(vertex_b)
+    graph.add_vertex(vertex_c)
+    graph.add_vertex(vertex_d)
+    
+    graph.add_edge(vertex_a, vertex_b, 1)
+    graph.add_edge(vertex_a, vertex_c, 4)
+    graph.add_edge(vertex_b, vertex_c, 2)
+    graph.add_edge(vertex_b, vertex_d, 5)
+    graph.add_edge(vertex_c, vertex_d, 1)
+    
+    path = dijkstras(graph, 'A', 'D')
+    
+    assert path == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_shortest_path_when_direct_path_exists():
+    graph = WeightedGraph()
+    vertex_a = Vertex('A')
+    vertex_b = Vertex('B')
+    
+    graph.add_vertex(vertex_a)
+    graph.add_vertex(vertex_b)
+    
+    graph.add_edge(vertex_a, vertex_b, 2)
+    
+    path = dijkstras(graph, 'A', 'B')
+    
+    assert path == ['A', 'B']
+
+def test_dijkstras_shortest_path_when_no_path_exists():
+    graph = WeightedGraph()
+    vertex_a = Vertex('A')
+    vertex_b = Vertex('B')
+    vertex_c = Vertex('C')
+    
+    graph.add_vertex(vertex_a)
+    graph.add_vertex(vertex_b)
+    graph.add_vertex(vertex_c)
+    
+    graph.add_edge(vertex_a, vertex_b, 1)
+    graph.add_edge(vertex_c, vertex_b, 2)
+    
+    path = dijkstras(graph, 'A', 'C')
+    
+    assert path == ['A', 'B', 'C']
+
+def test_dijkstras_shortest_path_when_single_node_graph():
+    graph = WeightedGraph()
+    vertex_a = Vertex('A')
+    
+    graph.add_vertex(vertex_a)
+    
+    path = dijkstras(graph, 'A', 'A')
+    
+    assert path == ['A']

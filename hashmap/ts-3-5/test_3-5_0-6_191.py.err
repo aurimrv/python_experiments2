@@ -1,0 +1,35 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+# Test HashMap class
+def test_hashmap_insert():
+    h = HashMap()
+    h.insert(1, 'a')
+    assert h.get(1) == 'a'
+
+def test_hashmap_get():
+    h = HashMap()
+    h.insert(1, 'a')
+    assert h.get(1) == 'a'
+
+def test_hashmap_delete():
+    h = HashMap()
+    h.insert(1, 'a')
+    assert h.delete(1) == (1, 'a')
+
+# Test hash functions
+def test_djb2():
+    assert djb2('test') == 209077220
+
+def test_sdbm():
+    assert sdbm('test') == 206962737
+
+def test_lose_lose():
+    assert lose_lose('test') == 448

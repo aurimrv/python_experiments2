@@ -1,0 +1,20 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("abc", "abc") == []
+    assert calculate_edit_distance("", "abc") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("abc", "") == ['Insert a', 'Insert b', 'Insert c']
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k', 'Substitute i', 'Substitute t']
+    assert calculate_edit_distance("Saturday", "Sunday") == ['Substitute a', 'Substitute t', 'Insert n', 'Insert d']
+    assert calculate_edit_distance("This is a long string", "This is another long string") == ['Insert a', 'Insert n', 'Insert o', 'Insert t', 'Insert h', 'Insert e', 'Insert r']
+    assert calculate_edit_distance("123!@#", "123$@!") == ['Substitute !', 'Substitute #', 'Substitute $']
+    assert calculate_edit_distance("hello world", "hello   world") == ['Insert ', 'Insert ', 'Insert ']
+    assert calculate_edit_distance("  test", "test") == ['Delete  ', 'Delete  ']
+    assert calculate_edit_distance("test  ", "test") == ['Delete  ', 'Delete  ']

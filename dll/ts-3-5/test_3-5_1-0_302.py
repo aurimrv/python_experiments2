@@ -1,0 +1,59 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def initialized_dll():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    return dll
+
+def test_node_repr():
+    node = Node(5)
+    assert str(node) == "Value: 5"
+
+def test_push(initialized_dll):
+    assert initialized_dll.head.data == 3
+    assert initialized_dll.tail.data == 1
+    initialized_dll.push(4)
+    assert initialized_dll.head.data == 4
+
+def test_pop(initialized_dll):
+    assert initialized_dll.pop() == 3
+    assert initialized_dll.head.data == 2
+
+def test_append(initialized_dll):
+    initialized_dll.append(0)
+    assert initialized_dll.tail.data == 0
+    assert initialized_dll.head.data == 3
+
+def test_shift(initialized_dll):
+    assert initialized_dll.shift() == 1
+    assert initialized_dll.tail.data == 2
+
+def test_remove(initialized_dll):
+    initialized_dll.remove(2)
+    assert initialized_dll.head.data == 3
+
+def test_remove_exception(initialized_dll):
+    with pytest.raises(ValueError):
+        initialized_dll.remove(5)
+
+def test_empty_list_pop():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.pop()
+
+def test_empty_list_shift():
+    dll = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dll.shift()

@@ -1,0 +1,40 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute k', 'Substitute i', 'Match t', 'Match t', 'Match e', 'Insert n', 'Match g']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_insert():
+    str1 = "Saturday"
+    str2 = "Sundays"
+    expected_output = ['Substitute S', 'Match u', 'Insert n', 'Match d', 'Match a', 'Match y', 'Delete s']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_delete():
+    str1 = "car"
+    str2 = "racecar"
+    expected_output = ['Insert e', 'Match c', 'Match a', 'Match r', 'Match a', 'Match c']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "hello"
+    str2 = "hello"
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output

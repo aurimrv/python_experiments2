@@ -1,0 +1,72 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_basic_case(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('C', 'D', 3)
+        weighted_graph.add_edge('A', 'D', 10)
+
+        src = 'A'
+        dst = 'D'
+
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'D']
+
+    def test_dijkstras_multiple_paths(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 1)
+        weighted_graph.add_edge('A', 'C', 2)
+
+        src = 'A'
+        dst = 'C'
+
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'C']
+
+    def test_dijkstras_no_path(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_edge('A', 'B', 1)
+
+        src = 'A'
+        dst = 'C'
+
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == []
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, key):
+        self.vertices[key] = Vertex(key)
+
+    def add_edge(self, src, dst, weight):
+        self.vertices[src].add_adjacent(dst, weight)
+        self.vertices[dst].add_adjacent(src, weight)
+
+class Vertex:
+    def __init__(self, key):
+        self.key = key
+        self.adjacent = {}
+
+    def add_adjacent(self, key, weight):
+        self.adjacent[key] = weight

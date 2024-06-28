@@ -1,0 +1,44 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+
+def test_linked_list_push():
+    ll = LinkedList()
+    ll.push(3)
+    assert ll.head.data == 3
+
+def test_linked_list_pop():
+    ll = LinkedList([1, 2, 3])
+    assert ll.pop() == 3
+    assert ll.pop() == 2
+    assert ll.pop() == 1
+
+def test_linked_list_size():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    assert ll.size() == 5
+
+def test_linked_list_search():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    node = ll.search(3)
+    assert node.data == 3
+
+def test_linked_list_remove():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    ll.remove(3)
+    assert ll.size() == 4
+    assert ll.search(3) is None
+
+def test_linked_list_display():
+    ll = LinkedList([1, 'hello', 3, 'world', 5])
+    assert ll.display() == "(5, world, 3, hello, 1)"

@@ -1,0 +1,48 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_creation():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+def test_node_next():
+    node1 = Node(20)
+    node2 = Node(30, node1)
+    assert node2.next == node1
+
+def test_linked_list_push():
+    llist = LinkedList()
+    llist.push(10)
+    assert llist.head.data == 10
+    assert llist.size() == 1
+
+def test_linked_list_pop():
+    llist = LinkedList([10, 20, 30])
+    assert llist.pop() == 30
+    assert llist.size() == 2
+
+def test_linked_list_size():
+    llist = LinkedList([10, 20, 30])
+    assert llist.size() == 3
+
+def test_linked_list_search():
+    llist = LinkedList([10, 20, 30])
+    assert llist.search(20).data == 20
+
+def test_linked_list_remove():
+    llist = LinkedList([10, 20, 30])
+    llist.remove(20)
+    assert llist.size() == 2
+    assert llist.display() == "(30, 10)"
+
+def test_linked_list_display():
+    llist = LinkedList([10, 'sam', 37, 'tango'])
+    assert llist.display() == "(tango, 37, sam, 10)"

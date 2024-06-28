@@ -1,0 +1,30 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_empty_square():
+    words = ["dog", "cat", "bat"]
+    expected_result = []
+    assert word_squares(words) == expected_result
+
+def test_construct_single_letter_square():
+    words = ["a"]
+    expected_result = [["a"]]
+    assert word_squares(words) == expected_result
+
+def test_construct_word_squares():
+    words = ["ball", "area", "lead", "lady"]
+    expected_result = [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+    assert word_squares(words) == expected_result
+
+def test_construct_word_squares_long_words():
+    words = ["solder", "orange", "legion", "driven", "enemy"]
+    expected_result = [['solder', 'orange', 'legion', 'driven', 'enemy'],
+                       ['solder', 'orange', 'legion', 'enemy', 'driven'],
+                       ['solder', 'orange', 'driven', 'enemy', 'legion'],
+                       ['solder', 'orange', 'enemy', 'driven', 'legion']]
+    assert word_squares(words) == expected_result

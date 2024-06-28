@@ -1,0 +1,47 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for strings with one character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for strings with one character insertion
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for strings with one character deletion
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+
+    # Test case for longer strings with multiple edits
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Insert g']
+
+    # Test case for strings with no common characters
+    assert calculate_edit_distance("abc", "def") == ['Substitute d', 'Substitute e', 'Substitute f']
+
+    # Test case for strings with spaces
+    assert calculate_edit_distance("hello world", "world hello") == ['Substitute w', 'Substitute o', 'Substitute r', 'Substitute l', 'Substitute d', 'Substitute h']
+
+    # Test case for strings with special characters
+    assert calculate_edit_distance("!@#$", "%^&*") == ['Substitute %', 'Substitute ^', 'Substitute &', 'Substitute *']
+
+    # Test case for long strings with minimal edits
+    assert calculate_edit_distance("this is a long string", "this is a long strung") == ['Substitute g', 'Insert g']
+
+    # Test case for strings with repeated characters
+    assert calculate_edit_distance("aaabbb", "aabbb") == ['Delete a']
+
+    # Test case for strings with mixed case
+    assert calculate_edit_distance("AbCd", "aBcD") == ['Substitute a', 'Substitute b', 'Substitute c']
+
+    # Test case for strings with numbers
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1']

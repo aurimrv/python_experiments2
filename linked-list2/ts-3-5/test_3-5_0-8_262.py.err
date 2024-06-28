@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+# Test cases for Node class
+def test_node_creation():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+def test_node_next_assign():
+    node1 = Node(5)
+    node2 = Node(8, node1)
+    assert node2.data == 8
+    assert node2.next == node1
+
+# Test cases for LinkedList class
+def test_linked_list_initialization():
+    llist = LinkedList()
+    assert llist.size() == 0
+    assert llist.head is None
+
+def test_linked_list_push():
+    llist = LinkedList()
+    llist.push(7)
+    assert llist.size() == 1
+    assert llist.head.data == 7
+
+def test_linked_list_pop():
+    llist = LinkedList()
+    llist.push(3)
+    assert llist.pop() == 3
+    assert llist.size() == 0
+
+def test_linked_list_size():
+    llist = LinkedList([1, 2, 3])
+    assert llist.size() == 3
+
+def test_linked_list_search():
+    llist = LinkedList([11, 22, 33])
+    node = llist.search(22)
+    assert node.data == 22
+
+def test_linked_list_remove():
+    llist = LinkedList([1, 2, 3, 4])
+    llist.remove(3)
+    assert llist.size() == 3
+    assert llist.display() == '(1, 2, 4)'
+
+def test_linked_list_display():
+    llist = LinkedList(['a', 'b', 'c'])
+    assert llist.display() == '(a, b, c)'

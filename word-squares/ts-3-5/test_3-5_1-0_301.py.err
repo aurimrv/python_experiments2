@@ -1,0 +1,38 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct_method():
+    words = ['ball', 'area', 'lead', 'loom']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'loom'], ['area', 'lead', 'lead', 'area']]
+
+def test_construct_method_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == []
+
+def test_construct_method_single_word_input():
+    words = ['python']
+    squares = word_squares(words)
+    assert squares == [['python']]
+
+def test_word_squares():
+    words = ['area', 'lead', 'loom']
+    squares = word_squares(words)
+    assert squares == [['area', 'area', 'lead'], ['lead', 'area', 'lead'], ['loom', 'area', 'loom']]
+
+def test_word_squares_duplicate_words():
+    words = ['hello', 'hello', 'hello']
+    squares = word_squares(words)
+    assert squares == [['hello', 'hello', 'hello']]
+
+def test_word_squares_long_words():
+    words = ['programming', 'testing', 'engineer']
+    squares = word_squares(words)
+    assert squares == [['programming', 'testing', 'engineer']]

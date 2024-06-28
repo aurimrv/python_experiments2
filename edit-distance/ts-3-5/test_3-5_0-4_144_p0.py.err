@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute k', 'Insert s', 'Substitute i', 'Insert t', 'Insert t', 'Insert i', 'Insert n', 'Insert g']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_different_lengths():
+    str1 = "abc"
+    str2 = "defgh"
+    expected = ['Insert d', 'Insert e', 'Insert f', 'Insert g', 'Insert h']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_same_string():
+    str1 = "hello"
+    str2 = "hello"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_single_character():
+    str1 = "a"
+    str2 = "b"
+    expected = ['Substitute b']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string to test edit distance calculation."
+    str2 = "This is a longer string to test edit distance calculation with more words."
+    expected = ['Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert e', 'Insert r', 'Insert ', 'Insert s', 'Insert t', 'Insert r', 'Insert i', 'Insert n', 'Insert g', 'Insert ', 'Insert t', 'Insert o', 'Insert ', 'Insert t', 'Insert e', 'Insert s', 'Insert t', 'Insert ', 'Insert e', 'Insert d', 'Insert i', 'Insert t', 'Insert ', 'Insert d', 'Insert i', 'Insert s', 'Insert t', 'Insert a', 'Insert n', 'Insert c', 'Insert e', 'Insert ', 'Insert c', 'Insert a', 'Insert l', 'Insert c', 'Insert u', 'Insert l', 'Insert a', 'Insert t', 'Insert i', 'Insert o', 'Insert n', 'Insert .', 'Insert ', 'Insert w', 'Insert i', 'Insert t', 'Insert h', 'Insert ', 'Insert m', 'Insert o', 'Insert r', 'Insert e', 'Insert ', 'Insert w', 'Insert o', 'Insert r', 'Insert s', 'Insert .']
+    assert calculate_edit_distance(str1, str2) == expected

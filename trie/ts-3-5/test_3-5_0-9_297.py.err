@@ -1,0 +1,39 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+class TestTrie:
+
+    def test_init_one_word(self):
+        t = Trie(['apple'])
+        assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}}
+
+    def test_init_multiple_words(self):
+        t = Trie(['apple', 'banana', 'apricot'])
+        assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    def test_add_single_word(self):
+        t = Trie([])
+        t.add('apple')
+        assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}
+
+    def test_add_multiple_words(self):
+        t = Trie([])
+        t.add('apple')
+        t.add('banana')
+        t.add('apricot')
+        assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    def test_get_all_common_prefix_existing_prefix(self):
+        t = Trie(['apple', 'banana', 'apricot'])
+        result = t.get_all_common_prefix('ap')
+        assert result == ['apple', 'apricot']
+
+    def test_get_all_common_prefix_non_existing_prefix(self):
+        t = Trie(['apple', 'banana', 'apricot'])
+        result = t.get_all_common_prefix('kiwi')
+        assert result == []

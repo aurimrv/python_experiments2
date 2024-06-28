@@ -1,0 +1,39 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from stack import Stack
+
+import pytest
+
+@pytest.fixture
+def stack_fixture():
+    stack = Stack()
+    yield stack
+
+def test_stack_init():
+    stack = Stack()
+    assert stack._stack.head is None
+
+def test_stack_push(stack_fixture):
+    stack_fixture.push(1)
+    assert stack_fixture._stack.head.data == 1
+
+    stack_fixture.push(2)
+    assert stack_fixture._stack.head.data == 2
+
+def test_stack_pop(stack_fixture):
+    stack_fixture.push(1)
+    stack_fixture.push(2)
+
+    assert stack_fixture.pop() == 2
+    assert stack_fixture._stack.head.data == 1
+
+    assert stack_fixture.pop() == 1
+    assert stack_fixture._stack.head is None
+
+def test_stack_pop_empty(stack_fixture):
+    with pytest.raises(Exception):
+        stack_fixture.pop()

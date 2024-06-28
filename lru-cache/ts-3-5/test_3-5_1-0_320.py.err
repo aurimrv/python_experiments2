@@ -1,0 +1,69 @@
+import os
+import sys
+import pytest
+
+# Add the project directory to import the file
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+# Test cases for ListNode class
+def test_listnode_init():
+    node = ListNode(1, 'a')
+    assert node.key == 1
+    assert node.val == 'a'
+    assert node.prev is None
+    assert node.next is None
+
+def test_listnode_str():
+    node = ListNode(1, 'a')
+    assert str(node) == "<ListNode: (1, 'a')>"
+
+# Test cases for LruCache class
+def test_lru_cache_init():
+    with pytest.raises(ValueError):
+        cache = LruCache(0)
+    cache = LruCache(2)
+    assert cache.capacity == 2
+    assert cache.head.key == 0
+    assert cache.tail.val == 0
+    assert len(cache.lookup_map) == 0
+
+def test_lru_cache_put():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    assert len(cache.lookup_map) == 1
+    assert cache.head.next.val == 'a'
+
+def test_lru_cache_get():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    assert cache.get(1) == 'a'
+    assert cache.head.next.val == 'a'
+    assert cache.get(2) == -1
+
+def test_lru_cache_put_capacity():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+    assert len(cache.lookup_map) == 2
+    assert cache.get(1) == -1
+
+def test_lru_cache_remove():
+    cache = LruCache(2)
+    cache.put(1, 'a')
+    node = cache.lookup_map[1]
+    cache._remove(node)
+    assert cache.head.next == cache.tail
+    assert len(cache.lookup_map) == 0
+
+def test_lru_cache_add():
+    cache = LruCache(2)
+    node = ListNode(1, 'a')
+    cache.head.next = cache.tail
+    cache.tail.prev = cache.head
+    cache._add(node)
+    assert cache.head.next.val == 'a'

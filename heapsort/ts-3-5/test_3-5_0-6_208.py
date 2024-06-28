@@ -1,0 +1,43 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heapsort import heap_sort, max_heap_sort, custom_heap_sort
+
+def test_heap_sort_empty_list():
+    assert heap_sort([]) == []
+
+def test_heap_sort_sorted_list():
+    input_list = [1, 2, 3, 4, 5]
+    assert heap_sort(input_list) == [1, 2, 3, 4, 5]
+
+def test_heap_sort_reverse_sorted_list():
+    input_list = [5, 4, 3, 2, 1]
+    assert heap_sort(input_list) == [1, 2, 3, 4, 5]
+
+def test_max_heap_sort_empty_list():
+    assert max_heap_sort([]) == []
+
+def test_max_heap_sort_sorted_list():
+    input_list = [1, 2, 3, 4, 5]
+    assert max_heap_sort(input_list) == [5, 4, 3, 2, 1]
+
+def test_max_heap_sort_reverse_sorted_list():
+    input_list = [5, 4, 3, 2, 1]
+    assert max_heap_sort(input_list) == [5, 4, 3, 2, 1]
+
+def test_custom_heap_sort_empty_list():
+    assert custom_heap_sort([], sort='min') == []
+    assert custom_heap_sort([], sort='max') == []
+
+def test_custom_heap_sort_sorted_list_min_heap():
+    input_list = [1, 2, 3, 4, 5]
+    assert custom_heap_sort(input_list, sort='min') == [1, 2, 3, 4, 5]
+
+def test_custom_heap_sort_reverse_sorted_list_max_heap():
+    input_list = [5, 4, 3, 2, 1]
+    assert custom_heap_sort(input_list, sort='max') == [5, 4, 3, 2, 1]

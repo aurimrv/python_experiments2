@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+# Test cases for the calculate_edit_distance method
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "testing"
+    str2 = "testing"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_insert_single_char():
+    str1 = "pizza"
+    str2 = "pizzaz"
+    assert calculate_edit_distance(str1, str2) == ['Insert z']
+
+def test_calculate_edit_distance_substitute_single_char():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute k with s', 'Insert s']
+
+def test_calculate_edit_distance_longer_strings():
+    str1 = "algorithm"
+    str2 = "altruistic"
+    assert calculate_edit_distance(str1, str2) == ['Substitute g with u', 'Substitute o with i', 'Insert i', 'Insert s', 'Substitute m with c']
+
+def test_calculate_edit_distance_delete_start_end():
+    str1 = "apple"
+    str2 = "pple"
+    assert calculate_edit_distance(str1, str2) == ['Delete a']
+
+def test_calculate_edit_distance_complex_operations():
+    str1 = "execution"
+    str2 = "intention"
+    assert calculate_edit_distance(str1, str2) == ['Substitute e with i', 'Substitute x with n', 'Delete e', 'Delete x', 'Delete u', 'Insert n', 'Insert t']

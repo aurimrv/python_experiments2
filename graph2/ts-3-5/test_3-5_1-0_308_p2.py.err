@@ -1,0 +1,55 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def empty_graph():
+    return Graph()
+
+def test_nodes_method_empty(empty_graph):
+    assert empty_graph.nodes() == []
+
+def test_add_node_method(empty_graph):
+    empty_graph.add_node('A')
+    assert 'A' in empty_graph.nodes()
+
+def test_add_edge_method(empty_graph):
+    empty_graph.add_edge('A', 'B')
+    assert ('A', 'B') in empty_graph.edges()
+
+def test_del_node_method(empty_graph):
+    empty_graph.add_node('A')
+    empty_graph.add_node('B')
+    empty_graph.add_edge('A', 'B')
+    empty_graph.del_node('A')
+    assert 'A' not in empty_graph.nodes()
+    assert 'B' not in empty_graph.neighbors('A')
+
+def test_del_edge_method(empty_graph):
+    empty_graph.add_node('A')
+    empty_graph.add_node('B')
+    empty_graph.add_edge('A', 'B')
+    empty_graph.del_edge('A', 'B')
+    assert ('A', 'B') not in empty_graph.edges()
+
+def test_has_node_method(empty_graph):
+    empty_graph.add_node('A')
+    assert empty_graph.has_node('A') == True
+
+def test_neighbors_method(empty_graph):
+    empty_graph.add_node('A')
+    empty_graph.add_node('B')
+    empty_graph.add_edge('A', 'B')
+    assert empty_graph.neighbors('A') == {'B'}
+
+def test_adjacent_method(empty_graph):
+    empty_graph.add_node('A')
+    empty_graph.add_node('B')
+    empty_graph.add_edge('A', 'B')
+    assert empty_graph.adjacent('A', 'B') == True

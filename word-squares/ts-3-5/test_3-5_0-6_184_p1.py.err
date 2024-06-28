@@ -1,0 +1,32 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_single_word_square():
+    words = ["ball", "area", "lead", "lady"]
+    expected = [['ball', 'area', 'lead', 'lady']]
+    assert word_squares(words) == expected
+
+def test_construct_multiple_word_squares():
+    words = ["area", "ball", "lead", "lady"]
+    expected = [['area', 'lead', 'area', 'lady'], ['area', 'lead', 'area', 'lady'], ['area', 'lead', 'area', 'lady'], ['area', 'lead', 'area', 'lady']]
+    assert word_squares(words) == expected
+
+def test_construct_empty_word_list():
+    words = []
+    expected = []
+    assert word_squares(words) == expected
+
+def test_construct_word_square_with_same_word():
+    words = ["bird", "iron", "road", "dirt"]
+    expected = [['bird', 'iron', 'road', 'dirt'], ['iron', 'road', 'iron', 'road']]
+    assert word_squares(words) == expected
+
+def test_construct_word_square_with_duplicate_words():
+    words = ["ball", "ball", "lead", "lady"]
+    expected = [['ball', 'ball', 'ball', 'ball'], ['ball', 'ball', 'ball', 'lady'], ['ball', 'ball', 'ball', 'lady'], ['ball', 'ball', 'ball', 'lady']]
+    assert word_squares(words) == expected

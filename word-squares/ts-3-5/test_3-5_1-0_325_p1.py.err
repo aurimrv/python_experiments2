@@ -1,0 +1,23 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    words = ["ball", "area", "lead", "lady"]
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+
+def test_word_squares():
+    words = ["area", "ball", "lead", "lady"]
+    squares = word_squares(words)
+    assert squares == [['area', 'lead', 'lady', 'ball'], ['ball', 'area', 'lead', 'lady'], ['ball', 'lead', 'area', 'lady'], ['lady', 'area', 'lead', 'ball']]
+
+def test_words_repeating_letters():
+    words = ["ball", "all", "lead", "lady"]
+    squares = word_squares(words)
+    assert squares == [['ball', 'all', 'lead', 'lady']]

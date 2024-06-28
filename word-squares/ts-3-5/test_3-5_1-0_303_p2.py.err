@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_word_squares_construct_empty_square():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert not squares
+
+def test_word_squares_construct_single_word_square():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert ['ball', 'area', 'lead', 'lady'] in squares
+
+def test_word_squares_construct_multiple_word_squares():
+    words = ['ball', 'area', 'lead', 'lady', 'lord', 'late']
+    squares = word_squares(words)
+    assert ['ball', 'area', 'lead', 'lady'] in squares
+    assert ['lead', 'area', 'lady', 'area'] in squares
+
+def test_word_squares_construct_word_square_with_no_prefix_words():
+    words = ['ball', 'area', 'lead', 'bow']
+    squares = word_squares(words)
+    assert ['bow', 'area', 'area', 'lead'] in squares

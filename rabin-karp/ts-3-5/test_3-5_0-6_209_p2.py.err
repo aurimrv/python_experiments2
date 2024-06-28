@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("hello", "ll") == 2
+    assert rabin_karp_find_substring("hello", "lo") == 3
+
+def test_rabin_karp_find_substring_edge_cases():
+    assert rabin_karp_find_substring("hello", "hello") == 0
+    assert rabin_karp_find_substring("hello", "h") == 0
+    assert rabin_karp_find_substring("hello", "o") == 4
+
+def test_rabin_karp_find_substring_no_match():
+    assert rabin_karp_find_substring("hello", "world") == -1
+    assert rabin_karp_find_substring("hello", "hi") == -1
+
+def test_rabin_karp_find_substring_empty_strings():
+    assert rabin_karp_find_substring("", "") == 0
+    assert rabin_karp_find_substring("hello", "") == 0
+    assert rabin_karp_find_substring("", "world") == -1

@@ -1,0 +1,57 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heap import Heap
+
+@pytest.fixture
+def empty_heap():
+    return Heap()
+
+@pytest.fixture
+def prepopulated_heap():
+    h = Heap()
+    h.heap_list = [0, 10, 20, 30, 15, 25, 40]
+    return h
+
+def test_insert(empty_heap):
+    empty_heap.insert(10)
+    assert empty_heap.heap_list == [0, 10]
+    empty_heap.insert(5)
+    assert empty_heap.heap_list == [0, 5, 10]
+    empty_heap.insert(15)
+    assert empty_heap.heap_list == [0, 5, 10, 15]
+
+def test_percolate(prepopulated_heap):
+    prepopulated_heap.percolate(3)
+    assert prepopulated_heap.heap_list == [0, 10, 15, 30, 20, 25, 40]
+
+def test_sift(prepopulated_heap):
+    prepopulated_heap.sift(1)
+    assert prepopulated_heap.heap_list == [0, 10, 15, 30, 20, 25, 40]
+    prepopulated_heap.sift(4)
+    assert prepopulated_heap.heap_list == [0, 10, 15, 20, 30, 25, 40]
+
+def test_find_min_child_index(prepopulated_heap):
+    assert prepopulated_heap.find_min_child_index(1) == 2
+    assert prepopulated_heap.find_min_child_index(2) == 5
+
+def test_min(prepopulated_heap):
+    assert prepopulated_heap.min() == 10
+
+def test_delete_min(prepopulated_heap):
+    min_val = prepopulated_heap.delete_min()
+    assert min_val == 10
+    assert prepopulated_heap.heap_list == [0, 15, 20, 30, 40, 25]
+
+def test_build(empty_heap):
+    empty_heap.build([9, 11, 13])
+    assert empty_heap.heap_list == [0, 9, 11, 13]
+
+def test_size(empty_heap, prepopulated_heap):
+    assert empty_heap.size() == 0
+    assert prepopulated_heap.size() == 6

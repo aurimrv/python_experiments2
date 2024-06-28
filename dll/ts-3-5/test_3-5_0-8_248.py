@@ -1,0 +1,61 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_dll():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def populated_dll():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    dll.append(4)
+    dll.append(5)
+    return dll
+
+def test_node_repr():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+def test_dll_push(empty_dll):
+    empty_dll.push(10)
+    assert empty_dll.head.data == 10
+    assert empty_dll.tail.data == 10
+    assert empty_dll._length == 1
+
+def test_dll_pop(populated_dll):
+    assert populated_dll.pop() == 3
+    assert populated_dll.head.data == 2
+    assert populated_dll.tail.data == 5
+    assert populated_dll._length == 4
+
+def test_dll_append(empty_dll):
+    empty_dll.append(20)
+    assert empty_dll.head.data == 20
+    assert empty_dll.tail.data == 20
+    assert empty_dll._length == 1
+
+def test_dll_shift(populated_dll):
+    assert populated_dll.shift() == 5
+    assert populated_dll.head.data == 3
+    assert populated_dll.tail.data == 4
+    assert populated_dll._length == 4
+
+def test_dll_remove(populated_dll):
+    populated_dll.remove(2)
+    assert populated_dll.head.data == 3
+    assert populated_dll.tail.data == 5
+    assert populated_dll._length == 4
+
+def test_dll_remove_non_existing(populated_dll):
+    with pytest.raises(ValueError):
+        populated_dll.remove(10)

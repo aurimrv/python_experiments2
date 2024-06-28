@@ -1,0 +1,28 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.mark.parametrize("str1, str2, expected", [
+    ("kitten", "sitting", ['Substitute s', 'Match t', 'Match t', 'Match e', 'Match n', 'Insert g']),
+    ("intention", "execution", ['Substitute e', 'Substitute x', 'Match e', 'Match c', 'Match u', 'Match t', 'Insert i', 'Insert o', 'Insert n']),
+])
+def test_calculate_edit_distance(str1, str2, expected):
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_strings():
+    assert edit_distance.calculate_edit_distance("", "") == []
+
+def test_calculate_edit_distance_single_character_strings():
+    assert edit_distance.calculate_edit_distance("a", "b") == ['Substitute b']
+
+def test_calculate_edit_distance_identical_strings():
+    assert edit_distance.calculate_edit_distance("same", "same") == []
+
+def test_calculate_edit_distance_long_strings():
+    assert edit_distance.calculate_edit_distance("testing", "this is a test") == ['Substitute t', 'Substitute h', 'Substitute i', 'Insert s', 'Insert  ', 'Insert i', 'Insert s', 'Insert  ', 'Insert a', 'Match t', 'Match e', 'Match s', 'Match t']

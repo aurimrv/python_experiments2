@@ -1,0 +1,76 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+
+    def test_list_node_init(self):
+        node = ListNode(1, 'a')
+        assert node.key == 1
+        assert node.val == 'a'
+        assert node.next is None
+        assert node.prev is None
+
+    def test_list_node_init_different_values(self):
+        node = ListNode('key', 123)
+        assert node.key == 'key'
+        assert node.val == 123
+        assert node.next is None
+        assert node.prev is None
+
+class TestLruCache:
+
+    @pytest.fixture
+    def initialized_cache(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        return cache
+
+    def test_lru_cache_init(self):
+        cache = LruCache(3)
+        assert cache.capacity == 3
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head
+        assert len(cache.lookup_map) == 0
+
+    def test_put_new_key(self, initialized_cache):
+        initialized_cache.put(3, 'c')
+        assert initialized_cache.head.next.key == 2
+        assert initialized_cache.head.next.val == 'b'
+        assert initialized_cache.tail.prev.key == 3
+        assert initialized_cache.tail.prev.val == 'c'
+        assert initialized_cache.capacity == 2
+
+    def test_put_existing_key_updates_value(self, initialized_cache):
+        initialized_cache.put(2, 'updated')
+        assert initialized_cache.head.next.key == 1
+        assert initialized_cache.head.next.val == 'a'
+        assert initialized_cache.tail.prev.key == 2
+        assert initialized_cache.tail.prev.val == 'updated'
+
+    def test_put_capacity_check_and_eviction(self, initialized_cache):
+        initialized_cache.put(3, 'c')
+        initialized_cache.put(4, 'd')
+        assert len(initialized_cache.lookup_map) == 2
+        assert not initialized_cache.lookup_map.get(1, None)
+        assert initialized_cache.lookup_map.get(2)
+        assert initialized_cache.lookup_map.get(3)
+        assert initialized_cache.head.next.key == 2
+        assert initialized_cache.tail.prev.key == 4
+
+    def test_get_existing_key(self, initialized_cache):
+        assert initialized_cache.get(1) == 'a'
+        assert initialized_cache.head.next.key == 2
+        assert initialized_cache.tail.prev.key == 1
+
+    def test_get_nonexistent_key(self, initialized_cache):
+        assert initialized_cache.get(3) == -1
+        assert initialized_cache.head.next.key == 1
+        assert initialized_cache.tail.prev.key == 2

@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_basic_case(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 5},
+            'B': {'A': 2, 'C': 1},
+            'C': {'A': 5, 'B': 1}
+        }
+        src = 'A'
+        dst = 'C'
+        expected_path = ['A', 'B', 'C']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
+    
+    def test_dijkstras_different_nodes(self):
+        weighted_graph = {
+            'X': {'Y': 1, 'Z': 3},
+            'Y': {'X': 1, 'Z': 2},
+            'Z': {'X': 3, 'Y': 2}
+        }
+        src = 'X'
+        dst = 'Z'
+        expected_path = ['X', 'Y', 'Z']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
+    
+    def test_dijkstras_same_node(self):
+        weighted_graph = {
+            'P': {'Q': 1, 'R': 2},
+            'Q': {'P': 1, 'R': 3},
+            'R': {'P': 2, 'Q': 3}
+        }
+        src = 'P'
+        dst = 'P'
+        expected_path = ['P']
+        assert dijkstras(weighted_graph, src, dst) == expected_path

@@ -1,0 +1,38 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [123, 456, 789]
+    iteration = 1
+    result = radixsort.create_buckets(ar, iteration)
+    assert result == [[], [123], [], [456], [], [789], [], [], [], []]
+
+    ar = [123, 456, 789, 101, 202]
+    iteration = 2
+    result = radixsort.create_buckets(ar, iteration)
+    assert result == [[], [], [], [101], [202], [], [123], [], [], [456, 789]]
+
+def test_create_list():
+    buckets = [[], [123], [], [456], [], [789], [], [], [], []]
+    result = radixsort.create_list(buckets)
+    assert result == [123, 456, 789]
+
+    buckets = [[], [], [], [101], [202], [], [123], [], [], [456, 789]]
+    result = radixsort.create_list(buckets)
+    assert result == [101, 202, 123, 456, 789]
+
+def test_radixsort():
+    ar = [123, 456, 789, 101, 202]
+    result = radixsort.radixsort(ar)
+    assert result == [101, 123, 202, 456, 789]
+
+    ar = [543, 123, 765, 908, 234, 101]
+    result = radixsort.radixsort(ar)
+    assert result == [101, 123, 234, 543, 765, 908]

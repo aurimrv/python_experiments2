@@ -1,0 +1,49 @@
+import os
+import sys
+import pytest
+
+# Update sys.path to include the project directory
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import dll
+
+def test_push():
+    dllist = dll.DoubleLinkedList()
+    dllist.push(1)
+    assert dllist.head.data == 1
+
+def test_pop():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    assert dllist.pop() == 1
+    assert dllist.pop() == 2
+
+def test_append():
+    dllist = dll.DoubleLinkedList()
+    dllist.append(1)
+    assert dllist.tail.data == 1
+
+def test_shift():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    assert dllist.shift() == 3
+    assert dllist.shift() == 2
+
+def test_remove():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    dllist.remove(2)
+    assert dllist.head.data == 1
+    assert dllist.tail.data == 3
+
+def test_push_multiple():
+    dllist = dll.DoubleLinkedList()
+    dllist.push(1)
+    dllist.push(2)
+    assert dllist.head.data == 2
+    assert dllist.head.next.data == 1
+
+def test_append_multiple():
+    dllist = dll.DoubleLinkedList([1, 2])
+    dllist.append(3)
+    assert dllist.tail.data == 3
+    assert dllist.tail.prev.data == 2

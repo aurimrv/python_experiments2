@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("abc", "abc") == []
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Substitute i', 'Insert g']
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("python", "java") == ['Substitute j', 'Substitute v', 'Substitute a', 'Substitute t', 'Substitute h', 'Substitute o', 'Substitute p']
+    assert calculate_edit_distance("hello", "ohell") == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Insert o', 'Insert h']
+    assert calculate_edit_distance("hello world", "world hello") == ['Substitute w', 'Substitute h', 'Substitute e', 'Substitute l', 'Substitute l', 'Substitute o', 'Substitute d', 'Insert w', 'Insert o', 'Insert r', 'Insert l', 'Insert d']
+    assert calculate_edit_distance("This is a long string to test", "This is a long string to test") == []
+    assert calculate_edit_distance("!@#$%", "%$#@!") == ['Substitute %', 'Substitute #', 'Substitute @', 'Substitute !']
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1']
+    assert calculate_edit_distance("aaaaa", "aa") == ['Delete a', 'Delete a', 'Delete a', 'Delete a']
+    assert calculate_edit_distance("short", "thisisaverylongstring") == ['Insert t', 'Insert h', 'Insert i', 'Insert s', 'Insert i', 'Insert s', 'Insert a', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert l', 'Insert o', 'Insert n', 'Insert g']
+    assert calculate_edit_distance("a", "b") == ['Substitute b']
+    assert calculate_edit_distance("abc", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z']
+    assert calculate_edit_distance("abcdef", "xbyz") == ['Substitute x', 'Substitute y', 'Substitute z', 'Delete c', 'Delete d', 'Delete e', 'Delete f', 'Insert b']
+    assert calculate_edit_distance("aabbc", "abcc") == ['Substitute a', 'Substitute c', 'Delete b', 'Delete b']
+    assert calculate_edit_distance("Hello, World!", "Hi, World.") == ['Substitute i', 'Delete l', 'Delete l', 'Delete o', 'Delete ,', 'Delete H']
+    assert calculate_edit_distance("AbCdEfG", "aBcDeFg") == ['Substitute a', 'Substitute B', 'Substitute C', 'Substitute D', 'Substitute E', 'Substitute F', 'Substitute G']
+    assert calculate_edit_distance("  test  ", "test") == ['Delete  ', 'Delete  ', 'Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance("!@#$test!@#", "test") == ['Delete !', 'Delete @', 'Delete #', 'Delete $', 'Delete !', 'Delete @', 'Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance("123test456", "test") == ['Delete 1', 'Delete 2', 'Delete 3', 'Insert t', 'Insert e', 'Insert s', 'Insert t', 'Delete 4', 'Delete 5', 'Delete 6']
+    assert calculate_edit_distance("aaaaatestaaaaa", "test") == ['Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Insert t', 'Insert e', 'Insert s', 'Insert t', 'Delete a', 'Delete a', 'Delete a', 'Delete a', 'Delete a']
+    assert calculate_edit_distance("a!@#test!@#a", "test") == ['Delete a', 'Delete !', 'Delete @', 'Delete #', 'Insert t', 'Insert e', 'Insert s', 'Insert t', 'Delete !', 'Delete @', 'Delete #', 'Delete a']
+    assert calculate_edit_distance("  !@#123test!@#  ", "test") == ['Delete  ', 'Delete  ', 'Delete !', 'Delete @', 'Delete #', 'Delete 1', 'Delete 2', 'Delete 3', 'Insert t', 'Insert e', 'Insert s', 'Insert t', 'Delete !', 'Delete @', 'Delete #', 'Delete  ', 'Delete  ']

@@ -1,0 +1,40 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+import pytest
+
+@pytest.fixture
+def sample_trie():
+    words = ['apple', 'banana', 'application', 'apartment']
+    return Trie(words)
+
+def test_trie_initialization(sample_trie):
+    assert sample_trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}},
+                                               'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}},
+                                               'a': {'rtment': {'__eof__': '__eof__'}},
+                                               'e': {'__eof__': '__eof__'}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}}
+
+def test_trie_add(sample_trie):
+    sample_trie.add('active')
+    assert sample_trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}},
+                                               'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}},
+                                                             'v': {'e': {'__eof__': '__eof__'}}}},
+                                               'a': {'rtment': {'__eof__': '__eof__'}},
+                                               'e': {'__eof__': '__eof__'}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}}
+
+def test_get_all_common_prefix_single_word(sample_trie):
+    assert sample_trie.get_all_common_prefix('app') == ['apple', 'application', 'apartment']
+
+def test_get_all_common_prefix_multiple_words(sample_trie):
+    assert sample_trie.get_all_common_prefix('a') == ['apple', 'application', 'apartment',
+                                                      'active', 'banana']
+
+def test_get_all_common_prefix_no_match(sample_trie):
+    assert sample_trie.get_all_common_prefix('c') == []

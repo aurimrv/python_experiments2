@@ -1,0 +1,50 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+import pytest
+
+# Test Node class
+def test_Node_init():
+    n = Node(5)
+    assert n.data == 5
+    assert n.next is None
+
+# Test LinkedList class methods
+def test_LinkedList_init():
+    ll = LinkedList([1, 2, 3])
+    assert ll.size() == 3
+
+def test_LinkedList_push():
+    ll = LinkedList()
+    ll.push(10)
+    assert ll.size() == 1
+    assert ll.head.data == 10
+
+def test_LinkedList_pop():
+    ll = LinkedList([1, 2, 3])
+    assert ll.pop() == 3
+    assert ll.size() == 2
+
+def test_LinkedList_size():
+    ll = LinkedList([1, 2, 3])
+    assert ll.size() == 3
+
+def test_LinkedList_search():
+    ll = LinkedList([1, 2, 3])
+    assert ll.search(2).data == 2
+    assert ll.search(4) is None
+
+def test_LinkedList_remove():
+    ll = LinkedList([1, 2, 3])
+    ll.remove(2)
+    assert ll.size() == 2
+    assert ll.display() == '(1, 3)'
+
+def test_LinkedList_display():
+    ll = LinkedList([1, 'hello', 3.5])
+    assert ll.display() == '(1, hello, 3.5)'

@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "testing"
+    str2 = "testing"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_one_empty_string():
+    str1 = "hello"
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Delete o']
+
+def test_calculate_edit_distance_different_strings():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute s', 'Substitute i', 'Insert t', 'Substitute t', 'Substitute e', 'Substitute n']
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string for testing purposes"
+    str2 = "This is another long string for testing purposes"
+    assert calculate_edit_distance(str1, str2) == ['Insert a', 'Insert n', 'Insert o', 'Insert t', 'Insert h', 'Insert e', 'Insert r', 'Insert ']
+
+def test_calculate_edit_distance_special_characters():
+    str1 = "123!@#"
+    str2 = "123$@#"
+    assert calculate_edit_distance(str1, str2) == ['Substitute $']

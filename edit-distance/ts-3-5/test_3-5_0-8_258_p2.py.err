@@ -1,0 +1,18 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+import edit_distance
+
+def test_calculate_edit_distance():
+    assert edit_distance.calculate_edit_distance("", "") == []
+    assert edit_distance.calculate_edit_distance("abc", "abc") == []
+    assert edit_distance.calculate_edit_distance("cat", "cats") == ['Insert s']
+    assert edit_distance.calculate_edit_distance("hello", "hell") == ['Delete o']
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute k with s']
+    assert edit_distance.calculate_edit_distance("intention", "execution") == ['Delete i', 'Substitute e with i', 'Insert u', 'Substitute n with x', 'Substitute t with e', 'Insert c', 'Substitute i with n', 'Insert n']
+    assert edit_distance.calculate_edit_distance("This is a long sentence with many words", "This is a longer sentence with lots of words") == ['Substitute a with e', 'Substitute long with longer', 'Insert s', 'Insert o', 'Substitute many with lots']

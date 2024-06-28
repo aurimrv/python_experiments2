@@ -1,0 +1,50 @@
+import os
+import sys
+from dll import Node, DoubleLinkedList
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.fixture()
+def empty_dll():
+    return DoubleLinkedList()
+
+@pytest.fixture()
+def filled_dll():
+    return DoubleLinkedList([1, 2, 3, 4])
+
+def test_node_repr():
+    node = Node(5)
+    assert repr(node) == 'Value: 5'
+
+def test_push(empty_dll):
+    empty_dll.push(10)
+    assert empty_dll._length == 1
+    assert empty_dll.head.data == 10
+
+def test_pop(filled_dll):
+    assert filled_dll.pop() == 1
+    assert filled_dll._length == 3
+
+def test_append(filled_dll):
+    filled_dll.append(5)
+    assert filled_dll._length == 5
+    assert filled_dll.tail.data == 5
+
+def test_shift(filled_dll):
+    assert filled_dll.shift() == 4
+    assert filled_dll._length == 3
+
+def test_remove(filled_dll):
+    filled_dll.remove(2)
+    assert filled_dll._length == 3
+    assert filled_dll.head.next.data == 3
+
+def test_remove_nonexistent(filled_dll):
+    with pytest.raises(ValueError):
+        filled_dll.remove(9)
+
+# Add more tests as needed to increase coverage for each method

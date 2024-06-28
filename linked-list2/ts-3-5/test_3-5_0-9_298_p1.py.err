@@ -1,0 +1,45 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_Node_initialization():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+def test_LinkedList_push():
+    ll = LinkedList()
+    ll.push(5)
+    assert ll.head.data == 5
+    assert ll.head.next is None
+
+def test_LinkedList_pop():
+    ll = LinkedList([1, 2, 3])
+    popped = ll.pop()
+    assert popped == 3
+    assert ll.size() == 2
+
+def test_LinkedList_size():
+    ll = LinkedList([1, 2, 3, 4])
+    assert ll.size() == 4
+
+def test_LinkedList_search():
+    ll = LinkedList([10, 20, 30])
+    node = ll.search(20)
+    assert node.data == 20
+
+def test_LinkedList_remove():
+    ll = LinkedList([1, 2, 3])
+    ll.remove(2)
+    assert ll.size() == 2
+    assert ll.head.data == 1
+    assert ll.head.next.data == 3
+
+def test_LinkedList_display():
+    ll = LinkedList([11, 22, 33])
+    display_str = ll.display()
+    assert display_str == "(11, 22, 33)"

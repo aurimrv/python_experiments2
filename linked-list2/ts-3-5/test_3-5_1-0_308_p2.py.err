@@ -1,0 +1,44 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from linked_list2 import Node, LinkedList
+
+import pytest
+
+@pytest.fixture
+def setup_linked_list():
+    ll = LinkedList()
+    ll.push(10)
+    ll.push(20)
+    ll.push(30)
+    return ll
+
+def test_linked_list_push(setup_linked_list):
+    assert setup_linked_list.size() == 3
+    assert setup_linked_list.display() == '(30, 20, 10)'
+
+def test_linked_list_pop(setup_linked_list):
+    assert setup_linked_list.pop() == 30
+    assert setup_linked_list.size() == 2
+
+def test_linked_list_size(setup_linked_list):
+    assert setup_linked_list.size() == 3
+
+def test_linked_list_search(setup_linked_list):
+    assert setup_linked_list.search(20).data == 20
+    assert setup_linked_list.search(40) is None
+
+def test_linked_list_remove(setup_linked_list):
+    setup_linked_list.remove(20)
+    assert setup_linked_list.size() == 2
+    assert setup_linked_list.display() == '(30, 10)'
+    
+    setup_linked_list.remove(10)
+    assert setup_linked_list.size() == 1
+    assert setup_linked_list.display() == '(30)'
+    
+    setup_linked_list.remove(30)
+    assert setup_linked_list.size() == 0
+    assert setup_linked_list.display() == '()'

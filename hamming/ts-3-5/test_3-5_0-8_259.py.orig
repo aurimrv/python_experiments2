@@ -1,0 +1,24 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hamming_ops import hamming_distance, hamming_weight
+
+import pytest
+
+def test_hamming_distance():
+    # Test cases for hamming_distance
+    assert hamming_distance(1, 4) == 2  # 1 and 4 differ in 2 bits (001 and 100)
+    assert hamming_distance(7, 15) == 2  # 7 and 15 differ in 2 bits (0111 and 1111)
+    assert hamming_distance(0, 0) == 0  # 0 and 0 have no differing bits
+    assert hamming_distance(255, 0) == 8  # 255 and 0 differ in all 8 bits (11111111 and 00000000)
+
+def test_hamming_weight():
+    # Test cases for hamming_weight
+    assert hamming_weight(0) == 0  # 0 has 0 bits turned on
+    assert hamming_weight(1) == 1  # 1 has 1 bit turned on
+    assert hamming_weight(15) == 4  # 15 has 4 bits turned on (1111)
+    assert hamming_weight(-1) == 32  # -1 has all 32 bits turned on (1111...)
+    assert hamming_weight(255) == 8  # 255 has 8 bits turned on (11111111)

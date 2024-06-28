@@ -1,0 +1,52 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import LinkedList, Node
+
+def test_node_creation():
+    node = Node("test_data")
+    assert node.data == "test_data"
+    assert node.next is None
+
+def test_linkedlist_empty():
+    ll = LinkedList()
+    assert ll.head is None
+    assert ll.size() == 0
+
+def test_linkedlist_push():
+    ll = LinkedList()
+    ll.push(1)
+    assert ll.head.data == 1
+
+def test_linkedlist_pop():
+    ll = LinkedList()
+    ll.push(1)
+    assert ll.pop() == 1
+
+def test_linkedlist_size():
+    ll = LinkedList([1, 2, 3])
+    assert ll.size() == 3
+
+def test_linkedlist_search_found():
+    ll = LinkedList([1, 2, 3])
+    node = ll.search(2)
+    assert node.data == 2
+
+def test_linkedlist_search_not_found():
+    ll = LinkedList([1, 2, 3])
+    node = ll.search(4)
+    assert node is None
+
+def test_linkedlist_remove():
+    ll = LinkedList([1, 2, 3])
+    ll.remove(2)
+    assert ll.size() == 2
+
+def test_linkedlist_display():
+    ll = LinkedList([12, 'sam', 37, 'tango'])
+    assert ll.display() == '(12, sam, 37, tango)'

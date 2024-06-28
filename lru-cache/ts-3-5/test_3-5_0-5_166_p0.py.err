@@ -1,0 +1,64 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+    def test_node_initialization(self):
+        node = ListNode(1, 'value')
+        assert node.key == 1
+        assert node.val == 'value'
+        assert node.prev is None
+        assert node.next is None
+
+class TestLruCache:
+    def test_cache_initialization(self):
+        cache = LruCache(3)
+        assert cache.capacity == 3
+        assert cache.head.key == cache.terminal_value
+        assert cache.tail.key == cache.terminal_value
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head
+        assert cache.lookup_map == {}
+
+    def test_put_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'value2'
+        assert cache.tail.prev.key == 1
+        assert cache.tail.prev.val == 'value1'
+        assert len(cache.lookup_map) == 2
+
+    def test_get_method_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        assert cache.get(1) == 'value1'
+        assert cache.head.next.key == 1
+
+    def test_get_method_non_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        assert cache.get(2) == -1
+
+    def test_add_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'value1')
+        cache._add(node)
+        assert cache.head.next == node
+        assert cache.tail.prev == node
+
+    def test_remove_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'value1')
+        cache._add(node)
+        cache._remove(node)
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head

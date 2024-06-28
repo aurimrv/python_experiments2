@@ -1,0 +1,75 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+class TestGraphNode:
+    
+    def test_add_adjacent(self):
+        node1 = GraphNode(1)
+        node2 = GraphNode(2)
+        
+        node1.add_adjacent(node2)
+        assert node2 in node1.adjacent_list
+    
+    def test_remove_adjacent(self):
+        node1 = GraphNode(1)
+        node2 = GraphNode(2)
+        
+        node1.add_adjacent(node2)
+        node1.remove_adjacent(node2)
+        assert node2 not in node1.adjacent_list
+
+class TestGraph:
+
+    def test_add_edge(self):
+        graph = Graph(3)
+        
+        graph.add_edge(1, 2)
+        assert 2 in graph.graph[1]
+    
+    def test_has_cycle(self):
+        graph = Graph(3)
+        
+        graph.add_edge(1, 2)
+        graph.add_edge(2, 3)
+        graph.add_edge(3, 1)
+        
+        assert graph.has_cycle() == True
+
+class TestWeightedGraphNode:
+    
+    def test_add_adjacent(self):
+        node1 = WeightedGraphNode(1)
+        node2 = WeightedGraphNode(2)
+        
+        node1.add_adjacent(node2, 5)
+        assert node2 in node1.adjacent and node1.adjacent[node2] == 5
+    
+    def test_remove_adjacent(self):
+        node1 = WeightedGraphNode(1)
+        node2 = WeightedGraphNode(2)
+        
+        node1.add_adjacent(node2, 5)
+        node1.remove_adjacent(node2)
+        assert node2 not in node1.adjacent
+
+class TestWeightedGraph:
+
+    def test_add_edge(self):
+        weighted_graph = WeightedGraph()
+        
+        weighted_graph.add_edge(1, 2, 5)
+        assert weighted_graph.vertices[1].adjacent == {2: 5}
+
+    def test_remove_edge(self):
+        weighted_graph = WeightedGraph()
+        
+        weighted_graph.add_edge(1, 2, 5)
+        weighted_graph.remove_edge(1, 2)
+        assert 2 not in weighted_graph.vertices[1].adjacent

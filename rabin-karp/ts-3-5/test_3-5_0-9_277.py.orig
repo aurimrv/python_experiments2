@@ -1,0 +1,35 @@
+import os
+import sys
+import pytest
+
+# Add the project directory to system path
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+# Test cases for rabin_karp_find_substring method
+def test_rabin_karp_find_substring():
+    # Test empty string and substring
+    assert rabin_karp_find_substring("", "") == 0
+
+    # Test substring longer than string
+    assert rabin_karp_find_substring("hello", "hello world") == -1
+
+    # Test substring at beginning of string
+    assert rabin_karp_find_substring("hello world", "hello") == 0
+
+    # Test substring at end of string
+    assert rabin_karp_find_substring("hello world", "world") == 6
+
+    # Test multiple occurrences of substring
+    assert rabin_karp_find_substring("abababcab", "ab") == 0
+    assert rabin_karp_find_substring("abababcab", "ab", base=256, prime_modulus=11) == 0
+    assert rabin_karp_find_substring("abababcab", "ab", base=256, prime_modulus=13) == 0
+
+    # Test case sensitivity
+    assert rabin_karp_find_substring("Hello World", "hello") == -1
+
+    # Test non-existent substring
+    assert rabin_karp_find_substring("abcdefg", "xyz") == -1

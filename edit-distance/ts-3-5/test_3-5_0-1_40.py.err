@@ -1,0 +1,62 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert edit_distance.calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert edit_distance.calculate_edit_distance("abc", "abc") == []
+
+    # Test case for strings with one character difference
+    assert edit_distance.calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for strings with one character addition
+    assert edit_distance.calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for strings with one character deletion
+    assert edit_distance.calculate_edit_distance("abcd", "abc") == ['Delete d']
+
+    # Test case for longer strings with multiple edits
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Insert t']
+
+    # Test case for strings with no common characters
+    assert edit_distance.calculate_edit_distance("abc", "def") == ['Delete a', 'Delete b', 'Delete c', 'Insert d', 'Insert e', 'Insert f']
+
+    # Test case for strings with spaces
+    assert edit_distance.calculate_edit_distance("hello world", "world hello") == ['Substitute w', 'Substitute o', 'Substitute r', 'Substitute l', 'Substitute d', 'Substitute h']
+
+    # Test case for strings with special characters
+    assert edit_distance.calculate_edit_distance("123!@#", "123$@#") == ['Substitute $']
+
+    # Test case for strings with numbers
+    assert edit_distance.calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1']
+
+    # Test case for strings with repeated characters
+    assert edit_distance.calculate_edit_distance("aaaaa", "aaabaa") == ['Insert b', 'Insert b']
+
+    # Test case for strings with different lengths
+    assert edit_distance.calculate_edit_distance("short", "thisisaverylongstring") == ['Insert t', 'Insert h', 'Insert i', 'Insert s', 'Insert i', 'Insert s', 'Insert a', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert l', 'Insert o', 'Insert n', 'Insert g']
+
+    # Test case for strings with multiple substitutions
+    assert edit_distance.calculate_edit_distance("abcdef", "azcdwf") == ['Substitute z', 'Substitute w']
+
+    # Test case for strings with multiple deletions and insertions
+    assert edit_distance.calculate_edit_distance("abcde", "xycwz") == ['Substitute x', 'Substitute y', 'Substitute z', 'Delete d', 'Delete e', 'Insert w']
+
+    # Test case for strings with mix of operations
+    assert edit_distance.calculate_edit_distance("abcde", "axcdyz") == ['Substitute x', 'Substitute y', 'Substitute z', 'Insert y']
+
+    # Test case for long strings with complex edits
+    assert edit_distance.calculate_edit_distance("supercalifragilisticexpialidocious", "supercalifragilisticexpialidociouz") == ['Insert z']
+
+    # Test case for strings with no edits needed
+    assert edit_distance.calculate_edit_distance("testing", "testing") == []
+
+    # Test case for strings with all operations
+    assert edit_distance.calculate_edit_distance("abc", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z', 'Delete a', 'Delete b', 'Delete c', 'Insert x', 'Insert y', 'Insert z']

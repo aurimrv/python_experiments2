@@ -1,0 +1,33 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance():
+    # Test cases for the calculate_edit_distance method
+    
+    # Test case 1: Two identical strings should have an empty list as the edit distance
+    assert edit_distance.calculate_edit_distance("abc", "abc") == []
+    
+    # Test case 2: Strings with one character difference should show the correct edit distance
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute k', 'Substitute i', 'Substitute t', 'Substitute t', 'Insert i', 'Insert n', 'Insert g']
+    
+    # Test case 3: Empty string should return the correct edit distance
+    assert edit_distance.calculate_edit_distance("", "abc") == ['Insert a', 'Insert b', 'Insert c']
+    
+    # Test case 4: Strings with multiple differences should show the correct edit distance
+    assert edit_distance.calculate_edit_distance("intention", "execution") == ['Substitute i', 'Substitute n', 'Insert e', 'Substitute n', 'Substitute t', 'Substitute i', 'Substitute o', 'Insert n']
+    
+    # Test case 5: Strings with no common characters should return all insert operations
+    assert edit_distance.calculate_edit_distance("123", "456") == ['Insert 4', 'Insert 5', 'Insert 6']
+
+    # Test case 6: Equal length strings with all different characters should return all substitute operations
+    assert edit_distance.calculate_edit_distance("abcde", "vwxyz") == ['Substitute v', 'Substitute w', 'Substitute x', 'Substitute y', 'Substitute z']
+
+    # Test case 7: One string is a prefix of the other, should return delete operations for the remaining characters
+    assert edit_distance.calculate_edit_distance("prefix", "prefixsuffix") == ['Insert s', 'Insert u', 'Insert f', 'Insert f', 'Insert i', 'Insert x']

@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+@pytest.fixture
+def filled_linked_list():
+    ll = LinkedList([1, 2, 3, 4, 5])
+    return ll
+
+def test_push(filled_linked_list):
+    filled_linked_list.push(6)
+    assert filled_linked_list.head.data == 6
+    assert filled_linked_list.head.next.data == 5
+
+def test_pop(filled_linked_list):
+    popped_value = filled_linked_list.pop()
+    assert popped_value == 5
+    assert filled_linked_list.head.data == 4
+
+def test_size(filled_linked_list):
+    assert filled_linked_list.size() == 5
+
+def test_search(filled_linked_list):
+    node = filled_linked_list.search(3)
+    assert node.data == 3
+
+def test_remove(filled_linked_list):
+    filled_linked_list.remove(3)
+    assert filled_linked_list.size() == 4
+    assert filled_linked_list.search(3) is None
+
+def test_display(filled_linked_list):
+    assert filled_linked_list.display() == "(5, 4, 3, 2, 1)"

@@ -1,0 +1,53 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+
+def test_node_next_pointer():
+    node1 = Node(10)
+    node2 = Node(20, node1)
+    assert node2.next == node1
+
+def test_linked_list_push():
+    ll = LinkedList()
+    ll.push(1)
+    assert ll.head.data == 1
+
+def test_linked_list_pop():
+    ll = LinkedList([1, 2, 3])
+    assert ll.pop() == 3
+
+def test_linked_list_size():
+    ll = LinkedList([1, 2, 3])
+    assert ll.size() == 3
+
+def test_linked_list_search_existing():
+    ll = LinkedList([1, 2, 3])
+    assert ll.search(2).data == 2
+
+def test_linked_list_search_non_existing():
+    ll = LinkedList([1, 2, 3])
+    assert ll.search(4) is None
+
+def test_linked_list_remove_existing():
+    ll = LinkedList([1, 2, 3])
+    ll.remove(2)
+    assert ll.size() == 2
+
+def test_linked_list_remove_non_existing():
+    ll = LinkedList([1, 2, 3])
+    ll.remove(4)
+    assert ll.size() == 3
+
+def test_linked_list_display():
+    ll = LinkedList([12, 'sam', 37, 'tango'])
+    assert ll.display() == "(tango, 37, sam, 12)"

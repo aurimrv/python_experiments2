@@ -1,0 +1,67 @@
+import os
+import sys
+import pytest
+from collections import defaultdict, deque
+
+# Append project directory to sys.path
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+# Test cases for Graph class
+class TestGraph:
+    def test_add_edge(self):
+        graph = Graph(3)
+        graph.add_edge(1, 2)
+        assert graph.graph == {1: [2], 2: []}
+        graph.add_edge(2, 3)
+        assert graph.graph == {1: [2], 2: [3], 3: []}
+
+    def test_has_cycle(self):
+        graph = Graph(3)
+        graph.add_edge(1, 2)
+        graph.add_edge(2, 3)
+        assert graph.has_cycle() == False
+        graph.add_edge(3, 1)
+        assert graph.has_cycle() == True
+
+    def test_topological_sort(self):
+        graph = Graph(5)
+        graph.add_edge(5, 2)
+        graph.add_edge(5, 0)
+        graph.add_edge(4, 0)
+        graph.add_edge(4, 1)
+        graph.add_edge(2, 3)
+        graph.add_edge(3, 1)
+        assert graph.topological_sort() == [5, 4, 2, 3, 1, 0]
+
+# Test cases for WeightedGraph class
+class TestWeightedGraph:
+    def test_add_vertex(self):
+        w_graph = WeightedGraph()
+        w_graph.add_vertex(1)
+        assert len(w_graph.vertices) == 1
+        w_graph.add_vertex(2)
+        assert len(w_graph.vertices) == 2
+
+    def test_add_edge(self):
+        w_graph = WeightedGraph()
+        w_graph.add_edge(1, 2, 5)
+        assert w_graph.vertices[1].adjacent == {2: 5}
+        w_graph.add_edge(2, 3, 3)
+        assert w_graph.vertices[2].adjacent == {3: 3}
+
+    def test_remove_edge(self):
+        w_graph = WeightedGraph()
+        w_graph.add_edge(1, 2, 5)
+        w_graph.remove_edge(1, 2)
+        assert w_graph.vertices[1].adjacent == {}
+        w_graph.add_edge(2, 3, 3)
+        w_graph.remove_edge(2, 3)
+        assert w_graph.vertices[2].adjacent == {}
+
+# Run the tests
+if __name__ == '__main__':
+    pytest.main()

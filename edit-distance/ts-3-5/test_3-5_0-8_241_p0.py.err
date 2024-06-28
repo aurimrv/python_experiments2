@@ -1,0 +1,33 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    str1 = "kitten"
+    str2 = "kitten"
+    expected_result = []
+    assert calculate_edit_distance(str1, str2) == expected_result
+
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_result = ['Substitute s', 'Insert k']
+    assert calculate_edit_distance(str1, str2) == expected_result
+
+    str1 = "Monday"
+    str2 = "Tuesdays"
+    expected_result = ['Insert s', 'Insert d', 'Insert a', 'Insert y']
+    assert calculate_edit_distance(str1, str2) == expected_result
+
+    str1 = "car"
+    str2 = "cart"
+    expected_result = ['Insert t']
+    assert calculate_edit_distance(str1, str2) == expected_result
+
+    str1 = ""
+    str2 = ""
+    expected_result = []
+    assert calculate_edit_distance(str1, str2) == expected_result

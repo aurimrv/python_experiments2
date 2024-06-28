@@ -1,0 +1,19 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hamming_ops import hamming_distance, hamming_weight
+
+def test_hamming_distance():
+    assert hamming_distance(0b1010, 0b1100) == 2
+    assert hamming_distance(0b1111, 0b0000) == 4
+    assert hamming_distance(0b101010, 0b101010) == 0
+
+def test_hamming_weight():
+    assert hamming_weight(0b1010) == 2
+    assert hamming_weight(0b1111) == 4
+    assert hamming_weight(0b0) == 0

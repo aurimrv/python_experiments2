@@ -1,0 +1,59 @@
+import os
+import sys
+from dll import Node, DoubleLinkedList
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.fixture
+def setup_dll():
+    dll = DoubleLinkedList()
+    return dll
+
+def test_push(setup_dll):
+    setup_dll.push(1)
+    assert setup_dll.head.data == 1
+    assert setup_dll.tail.data == 1
+
+def test_pop(setup_dll):
+    setup_dll.push(1)
+    setup_dll.push(2)
+    assert setup_dll.pop() == 2
+    assert setup_dll.head.data == 1
+
+def test_append(setup_dll):
+    setup_dll.append(1)
+    assert setup_dll.head.data == 1
+    assert setup_dll.tail.data == 1
+
+def test_shift(setup_dll):
+    setup_dll.append(1)
+    setup_dll.append(2)
+    assert setup_dll.shift() == 2
+    assert setup_dll.tail.data == 1
+
+def test_remove(setup_dll):
+    setup_dll.push(1)
+    setup_dll.push(2)
+    setup_dll.remove(1)
+    assert setup_dll.head.data == 2
+    assert setup_dll.tail.data == 2
+
+def test_multiple_push_pop(setup_dll):
+    setup_dll.push(1)
+    setup_dll.push(2)
+    setup_dll.push(3)
+    assert setup_dll.pop() == 3
+    assert setup_dll.pop() == 2
+    assert setup_dll.pop() == 1
+
+def test_multiple_append_shift(setup_dll):
+    setup_dll.append(1)
+    setup_dll.append(2)
+    setup_dll.append(3)
+    assert setup_dll.shift() == 3
+    assert setup_dll.shift() == 2
+    assert setup_dll.shift() == 1

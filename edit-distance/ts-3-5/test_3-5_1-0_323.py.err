@@ -1,0 +1,31 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import edit_distance
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute s', 'Match i', 'Match t', 'Match t', 'Match e', 'Insert g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_insert_delete():
+    str1 = "abc"
+    str2 = "cba"
+    expected_output = ['Substitute c', 'Delete a', 'Insert a', 'Match b']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected_output = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a very long string"
+    str2 = "This is a similarly long string"
+    expected_output = ['Match T', 'Match h', 'Match i', 'Match s', 'Match  ', 'Match i', 'Match s', 'Match  ', 'Match a', 'Match  ', 'Substitute s', 'Delete i', 'Match m', 'Match i', 'Match l', 'Match a', 'Match r', 'Match l', 'Match y', '  ', 'Match l', 'Match o', 'Match n', 'Match g', '  ', 'Match s', 'Match t', 'Match r', 'Match i', 'Match n', 'Match g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output

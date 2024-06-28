@@ -1,0 +1,34 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_partition():
+    arr = [3, 7, 2, 9, 1]
+    partition_index = quicksort.partition(arr, 0, len(arr)-1)
+    assert arr == [1, 2, 3, 9, 7]
+    assert partition_index == 2
+
+def test_sort():
+    arr = [3, 7, 2, 9, 1]
+    quicksort.sort(arr, 0, len(arr)-1)
+    assert arr == [1, 2, 3, 7, 9]
+
+def test_quicksort():
+    arr = [3, 7, 2, 9, 1]
+    sorted_arr = quicksort(arr)
+    assert sorted_arr == [1, 2, 3, 7, 9]
+
+def test_quicksort_large_input():
+    arr = [1000, 999, 998, 997, 996, 995, 994, 993]
+    sorted_arr = quicksort(arr)
+    assert sorted_arr == [993, 994, 995, 996, 997, 998, 999, 1000]
+
+def test_quicksort_duplicates():
+    arr = [3, 7, 2, 9, 1, 2, 9]
+    sorted_arr = quicksort(arr)
+    assert sorted_arr == [1, 2, 2, 3, 7, 9, 9]

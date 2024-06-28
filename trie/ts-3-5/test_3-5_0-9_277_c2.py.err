@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+class TestTrie:
+
+    @pytest.fixture
+    def trie(self):
+        words = ["apple", "app", "application", "banana"]
+        return Trie(words)
+
+    def test_init(self, trie):
+        assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    def test_add_single_word(self, trie):
+        trie.add("test")
+        assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}, 't': {'e': {'s': {'t': {'__eof__': '__eof__'}}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}}
+
+    def test_get_all_common_prefix(self, trie):
+        assert trie.get_all_common_prefix("appl") == ['apple', 'application']
+        assert trie.get_all_common_prefix("ban") == ['banana']

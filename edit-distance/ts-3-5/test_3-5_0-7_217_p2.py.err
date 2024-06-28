@@ -1,0 +1,43 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "abc"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_different_lengths():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_trace = ['Substitute k', 'Substitute i', 'Insert t', 'Substitute t', 'Substitute e', 'Substitute n']
+    assert calculate_edit_distance(str1, str2) == expected_trace
+
+def test_calculate_edit_distance_single_character_difference():
+    str1 = "hello"
+    str2 = "hallo"
+    expected_trace = ['Substitute h', 'Substitute e', 'Substitute l', 'Substitute l', 'Insert o']
+    assert calculate_edit_distance(str1, str2) == expected_trace
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_one_empty_string():
+    str1 = ""
+    str2 = "test"
+    expected_trace = ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance(str1, str2) == expected_trace
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string with many characters."
+    str2 = "This is a longer string with more characters."
+    expected_trace = ['Insert  ', 'Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert e', 'Insert r', 'Insert  ', 'Insert w', 'Insert i', 'Insert t', 'Insert h', 'Insert  ', 'Insert m', 'Insert o', 'Insert r', 'Insert e']
+    assert calculate_edit_distance(str1, str2) == expected_trace

@@ -1,0 +1,40 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct():
+    # Test construct method with a square of length 1
+    square = ['a']
+    construct(square)
+    assert construct.squares == [['a']]
+
+    # Test construct method with a square of length 2
+    square = ['ba', 'a']
+    construct(square)
+    assert construct.squares == [['ba', 'a'], ['ab', 'a']]
+    
+    # Test construct method with a square of length 3
+    square = ['bat', 'a', 't']
+    construct(square)
+    assert construct.squares == [['bat', 'a', 't'], ['bat', 'at', 't']]
+
+def test_word_squares():
+    # Test word_squares with an empty list of words
+    words = []
+    assert word_squares(words) == []
+
+    # Test word_squares with a single word
+    words = ['ball']
+    assert word_squares(words) == [['ball']]
+
+    # Test word_squares with multiple words
+    words = ['ball', 'area', 'lead', 'lady']
+    assert word_squares(words) == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+    # Test word_squares with words that do not form a square
+    words = ['ball', 'area', 'lead']
+    assert word_squares(words) == []

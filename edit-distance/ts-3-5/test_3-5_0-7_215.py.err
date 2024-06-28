@@ -1,0 +1,50 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance():
+    # Test Case 1: Same strings, no edits needed
+    str1 = "abc"
+    str2 = "abc"
+    assert edit_distance.calculate_edit_distance(str1, str2) == []
+
+    # Test Case 2: Completely different strings
+    str1 = "hello"
+    str2 = "world"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute h', 'Substitute e', 'Substitute l', 'Substitute l', 'Substitute o', 'Insert  ', 'Insert w', 'Insert o', 'Insert r', 'Insert l', 'Insert d']
+
+    # Test Case 3: One string is empty
+    str1 = ""
+    str2 = "test"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+
+    # Test Case 4: One string is a substring of the other
+    str1 = "good"
+    str2 = "goodbye"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Insert b', 'Insert y', 'Insert e']
+
+    # Test Case 5: Strings with multiple possible edits
+    str1 = "cat"
+    str2 = "act"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute c', 'Substitute a']
+
+    # Test Case 6: Long strings with multiple edits
+    str1 = "mutation"
+    str2 = "testing"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute m', 'Substitute u', 'Substitute t', 'Substitute a', 'Substitute t', 'Insert e', 'Insert s', 'Insert t', 'Insert i', 'Insert n', 'Insert g']
+
+    # Test Case 7: Strings with same length but different characters
+    str1 = "abcd"
+    str2 = "efgh"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute a', 'Substitute b', 'Substitute c', 'Substitute d', 'Insert e', 'Insert f', 'Insert g', 'Insert h']
+
+    # Test Case 8: One empty string
+    str1 = "python"
+    str2 = ""
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Delete p', 'Delete y', 'Delete t', 'Delete h', 'Delete o', 'Delete n']

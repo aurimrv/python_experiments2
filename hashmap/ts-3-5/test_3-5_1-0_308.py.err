@@ -1,0 +1,41 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap_instance():
+    return HashMap()
+
+def test_insert(hashmap_instance):
+    hashmap_instance.insert('key1', 'value1')
+    assert hashmap_instance.get('key1') == 'value1'
+
+    hashmap_instance.insert('key2', 'value2')
+    assert hashmap_instance.get('key2') == 'value2'
+
+def test_get(hashmap_instance):
+    hashmap_instance.insert('key1', 'value1')
+    assert hashmap_instance.get('key1') == 'value1'
+
+    hashmap_instance.insert('key2', 'value2')
+    assert hashmap_instance.get('key2') == 'value2'
+
+def test_delete(hashmap_instance):
+    hashmap_instance.insert('key1', 'value1')
+    assert hashmap_instance.delete('key1') == ('key1', 'value1')
+
+def test_hash_functions():
+    assert djb2('key') == 160452369
+    assert sdbm('key') == 532642346
+    assert lose_lose('key') == 336
+
+def test_custom_hash_function(hashmap_instance):
+    custom_hash_map = HashMap(hash_function=djb2)
+    custom_hash_map.insert('key', 'value')
+    assert custom_hash_map.get('key') == 'value'

@@ -1,0 +1,33 @@
+import os
+import sys
+import radixsort
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_create_buckets():
+    ar = [123, 456, 789]
+    iteration = 1
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10  # Ensure 10 buckets are created
+    assert len(buckets[2]) == 1  # Check if the number 123 is correctly placed in bucket 2
+    assert len(buckets[5]) == 1  # Check if the number 456 is correctly placed in bucket 5
+    assert len(buckets[8]) == 1  # Check if the number 789 is correctly placed in bucket 8
+
+def test_create_list():
+    buckets = [[12, 45], [23, 56], [34, 67]]
+    nums = radixsort.create_list(buckets)
+    assert len(nums) == 6  # Ensure all numbers are combined into a single list
+    assert nums == [12, 45, 23, 56, 34, 67]  # Check if the numbers are correctly combined
+
+def test_radixsort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [2, 24, 45, 66, 75, 90, 170, 802]  # Check if the array is correctly sorted
+    assert sorted_ar == sorted(ar)  # Check if the sorted array matches the Python sorted() function output
+
+    ar = [321, 543, 123, 456, 789]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [123, 321, 456, 543, 789]  # Check if the array is correctly sorted
+    assert sorted_ar == sorted(ar)  # Check if the sorted array matches the Python sorted() function output

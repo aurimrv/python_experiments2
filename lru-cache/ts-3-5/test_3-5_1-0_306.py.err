@@ -1,0 +1,77 @@
+# conftest.py
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+# test_lru_cache.py
+import pytest
+from lru_cache import ListNode, LruCache
+
+def test_list_node_init():
+    key = 1
+    val = 'value'
+    node = ListNode(key, val)
+    assert node.key == key
+    assert node.val == val
+    assert node.prev is None
+    assert node.next is None
+
+def test_lru_cache_init():
+    capacity = 3
+    cache = LruCache(capacity)
+    assert cache.capacity == capacity
+    assert cache.head.key == cache.terminal_value
+    assert cache.tail.key == cache.terminal_value
+    assert cache.head.next == cache.tail
+    assert cache.tail.prev == cache.head
+    assert cache.lookup_map == {}
+
+def test_lru_cache_put():
+    capacity = 2
+    cache = LruCache(capacity)
+    
+    cache.put(1, 'value1')
+    cache.put(2, 'value2')
+
+    assert cache.head.next.key == 2
+    assert cache.head.next.val == 'value2'
+    assert cache.head.next.prev == cache.head
+    assert cache.head.next.next == cache.tail
+
+    cache.put(3, 'value3')
+
+    assert 1 not in cache.lookup_map
+    assert cache.head.next.key == 3
+    assert cache.tail.prev.key == 2
+
+def test_lru_cache_get():
+    capacity = 2
+    cache = LruCache(capacity)
+
+    cache.put(1, 'value1')
+    cache.put(2, 'value2')
+
+    assert cache.get(1) == 'value1'
+    assert cache.get(2) == 'value2'
+
+    cache.get(1)  # access 1 to make it most recently used
+
+    cache.put(3, 'value3')  # this should evict 2
+
+    assert cache.get(2) == -1
+
+def test_lru_cache_remove():
+    capacity = 2
+    cache = LruCache(capacity)
+    
+    cache.put(1, 'value1')
+    cache.put(2, 'value2')
+
+    node_to_remove = cache.head.next
+    cache._remove(node_to_remove)
+
+    assert 1 not in cache.lookup_map
+    assert cache.head.next.key == 2

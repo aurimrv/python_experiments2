@@ -1,0 +1,68 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+# Test cases for Graph class methods
+class TestGraph:
+
+    def test_nodes_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.add_node('B')
+        assert graph.nodes() == ['A', 'B']
+
+    def test_edges_method(self):
+        graph = Graph()
+        graph.add_edge('A', 'B')
+        assert graph.edges() == [('A', 'B')]
+
+    def test_add_node_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        assert graph.nodes() == ['A']
+
+    def test_add_edge_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.add_node('B')
+        graph.add_edge('A', 'B')
+        assert graph.edges() == [('A', 'B')]
+
+    def test_del_node_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.del_node('A')
+        assert graph.nodes() == []
+
+    def test_del_edge_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.add_node('B')
+        graph.add_edge('A', 'B')
+        graph.del_edge('A', 'B')
+        assert graph.edges() == []
+
+    def test_has_node_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        assert graph.has_node('A') == True
+
+    def test_neighbors_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.add_node('B')
+        graph.add_edge('A', 'B')
+        assert graph.neighbors('A') == {'B'}
+
+    def test_adjacent_method(self):
+        graph = Graph()
+        graph.add_node('A')
+        graph.add_node('B')
+        graph.add_edge('A', 'B')
+        assert graph.adjacent('A', 'B') == True

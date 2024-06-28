@@ -1,0 +1,85 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+
+    def test_list_node_creation(self):
+        node = ListNode(1, 'value')
+        assert node.key == 1
+        assert node.val == 'value'
+        assert node.prev is None
+        assert node.next is None
+
+    def test_list_node_update(self):
+        node = ListNode(1, 'value')
+        node.key = 2
+        node.val = 'new_value'
+        assert node.key == 2
+        assert node.val == 'new_value'
+
+class TestLruCache:
+
+    def test_lru_cache_creation(self):
+        cache = LruCache(3)
+        assert cache.capacity == 3
+        assert cache.head.key == cache.terminal_value
+        assert cache.tail.val == cache.terminal_value
+        assert len(cache.lookup_map) == 0
+
+    def test_lru_cache_put_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        assert len(cache.lookup_map) == 2
+        assert cache.head.next.key == 1
+        assert cache.head.next.val == 'value1'
+        assert cache.tail.prev.key == 2
+        assert cache.tail.prev.val == 'value2'
+
+    def test_lru_cache_get_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        assert cache.get(1) == 'value1'
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'value2'
+
+    def test_lru_cache_put_method_capacity_exceeded(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        cache.put(3, 'value3')
+        assert len(cache.lookup_map) == 2
+        assert cache.lookup_map.get(1) is None
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'value2'
+
+    def test_lru_cache_get_method_key_not_found(self):
+        cache = LruCache(2)
+        cache.put(1, 'value1')
+        cache.put(2, 'value2')
+        assert cache.get(3) == -1
+        assert cache.head.next.key == 1
+        assert cache.head.next.val == 'value1'
+
+    def test_lru_cache_add_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'value1')
+        cache._add(node)
+        assert cache.head.next == node
+        assert cache.tail.prev == node
+
+    def test_lru_cache_remove_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'value1')
+        cache._add(node)
+        cache._remove(node)
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head

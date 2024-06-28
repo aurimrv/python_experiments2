@@ -61,7 +61,7 @@ def remove_other_test_classes(code, clazz, n):
         return extract_code(code, clazz, n, True)
         
 def generate_tests(code, temperature, n):
-    message_path_import = "module_dir = os.path.dirname(os.path.abspath(__file__)); project_dir = os.path.abspath(os.path.join(module_dir, '..')); sys.path.append(project_dir)"
+    message_path_import = "module_dir = os.path.dirname(os.path.abspath(__file__)); project_dir = os.path.abspath(os.path.join(module_dir, '..')); sys.path.append(project_dir)" #; sys.setrecursionlimit(15000) for quicksort
     
     messages = [
         {"role": "system", "content": "You are a senior software tester specialized in mutation testing."},

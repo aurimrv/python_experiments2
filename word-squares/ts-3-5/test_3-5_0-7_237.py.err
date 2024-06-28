@@ -1,0 +1,25 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+import pytest
+
+@pytest.fixture
+def sample_words():
+    return ["ball", "area", "lead", "lady"]
+
+def test_construct(sample_words):
+    trie = Trie(sample_words)
+
+    square = ["ball", "area"]
+    construct = word_squares.construct(square)
+    assert construct == [['ball', 'area', 'lead', 'lady'], ['ball', 'area', 'lady', 'area']]
+
+def test_word_squares(sample_words):
+    squares = word_squares(sample_words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['ball', 'area', 'lady', 'area']]

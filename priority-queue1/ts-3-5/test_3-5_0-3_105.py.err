@@ -1,0 +1,47 @@
+import os
+import sys
+import itertools
+from heapq import heappush, heappop
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+
+def test_priority_queue_add_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    assert len(pq.pq) == 1
+    assert 'Task1' in pq.mapper
+
+    pq.add_task('Task2', 1)
+    assert len(pq.pq) == 2
+    assert 'Task2' in pq.mapper
+
+def test_priority_queue_remove_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    pq.remove_task('Task1')
+    assert len(pq.pq) == 0
+    assert 'Task1' not in pq.mapper
+
+def test_priority_queue_set_priority():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    pq.set_priority('Task1', 1)
+    assert pq.mapper['Task1'][0] == 1
+
+def test_priority_queue_pop_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    pq.add_task('Task2', 1)
+    assert pq.pop_task() == 'Task2'
+    assert pq.pop_task() == 'Task1'
+
+def test_priority_queue_pop_task_empty():
+    pq = PriorityQueue()
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

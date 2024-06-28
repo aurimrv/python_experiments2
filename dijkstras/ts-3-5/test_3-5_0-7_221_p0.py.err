@@ -1,0 +1,57 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class MockVertex:
+    def __init__(self, name):
+        self.name = name
+        self.adjacent = {}
+
+class MockWeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+def test_dijkstras_simple():
+    vertex_a = MockVertex('A')
+    vertex_b = MockVertex('B')
+    vertex_c = MockVertex('C')
+    vertex_d = MockVertex('D')
+
+    vertex_a.adjacent = {vertex_b: 1, vertex_c: 4}
+    vertex_b.adjacent = {vertex_c: 2, vertex_d: 5}
+    vertex_c.adjacent = {vertex_d: 1}
+
+    weighted_graph = MockWeightedGraph({vertex_a.name: vertex_a, vertex_b.name: vertex_b, vertex_c.name: vertex_c, vertex_d.name: vertex_d})
+
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_no_path():
+    vertex_a = MockVertex('A')
+    vertex_b = MockVertex('B')
+    vertex_c = MockVertex('C')
+    vertex_d = MockVertex('D')
+
+    vertex_a.adjacent = {vertex_b: 1}
+    vertex_b.adjacent = {vertex_c: 2}
+    vertex_c.adjacent = {vertex_d: 3}
+
+    weighted_graph = MockWeightedGraph({vertex_a.name: vertex_a, vertex_b.name: vertex_b, vertex_c.name: vertex_c, vertex_d.name: vertex_d})
+
+    assert dijkstras(weighted_graph, 'A', 'D') == []
+
+def test_dijkstras_same_source_dest():
+    vertex_a = MockVertex('A')
+    vertex_b = MockVertex('B')
+
+    vertex_a.adjacent = {vertex_b: 1}
+    vertex_b.adjacent = {vertex_a: 1}
+
+    weighted_graph = MockWeightedGraph({vertex_a.name: vertex_a, vertex_b.name: vertex_b})
+
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']

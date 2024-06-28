@@ -1,0 +1,28 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case 1: Empty strings, expected empty trace stack
+    assert edit_distance.calculate_edit_distance("", "") == []
+
+    # Test case 2: Identical strings, expected empty trace stack
+    assert edit_distance.calculate_edit_distance("hello", "hello") == []
+
+    # Test case 3: Single character difference, expected substitution
+    assert edit_distance.calculate_edit_distance("hello", "hallo") == ['Substitute l']
+
+    # Test case 4: Completely different strings, expected all insertions
+    assert edit_distance.calculate_edit_distance("abc", "def") == ['Insert d', 'Insert e', 'Insert f']
+
+    # Test case 5: One string is a prefix of the other, expected deletions
+    assert edit_distance.calculate_edit_distance("python", "py") == ['Delete t', 'Delete h', 'Delete o', 'Delete n']
+
+    # Test case 6: One string is an empty string, expected all insertions
+    assert edit_distance.calculate_edit_distance("hello", "") == ['Insert h', 'Insert e', 'Insert l', 'Insert l', 'Insert o']

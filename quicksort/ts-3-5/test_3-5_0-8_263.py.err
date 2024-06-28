@@ -1,0 +1,49 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_quicksort():
+    # Test empty list
+    assert quicksort([]) == []
+
+    # Test list with one element
+    assert quicksort([5]) == [5]
+
+    # Test list with multiple elements
+    assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_sort():
+    # Test sorting an empty list
+    ar = []
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == []
+
+    # Test sorting a list with one element
+    ar = [8]
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == [8]
+
+    # Test sorting a list with multiple elements
+    ar = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+    quicksort.sort(ar, 0, len(ar)-1)
+    assert ar == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_partition():
+    # Test partitioning an empty list
+    ar = []
+    assert quicksort.partition(ar, 0, len(ar)-1) == 0
+
+    # Test partitioning a list with one element
+    ar = [8]
+    assert quicksort.partition(ar, 0, len(ar)-1) == 0
+
+    # Test partitioning a list with multiple elements
+    ar = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+    assert quicksort.partition(ar, 0, len(ar)-1) == 5

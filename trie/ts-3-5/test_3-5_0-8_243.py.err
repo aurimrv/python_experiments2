@@ -1,0 +1,32 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_instance():
+    words = ['hello', 'world', 'python', 'pytest']
+    return Trie(words)
+
+def test_trie_init(trie_instance):
+    assert trie_instance.head == {'h': {'e': {'l': {'l': {'o': {'__eof__': '__eof__'}}}}}, 'w': {'o': {'r': {'l': {'d': {'__eof__': '__eof__'}}}}}, 'p': {'y': {'t': {'h': {'o': {'n': {'__eof__': '__eof__'}}}}}}, 'pytest': {'__eof__': '__eof__'}}
+
+def test_trie_add(trie_instance):
+    trie_instance.add('apple')
+    assert trie_instance.head == {'h': {'e': {'l': {'l': {'o': {'__eof__': '__eof__'}, 'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}}}}}, 'w': {'o': {'r': {'l': {'d': {'__eof__': '__eof__'}}}}, 'pytest': {'__eof__': '__eof__'}}}
+
+def test_trie_get_all_common_prefix(trie_instance):
+    assert trie_instance.get_all_common_prefix('h') == ['hello']
+    assert trie_instance.get_all_common_prefix('p') == ['python']
+    assert trie_instance.get_all_common_prefix('py') == ['python']
+    assert trie_instance.get_all_common_prefix('a') == []
+    assert trie_instance.get_all_common_prefix('w') == ['world']
+    assert trie_instance.get_all_common_prefix('wo') == ['world']
+    assert trie_instance.get_all_common_prefix('wor') == ['world']
+    assert trie_instance.get_all_common_prefix('worl') == ['world']
+    assert trie_instance.get_all_common_prefix('world') == ['world']

@@ -1,0 +1,61 @@
+import os
+import sys
+from functools import reduce
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    # Test case 1: Shortest path between two directly connected nodes
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    # Test case 2: Shortest path between nodes with multiple intermediate nodes
+    weighted_graph = {
+        'A': {'B': 1, 'C': 3},
+        'B': {'A': 1, 'D': 2},
+        'C': {'A': 3, 'D': 1},
+        'D': {'B': 2, 'C': 1, 'E': 3},
+        'E': {'D': 3}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'E']
+
+    # Test case 3: Shortest path between nodes with different distances
+    weighted_graph = {
+        'A': {'B': 2, 'C': 4},
+        'B': {'A': 2, 'D': 3},
+        'C': {'A': 4, 'D': 2},
+        'D': {'B': 3, 'C': 2, 'E': 4},
+        'E': {'D': 4}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'E']
+
+    # Test case 4: Path from a node to itself
+    weighted_graph = {
+        'A': {'A': 0}
+    }
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
+
+    # Test case 5: Path to an unreachable node
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+    # Add more test cases as needed

@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def test_graph():
+    return Graph()
+
+def test_add_node(test_graph):
+    test_graph.add_node(1)
+    assert 1 in test_graph.nodes()
+    test_graph.add_node(2)
+    assert 2 in test_graph.nodes()
+
+def test_add_edge(test_graph):
+    test_graph.add_node(1)
+    test_graph.add_node(2)
+    test_graph.add_edge(1, 2)
+    assert (1, 2) in test_graph.edges()
+    assert test_graph.adjacent(1, 2)
+
+def test_del_node(test_graph):
+    test_graph.add_node(1)
+    test_graph.del_node(1)
+    assert 1 not in test_graph.nodes()
+
+def test_del_edge(test_graph):
+    test_graph.add_node(1)
+    test_graph.add_node(2)
+    test_graph.add_edge(1, 2)
+    test_graph.del_edge(1, 2)
+    assert (1, 2) not in test_graph.edges()
+    assert not test_graph.adjacent(1, 2)
+
+def test_has_node(test_graph):
+    test_graph.add_node(1)
+    assert test_graph.has_node(1)
+    assert not test_graph.has_node(2)
+
+def test_neighbors(test_graph):
+    test_graph.add_node(1)
+    test_graph.add_node(2)
+    test_graph.add_edge(1, 2)
+    assert test_graph.neighbors(1) == {2}
+    assert test_graph.neighbors(2) == set()
+
+def test_adjacent(test_graph):
+    test_graph.add_node(1)
+    test_graph.add_node(2)
+    test_graph.add_edge(1, 2)
+    assert test_graph.adjacent(1, 2)
+    assert not test_graph.adjacent(2, 1)

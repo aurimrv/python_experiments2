@@ -1,0 +1,47 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+def test_node_repr():
+    node = Node(10)
+    assert node.__repr__() == "Value: 10"
+
+def test_double_linked_list_push():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    assert dll.head.data == 1
+
+def test_double_linked_list_pop():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.pop() == 3
+
+def test_double_linked_list_append():
+    dll = DoubleLinkedList()
+    dll.append(1)
+    assert dll.tail.data == 1
+
+def test_double_linked_list_shift():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.shift() == 1
+
+def test_double_linked_list_remove():
+    dll = DoubleLinkedList([1, 2, 3, 4])
+    dll.remove(2)
+    assert dll._repr() == [1, 3, 4]
+
+def test_double_linked_list_all_methods():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.pop()
+    dll.append(3)
+    dll.shift()
+    dll.push(4)
+    dll.remove(4)
+    assert dll._repr() == [1, 3] 

@@ -1,0 +1,69 @@
+import os
+import sys
+from collections import deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree, Node
+
+def test_pre_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    assert tree.pre_order_traversal() == [1, 2, 3]
+
+    tree = NaiveBinaryTree()
+    tree.head = Node(5)
+    tree.head.left = Node(4)
+    tree.head.right = Node(6)
+    assert tree.pre_order_traversal() == [5, 4, 6]
+
+def test_in_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    assert tree.in_order_traversal() == [2, 1, 3]
+
+    tree = NaiveBinaryTree()
+    tree.head = Node(5)
+    tree.head.left = Node(4)
+    tree.head.right = Node(6)
+    assert tree.in_order_traversal() == [4, 5, 6]
+
+def test_post_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    assert tree.post_order_traversal() == [2, 3, 1]
+
+    tree = NaiveBinaryTree()
+    tree.head = Node(5)
+    tree.head.left = Node(4)
+    tree.head.right = Node(6)
+    assert tree.post_order_traversal() == [4, 6, 5]
+
+def test_level_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    tree.head.left.left = Node(4)
+    tree.head.left.right = Node(5)
+    tree.head.right.left = Node(6)
+    tree.head.right.right = Node(7)
+    assert tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+    tree = NaiveBinaryTree()
+    tree.head = Node(5)
+    tree.head.left = Node(3)
+    tree.head.right = Node(7)
+    tree.head.left.left = Node(2)
+    tree.head.left.right = Node(4)
+    tree.head.right.left = Node(6)
+    tree.head.right.right = Node(8)
+    assert tree.level_order_traversal() == [5, 3, 7, 2, 4, 6, 8]

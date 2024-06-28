@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_edit_distance_matching_chars():
+    str1 = "testing"
+    str2 = "testing"
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_edit_distance_single_insertion():
+    str1 = "testing"
+    str2 = "testingx"
+    expected_output = ['Insert x']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_edit_distance_single_deletion():
+    str1 = "testing"
+    str2 = "testin"
+    expected_output = ['Delete g']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_edit_distance_substitution():
+    str1 = "testing"
+    str2 = "testong"
+    expected_output = ['Substitute g with o']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+def test_edit_distance_complex_case():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Delete k', 'Substitute s with k', 'Insert g']
+    assert calculate_edit_distance(str1, str2) == expected_output

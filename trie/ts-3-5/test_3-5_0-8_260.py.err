@@ -1,0 +1,31 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+words = ["apple", "app", "banana", "bat", "ball"]
+trie = Trie(words)
+
+def test_trie_initialization():
+    assert isinstance(trie.head, dict)
+    assert len(trie.head) == 1  # Only one initial empty dict
+
+def test_add_word():
+    trie.add("cat")
+    assert "c" in trie.head
+    assert "a" in trie.head["c"]
+    assert "t" in trie.head["c"]["a"]
+    assert trie.head["c"]["a"]["t"] == {'__eof__': '__eof__'}
+
+def test_get_all_common_prefix():
+    assert trie.get_all_common_prefix("ba") == ["banana", "ball"]
+    assert trie.get_all_common_prefix("ap") == ["apple", "app"]
+
+def test_get_all_common_prefix_no_match():
+    assert trie.get_all_common_prefix("z") == []
+    assert trie.get_all_common_prefix("xy") == []

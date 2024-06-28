@@ -1,0 +1,46 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue2 import PriorityQ
+
+@pytest.fixture
+def empty_priorityq():
+    return PriorityQ()
+
+@pytest.fixture
+def filled_priorityq():
+    pq = PriorityQ()
+    pq.insert('value1', priority=2)
+    pq.insert('value2', priority=1)
+    pq.insert('value3', priority=3)
+    return pq
+
+def test_insert(empty_priorityq):
+    empty_priorityq.insert('value1', 2)
+    assert empty_priorityq._container.top() == (2, 'value1')
+
+def test_pop(filled_priorityq):
+    assert filled_priorityq.pop() == 'value3'  # highest priority value
+    assert filled_priorityq.pop() == 'value1'
+    assert filled_priorityq.pop() == 'value2'
+
+def test_peek(filled_priorityq):
+    assert filled_priorityq.peek() == 'value3'  # highest priority value
+    filled_priorityq.pop()
+    assert filled_priorityq.peek() == 'value1'
+    filled_priorityq.pop()
+    assert filled_priorityq.peek() == 'value2'
+
+def test_pop_empty():
+    empty_pq = PriorityQ()
+    with pytest.raises(IndexError):
+        empty_pq.pop()
+
+def test_peek_empty():
+    empty_pq = PriorityQ()
+    assert empty_pq.peek() is None

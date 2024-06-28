@@ -1,0 +1,58 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    
+    def test_dijkstras_basic_case(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 2)
+        weighted_graph.add_edge('B', 'C', 3)
+        
+        src = 'A'
+        dst = 'C'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+    
+    def test_dijkstras_same_source_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('X')
+        
+        src = 'X'
+        dst = 'X'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['X']
+    
+    def test_dijkstras_unreachable_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('P')
+        weighted_graph.add_vertex('Q')
+        
+        src = 'P'
+        dst = 'Q'
+        
+        assert dijkstras(weighted_graph, src, dst) == []
+    
+    def test_dijkstras_multiple_paths(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('S')
+        weighted_graph.add_vertex('T')
+        weighted_graph.add_vertex('U')
+        weighted_graph.add_vertex('V')
+        weighted_graph.add_edge('S', 'T', 1)
+        weighted_graph.add_edge('S', 'U', 2)
+        weighted_graph.add_edge('T', 'V', 3)
+        weighted_graph.add_edge('U', 'V', 2)
+        
+        src = 'S'
+        dst = 'V'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['S', 'U', 'V']

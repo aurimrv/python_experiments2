@@ -1,0 +1,65 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+import pytest
+
+def test_list_node():
+    node1 = ListNode(1, "one")
+    assert node1.key == 1
+    assert node1.val == "one"
+    assert node1.next is None
+    assert node1.prev is None
+
+def test_lru_cache_init():
+    cache = LruCache(3)
+    assert cache.capacity == 3
+    assert cache.lookup_map == {}
+    assert cache.head.key == cache.terminal_value
+    assert cache.head.val == cache.terminal_value
+    assert cache.tail.key == cache.terminal_value
+    assert cache.tail.val == cache.terminal_value
+
+def test_put():
+    cache = LruCache(2)
+    cache.put(1, "one")
+    cache.put(2, "two")
+    assert cache.lookup_map == {1: cache.head.next, 2: cache.tail.prev}
+    cache.put(3, "three")
+    assert cache.lookup_map == {1: cache.head.next, 3: cache.tail.prev}
+    assert cache.head.next.key not in cache.lookup_map
+
+def test_get():
+    cache = LruCache(2)
+    cache.put(1, "one")
+    cache.put(2, "two")
+    assert cache.get(1) == "one"
+    assert cache.get(3) == -1
+    cache.put(3, "three")
+    assert cache.get(2) == -1
+
+def test_add():
+    cache = LruCache(2)
+    node1 = ListNode(1, "one")
+    node2 = ListNode(2, "two")
+    cache._add(node1)
+    cache._add(node2)
+    assert cache.head.next == node1
+    assert cache.head.next.next == node2
+    assert cache.head.next.prev == cache.head
+    assert cache.head.next.next.prev == node1
+
+def test_remove():
+    cache = LruCache(2)
+    node1 = ListNode(1, "one")
+    node2 = ListNode(2, "two")
+    cache._add(node1)
+    cache._add(node2)
+    cache._remove(node1)
+    assert cache.head.next == node2
+    assert cache.head.next.prev == cache.head
+    assert cache.head.next.next == cache.tail

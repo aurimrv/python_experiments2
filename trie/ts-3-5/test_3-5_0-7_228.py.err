@@ -1,0 +1,45 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+# Test Cases for Trie class
+class TestTrie:
+    
+    def test_trie_init_single_word(self):
+        words = ['apple']
+        trie = Trie(words)
+        assert trie.get_all_common_prefix('a') == ['apple']
+    
+    def test_trie_init_multiple_words(self):
+        words = ['apple', 'app', 'banana']
+        trie = Trie(words)
+        assert trie.get_all_common_prefix('a') == ['apple', 'app']
+        assert trie.get_all_common_prefix('b') == ['banana']
+    
+    def test_trie_add_single_word(self):
+        trie = Trie([])
+        trie.add('apple')
+        assert trie.get_all_common_prefix('a') == ['apple']
+    
+    def test_trie_add_multiple_words(self):
+        trie = Trie([])
+        trie.add('apple')
+        trie.add('app')
+        trie.add('banana')
+        assert trie.get_all_common_prefix('a') == ['apple', 'app']
+        assert trie.get_all_common_prefix('b') == ['banana']
+    
+    def test_get_all_common_prefix_existing_prefix(self):
+        words = ['apple', 'app', 'banana']
+        trie = Trie(words)
+        assert trie.get_all_common_prefix('ap') == ['apple', 'app']
+    
+    def test_get_all_common_prefix_non_existing_prefix(self):
+        words = ['apple', 'app', 'banana']
+        trie = Trie(words)
+        assert trie.get_all_common_prefix('c') == []

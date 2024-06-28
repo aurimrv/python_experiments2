@@ -1,0 +1,38 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    res = word_squares(words)
+    assert res == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+
+def test_get_all_common_prefix():
+    words = ['ball', 'area', 'lead', 'lady']
+    trie = Trie(words)
+    prefix_words = trie.get_all_common_prefix('ba')
+    assert prefix_words == ['ball']
+
+def test_construct_empty_input():
+    words = []
+    res = word_squares(words)
+    assert res == []
+
+def test_construct_single_word():
+    words = ['ball']
+    res = word_squares(words)
+    assert res == [['ball']]
+
+def test_construct_long_words():
+    words = ['hello', 'elephant', 'orange', 'laptop']
+    res = word_squares(words)
+    assert res == [['hello', 'elephant', 'orange', 'laptop']]
+
+def test_construct_repeated_words():
+    words = ['ball', 'ball', 'ball', 'ball']
+    res = word_squares(words)
+    assert res == [['ball', 'ball', 'ball', 'ball']]

@@ -1,0 +1,26 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hamming_ops import hamming_distance, hamming_weight
+
+import pytest
+
+# Test cases for hamming_distance
+def test_hamming_distance_same_numbers():
+    assert hamming_distance(5, 5) == 0
+
+def test_hamming_distance_different_numbers():
+    assert hamming_distance(7, 4) == 2
+
+# Test cases for hamming_weight
+def test_hamming_weight_zero():
+    assert hamming_weight(0) == 0
+
+def test_hamming_weight_negative_number():
+    assert hamming_weight(-5) == 3
+
+def test_hamming_weight_large_number():
+    assert hamming_weight(255) == 8

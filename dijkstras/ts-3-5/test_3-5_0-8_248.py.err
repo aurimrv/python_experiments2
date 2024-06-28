@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+
+    def test_basic_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex(Vertex('A', {'B': 1, 'C': 4}))
+        weighted_graph.add_vertex(Vertex('B', {'A': 1, 'C': 2, 'D': 5}))
+        weighted_graph.add_vertex(Vertex('C', {'A': 4, 'B': 2, 'D': 1}))
+        weighted_graph.add_vertex(Vertex('D', {'B': 5, 'C': 1}))
+        
+        assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'C', 'D']
+
+    def test_shortest_path_same_source_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex(Vertex('A', {'B': 1, 'C': 4}))
+        
+        assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+    def test_shortest_path_unreachable_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex(Vertex('A', {'B': 1, 'C': 4}))
+        
+        assert dijkstras(weighted_graph, 'A', 'D') == []
+
+    def test_shortest_path_empty_graph(self):
+        weighted_graph = WeightedGraph()
+        
+        assert dijkstras(weighted_graph, 'A', 'D') == []

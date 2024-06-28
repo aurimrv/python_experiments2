@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+import pytest
+
+@pytest.fixture
+def lru_cache():
+    return LruCache(2)
+
+def test_put_get(lru_cache):
+    lru_cache.put(1, 'one')
+    assert lru_cache.get(1) == 'one'
+
+def test_put_remove(lru_cache):
+    lru_cache.put(2, 'two')
+    lru_cache.put(3, 'three')
+    assert lru_cache.get(2) == -1
+
+def test_put_capacity(lru_cache):
+    lru_cache.put(4, 'four')
+    lru_cache.put(5, 'five')
+    assert lru_cache.get(1) == -1
+
+def test_get_not_found(lru_cache):
+    assert lru_cache.get(99) == -1
+
+def test_add_method(lru_cache):
+    node = ListNode(1, 'one')
+    lru_cache._add(node)
+    assert lru_cache.head.next.key == 1
+
+def test_remove_method(lru_cache):
+    node = ListNode(1, 'one')
+    lru_cache._add(node)
+    lru_cache._remove(node)
+    assert lru_cache.get(1) == -1

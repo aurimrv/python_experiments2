@@ -1,0 +1,33 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_radixsort_single_element():
+    ar = [5]
+    assert radixsort(ar) == [5]
+
+def test_radixsort_already_sorted():
+    ar = [1, 2, 3, 4, 5]
+    assert radixsort(ar) == [1, 2, 3, 4, 5]
+
+def test_radixsort_reverse_sorted():
+    ar = [5, 4, 3, 2, 1]
+    assert radixsort(ar) == [1, 2, 3, 4, 5]
+
+def test_radixsort_positive_negative_numbers():
+    ar = [3, -6, 5, -2, 0]
+    assert radixsort(ar) == [-6, -2, 0, 3, 5]
+
+def test_radixsort_empty_list():
+    ar = []
+    assert radixsort(ar) == []
+
+def test_radixsort_large_numbers():
+    ar = [100000, 9999, 1000, 29876, 123456]
+    assert radixsort(ar) == [1000, 9999, 29876, 100000, 123456]

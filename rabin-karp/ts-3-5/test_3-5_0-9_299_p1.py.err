@@ -1,0 +1,59 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+class TestRabinKarpSubstringSearch:
+
+    def test_rabin_karp_find_substring_basic_case(self):
+        string = "hello world"
+        substring = "world"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == 6
+
+    def test_rabin_karp_find_substring_empty_string(self):
+        string = ""
+        substring = "test"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == -1
+
+    def test_rabin_karp_find_substring_not_found(self):
+        string = "abcde"
+        substring = "xyz"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == -1
+
+    def test_rabin_karp_find_substring_multiple_occurrences(self):
+        string = "abracadabra"
+        substring = "abra"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == 0
+
+    def test_rabin_karp_find_substring_long_string(self):
+        string = "a" * 1000
+        substring = "aaa"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == 0
+
+    def test_rabin_karp_find_substring_special_characters(self):
+        string = "@#$%^&*()"
+        substring = "^&*"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == 4
+
+    def test_rabin_karp_find_substring_case_sensitive(self):
+        string = "HeLLo WoRlD"
+        substring = "world"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == -1
+
+    def test_rabin_karp_find_substring_same_string(self):
+        string = "same_same_same"
+        substring = "same"
+        result = rabin_karp_find_substring(string, substring)
+        assert result == 0 

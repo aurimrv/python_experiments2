@@ -1,0 +1,68 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+def test_list_node_init():
+    node = ListNode(1, 'A')
+    assert node.key == 1
+    assert node.val == 'A'
+
+def test_lru_cache_init():
+    cache = LruCache(5)
+    assert cache.capacity == 5
+
+def test_lru_cache_put_get():
+    cache = LruCache(2)
+    cache.put(1, 'A')
+    cache.put(2, 'B')
+    
+    assert cache.get(1) == 'A'
+    assert cache.get(2) == 'B'
+
+def test_lru_cache_put_capacity_reached():
+    cache = LruCache(2)
+    cache.put(1, 'A')
+    cache.put(2, 'B')
+    cache.put(3, 'C')  # This should remove least recently used key 'A'
+
+    assert cache.get(1) == -1
+    assert cache.get(2) == 'B'
+    assert cache.get(3) == 'C'
+
+def test_lru_cache_put_same_key():
+    cache = LruCache(2)
+    cache.put(1, 'A')
+    cache.put(1, 'B')  # Update value for key 1
+
+    assert cache.get(1) == 'B'
+
+def test_lru_cache_get_not_found():
+    cache = LruCache(2)
+    cache.put(1, 'A')
+
+    assert cache.get(2) == -1
+
+def test_lru_cache_remove():
+    cache = LruCache(2)
+    cache.put(1, 'A')
+    node = cache.lookup_map[1]
+
+    cache._remove(node)
+    assert cache.head.next == cache.tail
+    assert cache.tail.prev == cache.head
+    assert 1 not in cache.lookup_map
+
+def test_lru_cache_add():
+    cache = LruCache(2)
+    node = ListNode(1, 'A')
+
+    cache._add(node)
+    assert cache.head.next == node
+    assert cache.tail.prev == node
+    assert 1 in cache.lookup_map

@@ -1,0 +1,51 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert edit_distance.calculate_edit_distance("", "") == []
+
+    # Test case for equal strings
+    assert edit_distance.calculate_edit_distance("abc", "abc") == []
+
+    # Test case for simple substitution
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute k s', 'Insert s', 'Substitute i i', 'Insert t', 'Insert t', 'Substitute e n']
+
+    # Test case for deletion and insertion
+    assert edit_distance.calculate_edit_distance("Saturday", "Sunday") == ['Substitute S S', 'Insert u', 'Substitute r n', 'Insert d', 'Delete a', 'Delete t', 'Delete u', 'Delete r']
+
+    # Test case for longer strings with multiple edits
+    assert edit_distance.calculate_edit_distance("intention", "execution") == ['Substitute i e', 'Insert x', 'Delete n', 'Substitute t c', 'Substitute e u', 'Insert t', 'Insert i', 'Insert o', 'Insert n']
+
+    # Test case for completely different strings
+    assert edit_distance.calculate_edit_distance("apple", "banana") == ['Substitute a b', 'Substitute p a', 'Insert a', 'Insert n', 'Insert a']
+
+    # Test case for one empty string
+    assert edit_distance.calculate_edit_distance("hello", "") == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Delete o']
+
+    # Test case for one character difference
+    assert edit_distance.calculate_edit_distance("abcd", "abce") == ['Substitute d e']
+
+    # Test case for same length but different strings
+    assert edit_distance.calculate_edit_distance("abc", "def") == ['Substitute a d', 'Substitute b e', 'Substitute c f']
+
+    # Test case for longer string to shorter string
+    assert edit_distance.calculate_edit_distance("python", "java") == ['Substitute p j', 'Substitute y a', 'Substitute t v', 'Delete h', 'Delete o', 'Delete n']
+
+    # Test case for special characters
+    assert edit_distance.calculate_edit_distance("!@#$", "$#@!") == ['Substitute ! $', 'Substitute @ #', 'Substitute # @', 'Substitute $ !']
+
+    # Test case for repeated characters
+    assert edit_distance.calculate_edit_distance("mississippi", "missouri") == ['Substitute i o', 'Insert o', 'Delete s', 'Delete s', 'Delete i', 'Delete p', 'Delete p']
+
+    # Test case for long strings with multiple edits
+    assert edit_distance.calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba") == ['Substitute a z', 'Substitute b y', 'Substitute c x', 'Substitute d w', 'Substitute e v', 'Substitute f u', 'Substitute g t', 'Substitute h s', 'Substitute i r', 'Substitute j q', 'Substitute k p', 'Substitute l o', 'Substitute m n', 'Substitute n m', 'Substitute o l', 'Substitute p k', 'Substitute q j', 'Substitute r i', 'Substitute s h', 'Substitute t g', 'Substitute u f', 'Substitute v e', 'Substitute w d', 'Substitute x c', 'Substitute y b', 'Substitute z a']
+
+    # Add more test cases as needed

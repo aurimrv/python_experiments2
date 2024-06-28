@@ -1,0 +1,39 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct_single_word_square():
+    words = ['ball', 'area', 'lead', 'lady']
+    expected_square = [['ball', 'area', 'lead', 'lady']]
+    assert word_squares(words) == expected_square
+
+def test_construct_multiple_word_squares():
+    words = ['star', 'test', 'area', 'rest']
+    expected_square = [['star', 'test', 'area', 'rest'], 
+                       ['star', 'test', 'rest', 'area'], 
+                       ['test', 'area', 'rest', 'star']]
+    assert word_squares(words) == expected_square
+
+def test_construct_no_word_squares():
+    words = ['test', 'area', 'lead', 'lady']
+    assert word_squares(words) == []
+
+def test_construct_all_words_are_same():
+    words = ['test', 'test', 'test', 'test']
+    expected_square = [['test', 'test', 'test', 'test']]
+    assert word_squares(words) == expected_square
+
+def test_construct_mixed_length_words():
+    words = ['bat', 'batman', 'ball', 'ban']
+    expected_square = [['bat', 'batman', 'ball', 'ban']]
+    assert word_squares(words) == expected_square
+
+def test_construct_empty_list_of_words():
+    words = []
+    assert word_squares(words) == []

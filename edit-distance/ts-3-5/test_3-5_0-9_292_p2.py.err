@@ -1,0 +1,17 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance('', '') == []
+    assert calculate_edit_distance('hello', 'hella') == ['Substitute a at position 4']
+    assert calculate_edit_distance('hello', 'world') == ['Delete o at position 4', 'Insert r at position 4', 'Insert l at position 5', 'Insert d at position 6', 'Insert w at position 0']
+    assert calculate_edit_distance('python', 'python') == []
+    assert calculate_edit_distance('testing', '') == ['Delete g at position 6', 'Delete n at position 5', 'Delete i at position 3', 'Delete t at position 2', 'Delete s at position 1', 'Delete e at position 0']
+    assert calculate_edit_distance('abcd', 'abce') == ['Substitute e at position 4']
+    assert calculate_edit_distance('abc', 'xyz') == ['Delete c at position 2', 'Insert x at position 0', 'Insert y at position 1', 'Insert z at position 2']
+    assert calculate_edit_distance('quickbrownfox', 'quickbrownfoxjumps') == ['Insert j at position 15', 'Insert s at position 17', 'Insert u at position 6']
+    assert calculate_edit_distance('abc', 'acde') == ['Insert c at position 3', 'Insert e at position 4', 'Substitute d at position 3']

@@ -1,0 +1,64 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+
+    def test_dijkstras_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 4)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 5)
+        weighted_graph.add_edge('C', 'D', 1)
+
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+
+    def test_dijkstras_shortest_path_same_node(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('X')
+        weighted_graph.add_vertex('Y')
+        weighted_graph.add_edge('X', 'Y', 3)
+
+        src = 'X'
+        dst = 'X'
+        assert dijkstras(weighted_graph, src, dst) == ['X']
+
+    def test_dijkstras_shortest_path_unreachable(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('P')
+        weighted_graph.add_vertex('Q')
+        weighted_graph.add_vertex('R')
+        weighted_graph.add_edge('P', 'Q', 2)
+
+        src = 'P'
+        dst = 'R'
+        assert dijkstras(weighted_graph, src, dst) == []
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = Vertex(vertex)
+
+    def add_edge(self, src, dst, weight):
+        if src in self.vertices and dst in self.vertices:
+            self.vertices[src].adjacent[dst] = weight
+            self.vertices[dst].adjacent[src] = weight
+
+class Vertex:
+    def __init__(self, name):
+        self.name = name
+        self.adjacent = {}

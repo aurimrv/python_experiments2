@@ -1,0 +1,31 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue2 import PriorityQ
+
+import pytest
+
+@pytest.fixture
+def empty_priority_q():
+    return PriorityQ()
+
+def test_insert_and_peek(empty_priority_q):
+    empty_priority_q.insert('A', 3)
+    empty_priority_q.insert('B', 2)
+    assert empty_priority_q.peek() == 'B'
+
+def test_insert_and_pop(empty_priority_q):
+    empty_priority_q.insert('A', 3)
+    empty_priority_q.insert('B', 2)
+    assert empty_priority_q.pop() == 'B'
+    assert empty_priority_q.pop() == 'A'
+
+def test_peek_on_empty_queue(empty_priority_q):
+    assert empty_priority_q.peek() is None
+
+def test_pop_empty_queue(empty_priority_q):
+    with pytest.raises(IndexError):
+        empty_priority_q.pop()

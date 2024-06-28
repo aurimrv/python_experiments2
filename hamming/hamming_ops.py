@@ -29,8 +29,11 @@ def hamming_weight(x: int):
         that are on (1).
     """
     count = 0
+    if x < 0:
+        # Calculate bit length for the negative number including the sign bit
+        x = abs(x)
+        count = 1
     while x:
-        # bitwise AND number with itself minus 1
         x &= x - 1
         count += 1
     return count

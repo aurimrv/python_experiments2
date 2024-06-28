@@ -1,0 +1,56 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from heap import Heap
+
+@pytest.fixture
+def empty_heap():
+    return Heap()
+
+@pytest.fixture
+def populated_heap():
+    heap = Heap()
+    heap.insert(5)
+    heap.insert(3)
+    heap.insert(8)
+    heap.insert(2)
+    heap.insert(7)
+    return heap
+
+def test_insert(empty_heap):
+    empty_heap.insert(5)
+    assert empty_heap.heap_list == [0, 5]
+
+def test_percolate(populated_heap):
+    populated_heap.percolate(5)
+    assert populated_heap.heap_list == [0, 2, 3, 8, 5, 7]
+
+def test_sift(populated_heap):
+    populated_heap.sift(1)
+    assert populated_heap.heap_list == [0, 3, 5, 8, 2, 7]
+
+def test_find_min_child_index(populated_heap):
+    result = populated_heap.find_min_child_index(1)
+    assert result == 2
+
+def test_min(populated_heap):
+    result = populated_heap.min()
+    assert result == 2
+
+def test_delete_min(populated_heap):
+    result = populated_heap.delete_min()
+    assert result == 2
+    assert populated_heap.heap_list == [0, 3, 5, 8, 7]
+
+def test_build(empty_heap):
+    empty_heap.build([4, 6, 1, 9, 0])
+    assert empty_heap.heap_list == [0, 0, 1, 4, 6, 9]
+
+def test_size(populated_heap):
+    result = populated_heap.size()
+    assert result == 5

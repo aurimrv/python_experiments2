@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("abc", "abc") == []
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k', 'Substitute i', 'Substitute t', 'Substitute t', 'Insert g']
+    assert calculate_edit_distance("hello", "world") == ['Substitute h', 'Substitute e', 'Substitute l', 'Substitute l', 'Substitute o', 'Insert w', 'Insert o', 'Insert r', 'Insert l', 'Insert d']
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("", "abc") == ['Insert a', 'Insert b', 'Insert c']
+    assert calculate_edit_distance("hello world", "hello world") == []
+    assert calculate_edit_distance("!@#$%", "$#@!") == ['Substitute !', 'Substitute @', 'Substitute #', 'Substitute $', 'Substitute %']
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba") == ['Substitute a', 'Substitute b', 'Substitute c', 'Substitute d', 'Substitute e', 'Substitute f', 'Substitute g', 'Substitute h', 'Substitute i', 'Substitute j', 'Substitute k', 'Substitute l', 'Substitute m', 'Substitute n', 'Substitute o', 'Substitute p', 'Substitute q', 'Substitute r', 'Substitute s', 'Substitute t', 'Substitute u', 'Substitute v', 'Substitute w', 'Substitute x', 'Substitute y', 'Substitute z']
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 1', 'Substitute 2', 'Substitute 3', 'Substitute 4', 'Substitute 5']
+    assert calculate_edit_distance("AbCdEfG", "aBcDeFg") == ['Substitute A', 'Substitute b', 'Substitute C', 'Substitute d', 'Substitute E', 'Substitute f', 'Substitute G']
+    assert calculate_edit_distance("aaabbb", "bbbaaa") == ['Substitute a', 'Substitute a', 'Substitute a', 'Substitute b', 'Substitute b', 'Substitute b']
+    assert calculate_edit_distance("abcde", "xyz") == ['Substitute a', 'Substitute b', 'Substitute c', 'Insert x', 'Insert y', 'Insert z']
+    assert calculate_edit_distance("same", "same") == []
+    assert calculate_edit_distance("testing", "testin") == ['Delete g']
+    assert calculate_edit_distance("abc", "def") == ['Substitute a', 'Substitute b', 'Substitute c']
+    assert calculate_edit_distance("abcdef", "def") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("def", "abcdef") == ['Insert a', 'Insert b', 'Insert c']
+    assert calculate_edit_distance("abcdefg", "azcdef") == ['Substitute a', 'Delete b', 'Insert z', 'Substitute c', 'Substitute d', 'Substitute e', 'Substitute f', 'Delete g']

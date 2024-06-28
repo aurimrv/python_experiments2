@@ -1,0 +1,29 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("hello", "ell") == 1
+    assert rabin_karp_find_substring("hello", "hello") == 0
+    assert rabin_karp_find_substring("hello", "o") == 4
+
+def test_rabin_karp_find_substring_edge_cases():
+    assert rabin_karp_find_substring("abc", "def") == -1
+    assert rabin_karp_find_substring("aaa", "aa") == 0
+    assert rabin_karp_find_substring("hello world", "world") == 6
+
+def test_rabin_karp_find_substring_prime_modulus():
+    assert rabin_karp_find_substring("hello", "ell", prime_modulus=31) == 1
+    assert rabin_karp_find_substring("hello", "world", prime_modulus=31) == -1
+    assert rabin_karp_find_substring("hello", "o", prime_modulus=31) == 4
+
+def test_rabin_karp_find_substring_long_strings():
+    assert rabin_karp_find_substring("a" * 1000 + "b", "b") == 1000
+    assert rabin_karp_find_substring("x" * 1000 + "y", "y") == 1000
+    assert rabin_karp_find_substring("z" * 1000, "zz") == -1

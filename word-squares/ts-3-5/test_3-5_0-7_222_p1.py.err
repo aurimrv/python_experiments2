@@ -1,0 +1,40 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+import pytest
+
+@pytest.fixture
+def sample_words():
+    return ["ball", "area", "lead", "lady"]
+
+def test_construct(sample_words):
+    trie = Trie(sample_words)
+    
+    square1 = word_squares(sample_words)
+    assert square1 == [['ball', 'area', 'lead', 'lady']]
+    
+    sample_words2 = ["bead", "ally", "leap", "lard"]
+    square2 = word_squares(sample_words2)
+    assert square2 == [['bead', 'easy', 'all', 'deal'],
+                       ['bead', 'easy', 'all', 'lead'],
+                       ['bead', 'easy', 'all', 'lady'],
+                       ['bead', 'easy', 'lad', 'deal'],
+                       ['bead', 'easy', 'lad', 'lead'],
+                       ['bead', 'easy', 'lad', 'lady'],
+                       ['bead', 'easy', 'lay', 'deal'],
+                       ['bead', 'easy', 'lay', 'lead'],
+                       ['bead', 'easy', 'lay', 'lady']]
+    
+def test_word_squares(sample_words):
+    square1 = word_squares(sample_words)
+    assert square1 == [['ball', 'area', 'lead', 'lady']]
+    
+    sample_words2 = ["bead", "ally", "leap", "lard"]
+    square2 = word_squares(sample_words2)
+    assert square2 == []

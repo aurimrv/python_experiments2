@@ -1,0 +1,49 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+import pytest
+
+@pytest.fixture
+def sample_linked_list():
+    ll = LinkedList()
+    ll.push(1)
+    ll.push(2)
+    ll.push(3)
+    ll.push(4)
+    return ll
+
+def test_push():
+    ll = LinkedList()
+    ll.push(1)
+    assert ll.head.data == 1
+    assert ll.size() == 1
+
+def test_pop():
+    ll = sample_linked_list()
+    assert ll.pop() == 4
+    assert ll.size() == 3
+
+def test_size():
+    ll = sample_linked_list()
+    assert ll.size() == 4
+
+def test_search():
+    ll = sample_linked_list()
+    assert ll.search(2).data == 2
+    assert ll.search(5) is None
+
+def test_remove():
+    ll = sample_linked_list()
+    ll.remove(2)
+    assert ll.size() == 3
+    ll.remove(4)
+    assert ll.size() == 2
+
+def test_display():
+    ll = sample_linked_list()
+    assert ll.display() == '(4, 3, 2, 1)'

@@ -1,0 +1,37 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from a_queue import Queue
+
+def test_enqueue():
+    q = Queue()
+    q.enqueue(1)
+    assert q.peek() == 1
+    q.enqueue(2)
+    assert q.peek() == 1
+
+def test_dequeue():
+    q = Queue()
+    q.enqueue(1)
+    q.enqueue(2)
+    assert q.dequeue() == 1
+    assert q.peek() == 2
+
+def test_peek():
+    q = Queue()
+    assert q.peek() is None
+    q.enqueue(1)
+    assert q.peek() == 1
+
+def test_size():
+    q = Queue()
+    assert q.size() == 0
+    q.enqueue(1)
+    q.enqueue(2)
+    assert q.size() == 2
+    q.dequeue()
+    assert q.size() == 1

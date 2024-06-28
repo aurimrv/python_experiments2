@@ -1,0 +1,48 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    expected_squares = [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+    
+    result_squares = word_squares(words)
+    
+    assert result_squares == expected_squares
+
+def test_construct_single_word():
+    words = ['hello']
+    expected_squares = [['hello']]
+    
+    result_squares = word_squares(words)
+    
+    assert result_squares == expected_squares
+
+def test_construct_empty_words():
+    words = []
+    expected_squares = []
+    
+    result_squares = word_squares(words)
+    
+    assert result_squares == expected_squares
+
+def test_construct_same_words():
+    words = ['apple', 'apple', 'apple']
+    expected_squares = [['apple', 'apple', 'apple'], ['apple', 'apple', 'apple'], ['apple', 'apple', 'apple']]
+    
+    result_squares = word_squares(words)
+    
+    assert result_squares == expected_squares
+
+def test_construct_long_words():
+    words = ['python', 'java', 'swift', 'rust']
+    expected_squares = [['python', 'java', 'swift', 'rust'], ['java', 'python', 'rust', 'swift']]
+    
+    result_squares = word_squares(words)
+    
+    assert result_squares == expected_squares

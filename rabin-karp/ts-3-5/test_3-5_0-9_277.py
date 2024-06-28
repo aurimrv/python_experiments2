@@ -1,0 +1,19 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("", "") == 0
+    assert rabin_karp_find_substring("hello world", "hello") == 0
+    assert rabin_karp_find_substring("hello world", "world") == 6
+    assert rabin_karp_find_substring("abababcab", "ab") == 0
+    assert rabin_karp_find_substring("abababcab", "ab", base=256, prime_modulus=11) == 0
+    assert rabin_karp_find_substring("abababcab", "ab", base=256, prime_modulus=13) == 0
+    assert rabin_karp_find_substring("Hello World", "hello") == -1
+    assert rabin_karp_find_substring("abcdefg", "xyz") == -1

@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_single_square():
+    assert word_squares(['ball']) == [['ball']]
+
+def test_construct_multiple_squares():
+    words = ['area', 'lead', 'wall', 'lady']
+    expected = [['area', 'lead', 'wall', 'lady'], ['lead', 'area', 'lady', 'wall']]
+    assert word_squares(words) == expected
+
+def test_construct_no_square():
+    assert word_squares(['tree', 'bar', 'car']) == []
+
+def test_construct_all_words_unique_squares():
+    words = ['abc', 'def', 'ghi']
+    expected = [['abc', 'def', 'ghi'], ['def', 'abc', 'ghi'], ['ghi', 'abc', 'def']]
+    assert word_squares(words) == expected
+
+def test_construct_duplicate_words():
+    words = ['bee', 'eel', 'eel']
+    expected = [['bee', 'eel', 'eel'], ['eel', 'eel', 'bee']]
+    assert word_squares(words) == expected

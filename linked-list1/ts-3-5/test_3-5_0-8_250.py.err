@@ -1,0 +1,59 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+def test_contains_cycle():
+    # Test case for empty list
+    node1 = ListNode(None)
+    assert node1.contains_cycle() == False
+
+    # Test case for list with no cycle
+    node2 = ListNode(1, ListNode(2, ListNode(3)))
+    assert node2.contains_cycle() == False
+
+    # Test case for list with cycle
+    node3 = ListNode(1)
+    node3.next = node3  # creating cycle
+    assert node3.contains_cycle() == True
+
+def test_get_beginning_of_cycle_if_exists():
+    # Test case for empty list
+    node1 = ListNode(None)
+    assert node1.get_beginning_of_cycle_if_exists() == None
+
+    # Test case for list with no cycle
+    node2 = ListNode(1, ListNode(2, ListNode(3)))
+    assert node2.get_beginning_of_cycle_if_exists() == None
+
+    # Test case for list with cycle
+    node3 = ListNode(1)
+    node3.next = node3  # creating cycle
+    assert node3.get_beginning_of_cycle_if_exists().val == 1
+
+def test_reverse():
+    # Test case for single node list
+    node1 = ListNode(1)
+    new_head = node1.reverse()
+    assert new_head.val == 1 and new_head.next == None
+
+    # Test case for list with multiple nodes
+    node2 = ListNode(1, ListNode(2, ListNode(3)))
+    new_head = node2.reverse()
+    assert new_head.val == 3 and new_head.next.val == 2 and new_head.next.next.val == 1
+
+def test_reverse_recursive():
+    # Test case for single node list
+    node1 = ListNode(1)
+    new_head = node1.reverse_recursive()
+    assert new_head.val == 1 and new_head.next == None
+
+    # Test case for list with multiple nodes
+    node2 = ListNode(1, ListNode(2, ListNode(3)))
+    new_head = node2.reverse_recursive()
+    assert new_head.val == 3 and new_head.next.val == 2 and new_head.next.next.val == 1

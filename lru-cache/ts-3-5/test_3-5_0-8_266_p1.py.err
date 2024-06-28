@@ -1,0 +1,68 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+    def test_node_creation(self):
+        node = ListNode(1, 'A')
+        assert node.key == 1
+        assert node.val == 'A'
+        assert node.next is None
+        assert node.prev is None
+
+class TestLruCache:
+    def test_cache_init(self):
+        cache = LruCache(3)
+        assert cache.capacity == 3
+        assert cache.head.key == cache.terminal_value
+        assert cache.tail.val == cache.terminal_value
+
+    def test_put_method(self):
+        cache = LruCache(2)
+        cache.put(1, 'A')
+        
+        assert cache.lookup_map[1].val == 'A'
+        assert cache.head.next.key == 1
+        assert cache.tail.prev.key == 1
+        
+        cache.put(2, 'B')
+        assert cache.lookup_map[2].val == 'B'
+        assert cache.head.next.key == 2
+        assert cache.tail.prev.key == 2
+
+    def test_get_method(self):
+        cache = LruCache(3)
+        cache.put(1, 'A')
+        cache.put(2, 'B')
+        cache.put(3, 'C')
+        
+        assert cache.get(2) == 'B'
+        assert cache.head.next.key == 2
+        assert cache.tail.prev.key == 3
+        
+        assert cache.get(1) == 'A'
+        assert cache.head.next.key == 1
+        assert cache.tail.prev.key == 3
+
+    def test_add_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'A')
+        cache._add(node)
+        
+        assert cache.head.next.key == 1
+        assert cache.tail.prev.key == 1
+
+    def test_remove_method(self):
+        cache = LruCache(2)
+        node = ListNode(1, 'A')
+        cache._add(node)
+        
+        cache._remove(node)
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head

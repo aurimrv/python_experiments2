@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap_instance():
+    return HashMap()
+
+def test_insert(hashmap_instance):
+    hashmap_instance.insert(1, "One")
+    assert hashmap_instance.get(1) == "One"
+    
+    hashmap_instance.insert(1, "New One")
+    assert hashmap_instance.get(1) == "New One"
+
+    hashmap_instance.insert("Two", 2)
+    assert hashmap_instance.get("Two") == 2
+
+def test_get(hashmap_instance):
+    hashmap_instance.insert(1, "One")
+    hashmap_instance.insert("Two", 2)
+    
+    assert hashmap_instance.get(1) == "One"
+    assert hashmap_instance.get("Two") == 2
+    with pytest.raises(KeyError):
+        hashmap_instance.get("Three")
+
+def test_delete(hashmap_instance):
+    hashmap_instance.insert(1, "One")
+    hashmap_instance.insert("Two", 2)
+    
+    deleted_value = hashmap_instance.delete(1)
+    assert deleted_value == "One"
+    with pytest.raises(KeyError):
+        hashmap_instance.get(1)
+    
+    deleted_value = hashmap_instance.delete("Two")
+    assert deleted_value == 2
+    with pytest.raises(KeyError):
+        hashmap_instance.get("Two")
+
+def test_djb2():
+    assert djb2("hello") == 210714636441
+    assert djb2(12345) == 210647514020
+
+def test_sdbm():
+    assert sdbm("hello") == 1925877435333486942514
+    assert sdbm(54321) == 981456919198848595251
+
+def test_lose_lose():
+    assert lose_lose("hello") == 532
+    assert lose_lose(67890) == 270

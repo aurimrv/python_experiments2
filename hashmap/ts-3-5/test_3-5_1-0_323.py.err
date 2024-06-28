@@ -1,0 +1,69 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_hashmap_insert_and_get(hashmap):
+    key = 'test_key'
+    value = 'test_value'
+    
+    hashmap.insert(key, value)
+    assert hashmap.get(key) == value
+
+def test_hashmap_insert_override(hashmap):
+    key = 'test_key'
+    original_value = 'original_value'
+    new_value = 'new_value'
+    
+    hashmap.insert(key, original_value)
+    hashmap.insert(key, new_value)
+    
+    assert hashmap.get(key) == new_value
+
+def test_hashmap_insert_delete(hashmap):
+    key = 'test_key'
+    value = 'test_value'
+    
+    hashmap.insert(key, value)
+    deleted_value = hashmap.delete(key)
+    
+    assert deleted_value == (key, value)
+
+def test_hashmap_get_key_not_found(hashmap):
+    key = 'non_existent_key'
+    
+    with pytest.raises(KeyError):
+        hashmap.get(key)
+
+def test_hashmap_delete_key_not_found(hashmap):
+    key = 'non_existent_key'
+    
+    with pytest.raises(KeyError):
+        hashmap.delete(key)
+
+def test_djb2_hash_function():
+    key = 'test_key'
+    expected_hash = 2597672282552047479
+    
+    assert djb2(key) == expected_hash
+
+def test_sdbm_hash_function():
+    key = 'test_key'
+    expected_hash = -8681815614120420565
+    
+    assert sdbm(key) == expected_hash
+
+def test_lose_lose_hash_function():
+    key = 'test_key'
+    expected_hash = 915
+    
+    assert lose_lose(key) == expected_hash

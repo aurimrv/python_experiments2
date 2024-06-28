@@ -1,0 +1,87 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+def test_listnode_initialization():
+    node = ListNode(1, 10)
+    assert node.key == 1
+    assert node.val == 10
+    assert node.next is None
+    assert node.prev is None
+
+def test_listnode_connections():
+    node1 = ListNode(1, 10)
+    node2 = ListNode(2, 20)
+    node1.next = node2
+    node2.prev = node1
+
+    assert node1.next == node2
+    assert node2.prev == node1
+
+def test_lru_cache_initialization():
+    cache = LruCache(5)
+    assert cache.capacity == 5
+    assert len(cache.lookup_map) == 0
+
+def test_lru_cache_put():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    assert len(cache.lookup_map) == 1
+    assert cache.head.next.key == 1
+
+    cache.put(2, 20)
+    assert len(cache.lookup_map) == 2
+    assert cache.head.next.key == 2
+
+def test_lru_cache_get():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    cache.put(2, 20)
+
+    assert cache.get(1) == 10
+    assert cache.head.next.key == 1
+
+    assert cache.get(2) == 20
+    assert cache.head.next.key == 2
+
+def test_lru_cache_capacity():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    cache.put(2, 20)
+    cache.put(3, 30)
+
+    assert len(cache.lookup_map) == 2
+    assert 1 not in cache.lookup_map
+    assert cache.head.next.key == 3
+
+def test_lru_cache_remove():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    cache.put(2, 20)
+
+    assert len(cache.lookup_map) == 2
+
+    node_to_remove = cache.lookup_map[1]
+    cache._remove(node_to_remove)
+
+    assert len(cache.lookup_map) == 1
+    assert 1 not in cache.lookup_map
+
+def test_lru_cache_add():
+    cache = LruCache(2)
+    cache.put(1, 10)
+    cache.put(2, 20)
+
+    new_node = ListNode(3, 30)
+    cache._add(new_node)
+
+    assert len(cache.lookup_map) == 3
+    assert cache.head.next.key == 1
+    assert new_node.next.key == 2
+    assert new_node.prev.key == 1

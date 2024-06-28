@@ -1,0 +1,40 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+import pytest
+
+def test_create_buckets():
+    ar = [123, 45, 678, 90]
+    buckets = radixsort.create_buckets(ar, 1)
+    assert buckets == [[], [90], [123], [45], [678]]
+
+    ar = [543, 21, 987, 65]
+    buckets = radixsort.create_buckets(ar, 2)
+    assert buckets == [[], [21], [], [543], [65], [], [], [987]]
+
+def test_create_list():
+    buckets = [[], [90], [123], [45], [678]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [90, 123, 45, 678]
+
+    buckets = [[], [21], [], [543], [65], [], [], [987]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [21, 543, 65, 987]
+
+def test_radixsort():
+    ar = [123, 45, 678, 90]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [45, 90, 123, 678]
+
+    ar = [543, 21, 987, 65]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [21, 65, 543, 987]
+
+    ar = [9, 8, 7, 6, 5]
+    sorted_ar = radixsort.radix_sort(ar)
+    assert sorted_ar == [5, 6, 7, 8, 9]

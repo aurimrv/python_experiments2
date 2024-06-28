@@ -1,0 +1,36 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from mergesort import mergesort
+
+def test_mergesort_sort():
+    # Test case for an already sorted list
+    assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    
+    # Test case for a reverse sorted list
+    assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+    
+    # Test case for a random list
+    assert mergesort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_mergesort_merge():
+    # Test case for merging two empty lists
+    assert mergesort.merge([], []) == []
+    
+    # Test case for merging with one empty list
+    assert mergesort.merge([1, 3, 5], []) == [1, 3, 5]
+    assert mergesort.merge([], [2, 4, 6]) == [2, 4, 6]
+    
+    # Test case for merging two sorted lists
+    assert mergesort.merge([1, 3, 5], [2, 4, 6]) == [1, 2, 3, 4, 5, 6]
+
+def test_mergesort_complete():
+    # Test case covering the entire mergesort method with different inputs
+    assert mergesort([5, 3, 8, 1, 2, 7]) == [1, 2, 3, 5, 7, 8]
+    assert mergesort([9, 3, 12, 5, 7]) == [3, 5, 7, 9, 12]
+    assert mergesort([10, 8, 6, 4, 2, 0]) == [0, 2, 4, 6, 8, 10]

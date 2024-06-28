@@ -1,0 +1,47 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+# Test cases for Node class
+def test_node_creation():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+# Test cases for LinkedList class
+def test_linked_list_initialization():
+    linked_list = LinkedList()
+    assert linked_list.size() == 0
+    assert linked_list.head is None
+
+def test_linked_list_push():
+    linked_list = LinkedList()
+    linked_list.push(5)
+    assert linked_list.size() == 1
+    assert linked_list.head.data == 5
+
+def test_linked_list_pop():
+    linked_list = LinkedList([1, 2, 3])
+    assert linked_list.pop() == 3
+    assert linked_list.size() == 2
+
+def test_linked_list_search():
+    linked_list = LinkedList([1, 2, 3, 4])
+    assert linked_list.search(2).data == 2
+    assert linked_list.search(5) is None
+
+def test_linked_list_remove():
+    linked_list = LinkedList(['a', 'b', 'c'])
+    linked_list.remove('b')
+    assert linked_list.size() == 2
+    assert linked_list.display() == "('a, c')"
+
+def test_linked_list_display():
+    linked_list = LinkedList([10, 20, 30])
+    assert linked_list.display() == "('10, 20, 30')"

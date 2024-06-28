@@ -1,0 +1,57 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_basic():
+    graph = WeightedGraph()
+    graph.add_vertex('A')
+    graph.add_vertex('B')
+    graph.add_vertex('C')
+    graph.add_vertex('D')
+    
+    graph.add_edge('A', 'B', 1)
+    graph.add_edge('A', 'C', 4)
+    graph.add_edge('B', 'C', 2)
+    graph.add_edge('B', 'D', 5)
+    graph.add_edge('C', 'D', 1)
+    
+    assert dijkstras(graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+    assert dijkstras(graph, 'A', 'C') == ['A', 'B', 'C']
+    assert dijkstras(graph, 'B', 'D') == ['B', 'C', 'D']
+
+def test_dijkstras_emptyGraph():
+    graph = WeightedGraph()
+    assert dijkstras(graph, 'A', 'D') == []
+
+def test_dijkstras_unreachable():
+    graph = WeightedGraph()
+    graph.add_vertex('A')
+    graph.add_vertex('B')
+    graph.add_vertex('C')
+    
+    graph.add_edge('A', 'B', 1)
+    graph.add_edge('B', 'C', 2)
+    
+    assert dijkstras(graph, 'A', 'C') == []
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+    
+    def add_vertex(self, vertex):
+        self.vertices[vertex] = Vertex(vertex)
+    
+    def add_edge(self, from_vertex, to_vertex, weight):
+        self.vertices[from_vertex].add_adjacent(to_vertex, weight)
+
+class Vertex:
+    def __init__(self, value):
+        self.value = value
+        self.adjacent = {}
+    
+    def add_adjacent(self, vertex, weight):
+        self.adjacent[vertex] = weight

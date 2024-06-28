@@ -1,0 +1,45 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Insert s', 'Substitute k', 'Match i', 'Match t', 'Match t', 'Match e', 'Match n', 'Insert g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_different_lengths():
+    str1 = "testing"
+    str2 = "test"
+    expected = ['Delete i', 'Delete n', 'Delete g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "hello"
+    str2 = "hello"
+    expected = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_single_letter_diff():
+    str1 = "python"
+    str2 = "pythoo"
+    expected = ['Substitute n', 'Substitute n', 'Substitute n', 'Insert o']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a very long string that needs editing"
+    str2 = "This is a very short string"
+    expected = ['Delete s', 'Delete t', 'Match i', 'Match s', 'Match ', 'Match i', 'Match s', 'Match ', 'Match a', 'Match ', 'Match v', 'Match e', 'Match r', 'Match y', 'Match ', 'Insert s', 'Insert h', 'Insert o', 'Insert r', 'Insert t', 'Insert  ', 'Insert s', 'Insert t', 'Insert r', 'Insert i', 'Insert n', 'Insert g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected

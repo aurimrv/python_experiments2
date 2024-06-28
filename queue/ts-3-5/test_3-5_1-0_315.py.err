@@ -1,0 +1,41 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from a_queue import Queue
+
+@pytest.fixture
+def empty_queue():
+    return Queue()
+
+@pytest.fixture
+def queue_with_elements():
+    q = Queue()
+    q.enqueue(5)
+    q.enqueue(10)
+    q.enqueue(15)
+    return q
+
+def test_enqueue(empty_queue):
+    empty_queue.enqueue(5)
+    assert empty_queue.size() == 1
+    empty_queue.enqueue(10)
+    assert empty_queue.peek() == 5
+
+def test_dequeue(queue_with_elements):
+    assert queue_with_elements.dequeue() == 5
+    assert queue_with_elements.size() == 2
+
+def test_peek(queue_with_elements):
+    assert queue_with_elements.peek() == 5
+    queue_with_elements.dequeue()
+    queue_with_elements.dequeue()
+    assert queue_with_elements.peek() == None
+
+def test_size(empty_queue, queue_with_elements):
+    assert empty_queue.size() == 0
+    assert queue_with_elements.size() == 3

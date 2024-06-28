@@ -1,0 +1,21 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_find_substring("hello world", "world") == 6
+    assert rabin_karp_find_substring("abcde", "cd") == 2
+    assert rabin_karp_find_substring("abcdef", "xyz") == -1
+    assert rabin_karp_find_substring("python", "java") == -1
+    assert rabin_karp_find_substring("", "substring") == -1
+    assert rabin_karp_find_substring("string", "") == -1
+    assert rabin_karp_find_substring("abcdef", "ab") == 0
+    assert rabin_karp_find_substring("abcdef", "ef") == 4
+    assert rabin_karp_find_substring("hello@world!$", "@world") == 5
+    assert rabin_karp_find_substring("123!@#456", "!@#") == 4

@@ -1,0 +1,47 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+def test_rabin_karp_find_substring():
+    # Test when substring is found exactly once in the string
+    string = "hello world"
+    substring = "world"
+    assert rabin_karp_find_substring(string, substring) == 6
+
+def test_rabin_karp_find_substring_multiple_occurrences():
+    # Test when substring is found multiple times in the string
+    string = "hello world hello"
+    substring = "hello"
+    assert rabin_karp_find_substring(string, substring) == 0
+
+def test_rabin_karp_find_substring_not_found():
+    # Test when substring is not found in the string
+    string = "hello world"
+    substring = "test"
+    assert rabin_karp_find_substring(string, substring) == -1
+
+def test_rabin_karp_find_substring_empty_string():
+    # Test when both string and substring are empty strings
+    string = ""
+    substring = ""
+    assert rabin_karp_find_substring(string, substring) == 0
+
+def test_rabin_karp_find_substring_edge_cases():
+    # Test edge cases where string and substring are single characters
+    string = "a"
+    substring = "a"
+    assert rabin_karp_find_substring(string, substring) == 0
+
+    string = "ab"
+    substring = "a"
+    assert rabin_karp_find_substring(string, substring) == 0
+
+    string = "a"
+    substring = "ab"
+    assert rabin_karp_find_substring(string, substring) == -1

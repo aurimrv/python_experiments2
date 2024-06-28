@@ -1,0 +1,36 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from stack import Stack
+
+def test_stack_init():
+    s = Stack()
+    assert s is not None
+
+def test_stack_push():
+    s = Stack()
+    s.push(5)
+    assert s._stack.head.data == 5
+
+    s.push(10)
+    assert s._stack.head.data == 10
+
+def test_stack_pop():
+    s = Stack()
+    s.push(5)
+    s.push(10)
+
+    popped_value = s.pop()
+    assert popped_value == 10
+    assert s._stack.head.data == 5
+
+    popped_value = s.pop()
+    assert popped_value == 5
+
+    with pytest.raises(Exception):
+        s.pop()  

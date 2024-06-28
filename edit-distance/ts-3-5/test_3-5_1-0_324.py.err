@@ -1,0 +1,43 @@
+import os
+import sys
+import pytest
+
+# Append project directory to sys path
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test for identical strings
+    str1 = "abcdef"
+    assert calculate_edit_distance(str1, str1) == []
+
+    # Test for single character difference
+    assert calculate_edit_distance("abcde", "abcdx") == ['Substitute x']
+
+    # Test for insertion at the beginning
+    assert calculate_edit_distance("abc", "zabc") == ['Insert z']
+
+    # Test for deletion at the end
+    assert calculate_edit_distance("xyzabc", "xyzab") == ['Delete c']
+
+    # Test for multiple edits
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Insert i']
+
+    # Additional test for special characters
+    assert calculate_edit_distance("test!$@", "tst!@") == ['Insert e', 'Delete $']
+
+    # Test for long strings
+    str2 = "a" * 100 + "b"
+    assert calculate_edit_distance("a" * 100, str2) == ['Insert b']
+
+    # Test for very different strings
+    assert calculate_edit_distance("apple", "orange") == ['Substitute o', 'Substitute r', 'Substitute a', 'Insert n', 'Insert g', 'Insert e']
+
+    # Test for mix of different actions
+    assert calculate_edit_distance("abcd", "axcde") == ['Substitute x', 'Insert e']

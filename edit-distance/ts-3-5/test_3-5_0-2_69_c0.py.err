@@ -1,0 +1,43 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("abc", "abc") == []
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Substitute n']
+    assert calculate_edit_distance("intention", "execution") == ['Substitute e', 'Substitute x', 'Substitute c', 'Substitute u', 'Insert t', 'Substitute i', 'Substitute n']
+    assert calculate_edit_distance("abc", "def") == ['Substitute d', 'Insert e', 'Insert f']
+    assert calculate_edit_distance("12345", "abcde") == ['Substitute a', 'Substitute b', 'Substitute c', 'Substitute d', 'Substitute e']
+    assert calculate_edit_distance("apple", "orange") == ['Substitute o', 'Substitute r', 'Substitute a', 'Substitute n', 'Substitute g', 'Substitute e']
+    assert calculate_edit_distance("python", "pycharm") == ['Substitute c', 'Substitute h', 'Substitute a', 'Substitute r', 'Substitute m']
+    assert calculate_edit_distance("hello", "hello") == []
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxyz") == []
+    assert calculate_edit_distance("hello world", "hello  world") == ['Insert  ']
+    assert calculate_edit_distance("!@#$%", "$#@!") == ['Substitute $', 'Substitute #', 'Substitute @', 'Substitute !']
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1']
+    assert calculate_edit_distance("a1b2c3", "d4e5f6") == ['Substitute d', 'Substitute e', 'Substitute f', 'Substitute 6', 'Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1', 'Substitute b', 'Substitute c', 'Substitute a']
+    assert calculate_edit_distance("aaaaa", "bbbbb") == ['Substitute b', 'Substitute b', 'Substitute b', 'Substitute b']
+    assert calculate_edit_distance("short", "longer") == ['Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert e', 'Insert r']
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("", "a") == ['Insert a']
+    assert calculate_edit_distance("a", "") == ['Delete a']
+    assert calculate_edit_distance("", "abc") == ['Insert a', 'Insert b', 'Insert c']
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+    assert calculate_edit_distance("hello world!", "hello  world?") == ['Substitute ?', 'Insert ?']
+    assert calculate_edit_distance("!@#$%", "$#@!123") == ['Insert 1', 'Insert 2', 'Insert 3']
+    assert calculate_edit_distance("!@#$%", "123abc") == ['Substitute 1', 'Substitute 2', 'Substitute 3', 'Substitute a', 'Substitute b', 'Substitute c']
+    assert calculate_edit_distance("abc123", "456def") == ['Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute d', 'Substitute e', 'Substitute f']
+    assert calculate_edit_distance("%%%%%", "####") == ['Substitute #', 'Substitute #', 'Substitute #', 'Substitute #']
+    assert calculate_edit_distance("aaaaa11111", "bbbbb22222") == ['Substitute b', 'Substitute b', 'Substitute b', 'Substitute b', 'Substitute 2', 'Substitute 2', 'Substitute 2', 'Substitute 2', 'Substitute 2']
+    assert calculate_edit_distance("abc!@#", "def$%^") == ['Substitute d', 'Substitute e', 'Substitute f', 'Substitute $', 'Substitute %', 'Substitute ^']
+    assert calculate_edit_distance("abc123!@#", "def456$%^") == ['Substitute d', 'Substitute e', 'Substitute f', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute $', 'Substitute %', 'Substitute ^']
+    assert calculate_edit_distance("%%%%%11111", "####22222") == ['Substitute #', 'Substitute #', 'Substitute #', 'Substitute #', 'Substitute 2', 'Substitute 2', 'Substitute 2', 'Substitute 2', 'Substitute 2']
+    assert calculate_edit_distance("abcabc123!@#", "defdef456$%^") == ['Substitute d', 'Substitute e', 'Substitute f', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute $', 'Substitute %', 'Substitute ^']

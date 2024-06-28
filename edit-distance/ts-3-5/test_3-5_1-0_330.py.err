@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+# Correctly import the file and its modules for testing
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_initial_values():
+    result = calculate_edit_distance("abc", "def")
+    assert result == ['Insert a d', 'Substitute b e', 'Substitute c f']
+
+def test_same_strings():
+    result = calculate_edit_distance("test", "test")
+    assert result == []
+
+def test_empty_strings():
+    result = calculate_edit_distance("", "")
+    assert result == []
+
+def test_longer_first_string():
+    result = calculate_edit_distance("sample", "sam")
+    assert result == ['Delete e', 'Delete p', 'Delete l']
+
+def test_longer_second_string():
+    result = calculate_edit_distance("cat", "caterpillar")
+    assert result == ['Insert r', 'Insert i', 'Insert l', 'Insert p', 'Insert r', 'Insert e', 'Insert t']
+
+def test_complex_characters():
+    result = calculate_edit_distance("@bc123^", "a#12@45")
+    assert result == ['Substitute @ a', 'Insert a #', 'Substitute b 1', 'Substitute c 2', 'Substitute 1 @', 'Delete 3', 'Delete ^', 'Insert 4', 'Insert 5']

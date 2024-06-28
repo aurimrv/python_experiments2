@@ -1,0 +1,67 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+# Test cases for Trie class
+class TestTrie:
+
+    def test_init_single_word(self):
+        words = ["hello"]
+        trie = Trie(words)
+        assert trie.head == {'h': {'e': {'l': {'l': {'o': {'__eof__': '__eof__'}}}}}}
+
+    def test_init_multiple_words(self):
+        words = ["hello", "world", "hell", "cat"]
+        trie = Trie(words)
+        assert trie.head == {
+            'h': {
+                'e': {
+                    'l': {
+                        'l': {'o': {'__eof__': '__eof__'}},
+                        'l': {'__eof__': '__eof__'}
+                    }
+                }
+            },
+            'w': {
+                'o': {'r': {'l': {'d': {'__eof__': '__eof__'}}}}
+            },
+            'c': {
+                'a': {'t': {'__eof__': '__eof__'}}
+            }
+        }
+
+    def test_add_word(self):
+        words = ["hello"]
+        trie = Trie(words)
+        trie.add("world")
+        assert trie.head == {
+            'h': {
+                'e': {
+                    'l': {
+                        'l': {'o': {'__eof__': '__eof__'}},
+                        'l': {'__eof__': '__eof__'}
+                    }
+                }
+            },
+            'w': {
+                'o': {'r': {'l': {'d': {'__eof__': '__eof__'}}}}
+            }
+        }
+
+    def test_get_all_common_prefix(self):
+        words = ["hello", "world", "hell", "cat"]
+        trie = Trie(words)
+        common_prefix = trie.get_all_common_prefix("hel")
+        assert common_prefix == ['hello', 'hell']
+
+    def test_get_all_common_prefix_non_existing(self):
+        words = ["hello", "world", "hell", "cat"]
+        trie = Trie(words)
+        common_prefix = trie.get_all_common_prefix("xyz")
+        assert common_prefix == []

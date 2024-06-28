@@ -1,0 +1,34 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case for completely different strings
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Insert k', 'Insert i', 'Insert t', 'Match', 'Match', 'Match', 'Insert g']
+    
+    # Test case for identical strings
+    assert edit_distance.calculate_edit_distance("abc", "abc") == []
+
+    # Test case for one empty string
+    assert edit_distance.calculate_edit_distance("", "test") == ['Insert t', 'Insert e', 'Insert s']
+
+    # Test case for both empty strings
+    assert edit_distance.calculate_edit_distance("", "") == []
+
+    # Test case for strings of different lengths
+    assert edit_distance.calculate_edit_distance("cat", "category") == ['Insert g', 'Insert o', 'Insert r', 'Insert e']
+
+    # Test case for one string being a substring of the other
+    assert edit_distance.calculate_edit_distance("hello", "hell") == ['Delete o']
+
+    # Test case for one string being an anagram of the other
+    assert edit_distance.calculate_edit_distance("listen", "silent") == ['Substitute s', 'Match', 'Match', 'Delete t', 'Delete e', 'Delete n']
+
+    # Test case for long strings with multiple edits
+    assert edit_distance.calculate_edit_distance("intention", "execution") == ['Substitute e', 'Match', 'Delete t', 'Match', 'Match', 'Match', 'Match', 'Insert x', 'Match', 'Insert u', 'Match', 'Match']

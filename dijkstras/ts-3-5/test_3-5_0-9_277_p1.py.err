@@ -1,0 +1,34 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph
+
+class TestDijkstras:
+
+    def test_dijkstras_shortest_path(self):
+        graph = WeightedGraph()
+        graph.add_vertex('A')
+        assert dijkstras(graph, 'A', 'A') == ['A']
+
+    def test_dijkstras_shortest_path_simple(self):
+        graph = WeightedGraph()
+        graph.add_vertex('A')
+        graph.add_vertex('B')
+        graph.add_edge('A', 'B', 5)
+        assert dijkstras(graph, 'A', 'B') == ['A', 'B']
+
+    def test_dijkstras_shortest_path_complex(self):
+        graph = WeightedGraph()
+        graph.add_vertex('A')
+        graph.add_vertex('B')
+        graph.add_vertex('C')
+        graph.add_vertex('D')
+        graph.add_edge('A', 'B', 2)
+        graph.add_edge('A', 'C', 5)
+        graph.add_edge('B', 'D', 3)
+        graph.add_edge('C', 'D', 2)
+        assert dijkstras(graph, 'A', 'D') == ['A', 'B', 'D']

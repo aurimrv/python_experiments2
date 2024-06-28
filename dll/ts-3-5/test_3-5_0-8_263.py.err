@@ -1,0 +1,56 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def sample_list():
+    return DoubleLinkedList([1, 2, 3, 4, 5])
+
+def test_node_creation():
+    node = Node(10)
+    assert node.data == 10
+
+def test_double_linked_list_creation(empty_list):
+    assert empty_list.head is None
+    assert empty_list.tail is None
+    assert empty_list._length == 0
+
+def test_push_operation(empty_list):
+    empty_list.push(100)
+    assert empty_list.head.data == 100
+    assert empty_list.tail.data == 100
+
+def test_pop_operation(sample_list):
+    assert sample_list.pop() == 1
+    assert sample_list._length == 4
+    assert sample_list.head.data == 2
+
+def test_append_operation(sample_list):
+    sample_list.append(6)
+    assert sample_list.tail.data == 6
+    assert sample_list._length == 6
+
+def test_shift_operation(sample_list):
+    assert sample_list.shift() == 5
+    assert sample_list._length == 4
+    assert sample_list.tail.data == 4
+
+def test_remove_operation(sample_list):
+    sample_list.remove(3)
+    assert sample_list._length == 4
+    assert sample_list.head.next.next.data == 4
+
+def test_remove_operation_not_in_list(sample_list):
+    with pytest.raises(ValueError):
+        sample_list.remove(10)

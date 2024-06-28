@@ -1,0 +1,76 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_simple_graph():
+    class Vertex:
+        def __init__(self, value):
+            self.value = value
+            self.adjacent = {}
+
+    class Graph:
+        def __init__(self):
+            self.vertices = {}
+
+    graph = Graph()
+    a = Vertex('A')
+    b = Vertex('B')
+    c = Vertex('C')
+
+    a.adjacent[b] = 1
+    b.adjacent[c] = 2
+    c.adjacent[a] = 3
+
+    graph.vertices = {'A': a, 'B': b, 'C': c}
+
+    assert dijkstras(graph, 'A', 'C') == ['A', 'B', 'C']
+
+def test_dijkstras_disconnected_graph():
+    class Vertex:
+        def __init__(self, value):
+            self.value = value
+            self.adjacent = {}
+
+    class Graph:
+        def __init__(self):
+            self.vertices = {}
+
+    graph = Graph()
+    a = Vertex('A')
+    b = Vertex('B')
+    c = Vertex('C')
+
+    a.adjacent[b] = 1
+    b.adjacent[c] = 2
+
+    graph.vertices = {'A': a, 'B': b, 'C': c}
+
+    assert dijkstras(graph, 'A', 'C') == ['A', 'B', 'C']
+
+def test_dijkstras_same_source_and_destination():
+    class Vertex:
+        def __init__(self, value):
+            self.value = value
+            self.adjacent = {}
+
+    class Graph:
+        def __init__(self):
+            self.vertices = {}
+
+    graph = Graph()
+    a = Vertex('A')
+    b = Vertex('B')
+    c = Vertex('C')
+
+    a.adjacent[b] = 1
+    b.adjacent[c] = 2
+    c.adjacent[a] = 3
+
+    graph.vertices = {'A': a, 'B': b, 'C': c}
+
+    assert dijkstras(graph, 'A', 'A') == ['A']

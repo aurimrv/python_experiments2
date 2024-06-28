@@ -1,0 +1,75 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import dll
+
+import pytest
+
+# Node class
+def test_node_init():
+    node = dll.Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_node_repr():
+    node = dll.Node(10)
+    assert repr(node) == "Value: 10"
+
+# DoubleLinkedList class
+def test_dll_init_empty():
+    dllist = dll.DoubleLinkedList()
+    assert dllist.head is None
+    assert dllist.tail is None
+    assert dllist._length == 0
+
+def test_dll_init_with_data():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    assert dllist.head.data == 1
+    assert dllist.tail.data == 3
+    assert dllist._length == 3
+
+def test_dll_push():
+    dllist = dll.DoubleLinkedList()
+    dllist.push(5)
+    assert dllist.head.data == 5
+    assert dllist.tail.data == 5
+    assert dllist._length == 1
+
+def test_dll_pop():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    data = dllist.pop()
+    assert data == 1
+    assert dllist.head.data == 2
+    assert dllist._length == 2
+
+def test_dll_append():
+    dllist = dll.DoubleLinkedList()
+    dllist.append(10)
+    assert dllist.tail.data == 10
+    assert dllist.head.data == 10
+    assert dllist._length == 1
+
+def test_dll_shift():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    data = dllist.shift()
+    assert data == 3
+    assert dllist.tail.data == 2
+    assert dllist._length == 2
+
+def test_dll_remove():
+    dllist = dll.DoubleLinkedList([1, 2, 3, 4, 5])
+    dllist.remove(3)
+    assert dllist.head.data == 1
+    assert dllist.tail.data == 5
+    assert dllist._length == 4
+
+    with pytest.raises(ValueError):
+        dllist.remove(10)
+
+def test_dll_repr():
+    dllist = dll.DoubleLinkedList([1, 2, 3])
+    assert dllist._repr() == [1, 2, 3]

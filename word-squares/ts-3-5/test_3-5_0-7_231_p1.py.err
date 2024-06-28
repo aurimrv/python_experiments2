@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_square():
+    words = ['ball', 'area', 'lead', 'lady']
+    result = word_squares(words)
+    assert result == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+
+def test_construct_square_with_same_word():
+    words = ['ball', 'area', 'lead', 'lady', 'ball']
+    result = word_squares(words)
+    assert result == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+
+def test_construct_square_with_single_word():
+    words = ['ball']
+    result = word_squares(words)
+    assert result == [['ball']]
+
+def test_construct_square_with_no_words():
+    words = []
+    result = word_squares(words)
+    assert result == []
+
+def test_construct_square_with_long_words():
+    words = ['hello', 'world', 'python', 'testing']
+    result = word_squares(words)
+    assert result == [['hello', 'world', 'python', 'testing'], ['world', 'hello', 'python', 'testing']]
+
+def test_construct_square_with_empty_string():
+    words = ['', 'ball', 'area', 'lead', 'lady']
+    result = word_squares(words)
+    assert result == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]

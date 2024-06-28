@@ -1,0 +1,62 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+class TestListNode:
+    def test_node_initialization(self):
+        node = ListNode(1, 'a')
+        assert node.key == 1
+        assert node.val == 'a'
+        assert node.next is None
+        assert node.prev is None
+
+class TestLruCache:
+    def test_cache_initialization(self):
+        cache = LruCache(3)
+        assert cache.head.key == cache.tail.key == cache.terminal_value
+        assert cache.head.val == cache.tail.val == cache.terminal_value
+        assert cache.head.next == cache.tail
+        assert cache.tail.prev == cache.head
+        assert cache.lookup_map == {}
+        assert cache.capacity == 3
+
+    def test_cache_put(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'b'
+        assert cache.head.next.next.key == 1
+        assert cache.head.next.next.val == 'a'
+
+    def test_cache_get_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.get(1) == 'a'
+        assert cache.head.next.key == 1
+        assert cache.head.next.val == 'a'
+
+    def test_cache_get_non_existing_key(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        assert cache.get(3) == -1
+        assert cache.head.next.key == 2
+        assert cache.head.next.val == 'b'
+
+    def test_cache_put_capacity_reached(self):
+        cache = LruCache(2)
+        cache.put(1, 'a')
+        cache.put(2, 'b')
+        cache.put(3, 'c')
+        assert cache.get(1) == -1
+        assert cache.get(2) == 'b'
+        assert cache.get(3) == 'c'
+        assert cache.head.next.key == 3

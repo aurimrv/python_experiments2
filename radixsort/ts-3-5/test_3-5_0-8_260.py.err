@@ -1,0 +1,21 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    assert radixsort.create_buckets([123, 456, 789], 0) == [[], [123], [], [456], [], [789], [], [], [], []]
+    assert radixsort.create_buckets([321, 654, 987], 1) == [[321], [], [], [654], [], [], [987], [], [], []]
+
+def test_create_list():
+    assert radixsort.create_list([[1, 2], [3], [4, 5]]) == [1, 2, 3, 4, 5]
+    assert radixsort.create_list([[9], [8, 7], [6, 5, 4]]) == [9, 8, 7, 6, 5, 4]
+
+def test_radixsort():
+    assert radixsort.radixsort([170, 45, 75, 90, 802, 24, 2, 66]) == [2, 24, 45, 66, 75, 90, 170, 802]
+    assert radixsort.radixsort([1001, 2003, 4002, 3004, 5005]) == [1001, 2003, 3004, 4002, 5005]

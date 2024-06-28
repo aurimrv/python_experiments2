@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from permutations import permutations_of_word
+
+def test_permutations_of_word_single_letter():
+    assert permutations_of_word('a') == ['a']
+
+def test_permutations_of_word_three_letters():
+    assert set(permutations_of_word('cat')) == {'cat', 'cta', 'act', 'atc', 'tac', 'tca'}
+
+def test_permutations_of_word_duplicate_letters():
+    assert set(permutations_of_word('bob')) == {'bob', 'bbo', 'obb'}
+
+def test_permutations_of_word_empty_string():
+    assert permutations_of_word('') == ['']
+
+def test_permutations_of_word_long_string():
+    assert len(permutations_of_word('testing')) == 5040
+
+def test_permutations_of_word_mixed_characters():
+    assert set(permutations_of_word('ab12')) == {'ab12', 'a1b2', 'ab21', 'a21b', 'a12b', 'a2b1'}

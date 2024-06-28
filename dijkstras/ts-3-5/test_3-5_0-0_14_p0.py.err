@@ -1,0 +1,81 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    weighted_graph = {
+        'A': {'B': 5},
+        'B': {'A': 5}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    weighted_graph = {
+        'A': {'B': 5, 'C': 10},
+        'B': {'A': 5, 'C': 3},
+        'C': {'A': 10, 'B': 3}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+
+    weighted_graph = {
+        'A': {'B': 5, 'C': 10},
+        'B': {'A': 5, 'C': 3, 'D': 7},
+        'C': {'A': 10, 'B': 3, 'D': 2},
+        'D': {'B': 7, 'C': 2}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+
+    weighted_graph = {
+        'A': {'B': 5, 'C': 5},
+        'B': {'A': 5, 'C': 5},
+        'C': {'A': 5, 'B': 5}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+
+    weighted_graph = {
+        'A': {'B': 5},
+        'B': {'A': 5},
+        'C': {'D': 3},
+        'D': {'C': 3}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+
+    weighted_graph = {
+        'A': {'B': -2, 'C': 3},
+        'B': {'A': -2, 'C': 4},
+        'C': {'A': 3, 'B': 4}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+
+    weighted_graph = {
+        'A': {'A': 0, 'B': 2},
+        'B': {'A': 2, 'B': 0}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    weighted_graph = {
+        'A': {'B': 5},
+        'B': {'A': 5},
+        'C': {'D': 3},
+        'D': {'C': 3}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == []

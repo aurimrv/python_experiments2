@@ -1,0 +1,95 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init():
+    words = ['apple', 'application', 'banana']
+    trie = Trie(words)
+    assert trie.head == {
+        'a': {
+            'p': {
+                'p': {
+                    'l': {
+                        'e': {'__eof__': '__eof__'},
+                        'i': {
+                            'c': {
+                                'a': {
+                                    't': {
+                                        'i': {
+                                            'o': {
+                                                'n': {'__eof__': '__eof__'}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        'b': {
+            'a': {
+                'n': {
+                    'a': {
+                        'n': {
+                            'a': {'__eof__': '__eof__'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+def test_trie_add():
+    trie = Trie([])
+    trie.add('apple')
+    trie.add('application')
+    trie.add('banana')
+    assert trie.head == {
+        'a': {
+            'p': {
+                'p': {
+                    'l': {
+                        'e': {'__eof__': '__eof__'},
+                        'i': {
+                            'c': {
+                                'a': {
+                                    't': {
+                                        'i': {
+                                            'o': {
+                                                'n': {'__eof__': '__eof__'}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        'b': {
+            'a': {
+                'n': {
+                    'a': {
+                        'n': {
+                            'a': {'__eof__': '__eof__'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+def test_trie_get_all_common_prefix():
+    words = ['apple', 'application', 'banana']
+    trie = Trie(words)
+
+    assert trie.get_all_common_prefix('app') == ['apple', 'application']
+    assert trie.get_all_common_prefix('ban') == ['banana']
+    assert trie.get_all_common_prefix('test') == []

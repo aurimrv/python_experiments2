@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_fixture():
+    words = ['apple', 'banana', 'app', 'bat']
+    trie = Trie(words)
+    return trie
+
+def test_trie_initialization(trie_fixture):
+    assert trie_fixture.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, '__eof__': '__eof__'}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}
+
+def test_trie_add_word(trie_fixture):
+    trie_fixture.add('car')
+    assert trie_fixture.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, '__eof__': '__eof__'}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}, 'c': {'a': {'r': {'__eof__': '__eof__'}}}}
+
+def test_get_all_common_prefix(trie_fixture):
+    assert trie_fixture.get_all_common_prefix('ap') == ['apple', 'app']
+    assert trie_fixture.get_all_common_prefix('ba') == ['banana', 'bat']
+    assert trie_fixture.get_all_common_prefix('c') == ['car']
+
+def test_get_all_common_prefix_no_prefix(trie_fixture):
+    assert trie_fixture.get_all_common_prefix('z') == []
+
+def test_get_all_common_prefix_empty_trie():
+    trie = Trie([])
+    assert trie.get_all_common_prefix('a') == []

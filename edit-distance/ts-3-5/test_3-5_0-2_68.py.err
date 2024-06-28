@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for single character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for deletion at the beginning
+    assert calculate_edit_distance("abc", "bc") == ['Delete a']
+
+    # Test case for insertion at the end
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for multiple edits
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Substitute i', 'Substitute e', 'Insert g']
+
+    # Test case for long strings with multiple edits
+    assert calculate_edit_distance("intention", "execution") == ['Substitute e', 'Substitute x', 'Substitute c', 'Substitute u', 'Substitute t', 'Insert n', 'Insert i']
+
+    # Test case for strings with spaces
+    assert calculate_edit_distance("hello world", "hello there world") == ['Insert t', 'Insert h']
+
+    # Test case for strings with special characters
+    assert calculate_edit_distance("123!@#", "12345") == ['Substitute 4', 'Insert 5']
+
+    # Test case for strings with numbers
+    assert calculate_edit_distance("123", "456") == ['Substitute 4', 'Substitute 5', 'Substitute 6']
+
+    # Test case for strings with uppercase and lowercase characters
+    assert calculate_edit_distance("AbC", "aBc") == ['Substitute B', 'Substitute C']
+
+    # Test case for long strings with no edits
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxyz") == []
+
+    # Test case for strings with repeating characters
+    assert calculate_edit_distance("aaabbbccc", "aabbbccc") == ['Delete a']
+
+    # Test case for strings with different lengths
+    assert calculate_edit_distance("short", "thisisaverylongstring") == ['Insert t', 'Insert h', 'Insert i', 'Insert s', 'Insert i', 'Insert s', 'Insert a', 'Insert v', 'Insert e', 'Insert r', 'Insert y', 'Insert l', 'Insert o', 'Insert n', 'Insert g']

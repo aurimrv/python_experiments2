@@ -1,0 +1,39 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+def test_construct_single_word():
+    words = ['area']
+    squares = word_squares(words)
+    assert squares == [['area']]
+
+def test_construct_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == []
+
+def test_construct_long_words():
+    words = ['programming', 'language', 'testing', 'debugging']
+    squares = word_squares(words)
+    assert squares == [['programming', 'language', 'testing', 'debugging'],
+                       ['language', 'programming', 'debugging', 'testing']]
+
+def test_construct_repeated_words():
+    words = ['hello', 'hello', 'hello', 'hello']
+    squares = word_squares(words)
+    assert squares == [['hello', 'hello', 'hello', 'hello']]
+
+def test_construct_short_words():
+    words = ['a', 'b', 'c', 'd']
+    squares = word_squares(words)
+    assert squares == [['a', 'b', 'c', 'd'], ['b', 'a', 'd', 'c'], ['c', 'd', 'a', 'b'], ['d', 'c', 'b', 'a']]

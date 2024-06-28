@@ -1,0 +1,21 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k', 'Substitute i', 'Match t', 'Substitute t', 'Match e', 'Match n', 'Insert g']
+    assert calculate_edit_distance("intention", "execution") == ['Match e', 'Match x', 'Match e', 'Insert c', 'Insert u', 'Insert t', 'Insert i', 'Insert o', 'Insert n']
+    assert calculate_edit_distance("abc", "yabd") == ['Insert y', 'Match a', 'Substitute b', 'Match d']
+
+def test_calculate_edit_distance_edge_cases():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("hello", "") == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Delete o']
+    assert calculate_edit_distance("world", "world") == []
+
+def test_calculate_edit_distance_long_strings():
+    assert calculate_edit_distance("This is a long string to test", "This is a long string to test") == []
+    assert calculate_edit_distance("pneumonoultramicroscopicsilicovolcanoconiosis", "pseudoantidisestablishmentarianism") == ['Substitute s', 'Substitute e', 'Substitute t', 'Substitute a', 'Substitute b', 'Substitute l', 'Substitute i', 'Substitute s', 'Substitute h', 'Substitute m', 'Substitute e', 'Substitute n', 'Substitute t', 'Substitute a', 'Substitute r', 'Substitute i', 'Substitute a', 'Substitute n', 'Substitute i', 'Substitute s', 'Substitute m', 'Substitute u', 'Substitute s', 'Substitute m', 'Substitute e', 'Substitute n', 'Substitute t', 'Substitute a', 'Substitute r', 'Substitute i', 'Substitute a', 'Substitute n', 'Substitute i', 'Substitute s', 'Substitute m', 'Substitute i', 'Substitute m']

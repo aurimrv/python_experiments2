@@ -1,0 +1,55 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def filled_list():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    return dll
+
+def test_node_repr():
+    node = Node(5)
+    assert repr(node) == "Value: 5"
+
+def test_dll_push(empty_list):
+    empty_list.push(10)
+    assert empty_list.head.data == 10
+    assert empty_list.tail.data == 10
+
+def test_dll_pop(filled_list):
+    assert filled_list.pop() == 3
+    assert filled_list.head.data == 2
+
+def test_dll_append(empty_list):
+    empty_list.append(20)
+    assert empty_list.head.data == 20
+    assert empty_list.tail.data == 20
+
+def test_dll_shift(filled_list):
+    assert filled_list.shift() == 1
+    assert filled_list.tail.data == 2
+
+def test_dll_remove(filled_list):
+    filled_list.remove(2)
+    assert filled_list.head.data == 3
+    assert filled_list.tail.data == 1
+
+def test_dll_remove_nonexistent(filled_list):
+    with pytest.raises(ValueError):
+        filled_list.remove(5)
+
+def test_dll_repr(filled_list):
+    assert filled_list._repr() == [3, 2, 1]

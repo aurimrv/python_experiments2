@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    # Test construct function with one prefix word
+    words = ['ball', 'area', 'lead', 'lady']
+    trie = Trie(words)
+    construct = word_squares.construct
+    construct.squares = []
+    square = ['b', 'a']
+    construct(square)
+    assert len(construct.squares) == 1
+    assert construct.squares[0] == ['b', 'a', 'l']
+
+def test_word_squares_single_word():
+    # Test word_squares with a single word
+    words = ['ball']
+    squares = word_squares(words)
+    assert squares == [['b', 'a', 'l', 'l']]
+
+def test_word_squares_multiple_words():
+    # Test word_squares with multiple words
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert len(squares) == 4
+    assert ['b', 'a', 'l', 'l'] in squares
+    assert ['a', 'r', 'e', 'a'] in squares
+    assert ['l', 'e', 'a', 'd'] in squares
+    assert ['l', 'a', 'd', 'y'] in squares

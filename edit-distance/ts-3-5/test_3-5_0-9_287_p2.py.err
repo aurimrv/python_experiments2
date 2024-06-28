@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute k', 'Insert s', 'Insert i', 'Match t', 'Match t', 'Match e', 'Match n']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_single_character():
+    str1 = "a"
+    str2 = "b"
+    expected = ['Substitute b']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long sentence."
+    str2 = "This is another long sentence."
+    expected = ['Insert a', 'Substitute a']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_repeated_characters():
+    str1 = "mississippi"
+    str2 = "mipsi"
+    expected = ['Delete s', 'Delete s', 'Delete i', 'Delete s', 'Substitute i', 'Substitute i', 'Substitute p']
+    assert calculate_edit_distance(str1, str2) == expected

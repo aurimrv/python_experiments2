@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'C']
+
+    assert dijkstras(weighted_graph, 'B', 'D') == ['B', 'C', 'D']
+
+def test_dijkstras_edge_cases():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+    assert dijkstras(weighted_graph, 'C', 'A') == ['C', 'A']
+
+    assert dijkstras(weighted_graph, 'D', 'B') == ['D', 'C', 'B']

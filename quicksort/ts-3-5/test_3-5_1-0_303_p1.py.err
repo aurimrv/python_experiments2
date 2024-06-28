@@ -1,0 +1,49 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+import pytest
+
+def test_sort_empty_list():
+    ar = []
+    quicksort(ar)
+    assert ar == []
+
+def test_sort_already_sorted_list():
+    ar = [1, 2, 3, 4, 5]
+    quicksort(ar)
+    assert ar == [1, 2, 3, 4, 5]
+
+def test_sort_reverse_sorted_list():
+    ar = [5, 4, 3, 2, 1]
+    quicksort(ar)
+    assert ar == [1, 2, 3, 4, 5]
+
+def test_sort_random_list():
+    ar = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+    quicksort(ar)
+    assert ar == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+def test_partition_single_element_list():
+    ar = [5]
+    index = quicksort().partition(ar, 0, 0)
+    assert index == 0
+    assert ar == [5]
+
+def test_partition_even_elements_list():
+    ar = [4, 2, 6, 1, 5, 3]
+    index = quicksort().partition(ar, 0, 5)
+    assert index == 2
+    assert ar == [1, 2, 3, 4, 5, 6]
+
+def test_partition_odd_elements_list():
+    ar = [3, 1, 4, 1, 5, 9, 2]
+    index = quicksort().partition(ar, 0, 6)
+    assert index == 3
+    assert ar == [1, 1, 2, 3, 9, 5, 4]

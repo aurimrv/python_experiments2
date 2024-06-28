@@ -1,0 +1,57 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+
+def test_node_repr():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+def test_double_linked_list_init():
+    dbl_list = DoubleLinkedList([1, 2, 3])
+    assert dbl_list.head.data == 3
+    assert dbl_list.tail.data == 1
+
+def test_double_linked_list_push_pop():
+    dbl_list = DoubleLinkedList()
+    dbl_list.push(10)
+    dbl_list.push(20)
+    assert dbl_list.pop() == 20
+    assert dbl_list.pop() == 10
+
+def test_double_linked_list_append_shift():
+    dbl_list = DoubleLinkedList()
+    dbl_list.append(5)
+    dbl_list.append(15)
+    assert dbl_list.shift() == 15
+    assert dbl_list.shift() == 5
+
+def test_double_linked_list_remove():
+    dbl_list = DoubleLinkedList([1, 2, 3, 4, 5])
+    dbl_list.remove(3)
+    assert dbl_list.head.data == 5
+    assert dbl_list.tail.data == 1
+
+def test_double_linked_list_remove_not_exist():
+    dbl_list = DoubleLinkedList([1, 2, 3])
+    with pytest.raises(ValueError):
+        dbl_list.remove(5)
+
+def test_double_linked_list_empty_pop():
+    dbl_list = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dbl_list.pop()
+
+def test_double_linked_list_empty_shift():
+    dbl_list = DoubleLinkedList()
+    with pytest.raises(IndexError):
+        dbl_list.shift()

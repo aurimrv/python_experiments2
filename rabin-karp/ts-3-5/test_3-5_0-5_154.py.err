@@ -1,0 +1,21 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import rabin_karp_substring_search
+
+def test_rabin_karp_find_substring():
+    assert rabin_karp_substring_search.rabin_karp_find_substring("hello", "ll") == 2
+    assert rabin_karp_substring_search.rabin_karp_find_substring("hello", "o") == 4
+    assert rabin_karp_substring_search.rabin_karp_find_substring("hello", "hello") == 0
+
+def test_rabin_karp_find_substring_edge_cases():
+    assert rabin_karp_substring_search.rabin_karp_find_substring("hello", "z") == -1
+    assert rabin_karp_substring_search.rabin_karp_find_substring("hello", "") == 0
+    assert rabin_karp_substring_search.rabin_karp_find_substring("", "hello") == -1
+
+def test_rabin_karp_find_substring_large_input():
+    assert rabin_karp_substring_search.rabin_karp_find_substring("abcdefghijklmnopqrstuvwxyz", "xyz") == 23
+    assert rabin_karp_substring_search.rabin_karp_find_substring("a" * 10**6, "a" * 10**4) == 0

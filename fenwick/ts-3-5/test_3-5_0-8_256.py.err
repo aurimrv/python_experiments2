@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from fenwick_tree import FenwickTree
+
+import pytest
+
+@pytest.fixture
+def sample_tree():
+    arr = [1, 2, 3, 4, 5, 6]
+    return FenwickTree(arr)
+
+def test_init(sample_tree):
+    assert len(sample_tree.nums) == 7
+    assert len(sample_tree.tree) == 7
+
+def test_update(sample_tree):
+    sample_tree.update(2, 7)
+    assert sample_tree.nums[3] == 7
+    assert sample_tree.tree[3] == 4
+
+def test_sum_of_n(sample_tree):
+    assert sample_tree.sum_of_n(3) == 6
+
+def test_sum_of_range(sample_tree):
+    assert sample_tree.sum_of_range(1, 4) == 10
+
+def test_sum_of_range_negative_start(sample_tree):
+    assert sample_tree.sum_of_range(-1, 4) == 15
+
+def test_sum_of_range_single_element_range(sample_tree):
+    assert sample_tree.sum_of_range(3, 3) == 3

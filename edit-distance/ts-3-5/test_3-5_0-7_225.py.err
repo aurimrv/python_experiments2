@@ -1,0 +1,46 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case 1: Matching strings
+    str1 = "abc"
+    str2 = "abc"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 2: One letter difference
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute s', 'Substitute k']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 3: Completely different strings
+    str1 = "hello"
+    str2 = "world"
+    expected = ['Delete l', 'Delete o', 'Delete h', 'Insert w', 'Insert r', 'Insert d']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 4: Empty strings
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 5: One empty string
+    str1 = "test"
+    str2 = ""
+    expected = ['Delete t', 'Delete e', 'Delete s', 'Delete t']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 6: Both empty strings
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected

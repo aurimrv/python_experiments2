@@ -1,0 +1,49 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "hello"
+    str2 = "hello"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_one_insertion():
+    str1 = "hello"
+    str2 = "helllo"
+    assert calculate_edit_distance(str1, str2) == ['Insert l']
+
+def test_calculate_edit_distance_one_deletion():
+    str1 = "hello"
+    str2 = "helo"
+    assert calculate_edit_distance(str1, str2) == ['Delete l']
+
+def test_calculate_edit_distance_one_substitution():
+    str1 = "hello"
+    str2 = "hallo"
+    assert calculate_edit_distance(str1, str2) == ['Substitute e a']
+
+def test_calculate_edit_distance_mixed_operations():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute k s', 'Insert s', 'Substitute e i']
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_longer_first_string():
+    str1 = "hello"
+    str2 = "hi"
+    assert calculate_edit_distance(str1, str2) == ['Delete e', 'Delete l', 'Delete l', 'Substitute o i']
+
+def test_calculate_edit_distance_longer_second_string():
+    str1 = "hi"
+    str2 = "hello"
+    assert calculate_edit_distance(str1, str2) == ['Insert e', 'Insert l', 'Insert l', 'Substitute i o']

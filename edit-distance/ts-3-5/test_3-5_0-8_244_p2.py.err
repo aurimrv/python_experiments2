@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_same_strings():
+    assert calculate_edit_distance("abc", "abc") == []
+
+def test_calculate_edit_distance_insertion():
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+def test_calculate_edit_distance_deletion():
+    assert calculate_edit_distance("abc", "ab") == ['Delete c']
+
+def test_calculate_edit_distance_substitution():
+    assert calculate_edit_distance("abc", "axc") == ['Substitute x']
+
+def test_calculate_edit_distance_multiple_operations():
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Substitute i', 'Substitute n', 'Substitute e', 'Insert g']
+
+def test_calculate_edit_distance_empty_strings():
+    assert calculate_edit_distance("", "") == []
+
+def test_calculate_edit_distance_longer_string_first():
+    assert calculate_edit_distance("python", "py") == ['Delete t', 'Delete h', 'Delete o', 'Delete n']
+
+def test_calculate_edit_distance_longer_string_second():
+    assert calculate_edit_distance("abcde", "abcde123") == ['Insert 1', 'Insert 2', 'Insert 3']
+
+def test_calculate_edit_distance_special_characters():
+    assert calculate_edit_distance("!@#", "!@#$%") == ['Insert $', 'Insert %']
+
+def test_calculate_edit_distance_mixed_case():
+    assert calculate_edit_distance("TeSt", "tEst") == ['Substitute t', 'Delete e', 'Insert e']

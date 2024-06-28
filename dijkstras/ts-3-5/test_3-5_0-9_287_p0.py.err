@@ -1,0 +1,47 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_shortest_path_1(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        shortest_path = dijkstras(weighted_graph, 'A', 'D')
+        assert shortest_path == ['A', 'B', 'C', 'D']
+
+    def test_dijkstras_shortest_path_2(self):
+        weighted_graph = {
+            'A': {'B': 3, 'D': 4},
+            'B': {'A': 3, 'C': 2},
+            'C': {'B': 2, 'D': 5},
+            'D': {'A': 4, 'C': 5}
+        }
+        shortest_path = dijkstras(weighted_graph, 'A', 'C')
+        assert shortest_path == ['A', 'B', 'C']
+
+    def test_dijkstras_shortest_path_3(self):
+        weighted_graph = {
+            'X': {'Y': 5, 'Z': 2},
+            'Y': {'X': 5, 'Z': 6},
+            'Z': {'X': 2, 'Y': 6}
+        }
+        shortest_path = dijkstras(weighted_graph, 'X', 'Z')
+        assert shortest_path == ['X', 'Z']
+
+    def test_dijkstras_shortest_path_4(self):
+        weighted_graph = {
+            'P': {'Q': 2, 'S': 1},
+            'Q': {'P': 2, 'R': 3},
+            'R': {'Q': 3, 'S': 4},
+            'S': {'P': 1, 'R': 4}
+        }
+        shortest_path = dijkstras(weighted_graph, 'P', 'R')
+        assert shortest_path == ['P', 'S', 'R']

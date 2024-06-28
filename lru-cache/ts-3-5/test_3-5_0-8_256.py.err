@@ -1,0 +1,75 @@
+import pytest
+import sys
+import os
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+@pytest.fixture
+def lru_cache():
+    return LruCache(3)
+
+def test_list_node_initialization():
+    node = ListNode(1, 'value')
+    assert node.key == 1
+    assert node.val == 'value'
+    assert node.prev is None
+    assert node.next is None
+
+def test_lru_cache_initialization(lru_cache):
+    assert lru_cache.capacity == 3
+    assert lru_cache.head.key == LruCache.terminal_value
+    assert lru_cache.head.val == LruCache.terminal_value
+    assert lru_cache.tail.key == LruCache.terminal_value
+    assert lru_cache.tail.val == LruCache.terminal_value
+    assert lru_cache.head.next == lru_cache.tail
+    assert lru_cache.tail.prev == lru_cache.head
+    assert len(lru_cache.lookup_map) == 0
+
+def test_put_method(lru_cache):
+    lru_cache.put(1, 'value1')
+    assert len(lru_cache.lookup_map) == 1
+    assert lru_cache.head.next.key == 1
+    assert lru_cache.head.next.val == 'value1'
+    
+    lru_cache.put(2, 'value2')
+    lru_cache.put(3, 'value3')
+    assert len(lru_cache.lookup_map) == 3
+    assert lru_cache.head.next.key == 3
+    assert lru_cache.head.next.val == 'value3'
+    
+    lru_cache.put(4, 'value4')
+    assert len(lru_cache.lookup_map) == 3
+    assert lru_cache.head.next.key == 4
+    assert lru_cache.head.next.val == 'value4'
+    assert 1 not in lru_cache.lookup_map
+
+def test_get_method(lru_cache):
+    lru_cache.put(1, 'value1')
+    lru_cache.put(2, 'value2')
+    
+    assert lru_cache.get(1) == 'value1'
+    assert lru_cache.head.next.key == 2
+    
+    assert lru_cache.get(3) == -1
+
+def test_internal_add_remove_methods(lru_cache):
+    node1 = ListNode(1, 'value1')
+    node2 = ListNode(2, 'value2')
+    
+    lru_cache._add(node1)
+    assert lru_cache.head.next == node1
+    assert lru_cache.tail.prev == node1
+    
+    lru_cache._add(node2)
+    assert lru_cache.head.next == node1
+    assert lru_cache.head.next.next == node2
+    assert lru_cache.tail.prev == node2
+    
+    lru_cache._remove(node1)
+    assert lru_cache.head.next == node2
+    assert lru_cache.head.next.prev == lru_cache.head
+    assert lru_cache.tail.prev == node2

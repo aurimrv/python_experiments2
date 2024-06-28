@@ -1,0 +1,48 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case for exact match
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for single substitution
+    assert calculate_edit_distance("abc", "adc") == ['Substitute b']
+
+    # Test case for single insertion
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for single deletion
+    assert calculate_edit_distance("abc", "ab") == ['Delete c']
+
+    # Test case for multiple operations
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k', 'Substitute i', 'Substitute t', 'Insert t', 'Substitute e', 'Delete n']
+
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for one empty string
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+
+    # Test case for different lengths
+    assert calculate_edit_distance("abc", "abcdef") == ['Insert d', 'Insert e', 'Insert f']
+
+    # Test case for large strings
+    assert calculate_edit_distance("This is a long string to test", "This is another long string to test") == ['Insert a', 'Insert n', 'Insert o', 'Insert t', 'Insert h', 'Insert e', 'Insert r']
+
+    # Test case for special characters
+    assert calculate_edit_distance("!@#$%", "%$#@!") == ['Substitute !', 'Substitute @', 'Substitute #', 'Substitute $']
+
+    # Test case for repeated characters
+    assert calculate_edit_distance("aaaa", "a") == ['Delete a', 'Delete a', 'Delete a']
+
+    # Test case for case sensitivity
+    assert calculate_edit_distance("AbC", "aBc") == ['Substitute A', 'Substitute C']

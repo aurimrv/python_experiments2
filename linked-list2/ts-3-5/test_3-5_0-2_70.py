@@ -1,0 +1,50 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_node_creation():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+
+def test_node_next_pointer():
+    node1 = Node(10)
+    node2 = Node(20, node1)
+    assert node2.next == node1
+
+def test_linked_list_push():
+    ll = LinkedList()
+    ll.push(1)
+    assert ll.head.data == 1
+    assert ll.size() == 1
+
+def test_linked_list_pop():
+    ll = LinkedList([1, 2, 3])
+    popped = ll.pop()
+    assert popped == 3
+    assert ll.size() == 2
+
+def test_linked_list_size():
+    ll = LinkedList([1, 2, 3, 4])
+    assert ll.size() == 4
+
+def test_linked_list_search():
+    ll = LinkedList([1, 2, 3, 4])
+    node = ll.search(3)
+    assert node.data == 3
+
+def test_linked_list_remove():
+    ll = LinkedList([1, 2, 3, 4])
+    ll.remove(2)
+    assert ll.size() == 3
+    assert ll.display() == "(4, 3, 1)"
+
+def test_linked_list_display():
+    ll = LinkedList([1, 'abc', 3.14, 'xyz'])
+    assert ll.display() == "(xyz, 3.14, abc, 1)"

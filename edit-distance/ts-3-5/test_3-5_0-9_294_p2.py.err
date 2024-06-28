@@ -1,0 +1,37 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "hello"
+    str2 = "hello"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_insert_operation():
+    str1 = "hello"
+    str2 = "hello world"
+    expected_trace = ['Insert w', 'Insert o', 'Insert rld']
+    assert calculate_edit_distance(str1, str2) == expected_trace
+
+def test_calculate_edit_distance_delete_operation():
+    str1 = "hello world"
+    str2 = "hello"
+    expected_trace = ['Delete w', 'Delete o', 'Delete rld']
+    assert calculate_edit_distance(str1, str2) == expected_trace
+
+def test_calculate_edit_distance_substitute_operation():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_trace = ['Substitute s', 'Substitute k']
+    assert calculate_edit_distance(str1, str2) == expected_trace 

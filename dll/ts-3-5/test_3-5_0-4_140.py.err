@@ -1,0 +1,48 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def filled_list():
+    return DoubleLinkedList([1, 2, 3, 4, 5])
+
+def test_node_creation():
+    node = Node(10)
+    assert node.data == 10
+
+def test_double_linked_list_push(empty_list):
+    empty_list.push(10)
+    assert empty_list.head.data == 10
+
+def test_double_linked_list_pop(filled_list):
+    assert filled_list.pop() == 1
+    assert filled_list.pop() == 2
+
+def test_double_linked_list_append(empty_list):
+    empty_list.append(20)
+    assert empty_list.tail.data == 20
+
+def test_double_linked_list_shift(filled_list):
+    assert filled_list.shift() == 5
+    assert filled_list.shift() == 4
+
+def test_double_linked_list_remove(filled_list):
+    filled_list.remove(3)
+    assert filled_list._repr() == [1, 2, 4, 5]
+
+def test_double_linked_list_remove_nonexistent(filled_list):
+    with pytest.raises(ValueError):
+        filled_list.remove(10)
+
+def test_double_linked_list_repr(filled_list):
+    assert filled_list._repr() == [1, 2, 3, 4, 5]

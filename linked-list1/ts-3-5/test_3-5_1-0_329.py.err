@@ -1,0 +1,78 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from linked_list1 import ListNode
+
+import pytest
+
+# Test cases for ListNode class methods
+
+def test_contains_cycle_single_node_no_cycle():
+    # Test case for a single node with no cycle
+    node = ListNode(1)
+    assert node.contains_cycle() == False
+
+def test_contains_cycle_multiple_nodes_no_cycle():
+    # Test case for multiple nodes with no cycle
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    assert node1.contains_cycle() == False
+
+def test_get_beginning_of_cycle_if_exists_single_node_no_cycle():
+    # Test case for a single node with no cycle
+    node = ListNode(1)
+    assert node.get_beginning_of_cycle_if_exists() == None
+
+def test_get_beginning_of_cycle_if_exists_multiple_nodes_no_cycle():
+    # Test case for multiple nodes with no cycle
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    assert node1.get_beginning_of_cycle_if_exists() == None
+
+def test_reverse_single_node():
+    # Test case for reversing a single node
+    node = ListNode(1)
+    new_head = node.reverse()
+    assert new_head.val == 1
+    assert new_head.next == None
+
+def test_reverse_multiple_nodes():
+    # Test case for reversing multiple nodes
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    new_head = node1.reverse()
+    assert new_head.val == 3
+    assert new_head.next.val == 2
+    assert new_head.next.next.val == 1
+    assert new_head.next.next.next == None
+
+def test_reverse_recursive_single_node():
+    # Test case for recursively reversing a single node
+    node = ListNode(1)
+    new_head = node.reverse_recursive()
+    assert new_head.val == 1
+    assert new_head.next == None
+
+def test_reverse_recursive_multiple_nodes():
+    # Test case for recursively reversing multiple nodes
+    node1 = ListNode(1)
+    node2 = ListNode(2)
+    node3 = ListNode(3)
+    node1.next = node2
+    node2.next = node3
+    new_head = node1.reverse_recursive()
+    assert new_head.val == 3
+    assert new_head.next.val == 2
+    assert new_head.next.next.val == 1
+    assert new_head.next.next.next == None

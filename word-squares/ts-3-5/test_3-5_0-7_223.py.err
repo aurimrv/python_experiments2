@@ -1,0 +1,42 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    trie = Trie(["ball", "area", "lead", "lady"])
+    
+    assert len(trie.words) == 4
+    
+    # Test construct function with one word
+    construct_result = word_squares(["ball"])
+    assert len(construct_result) == 1
+    assert construct_result[0] == ["ball"]
+    
+    # Test construct function with multiple words
+    construct_result = word_squares(["ball", "area", "lead", "lady"])
+    assert len(construct_result) == 1
+    assert construct_result[0] == ["ball", "area", "lead", "lady"]
+    
+    # Test construct function with no valid word squares
+    construct_result = word_squares(["abc", "def", "ghi"])
+    assert len(construct_result) == 0
+
+def test_word_squares():
+    # Test word_squares function with one word
+    result = word_squares(["ball"])
+    assert len(result) == 1
+    assert result[0] == ["ball"]
+    
+    # Test word_squares function with multiple words
+    result = word_squares(["ball", "area", "lead", "lady"])
+    assert len(result) == 1
+    assert result[0] == ["ball", "area", "lead", "lady"]
+    
+    # Test word_squares function with no valid word squares
+    result = word_squares(["abc", "def", "ghi"])
+    assert len(result) == 0

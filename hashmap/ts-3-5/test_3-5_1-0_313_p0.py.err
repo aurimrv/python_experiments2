@@ -1,0 +1,48 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+import pytest
+
+class TestHashMap:
+    @pytest.fixture
+    def hashmap_instance(self):
+        return HashMap()
+
+    def test_insert_single_key_value_pair(self, hashmap_instance):
+        hashmap_instance.insert('test_key', 'test_value')
+        assert hashmap_instance.get('test_key') == 'test_value'
+
+    def test_insert_override_existing_key(self, hashmap_instance):
+        hashmap_instance.insert('test_key', 'test_value')
+        hashmap_instance.insert('test_key', 'new_value')
+        assert hashmap_instance.get('test_key') == 'new_value'
+
+    def test_get_key_not_found_raises_keyerror(self, hashmap_instance):
+        with pytest.raises(KeyError):
+            hashmap_instance.get('non_existent_key')
+
+    def test_delete_existing_key(self, hashmap_instance):
+        hashmap_instance.insert('test_key', 'test_value')
+        deleted_value = hashmap_instance.delete('test_key')
+        assert deleted_value == ('test_key', 'test_value')
+        with pytest.raises(KeyError):
+            hashmap_instance.get('test_key')
+
+    def test_delete_non_existent_key_raises_keyerror(self, hashmap_instance):
+        with pytest.raises(KeyError):
+            hashmap_instance.delete('non_existent_key')
+
+class TestHashFunctions:
+    def test_djb2_hash_function(self):
+        assert djb2('test_key') == 385698268540
+
+    def test_sdbm_hash_function(self):
+        assert sdbm('test_key') == -354945438
+
+    def test_lose_lose_hash_function(self):
+        assert lose_lose('test_key') == 951

@@ -1,0 +1,42 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+def test_push():
+    linked_list = LinkedList()
+    linked_list.push(1)
+    linked_list.push(2)
+    assert linked_list.head.data == 2
+    assert linked_list.head.next.data == 1
+
+def test_pop():
+    linked_list = LinkedList([1, 2, 3])
+    assert linked_list.pop() == 3
+    assert linked_list.pop() == 2
+    assert linked_list.pop() == 1
+
+def test_size():
+    linked_list = LinkedList([1, 2, 3])
+    assert linked_list.size() == 3
+    linked_list.pop()
+    assert linked_list.size() == 2
+
+def test_search():
+    linked_list = LinkedList([1, 2, 3])
+    assert linked_list.search(2).data == 2
+    assert linked_list.search(4) is None
+
+def test_remove():
+    linked_list = LinkedList([1, 2, 3])
+    linked_list.remove(2)
+    assert linked_list.size() == 2
+    assert linked_list.search(2) is None
+
+def test_display():
+    linked_list = LinkedList([1, 'apple', 3.14])
+    assert linked_list.display() == "(3.14, apple, 1)"

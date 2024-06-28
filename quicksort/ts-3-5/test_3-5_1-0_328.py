@@ -1,0 +1,38 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+from quicksort import quicksort
+
+def test_quicksort_empty_list():
+    ar = []
+    assert quicksort(ar) == []
+
+def test_quicksort_sorted_list():
+    ar = [1, 2, 3, 4, 5]
+    assert quicksort(ar) == [1, 2, 3, 4, 5]
+
+def test_quicksort_reverse_sorted_list():
+    ar = [5, 4, 3, 2, 1]
+    assert quicksort(ar) == [1, 2, 3, 4, 5]
+
+def test_quicksort_random_list():
+    ar = [4, 2, 5, 1, 3]
+    assert quicksort(ar) == [1, 2, 3, 4, 5]
+
+def test_quicksort_duplicate_values():
+    ar = [3, 1, 2, 3, 1]
+    assert quicksort(ar) == [1, 1, 2, 3, 3]
+
+def test_quicksort_large_list():
+    ar = [1000, 2034, 534, 1, 23, 0, 56, 3453, 1234, 22]
+    assert quicksort(ar) == [0, 1, 22, 23, 56, 534, 1000, 1234, 2034, 3453]
+
+def test_quicksort_single_element():
+    ar = [1]
+    assert quicksort(ar) == [1]

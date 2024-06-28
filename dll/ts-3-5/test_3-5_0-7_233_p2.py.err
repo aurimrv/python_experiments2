@@ -1,0 +1,57 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+@pytest.fixture
+def setup_dll():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    return dll
+
+def test_push(setup_dll):
+    assert setup_dll.head.data == 3
+    assert setup_dll.tail.data == 1
+
+def test_pop(setup_dll):
+    assert setup_dll.pop() == 3
+    assert setup_dll.pop() == 2
+
+def test_append(setup_dll):
+    setup_dll.append(4)
+    assert setup_dll.head.data == 3
+    assert setup_dll.tail.data == 4
+
+def test_shift(setup_dll):
+    assert setup_dll.shift() == 1
+
+def test_remove(setup_dll):
+    setup_dll.remove(2)
+    assert setup_dll.head.data == 3
+    assert setup_dll.tail.data == 1
+
+def test_remove_error(setup_dll):
+    with pytest.raises(ValueError):
+        setup_dll.remove(5)
+
+def test_init():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.head.data == 1
+    assert dll.tail.data == 3
+
+def test_init_single_element():
+    dll = DoubleLinkedList(1)
+    assert dll.head.data == 1
+    assert dll.tail.data == 1
+
+def test_init_empty():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None

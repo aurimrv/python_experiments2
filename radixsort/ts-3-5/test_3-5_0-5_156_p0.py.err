@@ -1,0 +1,36 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [123, 45, 678, 90, 234]
+    iteration = 0
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10
+    assert buckets[3] == [123, 234]
+    assert buckets[5] == [45]
+    assert buckets[8] == [678, 90]
+
+def test_create_list():
+    buckets = [[123, 234], [45], [678, 90]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [123, 234, 45, 678, 90]
+
+def test_radixsort():
+    ar = [123, 45, 678, 90, 234]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [45, 90, 123, 234, 678]
+
+def test_radixsort_large_numbers():
+    ar = [1000, 999, 888, 777, 666]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [666, 777, 888, 999, 1000]
+
+def test_radixsort_duplicate_values():
+    ar = [3, 2, 1, 3, 2, 1]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [1, 1, 2, 2, 3, 3]

@@ -1,0 +1,72 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+from collections import deque
+
+import pytest
+
+# Test cases for NaiveBinaryTree class
+
+def test_pre_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(1)
+    tree.head.left = NaiveBinaryTree.Node(2)
+    tree.head.right = NaiveBinaryTree.Node(3)
+    assert tree.pre_order_traversal() == [1, 2, 3]
+
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(4)
+    tree.head.left = NaiveBinaryTree.Node(5)
+    tree.head.right = NaiveBinaryTree.Node(6)
+    tree.head.left.left = NaiveBinaryTree.Node(7)
+    tree.head.left.right = NaiveBinaryTree.Node(8)
+    assert tree.pre_order_traversal() == [4, 5, 7, 8, 6]
+
+def test_in_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(1)
+    tree.head.left = NaiveBinaryTree.Node(2)
+    tree.head.right = NaiveBinaryTree.Node(3)
+    assert tree.in_order_traversal() == [2, 1, 3]
+
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(4)
+    tree.head.left = NaiveBinaryTree.Node(5)
+    tree.head.right = NaiveBinaryTree.Node(6)
+    tree.head.left.left = NaiveBinaryTree.Node(7)
+    tree.head.left.right = NaiveBinaryTree.Node(8)
+    assert tree.in_order_traversal() == [7, 5, 8, 4, 6]
+
+def test_post_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(1)
+    tree.head.left = NaiveBinaryTree.Node(2)
+    tree.head.right = NaiveBinaryTree.Node(3)
+    assert tree.post_order_traversal() == [2, 3, 1]
+
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(4)
+    tree.head.left = NaiveBinaryTree.Node(5)
+    tree.head.right = NaiveBinaryTree.Node(6)
+    tree.head.left.left = NaiveBinaryTree.Node(7)
+    tree.head.left.right = NaiveBinaryTree.Node(8)
+    assert tree.post_order_traversal() == [7, 8, 5, 6, 4]
+
+def test_level_order_traversal():
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(1)
+    tree.head.left = NaiveBinaryTree.Node(2)
+    tree.head.right = NaiveBinaryTree.Node(3)
+    assert tree.level_order_traversal() == [1, 2, 3]
+
+    tree = NaiveBinaryTree()
+    tree.head = NaiveBinaryTree.Node(4)
+    tree.head.left = NaiveBinaryTree.Node(5)
+    tree.head.right = NaiveBinaryTree.Node(6)
+    tree.head.left.left = NaiveBinaryTree.Node(7)
+    tree.head.left.right = NaiveBinaryTree.Node(8)
+    assert tree.level_order_traversal() == [4, 5, 6, 7, 8]

@@ -1,0 +1,50 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+# Test cases for Trie class
+class TestTrie:
+
+    def test_init_empty_words(self):
+        trie = Trie([])
+        assert trie.head == {}
+
+    def test_init_with_words(self):
+        words = ['apple', 'banana', 'orange']
+        trie = Trie(words)
+        assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}, 'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}
+
+    def test_add_single_word(self):
+        trie = Trie([])
+        trie.add('hello')
+        assert trie.head == {'h': {'e': {'l': {'l': {'o': {'__eof__': '__eof__'}}}}}
+
+    def test_add_multiple_words(self):
+        trie = Trie([])
+        trie.add('cat')
+        trie.add('dog')
+        trie.add('car')
+        assert trie.head == {'c': {'a': {'t': {'__eof__': '__eof__'}, 'r': {'__eof__': '__eof__'}}, 'd': {'o': {'g': {'__eof__': '__eof__'}}}
+
+    def test_get_all_common_prefix_no_match(self):
+        trie = Trie([])
+        trie.add('apple')
+        trie.add('banana')
+        assert trie.get_all_common_prefix('xyz') == []
+
+    def test_get_all_common_prefix_single_word(self):
+        trie = Trie([])
+        trie.add('apple')
+        trie.add('banana')
+        assert trie.get_all_common_prefix('ban') == ['banana']
+
+    def test_get_all_common_prefix_multiple_words(self):
+        trie = Trie([])
+        trie.add('apple')
+        trie.add('banana')
+        trie.add('ant')
+        assert trie.get_all_common_prefix('an') == ['ant', 'apple']

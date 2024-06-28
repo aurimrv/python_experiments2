@@ -1,0 +1,39 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'C']
+
+def test_dijkstras_empty_graph():
+    weighted_graph = {}
+
+    assert dijkstras(weighted_graph, 'A', 'B') == []
+
+def test_dijkstras_unreachable_destination():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+
+    assert dijkstras(weighted_graph, 'A', 'C') == []
+
+def test_dijkstras_single_node_graph():
+    weighted_graph = {
+        'A': {}
+    }
+
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']

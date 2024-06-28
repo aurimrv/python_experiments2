@@ -1,0 +1,40 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    hashmap.insert(1, 'a')
+    assert hashmap.get(1) == 'a'
+
+def test_get_existing_key(hashmap):
+    hashmap.insert(2, 'b')
+    assert hashmap.get(2) == 'b'
+
+def test_get_non_existing_key(hashmap):
+    with pytest.raises(KeyError):
+        hashmap.get(3)
+
+def test_delete_existing_key(hashmap):
+    hashmap.insert(4, 'c')
+    assert hashmap.delete(4) == (4, 'c')
+    with pytest.raises(KeyError):
+        hashmap.get(4)
+
+def test_delete_non_existing_key(hashmap):
+    with pytest.raises(KeyError):
+        hashmap.delete(5)
+
+def test_hash_functions():
+    assert djb2('test') == 6385723493
+    assert sdbm('test') == 209077098
+    assert lose_lose('test') == 448

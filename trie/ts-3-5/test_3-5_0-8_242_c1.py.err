@@ -1,0 +1,35 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init_empty():
+    trie = Trie([])
+    assert trie.head == {}
+
+def test_trie_init_single_word():
+    words = ['apple']
+    trie = Trie(words)
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}
+
+def test_trie_add_single_word():
+    trie = Trie([])
+    trie.add('apple')
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}
+
+def test_get_all_common_prefix_single_word():
+    trie = Trie(['apple', 'app'])
+    assert trie.get_all_common_prefix('app') == ['app', 'apple']
+
+def test_get_all_common_prefix_no_common_prefix():
+    trie = Trie(['apple', 'app'])
+    assert trie.get_all_common_prefix('banana') == []
+
+def test_get_all_common_prefix_empty_trie():
+    trie = Trie([])
+    assert trie.get_all_common_prefix('test') == []

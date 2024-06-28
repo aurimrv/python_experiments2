@@ -1,0 +1,88 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for strings with one character difference
+    assert calculate_edit_distance("abc", "abd") == ['Substitute d']
+
+    # Test case for strings with one character insertion
+    assert calculate_edit_distance("abc", "abcd") == ['Insert d']
+
+    # Test case for strings with one character deletion
+    assert calculate_edit_distance("abcd", "abc") == ['Delete d']
+
+    # Test case for strings with multiple differences
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute k', 'Substitute t', 'Insert g']
+
+    # Test case for long strings with multiple operations
+    assert calculate_edit_distance("intention", "execution") == ['Substitute e', 'Substitute x', 'Insert c', 'Substitute u', 'Substitute t', 'Substitute i', 'Substitute n']
+
+    # Test case for strings with no common characters
+    assert calculate_edit_distance("abc", "def") == ['Substitute d', 'Insert e', 'Insert f']
+
+    # Test case for strings with same length but different characters
+    assert calculate_edit_distance("12345", "abcde") == ['Substitute a', 'Substitute b', 'Substitute c', 'Substitute d', 'Substitute e']
+
+    # Test case for strings with different lengths
+    assert calculate_edit_distance("short", "longer") == ['Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert e', 'Insert r']
+
+    # Test case for strings with spaces
+    assert calculate_edit_distance("hello world", "world hello") == ['Substitute w', 'Substitute o', 'Substitute r', 'Substitute l', 'Substitute d', 'Substitute h', 'Substitute e']
+
+    # Test case for strings with special characters
+    assert calculate_edit_distance("!@#$%", "$#@!") == ['Substitute $', 'Substitute #', 'Substitute @', 'Substitute !']
+
+    # Test case for strings with numbers
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2']
+
+    # Test case for strings with mixed characters
+    assert calculate_edit_distance("abc123!@#", "xyz456$%^") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for long strings with no differences
+    assert calculate_edit_distance("This is a long string with no differences.", "This is a long string with no differences.") == []
+
+    # Test case for strings with multiple operations of the same type
+    assert calculate_edit_distance("aaaaa", "bbbbb") == ['Substitute b', 'Substitute b', 'Substitute b', 'Substitute b']
+
+    # Test case for strings with multiple operations of different types
+    assert calculate_edit_distance("abcde", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z', 'Delete d', 'Delete e']
+
+    # Test case for strings with repeated characters
+    assert calculate_edit_distance("aaaaa", "aaaa") == ['Delete a']
+
+    # Test case for strings with repeated characters in different order
+    assert calculate_edit_distance("abcabc", "cbacba") == ['Substitute c', 'Substitute b', 'Substitute a', 'Substitute c', 'Substitute b', 'Substitute a']
+
+    # Test case for strings with special characters and numbers
+    assert calculate_edit_distance("!@#$%^", "123456") == ['Substitute 1', 'Substitute 2', 'Substitute 3', 'Substitute 4', 'Substitute 5', 'Substitute 6']
+
+    # Test case for strings with spaces and special characters
+    assert calculate_edit_distance("hello!@#", "world$%^") == ['Substitute w', 'Substitute o', 'Substitute r', 'Substitute l', 'Substitute d', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for strings with spaces and numbers
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2']
+
+    # Test case for strings with mixed characters and numbers
+    assert calculate_edit_distance("abc123", "xyz456") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6']
+
+    # Test case for strings with mixed characters and special characters
+    assert calculate_edit_distance("abc!@#", "xyz$%^") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for strings with mixed characters, numbers, and special characters
+    assert calculate_edit_distance("abc123!@#", "xyz456$%^") == ['Substitute x', 'Substitute y', 'Substitute z', 'Substitute 4', 'Substitute 5', 'Substitute 6', 'Substitute $', 'Substitute %', 'Substitute ^']
+
+    # Test case for strings with all possible characters
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+-=[]{}|;':,.<>/?", "zyxwvutsrqponmlkjihgfedcba0987654321%^&*()_+-=[]{}|;':,.<>/?!@#$") == ['Substitute z', 'Substitute y', 'Substitute x', 'Substitute w', 'Substitute v', 'Substitute u', 'Substitute t', 'Substitute s', 'Substitute r', 'Substitute q', 'Substitute p', 'Substitute o', 'Substitute n', 'Substitute m', 'Substitute l', 'Substitute k', 'Substitute j', 'Substitute i', 'Substitute h', 'Substitute g', 'Substitute f', 'Substitute e', 'Substitute d', 'Substitute c', 'Substitute b', 'Substitute a', 'Substitute 0', 'Substitute 9', 'Substitute 8', 'Substitute 7', 'Substitute 6', 'Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2', 'Substitute 1', 'Substitute %', 'Substitute ^', 'Substitute &', 'Substitute *', 'Substitute (', 'Substitute )', 'Substitute _', 'Substitute +', 'Substitute -', 'Substitute =', 'Substitute [', 'Substitute ]', 'Substitute {', 'Substitute }', 'Substitute |', 'Substitute ;', 'Substitute \'', 'Substitute :', 'Substitute ,', 'Substitute .', 'Substitute <', 'Substitute >', 'Substitute /', 'Substitute ?', 'Substitute !', 'Substitute @', 'Substitute #', 'Substitute $']
+
+    # Add more test cases as needed

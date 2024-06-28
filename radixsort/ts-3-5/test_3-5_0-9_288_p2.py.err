@@ -1,0 +1,28 @@
+import pytest
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    iteration = 2
+    buckets = radixsort(ar, iteration)
+    assert len(buckets) == 8
+    assert sum(len(bucket) for bucket in buckets) == len(ar)
+    assert all(num in ar for bucket in buckets for num in bucket)
+
+def test_create_list():
+    buckets = [[24, 802], [45, 75], [66], [170], [90], [2]]
+    nums = radixsort(buckets)
+    assert len(nums) == sum(len(bucket) for bucket in buckets)
+    assert all(num in nums for num in sum(buckets, []))
+
+def test_radixsort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort(ar)
+    expected_sorted_ar = [2, 24, 45, 66, 75, 90, 170, 802]
+    assert sorted_ar == expected_sorted_ar

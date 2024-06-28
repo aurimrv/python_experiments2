@@ -1,0 +1,39 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_shortest_path_direct(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 3},
+            'B': {'A': 1, 'C': 1},
+            'C': {'A': 3, 'B': 1}
+        }
+        src = 'A'
+        dst = 'C'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+
+    def test_shortest_path_indirect(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 3},
+            'B': {'A': 1, 'C': 1},
+            'C': {'A': 3, 'B': 1}
+        }
+        src = 'A'
+        dst = 'B'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+
+    def test_unreachable_destination(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 3},
+            'B': {'A': 1, 'C': 1},
+            'C': {'A': 3, 'B': 1}
+        }
+        src = 'B'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == []

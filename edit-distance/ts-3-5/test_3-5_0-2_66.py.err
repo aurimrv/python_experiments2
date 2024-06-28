@@ -1,0 +1,88 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for identical strings
+    assert calculate_edit_distance("abc", "abc") == []
+
+    # Test case for insertion
+    assert calculate_edit_distance("abc", "abdc") == ['Insert d']
+
+    # Test case for deletion
+    assert calculate_edit_distance("abc", "ac") == ['Delete b']
+
+    # Test case for substitution
+    assert calculate_edit_distance("abc", "axc") == ['Substitute x']
+
+    # Test case for multiple operations
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute k', 'Substitute i', 'Insert g']
+
+    # Test case for long strings
+    assert calculate_edit_distance("This is a long string", "This is another long string") == ['Substitute a', 'Substitute n', 'Substitute o', 'Substitute t', 'Substitute h', 'Substitute e', 'Substitute r']
+
+    # Test case for special characters
+    assert calculate_edit_distance("123!@#", "12345") == ['Insert 4', 'Insert 5']
+
+    # Test case for different lengths
+    assert calculate_edit_distance("short", "a bit longer") == ['Insert a', 'Insert  ', 'Insert b', 'Insert i', 'Insert t', 'Insert  ', 'Insert l', 'Insert o', 'Insert n', 'Insert g', 'Insert e', 'Insert r']
+
+    # Test case for numbers
+    assert calculate_edit_distance("12345", "54321") == ['Substitute 5', 'Substitute 4', 'Substitute 3', 'Substitute 2']
+
+    # Test case for uppercase and lowercase
+    assert calculate_edit_distance("AbCdEfG", "aBcDeFg") == ['Substitute a', 'Substitute g', 'Substitute F', 'Substitute E', 'Substitute D', 'Substitute C', 'Substitute B', 'Substitute A']
+
+    # Test case for spaces
+    assert calculate_edit_distance("word1 word2", "word2word1") == ['Substitute 2', 'Substitute 1', 'Substitute d', 'Substitute r', 'Substitute o', 'Substitute w', 'Substitute 2', 'Substitute 1']
+
+    # Test case for long common prefix
+    assert calculate_edit_distance("commonprefixsuffix", "commonprefix") == ['Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x']
+
+    # Test case for long common suffix
+    assert calculate_edit_distance("prefixcommonsuffix", "commonsuffix") == ['Delete p', 'Delete r', 'Delete e', 'Delete f', 'Delete i', 'Delete x']
+
+    # Test case for long common substring
+    assert calculate_edit_distance("prefixcommonsuffix", "common") == ['Delete p', 'Delete r', 'Delete e', 'Delete f', 'Delete i', 'Delete x', 'Delete s', 'Delete u', 'Delete f', 'Delete f', 'Delete i', 'Delete x']
+
+    # Test case for mix of operations
+    assert calculate_edit_distance("abc123", "a1b2c3") == ['Substitute 1', 'Substitute 2', 'Substitute 3']
+
+    # Test case for mix of characters
+    assert calculate_edit_distance("a1b2c3", "abc123") == ['Substitute a', 'Substitute b', 'Substitute c']
+
+    # Test case for mix of characters and numbers
+    assert calculate_edit_distance("abc123", "123abc") == ['Substitute 1', 'Substitute 2', 'Substitute 3', 'Substitute a', 'Substitute b', 'Substitute c']
+
+    # Test case for mix of uppercase and lowercase
+    assert calculate_edit_distance("AbCdEfG", "aBcDeFg") == ['Substitute a', 'Substitute g', 'Substitute F', 'Substitute E', 'Substitute D', 'Substitute C', 'Substitute B', 'Substitute A']
+
+    # Test case for mix of special characters
+    assert calculate_edit_distance("!@#$%", "%$#@!") == ['Substitute %', 'Substitute $', 'Substitute #', 'Substitute @', 'Substitute !']
+
+    # Test case for mix of everything
+    assert calculate_edit_distance("a1!b2@c3#", "#3@c2!b1a") == ['Substitute #', 'Substitute 3', 'Substitute @', 'Substitute c', 'Substitute 2', 'Substitute !', 'Substitute b', 'Substitute 1', 'Substitute a']
+
+    # Test case for very long strings
+    assert calculate_edit_distance("a" * 1000, "b" * 1000) == ['Substitute b'] * 1000
+
+    # Test case for very different strings
+    assert calculate_edit_distance("abc", "xyz") == ['Substitute x', 'Substitute y', 'Substitute z']
+
+    # Test case for one empty string
+    assert calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+
+    # Test case for both empty strings
+    assert calculate_edit_distance("", "") == []
+
+    # Test case for large strings
+    assert calculate_edit_distance("a" * 10000, "b" * 10000) == ['Substitute b'] * 10000

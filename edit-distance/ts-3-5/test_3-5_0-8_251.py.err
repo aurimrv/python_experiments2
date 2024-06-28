@@ -1,0 +1,48 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance method
+
+    # Test case 1: Testing for strings with no edit distance
+    str1 = "cat"
+    str2 = "cat"
+    expected_output = []
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 2: Testing for deletion operation
+    str1 = "cat"
+    str2 = "at"
+    expected_output = ['Delete c']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 3: Testing for insertion operation
+    str1 = "at"
+    str2 = "cat"
+    expected_output = ['Insert c']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 4: Testing for substitution operation
+    str1 = "cat"
+    str2 = "dog"
+    expected_output = ['Substitute c with d', 'Substitute a with o', 'Substitute t with g']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 5: Testing for long strings with multiple operations
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute k with s', 'Insert s', 'Match i', 'Match t', 'Match t', 'Match e']
+    assert calculate_edit_distance(str1, str2) == expected_output
+
+    # Test case 6: Testing for empty strings
+    str1 = ""
+    str2 = "test"
+    expected_output = ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance(str1, str2) == expected_output

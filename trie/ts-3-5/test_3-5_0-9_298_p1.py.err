@@ -1,0 +1,36 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+words = ['apple', 'app', 'application', 'banana']
+
+@pytest.fixture
+def trie_instance():
+    return Trie(words)
+
+def test_trie_init(trie_instance):
+    assert trie_instance.head != {}
+    assert trie_instance.head['a']['p']['p']['l']['e'][Trie.eof] == Trie.eof
+    assert trie_instance.head['a']['p']['p'][Trie.eof] == Trie.eof
+    assert trie_instance.head['a']['p']['p']['l']['i']['c']['a']['t']['i']['o']['n'][Trie.eof] == Trie.eof
+
+def test_trie_add(trie_instance):
+    trie_instance.add('test')
+    assert trie_instance.head['t']['e']['s']['t'][Trie.eof] == Trie.eof
+
+def test_get_all_common_prefix(trie_instance):
+    assert trie_instance.get_all_common_prefix('app') == ['app', 'apple', 'application']
+    assert trie_instance.get_all_common_prefix('bana') == ['banana']
+
+def test_get_all_common_prefix_empty(trie_instance):
+    assert trie_instance.get_all_common_prefix('xyz') == []
+
+def test_get_all_common_prefix_partial(trie_instance):
+    trie_instance.add('application')
+    assert trie_instance.get_all_common_prefix('appl') == ['apple', 'application']

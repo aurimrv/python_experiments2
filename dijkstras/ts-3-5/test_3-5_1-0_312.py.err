@@ -1,0 +1,49 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_basic():
+    weighted_graph = {
+        'A': {'B': 2, 'C': 9},
+        'B': {'A': 2, 'D': 3},
+        'C': {'A': 9, 'E': 4},
+        'D': {'B': 3, 'F': 5},
+        'E': {'C': 4, 'F': 6},
+        'F': {'D': 5, 'E': 6}
+    }
+    src = 'A'
+    dst = 'F'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'F']
+
+def test_dijkstras_different_graph():
+    weighted_graph = {
+        'S': {'A': 4, 'B': 3},
+        'A': {'S': 4, 'B': 1, 'C': 10},
+        'B': {'S': 3, 'A': 1, 'C': 2},
+        'C': {'A': 10, 'B': 2}
+    }
+    src = 'S'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['S', 'B', 'C']
+
+def test_dijkstras_single_vertex_graph():
+    weighted_graph = {
+        'X': {}
+    }
+    src = 'X'
+    dst = 'X'
+    assert dijkstras(weighted_graph, src, dst) == ['X']
+
+def test_dijkstras_no_path():
+    weighted_graph = {
+        'X': {'Y': 5},
+        'Y': {'Z': 3},
+        'Z': {}
+    }
+    src = 'X'
+    dst = 'Z'
+    assert dijkstras(weighted_graph, src, dst) == []

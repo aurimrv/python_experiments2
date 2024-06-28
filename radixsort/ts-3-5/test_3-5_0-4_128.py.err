@@ -1,0 +1,55 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+import pytest
+
+def test_create_buckets():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    iteration = 1
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10
+    assert len(buckets[0]) == 2
+    assert len(buckets[1]) == 2
+    assert len(buckets[2]) == 1
+    assert len(buckets[3]) == 0
+    assert len(buckets[4]) == 1
+    assert len(buckets[5]) == 1
+    assert len(buckets[6]) == 1
+    assert len(buckets[7]) == 0
+    assert len(buckets[8]) == 0
+    assert len(buckets[9]) == 1
+
+def test_create_list():
+    buckets = [[170, 90], [45, 75], [802], [24], [2, 66]]
+    nums = radixsort.create_list(buckets)
+    expected = [170, 90, 45, 75, 802, 24, 2, 66]
+    assert nums == expected
+
+def test_radixsort():
+    ar = [170, 45, 75, 90, 802, 24, 2, 66]
+    sorted_ar = radixsort.radixsort(ar)
+    expected = [2, 24, 45, 66, 75, 90, 170, 802]
+    assert sorted_ar == expected
+
+def test_radixsort_empty_input():
+    ar = []
+    sorted_ar = radixsort.radixsort(ar)
+    expected = []
+    assert sorted_ar == expected
+
+def test_radixsort_single_element():
+    ar = [5]
+    sorted_ar = radixsort.radixsort(ar)
+    expected = [5]
+    assert sorted_ar == expected
+
+def test_radixsort_already_sorted():
+    ar = [10, 20, 30, 40, 50]
+    sorted_ar = radixsort.radixsort(ar)
+    expected = [10, 20, 30, 40, 50]
+    assert sorted_ar == expected

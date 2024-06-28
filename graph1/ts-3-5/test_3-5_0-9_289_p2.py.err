@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+def test_graph_init():
+    graph = Graph(5)
+    assert len(graph.graph) == 0
+    assert graph.verticies == 5
+
+def test_graph_add_edge():
+    graph = Graph(3)
+    graph.add_edge(0, 1)
+    assert graph.graph == {0: [1], 1: []}
+
+def test_graph_has_cycle_true():
+    graph = Graph(3)
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 0)
+    assert graph.has_cycle() == True
+
+def test_graph_has_cycle_false():
+    graph = Graph(4)
+    graph.add_edge(0, 1)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    assert graph.has_cycle() == False
+
+def test_graph_topological_sort():
+    graph = Graph(4)
+    graph.add_edge(0, 1)
+    graph.add_edge(0, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 3)
+    assert graph.topological_sort() == [0, 2, 1, 3]
+
+def test_weighted_graph_init():
+    weighted_graph = WeightedGraph()
+    assert len(weighted_graph.vertices) == 0
+
+def test_weighted_graph_add_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge("A", "B", 5)
+    weighted_graph.add_edge("B", "C", 3)
+    assert str(weighted_graph.vertices) == "{'A': <graph1.WeightedGraphNode object at 0x...>, 'B': <graph1.WeightedGraphNode object at 0x...>, 'C': <graph1.WeightedGraphNode object at 0x...>}"
+
+def test_weighted_graph_remove_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge("X", "Y", 7)
+    weighted_graph.add_edge("Y", "Z", 4)
+    weighted_graph.remove_edge("X", "Y")
+    assert str(weighted_graph.vertices) == "{'X': <graph1.WeightedGraphNode object at 0x...>, 'Y': <graph1.WeightedGraphNode object at 0x...>, 'Z': <graph1.WeightedGraphNode object at 0x...}"

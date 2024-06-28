@@ -1,0 +1,62 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_basic_case(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 4)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 5)
+        weighted_graph.add_edge('C', 'D', 1)
+        
+        path = dijkstras(weighted_graph, 'A', 'D')
+        assert path == ['A', 'C', 'D']
+
+    def test_dijkstras_no_path(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        
+        path = dijkstras(weighted_graph, 'A', 'D')
+        assert path == []
+
+    def test_dijkstras_same_source_and_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        
+        path = dijkstras(weighted_graph, 'A', 'A')
+        assert path == ['A']
+
+    def test_dijkstras_negative_weights(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', -3)
+        weighted_graph.add_edge('A', 'C', -2)
+        weighted_graph.add_edge('B', 'C', -1)
+        weighted_graph.add_edge('B', 'D', -5)
+        weighted_graph.add_edge('C', 'D', -2)
+        
+        path = dijkstras(weighted_graph, 'A', 'D')
+        assert path == ['A', 'C', 'D']

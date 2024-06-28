@@ -1,0 +1,35 @@
+import os
+import sys
+import edit_distance
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_calculate_edit_distance():
+    # Test case for empty strings
+    assert edit_distance.calculate_edit_distance('', '') == []
+
+    # Test case for strings with equal length
+    assert edit_distance.calculate_edit_distance('hello', 'hella') == ['Substitute a at position 4']
+
+    # Test case for strings with different lengths
+    assert edit_distance.calculate_edit_distance('hello', 'world') == ['Delete o at position 4', 'Insert r at position 4', 'Insert l at position 5', 'Insert d at position 6', 'Insert w at position 0']
+
+    # Test case for identical strings
+    assert edit_distance.calculate_edit_distance('python', 'python') == []
+
+    # Test case for one string being empty
+    assert edit_distance.calculate_edit_distance('testing', '') == ['Delete g at position 6', 'Delete n at position 5', 'Delete i at position 3', 'Delete t at position 2', 'Delete s at position 1', 'Delete e at position 0']
+
+    # Test case for one character difference
+    assert edit_distance.calculate_edit_distance('abcd', 'abce') == ['Substitute e at position 4']
+
+    # Test case for completely different strings
+    assert edit_distance.calculate_edit_distance('abc', 'xyz') == ['Delete c at position 2', 'Insert x at position 0', 'Insert y at position 1', 'Insert z at position 2']
+
+    # Test case for longer strings
+    assert edit_distance.calculate_edit_distance('quickbrownfox', 'quickbrownfoxjumps') == ['Insert j at position 15', 'Insert s at position 17', 'Insert u at position 6']
+
+    # Test case for strings with mix of operations needed
+    assert edit_distance.calculate_edit_distance('abc', 'acde') == ['Insert c at position 3', 'Insert e at position 4', 'Substitute d at position 3']

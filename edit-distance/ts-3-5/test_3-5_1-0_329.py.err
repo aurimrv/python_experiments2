@@ -1,0 +1,35 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import edit_distance
+
+def test_calculate_edit_distance():
+    # Test cases for calculate_edit_distance function
+    
+    # Test when both strings are empty
+    str1 = ""
+    str2 = ""
+    assert edit_distance.calculate_edit_distance(str1, str2) == []
+    
+    # Test when strings are equal
+    str1 = "abc"
+    str2 = "abc"
+    assert edit_distance.calculate_edit_distance(str1, str2) == []
+    
+    # Test when one string is empty
+    str1 = ""
+    str2 = "abc"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Insert a', 'Insert b', 'Insert c']
+    
+    # Test when one string is a subset of the other
+    str1 = "abcde"
+    str2 = "ab"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Delete e', 'Delete d', 'Delete c']
+    
+    # Test when one string is a permutation of the other
+    str1 = "cat"
+    str2 = "act"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute c', 'Substitute a']

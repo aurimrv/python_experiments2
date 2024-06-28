@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+def test_construct_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == []
+
+def test_construct_single_word():
+    words = ['test']
+    squares = word_squares(words)
+    assert squares == [['test']]
+
+def test_construct_duplicate_words():
+    words = ['hello', 'hello', 'hello']
+    squares = word_squares(words)
+    assert squares == [['hello', 'hello', 'hello'], ['hello', 'hello', 'hello'], ['hello', 'hello', 'hello']]
+
+def test_construct_long_words():
+    words = ['python', 'testing', 'mutation']
+    squares = word_squares(words)
+    assert squares == [['python', 'testing', 'mutation'], ['testing', 'python', 'mutation'], ['mutation', 'python', 'testing']]
+
+def test_construct_special_characters():
+    words = ['@#$%', '%^&*', '*&^$']
+    squares = word_squares(words)
+    assert squares == [['@#$%', '%^&*', '*&^$'], ['%^&*', '@#$%', '*&^$'], ['*&^$', '@#$%', '%^&*']]

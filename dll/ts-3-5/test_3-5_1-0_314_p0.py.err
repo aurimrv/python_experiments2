@@ -1,0 +1,56 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+from dll import Node, DoubleLinkedList
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def sample_list():
+    return DoubleLinkedList(['a', 'b', 'c', 'd'])
+
+def test_node_repr():
+    n = Node(5)
+    assert repr(n) == "Value: 5"
+
+def test_double_linked_list_init(empty_list):
+    assert empty_list.head is None
+    assert empty_list.tail is None
+
+def test_double_linked_list_push(empty_list):
+    empty_list.push(1)
+    assert empty_list.head.data == 1
+    empty_list.push(2)
+    assert empty_list.head.data == 2
+
+def test_double_linked_list_pop(sample_list):
+    assert sample_list.pop() == 'a'
+    assert sample_list.pop() == 'b'
+    assert sample_list.pop() == 'c'
+
+def test_double_linked_list_append(sample_list):
+    sample_list.append('e')
+    assert sample_list.tail.data == 'e'
+    sample_list.append('f')
+    assert sample_list.tail.data == 'f'
+
+def test_double_linked_list_shift(sample_list):
+    assert sample_list.shift() == 'd'
+    assert sample_list.shift() == 'c'
+    assert sample_list.shift() == 'b'
+
+def test_double_linked_list_remove(sample_list):
+    sample_list.remove('c')
+    assert sample_list.tail.data == 'c'
+    sample_list.remove('a')
+    assert sample_list.head.data == 'b'
+
+def test_double_linked_list_remove_not_in_list(sample_list):
+    with pytest.raises(ValueError):
+        sample_list.remove('x')

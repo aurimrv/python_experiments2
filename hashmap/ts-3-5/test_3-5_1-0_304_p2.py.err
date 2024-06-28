@@ -1,0 +1,58 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    hashmap.insert('apple', 1)
+    assert hashmap.get('apple') == 1
+
+def test_get(hashmap):
+    hashmap.insert('apple', 1)
+    hashmap.insert('banana', 2)
+    assert hashmap.get('apple') == 1
+    assert hashmap.get('banana') == 2
+
+def test_delete(hashmap):
+    hashmap.insert('apple', 1)
+    hashmap.insert('banana', 2)
+    deleted_value = hashmap.delete('apple')
+    assert deleted_value == ('apple', 1)
+    with pytest.raises(KeyError):
+        hashmap.get('apple')
+
+def test_insert_override(hashmap):
+    hashmap.insert('apple', 1)
+    hashmap.insert('apple', 2)
+    assert hashmap.get('apple') == 2
+
+def test_get_key_not_found(hashmap):
+    hashmap.insert('apple', 1)
+    with pytest.raises(KeyError):
+        hashmap.get('banana')
+
+def test_delete_key_not_found(hashmap):
+    hashmap.insert('apple', 1)
+    with pytest.raises(KeyError):
+        hashmap.delete('banana')
+
+def test_djb2_hash_function():
+    assert djb2('test') == 209075457
+    assert djb2('python') == 305967994
+
+def test_sdbm_hash_function():
+    assert sdbm('test') == 209375646
+    assert sdbm('python') == 306852459
+
+def test_lose_lose_hash_function():
+    assert lose_lose('test') == 448
+    assert lose_lose('python') == 484 

@@ -1,0 +1,79 @@
+import os
+import sys
+from dll import Node, DoubleLinkedList
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.fixture
+def empty_dll():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def dll_with_data():
+    return DoubleLinkedList([1, 2, 3, 4, 5])
+
+def test_node_repr():
+    node = Node(10)
+    assert str(node) == "Value: 10"
+
+def test_dll_push(empty_dll):
+    empty_dll.push(10)
+    assert empty_dll._length == 1
+    assert empty_dll.head.data == 10
+
+def test_dll_pop_empty(empty_dll):
+    with pytest.raises(IndexError):
+        empty_dll.pop()
+
+def test_dll_pop_single_node(empty_dll):
+    empty_dll.push(10)
+    assert empty_dll.pop() == 10
+    assert empty_dll.head is None
+    assert empty_dll.tail is None
+
+def test_dll_pop(dll_with_data):
+    assert dll_with_data.pop() == 1
+    assert dll_with_data._length == 4
+
+def test_dll_append(empty_dll):
+    empty_dll.append(20)
+    assert empty_dll._length == 1
+    assert empty_dll.tail.data == 20
+
+def test_dll_shift_empty(empty_dll):
+    with pytest.raises(IndexError):
+        empty_dll.shift()
+
+def test_dll_shift_single_node(empty_dll):
+    empty_dll.push(25)
+    assert empty_dll.shift() == 25
+    assert empty_dll.head is None
+    assert empty_dll.tail is None
+
+def test_dll_shift(dll_with_data):
+    assert dll_with_data.shift() == 5
+    assert dll_with_data._length == 4
+
+def test_dll_remove_nonexistent_val(dll_with_data):
+    with pytest.raises(ValueError):
+        dll_with_data.remove(10)
+
+def test_dll_remove_head(dll_with_data):
+    dll_with_data.remove(1)
+    assert dll_with_data._length == 4
+    assert dll_with_data.head.data == 2
+
+def test_dll_remove_tail(dll_with_data):
+    dll_with_data.remove(5)
+    assert dll_with_data._length == 4
+    assert dll_with_data.tail.data == 4
+
+def test_dll_repr_empty(empty_dll):
+    assert empty_dll._repr() == []
+
+def test_dll_repr(dll_with_data):
+    assert dll_with_data._repr() == [5, 4, 3, 2, 1]

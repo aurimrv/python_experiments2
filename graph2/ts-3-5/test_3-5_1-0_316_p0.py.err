@@ -1,0 +1,81 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def graph_instance():
+    return Graph()
+
+def test_nodes_empty_graph(graph_instance):
+    assert graph_instance.nodes() == []
+
+def test_nodes_after_adding_nodes(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    assert set(graph_instance.nodes()) == {1, 2}
+
+def test_edges_empty_graph(graph_instance):
+    assert graph_instance.edges() == []
+
+def test_edges_after_adding_edges(graph_instance):
+    graph_instance.add_edge(1, 2)
+    graph_instance.add_edge(2, 3)
+    assert set(graph_instance.edges()) == {(1, 2), (2, 3)}
+
+def test_add_node(graph_instance):
+    graph_instance.add_node(1)
+    assert 1 in graph_instance.graph
+
+def test_add_edge(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    assert 2 in graph_instance.graph[1]
+
+def test_del_node(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    graph_instance.del_node(1)
+    with pytest.raises(KeyError):
+        assert 1 not in graph_instance.graph
+        assert 2 not in graph_instance.graph[1]
+
+def test_del_edge(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    graph_instance.del_edge(1, 2)
+    assert 2 not in graph_instance.graph[1]
+
+def test_has_node_true(graph_instance):
+    graph_instance.add_node(1)
+    assert graph_instance.has_node(1) == True
+
+def test_has_node_false(graph_instance):
+    graph_instance.add_node(1)
+    assert graph_instance.has_node(2) == False
+
+def test_neighbors(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    assert set(graph_instance.neighbors(1)) == {2}
+
+def test_adjacent_true(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    assert graph_instance.adjacent(1, 2) == True
+
+def test_adjacent_false(graph_instance):
+    graph_instance.add_node(1)
+    graph_instance.add_node(2)
+    graph_instance.add_edge(1, 2)
+    assert graph_instance.adjacent(2, 1) == False

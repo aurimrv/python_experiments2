@@ -1,0 +1,67 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class MockVertex:
+    def __init__(self, adjacent):
+        self.adjacent = adjacent
+
+class MockWeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+def test_dijkstras():
+    # Test case 1
+    vertices = {
+        'A': MockVertex({'B': 1, 'C': 4}),
+        'B': MockVertex({'A': 1, 'C': 2, 'D': 5}),
+        'C': MockVertex({'A': 4, 'B': 2, 'D': 1}),
+        'D': MockVertex({'B': 5, 'C': 1})
+    }
+
+    weighted_graph = MockWeightedGraph(vertices)
+    
+    src = 'A'
+    dst = 'D'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'C', 'D']
+
+def test_dijkstras_shortest_path():
+    # Test case 2
+    vertices = {
+        'A': MockVertex({'B': 1, 'C': 4}),
+        'B': MockVertex({'A': 1, 'C': 2, 'D': 5}),
+        'C': MockVertex({'A': 4, 'B': 2, 'D': 1}),
+        'D': MockVertex({'B': 5, 'C': 1})
+    }
+
+    weighted_graph = MockWeightedGraph(vertices)
+    
+    src = 'B'
+    dst = 'D'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['B', 'C', 'D']
+
+def test_dijkstras_no_path():
+    # Test case 3
+    vertices = {
+        'A': MockVertex({'B': 1, 'C': 4}),
+        'B': MockVertex({'A': 1, 'C': 2, 'D': 5}),
+        'C': MockVertex({'A': 4, 'B': 2, 'D': 1}),
+        'D': MockVertex({'B': 5, 'C': 1})
+    }
+
+    weighted_graph = MockWeightedGraph(vertices)
+    
+    src = 'D'
+    dst = 'A'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == []

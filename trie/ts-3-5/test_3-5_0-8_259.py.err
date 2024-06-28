@@ -1,0 +1,27 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+words = ['apple', 'banana', 'app', 'ape', 'ban', 'bat']
+
+@pytest.fixture
+def trie():
+    return Trie(words)
+
+def test_trie_initialization(trie):
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, '__eof__': '__eof__'}, 'e': {'__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, 't': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}}
+
+def test_add_method(trie):
+    trie.add('candy')
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, 'e': {'__eof__': '__eof__'}}, 'e': {'__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, 't': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, 'c': {'a': {'n': {'d': {'y': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}}}
+
+def test_get_all_common_prefix(trie):
+    assert trie.get_all_common_prefix('ap') == ['apple', 'app', 'ape']
+    assert trie.get_all_common_prefix('ba') == ['banana', 'ban', 'bat']
+    assert trie.get_all_common_prefix('ca') == []

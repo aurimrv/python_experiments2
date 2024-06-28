@@ -1,0 +1,43 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from mergesort import mergesort
+
+def test_mergesort():
+    # Test if empty list returns empty list
+    assert mergesort([]) == []
+
+    # Test if single element list returns the same list
+    assert mergesort([1]) == [1]
+
+    # Test if already sorted list remains the same
+    assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+    # Test if list with duplicate elements is sorted correctly
+    assert mergesort([3, 2, 1, 2, 4, 3]) == [1, 2, 2, 3, 3, 4]
+
+    # Test if list with negative numbers is sorted correctly
+    assert mergesort([-5, 3, -8, 0, 7]) == [-8, -5, 0, 3, 7]
+
+    # Test if list with large elements is sorted correctly
+    assert mergesort([1000, 10000, 100, 1000000, 10]) == [10, 100, 1000, 10000, 1000000]
+
+def test_merge():
+    # Test if merging two empty lists returns an empty list
+    assert mergesort.merge([], []) == []
+
+    # Test if merging an empty list with a non-empty list returns the non-empty list
+    assert mergesort.merge([], [1, 2, 3]) == [1, 2, 3]
+
+    # Test if merging two lists with alternating elements returns a sorted list
+    assert mergesort.merge([1, 3, 5], [2, 4, 6]) == [1, 2, 3, 4, 5, 6]
+
+    # Test if merging two lists with one list being a subset of the other returns a sorted list
+    assert mergesort.merge([1, 2, 3], [2]) == [1, 2, 2, 3]
+
+    # Test if merging two lists in reverse order returns a sorted list
+    assert mergesort.merge([5, 4, 3], [3, 2, 1]) == [3, 3, 2, 1, 5, 4]

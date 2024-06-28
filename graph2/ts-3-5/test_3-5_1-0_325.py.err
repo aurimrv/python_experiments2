@@ -1,0 +1,82 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph2 import Graph
+
+@pytest.fixture
+def empty_graph():
+    return Graph()
+
+@pytest.fixture
+def sample_graph():
+    data = [1, 2, 3]
+    return Graph(data)
+
+def test_nodes_empty(empty_graph):
+    assert empty_graph.nodes() == []
+
+def test_edges_empty(empty_graph):
+    assert empty_graph.edges() == []
+
+def test_add_node_empty(empty_graph):
+    empty_graph.add_node(1)
+    assert empty_graph.nodes() == [1]
+
+def test_add_edge_empty(empty_graph):
+    empty_graph.add_edge(1, 2)
+    assert empty_graph.edges() == [(1, 2)]
+
+def test_del_node_empty(empty_graph):
+    with pytest.raises(KeyError):
+        empty_graph.del_node(1)
+
+def test_del_edge_empty(empty_graph):
+    with pytest.raises(KeyError):
+        empty_graph.del_edge(1, 2)
+
+def test_has_node_empty(empty_graph):
+    assert not empty_graph.has_node(1)
+
+def test_neighbors_empty(empty_graph):
+    with pytest.raises(KeyError):
+        empty_graph.neighbors(1)
+
+def test_adjacent_empty(empty_graph):
+    with pytest.raises(KeyError):
+        empty_graph.adjacent(1, 2)
+
+def test_nodes_sample(sample_graph):
+    assert sample_graph.nodes() == [1, 2, 3]
+
+def test_edges_sample(sample_graph):
+    assert len(sample_graph.edges()) == 0  # No edges added in sample graph
+
+def test_add_node_sample(sample_graph):
+    sample_graph.add_node(4)
+    assert sample_graph.nodes() == [1, 2, 3, 4]
+
+def test_add_edge_sample(sample_graph):
+    sample_graph.add_edge(1, 2)
+    assert sample_graph.edges() == [(1, 2)]
+
+def test_del_node_sample(sample_graph):
+    sample_graph.del_node(1)
+    assert sample_graph.nodes() == [2, 3]
+
+def test_del_edge_sample(sample_graph):
+    with pytest.raises(KeyError):
+        sample_graph.del_edge(1, 2)
+
+def test_has_node_sample(sample_graph):
+    assert sample_graph.has_node(2)
+
+def test_neighbors_sample(sample_graph):
+    assert sample_graph.neighbors(2) == set()
+
+def test_adjacent_sample(sample_graph):
+    assert not sample_graph.adjacent(1, 3)

@@ -1,0 +1,81 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+def test_contains_cycle():
+    # Test for a list with a cycle
+    n1 = ListNode(1)
+    n2 = ListNode(2)
+    n3 = ListNode(3)
+    n4 = ListNode(4)
+
+    n1.next = n2
+    n2.next = n3
+    n3.next = n4
+    n4.next = n2  # cycle
+
+    assert n1.contains_cycle() == True
+
+    # Test for a list without a cycle
+    n1.next = n2
+    n2.next = n3
+    n3.next = n4
+
+    assert n1.contains_cycle() == False
+
+def test_get_beginning_of_cycle_if_exists():
+    # Test for a list with a cycle
+    n1 = ListNode(1)
+    n2 = ListNode(2)
+    n3 = ListNode(3)
+    n4 = ListNode(4)
+
+    n1.next = n2
+    n2.next = n3
+    n3.next = n4
+    n4.next = n2  # cycle
+
+    assert n1.get_beginning_of_cycle_if_exists() == n2
+
+    # Test for a list without a cycle
+    n1.next = n2
+    n2.next = n3
+    n3.next = n4
+
+    assert n1.get_beginning_of_cycle_if_exists() == None
+
+def test_reverse():
+    # Test for reversing a list
+    n1 = ListNode(1)
+    n2 = ListNode(2)
+    n3 = ListNode(3)
+
+    n1.next = n2
+    n2.next = n3
+
+    reversed_head = n1.reverse()
+
+    assert reversed_head.val == 3
+    assert reversed_head.next.val == 2
+    assert reversed_head.next.next.val == 1
+
+def test_reverse_recursive():
+    # Test for reversing a list recursively
+    n1 = ListNode(1)
+    n2 = ListNode(2)
+    n3 = ListNode(3)
+
+    n1.next = n2
+    n2.next = n3
+
+    reversed_head = n1.reverse_recursive()
+
+    assert reversed_head.val == 3
+    assert reversed_head.next.val == 2
+    assert reversed_head.next.next.val == 1

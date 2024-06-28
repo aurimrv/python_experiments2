@@ -1,0 +1,65 @@
+import os
+import sys
+import pytest
+from collections import defaultdict, deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+# Tests for Graph class
+class TestGraph:
+    def test_add_edge(self):
+        g = Graph(4)
+        g.add_edge(0, 1)
+        assert 1 in g.graph[0]
+    
+    def test_has_cycle(self):
+        g = Graph(4)
+        g.add_edge(0, 1)
+        g.add_edge(1, 2)
+        assert g.has_cycle() == False
+    
+    def test_topological_sort(self):
+        g = Graph(4)
+        g.add_edge(0, 1)
+        g.add_edge(1, 2)
+        assert g.topological_sort() == [0, 1, 2]
+
+# Tests for WeightedGraph class
+class TestWeightedGraph:
+    def test_add_vertex(self):
+        wg = WeightedGraph()
+        wg.add_vertex(5)
+        assert 5 in wg.vertices
+
+    def test_add_edge(self):
+        wg = WeightedGraph()
+        wg.add_edge(0, 1, 5)
+        assert wg.vertices[0].adjacent[1] == 5
+    
+    def test_remove_edge(self):
+        wg = WeightedGraph()
+        wg.add_edge(0, 1, 5)
+        wg.remove_edge(0, 1)
+        assert 1 not in wg.vertices[0].adjacent
+
+    def test_remove_edge_nonexistent_vertex(self):
+        wg = WeightedGraph()
+        wg.add_edge(0, 1, 5)
+        wg.remove_edge(0, 2) # Removing edge to non-existent vertex
+        assert 1 in wg.vertices[0].adjacent
+
+    def test_remove_edge_nonexistent_vertex_src(self):
+        wg = WeightedGraph()
+        wg.add_edge(0, 1, 5)
+        wg.remove_edge(2, 1) # Removing edge from non-existent source vertex
+        assert 1 in wg.vertices[0].adjacent
+
+    def test_remove_edge_nonexistent_vertex_both(self):
+        wg = WeightedGraph()
+        wg.add_edge(0, 1, 5)
+        wg.remove_edge(2, 3) # Removing edge where both src and dst are non-existent
+        assert 1 in wg.vertices[0].adjacent

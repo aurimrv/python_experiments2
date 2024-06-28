@@ -1,0 +1,39 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from radixsort import radixsort
+
+def test_create_buckets():
+    ar = [345, 12, 999, 567, 123, 765]
+    iteration = 2
+    buckets = radixsort.create_buckets(ar, iteration)
+    assert len(buckets) == 10  # We expect a bucket for each digit
+    assert sum(len(bucket) for bucket in buckets) == len(ar)  # All elements are distributed into buckets
+
+def test_create_list():
+    buckets = [[1, 4, 7], [2, 8], [3, 6], [5, 9]]
+    nums = radixsort.create_list(buckets)
+    assert nums == [1, 4, 7, 2, 8, 3, 6, 5, 9]  # Check if list is properly created from buckets
+
+def test_radixsort():
+    ar = [345, 12, 999, 567, 123, 765]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [12, 123, 345, 567, 765, 999]  # Check if array is properly sorted
+
+def test_radixsort_large_values():
+    ar = [987654321, 123456789, 555555555, 111111111]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [111111111, 123456789, 555555555, 987654321]  # Check sorting with large values
+
+def test_radixsort_duplicates():
+    ar = [22, 22, 11, 33, 11, 44, 22]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [11, 11, 22, 22, 22, 33, 44]  # Check sorting with duplicates
+
+def test_radixsort_single_element():
+    ar = [5]
+    sorted_ar = radixsort.radixsort(ar)
+    assert sorted_ar == [5]  # Check sorting with single element

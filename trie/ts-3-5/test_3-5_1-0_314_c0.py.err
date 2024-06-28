@@ -1,0 +1,43 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_init_empty():
+    t = Trie([])
+    assert t.head == {}
+
+def test_init_with_words():
+    t = Trie(["apple", "application"])
+    assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}}}
+
+def test_add_single_word():
+    t = Trie([])
+    t.add("testing")
+    assert t.head == {'t': {'e': {'s': {'t': {'i': {'n': {'g': {'__eof__': '__eof__'}}}}}}}}
+
+def test_add_multiple_words():
+    t = Trie([])
+    t.add("apple")
+    t.add("application")
+    assert t.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}, 'i': {'c': {'a': {'t': {'i': {'o': {'n': {'__eof__': '__eof__'}}}}}}}}}}}
+
+def test_get_all_common_prefix_existing():
+    t = Trie(["apple", "application"])
+    assert t.get_all_common_prefix("app") == ["apple", "application"]
+
+def test_get_all_common_prefix_non_existing():
+    t = Trie(["apple", "application"])
+    assert t.get_all_common_prefix("test") == []
+
+def test_get_all_common_prefix_partial():
+    t = Trie(["apple", "application", "orange"])
+    assert t.get_all_common_prefix("app") == ["apple", "application"]
+
+def test_get_all_common_prefix_empty_prefix():
+    t = Trie(["apple", "application", "orange"])
+    assert t.get_all_common_prefix("") == ["apple", "application", "orange"]

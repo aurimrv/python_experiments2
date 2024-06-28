@@ -1,0 +1,50 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    hashmap.insert(1, 'a')
+    assert hashmap.get(1) == 'a'
+
+    hashmap.insert(1, 'b')
+    assert hashmap.get(1) == 'b'
+
+    hashmap.insert('key', 'value')
+    assert hashmap.get('key') == 'value'
+
+def test_get(hashmap):
+    hashmap.insert(1, 'a')
+    assert hashmap.get(1) == 'a'
+
+    with pytest.raises(KeyError):
+        hashmap.get('non_existent_key')
+
+def test_delete(hashmap):
+    hashmap.insert(1, 'a')
+    deleted = hashmap.delete(1)
+    assert deleted == (1, 'a')
+
+    with pytest.raises(KeyError):
+        hashmap.delete('non_existent_key')
+
+def test_djb2():
+    assert djb2('hello') == 210714636441
+    assert djb2('world') == 2057673963
+
+def test_sdbm():
+    assert sdbm('hello') == 550998747
+    assert sdbm('world') == 1866333244
+
+def test_lose_lose():
+    assert lose_lose('hello') == 532
+    assert lose_lose('world') == 552

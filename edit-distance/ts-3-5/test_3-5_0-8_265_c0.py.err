@@ -1,0 +1,23 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k s', 'Delete e', 'Match']
+    assert calculate_edit_distance("horse", "ros") == ['Delete h', 'Delete o', 'Match', 'Match']
+    assert calculate_edit_distance("intention", "execution") == ['Match', 'Match', 'Match', 'Substitute n x', 'Match', 'Match', 'Match', 'Insert u']
+
+def test_empty_strings():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("cat", "") == ['Delete c', 'Delete a', 'Delete t']
+    assert calculate_edit_distance("", "dog") == ['Insert d', 'Insert o', 'Insert g']
+
+def test_same_strings():
+    assert calculate_edit_distance("hello", "hello") == []
+    assert calculate_edit_distance("python", "python") == []
+
+def test_long_strings():
+    assert calculate_edit_distance("abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxz") == ['Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Match', 'Delete y']

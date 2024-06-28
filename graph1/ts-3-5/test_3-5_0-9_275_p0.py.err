@@ -1,0 +1,87 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+def test_graph_node_init():
+    node = GraphNode(1)
+    assert node.val == 1
+    assert len(node.adjacent_list) == 0
+
+def test_graph_node_add_remove_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    
+    node1.add_adjacent(node2)
+    assert node2 in node1.adjacent_list
+    
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent_list
+
+def test_graph_init():
+    g = Graph(5)
+    assert len(g.graph) == 0
+    assert g.vertices == 5
+
+def test_graph_add_edge():
+    g = Graph(3)
+    g.add_edge(1, 2)
+    assert 2 in g.graph[1]
+    assert 1 not in g.graph
+
+def test_graph_has_cycle():
+    g = Graph(3)
+    g.add_edge(0, 1)
+    g.add_edge(1, 2)
+    g.add_edge(2, 0)
+    assert g.has_cycle()
+
+def test_graph_topological_sort():
+    g = Graph(4)
+    g.add_edge(0, 1)
+    g.add_edge(0, 2)
+    g.add_edge(1, 3)
+    g.add_edge(2, 3)
+    assert g.topological_sort() == [0, 1, 2, 3]
+
+def test_weighted_graph_node_init():
+    node = WeightedGraphNode('A')
+    assert node.val == 'A'
+    assert len(node.adjacent) == 0
+
+def test_weighted_graph_node_add_remove_adjacent():
+    node1 = WeightedGraphNode('A')
+    node2 = WeightedGraphNode('B')
+    
+    node1.add_adjacent(node2, 5)
+    assert node2 in node1.adjacent
+    assert node1.adjacent[node2] == 5
+    
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent
+
+def test_weighted_graph_init():
+    wg = WeightedGraph()
+    assert len(wg.vertices) == 0
+
+def test_weighted_graph_add_vertex():
+    wg = WeightedGraph()
+    wg.add_vertex('A')
+    assert 'A' in wg.vertices
+
+def test_weighted_graph_add_edge():
+    wg = WeightedGraph()
+    wg.add_edge('A', 'B', 3)
+    assert 'B' in wg.vertices['A'].adjacent
+    assert wg.vertices['A'].adjacent['B'] == 3
+
+def test_weighted_graph_remove_edge():
+    wg = WeightedGraph()
+    wg.add_edge('A', 'B', 3)
+    wg.remove_edge('A', 'B')
+    assert 'B' not in wg.vertices['A'].adjacent

@@ -1,0 +1,33 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute k', 'Substitute e', 'Substitute n', 'Insert g']
+
+def test_calculate_edit_distance_insert():
+    str1 = "abc"
+    str2 = "abdc"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Insert d']
+
+def test_calculate_edit_distance_delete():
+    str1 = "testing"
+    str2 = "testin"
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Delete g']
+
+def test_calculate_edit_distance_equal_strings():
+    str1 = "hello"
+    str2 = "hello"
+    assert edit_distance.calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string with many differences."
+    str2 = "Th1s 1s a l0ng str1ng with many d1fferences."
+    assert edit_distance.calculate_edit_distance(str1, str2) == ['Substitute T', 'Substitute h', 'Substitute i', 'Substitute s', 'Insert 1', 'Substitute ', 'Substitute ', 'Insert 0', 'Insert 1', 'Substitute n', 'Insert 1', 'Substitute n', 'Substitute c', 'Insert 1', 'Substitute e', 'Substitute s', 'Substitute .']

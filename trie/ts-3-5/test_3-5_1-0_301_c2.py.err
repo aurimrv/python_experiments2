@@ -1,0 +1,33 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_example():
+    return Trie(['apple', 'banana', 'orange'])
+
+def test_trie_init(trie_example):
+    assert trie_example.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}, 
+                                 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}, 
+                                 'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}
+
+def test_trie_add(trie_example):
+    trie_example.add('grape')
+    assert trie_example.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}}, 
+                                 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}}, 
+                                 'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                 'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}}}
+
+def test_get_all_common_prefix(trie_example):
+    assert trie_example.get_all_common_prefix('a') == ['apple']
+    assert trie_example.get_all_common_prefix('b') == ['banana']
+    assert trie_example.get_all_common_prefix('o') == ['orange']
+    assert trie_example.get_all_common_prefix('ap') == []
+    assert trie_example.get_all_common_prefix('ban') == []
+    assert trie_example.get_all_common_prefix('ora') == []

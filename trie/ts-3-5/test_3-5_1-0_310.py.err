@@ -1,0 +1,36 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_fixture():
+    trie = Trie(['apple', 'app', 'banana', 'band'])
+    return trie
+
+def test_trie_init():
+    trie = Trie(['apple', 'app'])
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}}, 'app': {'l': {'e': {'__eof__': '__eof__'}}}}
+    
+    trie2 = Trie([])
+    assert trie2.head == {}
+
+def test_trie_add(trie_fixture):
+    trie_fixture.add('band')
+    assert trie_fixture.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'app': {'l': {'e': {'__eof__': '__eof__'}}}}, 'b': {'a': {'n': {'d': {'__eof__': '__eof__'}}}}}
+
+def test_trie_get_all_common_prefix(trie_fixture):
+    common_prefix = trie_fixture.get_all_common_prefix('ap')
+    assert common_prefix == ['apple', 'app']
+
+    common_prefix2 = trie_fixture.get_all_common_prefix('ba')
+    assert common_prefix2 == ['banana', 'band']
+
+def test_trie_get_all_common_prefix_empty(trie_fixture):
+    common_empty = trie_fixture.get_all_common_prefix('xyz')
+    assert common_empty == []

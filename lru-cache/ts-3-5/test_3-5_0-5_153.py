@@ -1,0 +1,55 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+@pytest.fixture
+def lru_cache():
+    return LruCache(2)
+
+def test_put(lru_cache):
+    lru_cache.put(1, 'a')
+    assert lru_cache.get(1) == 'a'
+
+def test_put_multiple(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    assert lru_cache.get(1) == 'a'
+    assert lru_cache.get(2) == 'b'
+
+def test_put_capacity_exceeded(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    lru_cache.put(3, 'c')
+    assert lru_cache.get(1) == -1
+
+def test_get(lru_cache):
+    lru_cache.put(1, 'a')
+    assert lru_cache.get(1) == 'a'
+
+def test_get_nonexistent_key(lru_cache):
+    lru_cache.put(1, 'a')
+    assert lru_cache.get(2) == -1
+
+def test_get_updates_order(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    lru_cache.get(1)
+    lru_cache.put(3, 'c')
+    assert lru_cache.get(2) == -1
+
+def test_add(lru_cache):
+    node = ListNode(1, 'a')
+    lru_cache._add(node)
+    assert lru_cache.tail.prev.key == 1
+
+def test_remove(lru_cache):
+    node = ListNode(1, 'a')
+    lru_cache._add(node)
+    lru_cache._remove(node)
+    assert lru_cache.tail.prev == lru_cache.head

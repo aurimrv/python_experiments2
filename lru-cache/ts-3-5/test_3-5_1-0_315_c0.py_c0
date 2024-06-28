@@ -1,0 +1,96 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+import pytest
+
+def test_listnode_initialization():
+    node = ListNode(1, 'a')
+    assert node.key == 1
+    assert node.val == 'a'
+    assert node.next is None
+    assert node.prev is None
+
+def test_listnode_linking():
+    node1 = ListNode(1, 'a')
+    node2 = ListNode(2, 'b')
+
+    node1.next = node2
+    node2.prev = node1
+
+    assert node1.next == node2
+    assert node2.prev == node1
+
+def test_lrucache_initialization():
+    cache = LruCache(3)
+    assert cache.capacity == 3
+    assert cache.head.val == cache.tail.val == 0
+    assert cache.lookup_map == {}
+
+def test_lrucache_put_get():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+
+    assert cache.get(1) == 'a'
+    assert cache.get(2) == 'b'
+    assert cache.get(3) == 'c'
+
+    cache.put(4, 'd')
+    assert cache.get(1) == -1
+
+def test_lrucache_put_existing_key():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(1, 'x')
+
+    assert cache.get(1) == 'x'
+
+def test_lrucache_get_nonexistent_key():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+
+    assert cache.get(3) == -1
+
+def test_lrucache_put_capacity_1():
+    cache = LruCache(1)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+
+    assert cache.get(1) == -1
+
+def test_lrucache_get_removes_and_adds_order():
+    cache = LruCache(3)
+    cache.put(1, 'a')
+    cache.put(2, 'b')
+    cache.put(3, 'c')
+
+    cache.get(1)
+    cache.put(4, 'd')
+
+    assert cache.get(1) == 'a'
+
+def test_lrucache_internal_functions():
+    cache = LruCache(3)
+    node1 = ListNode(1, 'a')
+    node2 = ListNode(2, 'b')
+    node3 = ListNode(3, 'c')
+
+    cache._add(node1)
+    cache._add(node2)
+    cache._add(node3)
+
+    assert cache.head.next == node1
+    assert cache.tail.prev == node3
+
+    cache._remove(node2)
+
+    assert cache.head.next == node1
+    assert cache.tail.prev == node3

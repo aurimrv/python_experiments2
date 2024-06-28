@@ -1,0 +1,52 @@
+import os
+import sys
+import quicksort
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+sys.setrecursionlimit(15000)
+
+import pytest
+
+def test_quicksort():
+    # Test case for an already sorted list
+    assert quicksort.quicksort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+    # Test case for a reverse sorted list
+    assert quicksort.quicksort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+
+    # Test case for a list with duplicate elements
+    assert quicksort.quicksort([3, 2, 5, 3, 1]) == [1, 2, 3, 3, 5]
+
+    # Test case for an empty list
+    assert quicksort.quicksort([]) == []
+
+def test_sort():
+    # Test case for an already sorted list
+    ar = [1, 2, 3, 4, 5]
+    quicksort.sort(ar, 0, len(ar) - 1)
+    assert ar == [1, 2, 3, 4, 5]
+
+    # Test case for a reverse sorted list
+    ar = [5, 4, 3, 2, 1]
+    quicksort.sort(ar, 0, len(ar) - 1)
+    assert ar == [1, 2, 3, 4, 5]
+
+    # Test case for a list with duplicate elements
+    ar = [3, 2, 5, 3, 1]
+    quicksort.sort(ar, 0, len(ar) - 1)
+    assert ar == [1, 2, 3, 3, 5]
+
+def test_partition():
+    # Test case for partition with only one element
+    ar = [5]
+    assert quicksort.partition(ar, 0, 0) == 0
+
+    # Test case for partition with multiple elements
+    ar = [3, 2, 5, 3, 1]
+    assert quicksort.partition(ar, 0, len(ar) - 1) == 2
+
+    # Test case for partition with all elements equal
+    ar = [2, 2, 2, 2]
+    assert quicksort.partition(ar, 0, len(ar) - 1) == 0

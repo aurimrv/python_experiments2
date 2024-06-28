@@ -1,0 +1,46 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+@pytest.fixture
+def hash_map():
+    return HashMap()
+
+def test_insert(hash_map):
+    hash_map.insert('key1', 'value1')
+    assert hash_map.get('key1') == 'value1'
+
+    hash_map.insert('key2', 'value2')
+    assert hash_map.get('key2') == 'value2'
+
+def test_get(hash_map):
+    hash_map.insert('key1', 'value1')
+    hash_map.insert('key2', 'value2')
+
+    assert hash_map.get('key1') == 'value1'
+    assert hash_map.get('key2') == 'value2'
+
+def test_delete(hash_map):
+    hash_map.insert('key1', 'value1')
+    hash_map.insert('key2', 'value2')
+
+    deleted_value = hash_map.delete('key1')
+    assert deleted_value == ('key1', 'value1')
+
+    with pytest.raises(KeyError):
+        hash_map.get('key1')
+
+def test_djb2_hash_function():
+    assert djb2('key') == 209077274
+
+def test_sdbm_hash_function():
+    assert sdbm('key') == -2128831032
+
+def test_lose_lose_hash_function():
+    assert lose_lose('key') == 336

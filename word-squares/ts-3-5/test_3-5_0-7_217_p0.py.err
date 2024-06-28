@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_square():
+    words = ["area", "lead", "wall", "lady", "ball"]
+    squares = word_squares(words)
+    expected_squares = [['wall', 'area', 'lead', 'lady'], ['ball', 'area', 'lead', 'lady']]
+    assert squares == expected_squares
+
+def test_construct_square_with_repeated_words():
+    words = ["ab", "ab", "bc", "ba"]
+    squares = word_squares(words)
+    expected_squares = [['ab', 'ba'], ['ab', 'bc'], ['ba', 'ab'], ['bc', 'ba']]
+    assert squares == expected_squares
+
+def test_construct_square_with_single_word():
+    words = ["hello"]
+    squares = word_squares(words)
+    expected_squares = [['hello']]
+    assert squares == expected_squares
+
+def test_construct_square_with_empty_list():
+    words = []
+    squares = word_squares(words)
+    expected_squares = []
+    assert squares == expected_squares
+
+def test_construct_square_with_longer_words():
+    words = ["python", "testing", "mutation"]
+    squares = word_squares(words)
+    expected_squares = [['testing', 'python', 'mutation'], ['python', 'testing', 'mutation']]
+    assert squares == expected_squares

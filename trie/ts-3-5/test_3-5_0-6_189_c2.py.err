@@ -1,0 +1,34 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+@pytest.fixture
+def trie_fixture():
+    words = ['apple', 'banana', 'apricot', 'ball']
+    return Trie(words)
+
+def test_trie_init(trie_fixture):
+    assert trie_fixture.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'p': {'l': {'e': {'__eof__': '__eof__'}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}, 'l': {'l': {'__eof__': '__eof__'}}}}}
+
+def test_trie_add(trie_fixture):
+    trie_fixture.add('bat')
+    assert trie_fixture.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, 'r': {'i': {'c': {'o': {'t': {'__eof__': '__eof__'}}}}}}, 'p': {'l': {'e': {'__eof__': '__eof__'}}}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}, 'l': {'l': {'__eof__': '__eof__'}}, 't': {'__eof__': '__eof__'}}}}
+
+def test_trie_get_all_common_prefix(trie_fixture):
+    common_prefix = trie_fixture.get_all_common_prefix('ap')
+    assert common_prefix == ['apple', 'apricot']
+
+def test_trie_get_all_common_prefix_empty(trie_fixture):
+    common_prefix = trie_fixture.get_all_common_prefix('xyz')
+    assert common_prefix == []
+
+def test_trie_get_all_common_prefix_partial(trie_fixture):
+    trie_fixture.add('app')
+    common_prefix = trie_fixture.get_all_common_prefix('ap')
+    assert common_prefix == ['apple', 'apricot', 'app']

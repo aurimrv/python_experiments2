@@ -1,0 +1,67 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+class TestDoubleLinkedList:
+
+    def test_node_repr(self):
+        node = Node(10)
+        assert repr(node) == "Value: 10"
+
+    def test_push_single_element(self):
+        dll = DoubleLinkedList()
+        dll.push(1)
+        assert dll.head.data == 1
+
+    def test_push_multiple_elements(self):
+        dll = DoubleLinkedList()
+        dll.push(1)
+        dll.push(2)
+        assert dll.head.data == 2
+        assert dll.head.next.data == 1
+
+    def test_pop_single_element(self):
+        dll = DoubleLinkedList([1])
+        assert dll.pop() == 1
+
+    def test_pop_multiple_elements(self):
+        dll = DoubleLinkedList([1, 2])
+        assert dll.pop() == 2
+        assert dll.pop() == 1
+
+    def test_append_single_element(self):
+        dll = DoubleLinkedList()
+        dll.append(1)
+        assert dll.tail.data == 1
+
+    def test_append_multiple_elements(self):
+        dll = DoubleLinkedList()
+        dll.append(1)
+        dll.append(2)
+        assert dll.tail.data == 2
+        assert dll.tail.prev.data == 1
+
+    def test_shift_single_element(self):
+        dll = DoubleLinkedList([1])
+        assert dll.shift() == 1
+
+    def test_shift_multiple_elements(self):
+        dll = DoubleLinkedList([1, 2])
+        assert dll.shift() == 2
+        assert dll.shift() == 1
+
+    def test_remove_element_present(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        dll.remove(2)
+        assert dll._repr() == [3, 1]
+
+    def test_remove_element_not_present(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        with pytest.raises(ValueError):
+            dll.remove(4)

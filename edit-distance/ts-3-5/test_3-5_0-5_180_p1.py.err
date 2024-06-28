@@ -1,0 +1,39 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+def test_calculate_edit_distance():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected_output = ['Substitute k', 'Match i', 'Match t', 'Match t', 'Match e', 'Insert n', 'Match g']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+    str1 = "intention"
+    str2 = "execution"
+    expected_output = ['Substitute i', 'Match n', 'Match t', 'Substitute e', 'Match n', 'Match t', 'Insert i', 'Match o', 'Match n']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+    str1 = "abcdef"
+    str2 = "abcdef"
+    expected_output = []
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+    str1 = "abc"
+    str2 = "def"
+    expected_output = ['Delete a', 'Delete b', 'Delete c', 'Insert d', 'Insert e', 'Insert f']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+    str1 = "abc"
+    str2 = "abd"
+    expected_output = ['Match a', 'Match b', 'Substitute c']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output
+
+    str1 = "abc"
+    str2 = "ac"
+    expected_output = ['Match a', 'Match b', 'Delete c']
+    assert edit_distance.calculate_edit_distance(str1, str2) == expected_output

@@ -1,0 +1,59 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class WeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+class Vertex:
+    def __init__(self, name, adjacent):
+        self.name = name
+        self.adjacent = adjacent
+
+def test_dijkstras_basic_path():
+    vertices = {
+        'A': Vertex('A', {'B': 1, 'C': 4}),
+        'B': Vertex('B', {'A': 1, 'C': 2}),
+        'C': Vertex('C', {'B': 2, 'D': 5}),
+        'D': Vertex('D', {'C': 5})
+    }
+    weighted_graph = WeightedGraph(vertices)
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_same_source_destination():
+    vertices = {
+        'A': Vertex('A', {'B': 1, 'C': 4}),
+        'B': Vertex('B', {'A': 1, 'C': 2}),
+        'C': Vertex('C', {'B': 2, 'D': 5}),
+        'D': Vertex('D', {'C': 5})
+    }
+    weighted_graph = WeightedGraph(vertices)
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+def test_dijkstras_unreachable_destination():
+    vertices = {
+        'A': Vertex('A', {'B': 1, 'C': 4}),
+        'B': Vertex('B', {'A': 1, 'C': 2}),
+        'C': Vertex('C', {'B': 2, 'D': 5}),
+        'D': Vertex('D', {'C': 5})
+    }
+    weighted_graph = WeightedGraph(vertices)
+    assert dijkstras(weighted_graph, 'A', 'E') == []
+
+def test_dijkstras_different_paths():
+    vertices = {
+        'A': Vertex('A', {'B': 1, 'C': 4}),
+        'B': Vertex('B', {'A': 1, 'C': 2}),
+        'C': Vertex('C', {'B': 2, 'D': 5}),
+        'D': Vertex('D', {'C': 5})
+    }
+    weighted_graph = WeightedGraph(vertices)
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+    assert dijkstras(weighted_graph, 'B', 'D') == ['B', 'C', 'D']

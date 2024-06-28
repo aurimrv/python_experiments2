@@ -1,0 +1,56 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+def test_node_init():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_dll_init_empty():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_dll_push_pop():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    assert dll.pop() == 2
+    assert dll.pop() == 1
+
+def test_dll_append_shift():
+    dll = DoubleLinkedList()
+    dll.append(1)
+    dll.append(2)
+    assert dll.shift() == 2
+    assert dll.shift() == 1
+
+def test_dll_remove():
+    dll = DoubleLinkedList([1, 2, 3, 4, 5])
+    dll.remove(3)
+    assert dll._repr() == [1, 2, 4, 5]
+
+def test_dll_remove_not_found():
+    dll = DoubleLinkedList([1, 2, 3])
+    with pytest.raises(ValueError):
+        dll.remove(4)
+
+def test_dll_multiple_operations():
+    dll = DoubleLinkedList()
+    dll.push(10)
+    dll.append(20)
+    dll.push(5)
+    assert dll.pop() == 5
+    dll.append(30)
+    assert dll.shift() == 30
+    dll.remove(10)
+    assert dll._repr() == [30]

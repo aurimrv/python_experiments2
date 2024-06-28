@@ -1,0 +1,45 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_same_string():
+    str1 = "abc"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_calculate_edit_distance_insert_operations():
+    str1 = "abc"
+    str2 = "abdc"
+    assert calculate_edit_distance(str1, str2) == ['Insert d']
+
+def test_calculate_edit_distance_delete_operations():
+    str1 = "abc"
+    str2 = "ac"
+    assert calculate_edit_distance(str1, str2) == ['Delete b']
+
+def test_calculate_edit_distance_substitute_operations():
+    str1 = "abc"
+    str2 = "axc"
+    assert calculate_edit_distance(str1, str2) == ['Substitute x']
+
+def test_calculate_edit_distance_mixed_operations():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Delete k', 'Substitute s', 'Insert s', 'Substitute i', 'Insert g']
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a very long string that needs editing."
+    str2 = "This is another very long string that requires editing."
+    expected_operations = ['Substitute a with another', 'Insert n', 'Insert o', 
+                           'Insert r', 'Insert e', 'Insert q', 'Insert u', 
+                           'Insert i', 'Insert r', 'Insert e']
+    assert calculate_edit_distance(str1, str2) == expected_operations

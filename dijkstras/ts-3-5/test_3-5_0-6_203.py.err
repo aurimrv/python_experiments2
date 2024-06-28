@@ -1,0 +1,78 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    
+    def test_dijkstras_basic(self):
+        class Vertex:
+            def __init__(self):
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        # Create a sample weighted graph
+        graph = WeightedGraph()
+        graph.vertices = {
+            'A': Vertex(),
+            'B': Vertex(),
+            'C': Vertex(),
+            'D': Vertex()
+        }
+        
+        graph.vertices['A'].adjacent = {'B': 3, 'C': 2}
+        graph.vertices['B'].adjacent = {'D': 5}
+        graph.vertices['C'].adjacent = {'D': 1}
+        
+        assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+    
+    def test_dijkstras_no_path(self):
+        class Vertex:
+            def __init__(self):
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        # Create a sample weighted graph
+        graph = WeightedGraph()
+        graph.vertices = {
+            'A': Vertex(),
+            'B': Vertex(),
+            'C': Vertex()
+        }
+        
+        graph.vertices['A'].adjacent = {'B': 3}
+        graph.vertices['C'].adjacent = {'B': 2}
+        
+        assert dijkstras(graph, 'A', 'C') == []
+    
+    def test_dijkstras_same_source_dest(self):
+        class Vertex:
+            def __init__(self):
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        # Create a sample weighted graph
+        graph = WeightedGraph()
+        graph.vertices = {
+            'X': Vertex(),
+            'Y': Vertex(),
+            'Z': Vertex()
+        }
+        
+        graph.vertices['X'].adjacent = {'Y': 1}
+        graph.vertices['Y'].adjacent = {'Z': 2}
+        graph.vertices['Z'].adjacent = {'X': 3}
+        
+        assert dijkstras(graph, 'X', 'X') == ['X']

@@ -1,0 +1,32 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_word_squares_single_word():
+    words = ["ball"]
+    assert word_squares(words) == [["ball"]]
+
+def test_word_squares_two_words():
+    words = ["area", "lead"]
+    assert word_squares(words) == [['area', 'lead'], ['lead', 'area']]
+
+def test_word_squares_three_words():
+    words = ["wall", "area", "lead"]
+    assert word_squares(words) == [['wall', 'area', 'lead'], ['area', 'lead', 'wall'], ['lead', 'area', 'wall']]
+
+def test_word_squares_four_words():
+    words = ["ball", "area", "lead", "late"]
+    assert word_squares(words) == [['ball', 'area', 'lead', 'late'], ['area', 'lead', 'area', 'late'], ['lead', 'area', 'lead', 'area'], ['late', 'area', 'late', 'area']]
+
+def test_word_squares_empty_input():
+    words = []
+    assert word_squares(words) == []
+
+def test_word_squares_duplicate_words():
+    words = ["ball", "ball", "ball"]
+    assert word_squares(words) == [['ball', 'ball', 'ball'], ['ball', 'ball', 'ball'], ['ball', 'ball', 'ball']]

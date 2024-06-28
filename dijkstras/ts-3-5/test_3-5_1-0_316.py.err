@@ -1,0 +1,72 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstrasAlgorithm:
+
+    def test_basic_case(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 4},
+            'B': {'C': 1, 'D': 7},
+            'C': {'D': 3},
+            'D': {}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'B', 'C', 'D']
+
+        result = dijkstras(weighted_graph, src, dst)
+
+        assert result == expected_path
+
+    def test_no_path_case(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 4},
+            'B': {'C': 1},
+            'C': {},
+            'D': {}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = []
+
+        result = dijkstras(weighted_graph, src, dst)
+
+        assert result == expected_path
+
+    def test_same_source_destination(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 4},
+            'B': {'C': 1},
+            'C': {},
+            'D': {}
+        }
+        src = 'A'
+        dst = 'A'
+        expected_path = ['A']
+
+        result = dijkstras(weighted_graph, src, dst)
+
+        assert result == expected_path
+
+    def test_large_graph(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 4, 'D': 3, 'E': 5},
+            'B': {'C': 1, 'D': 7, 'E': 9},
+            'C': {'D': 3, 'E': 2},
+            'D': {'E': 6},
+            'E': {}
+        }
+        src = 'A'
+        dst = 'E'
+        expected_path = ['A', 'D', 'E']
+
+        result = dijkstras(weighted_graph, src, dst)
+
+        assert result == expected_path

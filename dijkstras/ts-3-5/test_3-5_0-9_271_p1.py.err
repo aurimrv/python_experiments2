@@ -1,0 +1,71 @@
+import os
+import sys
+from functools import reduce
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_basic_scenario():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'B': 2}
+    }
+    src = 'A'
+    dst = 'C'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'B', 'C']
+
+def test_dijkstras_same_source_and_destination():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'B': 2}
+    }
+    src = 'A'
+    dst = 'A'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A']
+
+def test_dijkstras_unreachable_destination():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'B': 2}
+    }
+    src = 'A'
+    dst = 'D'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == []
+
+def test_dijkstras_multiple_paths_with_same_weight():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 3},
+        'C': {'B': 2, 'D': 1},
+        'D': {'C': 1, 'B': 3}
+    }
+    src = 'A'
+    dst = 'D'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'B', 'D']
+
+def test_dijkstras_negative_weights():
+    weighted_graph = {
+        'A': {'B': 0, 'C': -4},
+        'B': {'A': 0, 'C': -2},
+        'C': {'B': -2}
+    }
+    src = 'A'
+    dst = 'C'
+    
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'C']

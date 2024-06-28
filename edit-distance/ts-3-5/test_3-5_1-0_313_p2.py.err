@@ -1,0 +1,38 @@
+import pytest
+import os, sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_insert_only():
+    str1 = "hello"
+    str2 = ""
+    expected = ["Insert h", "Insert e", "Insert l", "Insert l", "Insert o"]
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_delete_only():
+    str1 = "world"
+    str2 = "wrld"
+    expected = ["Delete o", "Delete l"]
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_match_only():
+    str1 = "abc"
+    str2 = "abc"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_mix_operations():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute s', 'Insert k', 'Substitute i', 'Insert t', 'Substitute g']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_empty_inputs():
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected

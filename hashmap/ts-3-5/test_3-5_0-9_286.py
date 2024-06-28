@@ -1,0 +1,48 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import hash_map
+
+def test_insert():
+    hash_map_obj = hash_map.HashMap(buckets=256)
+    
+    hash_map_obj.insert('test_key', 'test_value')
+    assert hash_map_obj.get('test_key') == 'test_value'
+    
+    hash_map_obj.insert('test_key', 'updated_value')
+    assert hash_map_obj.get('test_key') == 'updated_value'
+
+def test_get():
+    hash_map_obj = hash_map.HashMap(buckets=256)
+    
+    hash_map_obj.insert('test_key', 'test_value')
+    assert hash_map_obj.get('test_key') == 'test_value'
+    
+    # Test KeyError
+    try:
+        hash_map_obj.get('non_existing_key')
+    except KeyError:
+        assert True
+
+def test_delete():
+    hash_map_obj = hash_map.HashMap(buckets=256)
+    
+    hash_map_obj.insert('test_key', 'test_value')
+    deleted_value = hash_map_obj.delete('test_key')
+    
+    assert deleted_value == ('test_key', 'test_value')
+    
+    # Test KeyError
+    try:
+        hash_map_obj.delete('non_existing_key')
+    except KeyError:
+        assert True
+
+def test_hash_functions():
+    assert hash_map.djb2('test') == 6385723493
+    assert hash_map.sdbm('test') == 32745785343201586
+    assert hash_map.lose_lose('test') == 448

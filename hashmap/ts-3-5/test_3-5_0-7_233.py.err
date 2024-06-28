@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+# Test cases for HashMap class
+class TestHashMap:
+
+    @pytest.fixture
+    def hashmap(self):
+        return HashMap()
+
+    def test_insert_and_get(self, hashmap):
+        hashmap.insert('key1', 'value1')
+        assert hashmap.get('key1') == 'value1'
+
+        hashmap.insert('key2', 'value2')
+        assert hashmap.get('key2') == 'value2'
+
+    def test_insert_override(self, hashmap):
+        hashmap.insert('key1', 'value1')
+        hashmap.insert('key1', 'new_value1')
+        assert hashmap.get('key1') == 'new_value1'
+
+    def test_delete(self, hashmap):
+        hashmap.insert('key1', 'value1')
+        deleted = hashmap.delete('key1')
+        assert deleted == ('key1', 'value1')
+        with pytest.raises(KeyError):
+            hashmap.get('key1')
+
+    def test_delete_nonexistent(self, hashmap):
+        with pytest.raises(KeyError):
+            hashmap.delete('nonexistent_key')
+
+# Test cases for hashing functions
+class TestHashFunctions:
+
+    def test_djb2(self):
+        assert djb2('test') != djb2('tset')
+        assert djb2('hello') == djb2('hello')
+
+    def test_sdbm(self):
+        assert sdbm('test') != sdbm('tset')
+        assert sdbm('hello') == sdbm('hello')
+
+    def test_lose_lose(self):
+        assert lose_lose('test') != lose_lose('tset')
+        assert lose_lose('hello') == lose_lose('hello')

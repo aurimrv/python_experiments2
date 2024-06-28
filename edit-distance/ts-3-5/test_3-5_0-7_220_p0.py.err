@@ -1,0 +1,28 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import edit_distance
+
+import pytest
+
+def test_calculate_edit_distance():
+    assert edit_distance.calculate_edit_distance("kitten", "sitting") == ['Substitute k with s', 'Insert s', 'Substitute e with i', 'Substitute n with g']
+    assert edit_distance.calculate_edit_distance("intention", "execution") == ['Substitute i with e', 'Substitute n with x', 'Insert e', 'Substitute n with c', 'Substitute t with u', 'Insert i', 'Insert o']
+    assert edit_distance.calculate_edit_distance("abc", "yabd") == ['Substitute a with y', 'Insert y', 'Substitute b with a', 'Delete d']
+    assert edit_distance.calculate_edit_distance("aaabb", "ab") == ['Delete a', 'Delete a', 'Delete a', 'Insert b', 'Insert b']
+
+def test_calculate_edit_distance_empty():
+    assert edit_distance.calculate_edit_distance("", "") == []
+    assert edit_distance.calculate_edit_distance("abc", "") == ['Delete a', 'Delete b', 'Delete c']
+    assert edit_distance.calculate_edit_distance("", "xyz") == ['Insert x', 'Insert y', 'Insert z']
+
+def test_calculate_edit_distance_same_strings():
+    assert edit_distance.calculate_edit_distance("hello", "hello") == []
+    assert edit_distance.calculate_edit_distance("python", "python") == []
+
+def test_calculate_edit_distance_long_strings():
+    assert edit_distance.calculate_edit_distance("This is a long string 1", "This is a long string 2") == ['Substitute 1 with 2']
+    assert edit_distance.calculate_edit_distance("A quick brown fox jumps over the lazy dog.", "A quick brown fox jumps over the sleeping cat.") == ['Substitute dog. with cat.', 'Substitute lazy with sleeping']

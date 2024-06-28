@@ -1,0 +1,46 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+# Test cases for calculate_edit_distance
+
+def test_empty_strings():
+    str1 = ""
+    str2 = ""
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_same_strings():
+    str1 = "testing"
+    str2 = "testing"
+    assert calculate_edit_distance(str1, str2) == []
+
+def test_insert_operation():
+    str1 = "abc"
+    str2 = "abdc"
+    assert calculate_edit_distance(str1, str2) == ['Insert d']
+
+def test_delete_operation():
+    str1 = "abcd"
+    str2 = "abc"
+    assert calculate_edit_distance(str1, str2) == ['Delete d']
+
+def test_substitute_operation():
+    str1 = "kitten"
+    str2 = "sitting"
+    assert calculate_edit_distance(str1, str2) == ['Substitute k', 'Substitute e']
+
+def test_multiple_operations():
+    str1 = "Saturday"
+    str2 = "Sunday"
+    assert calculate_edit_distance(str1, str2) == ['Substitute a', 'Insert n', 'Insert d']
+
+def test_long_strings():
+    str1 = "This is a long string to test"
+    str2 = "Long string to test this is a"
+    assert calculate_edit_distance(str1, str2) == ['Delete T', 'Delete h', 'Delete i', 'Delete s', 'Insert L', 'Insert T', 'Insert h', 'Insert i', 'Insert s', 'Insert a', 'Insert ', 'Insert i', 'Insert s', 'Insert ', 'Insert t', 'Insert h', 'Insert i', 'Insert s', 'Substitute t']

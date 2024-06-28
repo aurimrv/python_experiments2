@@ -1,0 +1,38 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hamming_ops import hamming_distance, hamming_weight
+
+def test_hamming_distance():
+    # Test cases where both numbers are 0
+    assert hamming_distance(0, 0) == 0
+
+    # Test cases where numbers are equal
+    assert hamming_distance(5, 5) == 0
+
+    # Test cases where numbers differ by only 1 bit
+    assert hamming_distance(1, 0) == 1
+    assert hamming_distance(7, 6) == 1
+
+    # Test cases where all bits differ
+    assert hamming_distance(0b101010, 0b010101) == 6
+
+def test_hamming_weight():
+    # Test cases where number is 0
+    assert hamming_weight(0) == 0
+
+    # Test cases where all bits are 1
+    assert hamming_weight(0b1111111) == 7
+
+    # Test cases where only one bit is 1
+    assert hamming_weight(0b1000) == 1
+    assert hamming_weight(0b1000000) == 1
+
+    # Test cases with negative numbers
+    assert hamming_weight(-1) == 1
+    assert hamming_weight(-7) == 3

@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    result = word_squares(words)
+    assert result == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'ball', 'lady']]
+
+def test_construct_empty_input():
+    words = []
+    result = word_squares(words)
+    assert result == []
+
+def test_construct_single_word():
+    words = ['test']
+    result = word_squares(words)
+    assert result == [['test']]
+
+def test_construct_duplicate_words():
+    words = ['ball', 'ball', 'area', 'lead']
+    result = word_squares(words)
+    assert result == [['ball', 'area', 'lead', 'ball'], ['lead', 'area', 'ball', 'ball']]
+
+def test_construct_long_words():
+    words = ['testing', 'example', 'longword', 'python']
+    result = word_squares(words)
+    assert result == [['testing', 'example', 'longword', 'python'], ['longword', 'example', 'testing', 'python']]
+
+def test_construct_special_characters():
+    words = ['@#$%', '123', 'abc', 'def']
+    result = word_squares(words)
+    assert result == [['@#$%', '123', 'abc', 'def'], ['abc', '123', '@#$%', 'def']]

@@ -1,0 +1,50 @@
+import os
+import sys
+from lru_cache import ListNode, LruCache
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import pytest
+
+@pytest.fixture
+def lru_cache():
+    cache = LruCache(2)
+    return cache
+
+def test_put_get(lru_cache):
+    lru_cache.put(1, 'a')
+    assert lru_cache.get(1) == 'a'
+
+def test_put_capacity(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    lru_cache.put(3, 'c')
+    assert lru_cache.get(1) == -1
+
+def test_put_existing_key(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(1, 'updated')
+    assert lru_cache.get(1) == 'updated'
+
+def test_get_nonexistent_key(lru_cache):
+    assert lru_cache.get(5) == -1
+
+def test_get_ordering(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    lru_cache.get(1)
+    lru_cache.put(3, 'c')
+    assert lru_cache.get(2) == -1
+
+def test_put_capacity_within_limit(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    assert len(lru_cache.lookup_map) == 2
+
+def test_put_capacity_exceed(lru_cache):
+    lru_cache.put(1, 'a')
+    lru_cache.put(2, 'b')
+    lru_cache.put(3, 'c')
+    assert len(lru_cache.lookup_map) == 2

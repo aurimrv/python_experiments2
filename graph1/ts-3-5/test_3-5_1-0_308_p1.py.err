@@ -1,0 +1,54 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import GraphNode, Graph, WeightedGraphNode, WeightedGraph
+
+def test_graphnode():
+    node_a = GraphNode('A')
+    node_b = GraphNode('B')
+
+    assert node_a.val == 'A'
+    assert node_b.val == 'B'
+
+    node_a.add_adjacent(node_b)
+    assert node_b in node_a.adjacent_list
+    node_a.remove_adjacent(node_b)
+    assert node_b not in node_a.adjacent_list
+
+def test_graph():
+    graph = Graph(3)
+
+    graph.add_edge('A', 'B')
+    graph.add_edge('B', 'C')
+
+    assert graph.graph == {'A': ['B'], 'B': ['C'], 'C': []}
+
+    assert not graph.has_cycle()
+
+    topological_order = graph.topological_sort()
+    assert topological_order == ['C', 'B', 'A']
+
+def test_weightedgraphnode():
+    weighted_node_a = WeightedGraphNode('A')
+    weighted_node_b = WeightedGraphNode('B')
+
+    assert str(weighted_node_a) == 'A adjacent: []'
+    assert str(weighted_node_b) == 'B adjacent: []'
+
+    weighted_node_a.add_adjacent(weighted_node_b, 5)
+    assert weighted_node_b in weighted_node_a.adjacent
+    assert weighted_node_a.adjacent[weighted_node_b] == 5
+    weighted_node_a.remove_adjacent(weighted_node_b)
+    assert weighted_node_b not in weighted_node_a.adjacent
+
+def test_weightedgraph():
+    weighted_graph = WeightedGraph()
+
+    weighted_graph.add_edge('A', 'B', 10)
+
+    assert str(weighted_graph) == 'A adjacent: [\'B adjacent: 10\'], B adjacent: []'

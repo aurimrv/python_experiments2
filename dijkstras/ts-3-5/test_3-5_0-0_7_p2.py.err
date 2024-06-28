@@ -6,29 +6,47 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    class Vertex:
-        def __init__(self, name):
-            self.name = name
-            self.adjacent = {}
+class TestDijkstras:
+    def test_dijkstras_basic_case(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
 
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
+    def test_dijkstras_same_source_and_destination(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'A'
+        assert dijkstras(weighted_graph, src, dst) == ['A']
 
-    graph = WeightedGraph()
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-    d = Vertex('D')
-    a.adjacent = {b: 1, c: 4}
-    b.adjacent = {a: 1, c: 2, d: 5}
-    c.adjacent = {a: 4, b: 2, d: 1}
-    d.adjacent = {b: 5, c: 1}
-    graph.vertices = {'A': a, 'B': b, 'C': c, 'D': d}
+    def test_dijkstras_unreachable_destination(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'E'
+        assert dijkstras(weighted_graph, src, dst) == []
 
-    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
-    assert dijkstras(graph, 'A', 'B') == ['A', 'B']
-    assert dijkstras(graph, 'B', 'C') == ['B', 'C']
-    assert dijkstras(graph, 'C', 'A') == ['C', 'A']
-    assert dijkstras(graph, 'D', 'A') == ['D', 'C', 'A']
+    def test_dijkstras_negative_weights(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': -2},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': -2, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']

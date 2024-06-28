@@ -1,0 +1,66 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from lru_cache import ListNode, LruCache
+
+@pytest.fixture
+def lru_cache():
+    return LruCache(3)
+
+def test_put_and_get(lru_cache):
+    lru_cache.put(1, "one")
+    lru_cache.put(2, "two")
+    lru_cache.put(3, "three")
+    
+    assert lru_cache.get(1) == "one"
+    assert lru_cache.get(2) == "two"
+    assert lru_cache.get(3) == "three"
+
+def test_put_capacity_reached(lru_cache):
+    lru_cache.put(1, "one")
+    lru_cache.put(2, "two")
+    lru_cache.put(3, "three")
+    lru_cache.put(4, "four")  # 4 will replace 1 as it exceeds capacity
+    
+    assert lru_cache.get(1) == -1
+    assert lru_cache.get(4) == "four"
+
+def test_put_existing_key(lru_cache):
+    lru_cache.put(1, "one")
+    lru_cache.put(2, "two")
+    lru_cache.put(1, "updated one")  # updating existing key
+    
+    assert lru_cache.get(1) == "updated one"
+    assert lru_cache.get(2) == "two"
+
+def test_get_non_existing_key(lru_cache):
+    lru_cache.put(1, "one")
+    lru_cache.put(2, "two")
+    
+    assert lru_cache.get(3) == -1
+    assert lru_cache.get(4) == -1
+
+def test_put_edge_case_capacity_1():
+    with pytest.raises(ValueError):
+        LruCache(0)  # capacity must be >= 1
+
+def test_remove_from_list(lru_cache):
+    lru_cache.put(1, "one")
+    lru_cache.put(2, "two")
+    
+    node_to_remove = lru_cache.lookup_map[1]
+    lru_cache._remove(node_to_remove)
+    
+    assert lru_cache.get(1) == -1
+    assert lru_cache.get(2) == "two"
+
+def test_add_to_list(lru_cache):
+    new_node = ListNode(3, "three")
+    lru_cache._add(new_node)
+    
+    assert lru_cache.get(3) == "three" 

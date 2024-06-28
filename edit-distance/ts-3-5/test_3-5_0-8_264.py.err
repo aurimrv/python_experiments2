@@ -1,0 +1,44 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    # Test case 1: Strings are equal
+    str1 = "abc"
+    str2 = "abc"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 2: Strings have one different character
+    str1 = "abc"
+    str2 = "abd"
+    expected = ['Substitute d']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 3: String 1 is a prefix of string 2
+    str1 = "abc"
+    str2 = "abcdef"
+    expected = ['Insert d', 'Insert e', 'Insert f']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 4: String 2 is a prefix of string 1
+    str1 = "abcdef"
+    str2 = "abc"
+    expected = ['Delete d', 'Delete e', 'Delete f']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 5: Random strings with multiple edits
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute s', 'Substitute i', 'Substitute t', 'Insert t']
+    assert calculate_edit_distance(str1, str2) == expected
+
+    # Test case 6: Empty strings
+    str1 = ""
+    str2 = ""
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected

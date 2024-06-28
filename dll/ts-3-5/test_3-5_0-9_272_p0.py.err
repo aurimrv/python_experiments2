@@ -1,0 +1,94 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def list_with_values():
+    return DoubleLinkedList([1, 2, 3, 4, 5])
+
+def test_node_representation():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+def test_push(empty_list):
+    empty_list.push(5)
+    assert empty_list.head.data == 5
+    assert empty_list.tail.data == 5
+    assert empty_list._length == 1
+
+    empty_list.push(10)
+    assert empty_list.head.data == 10
+    assert empty_list.head.next.data == 5
+    assert empty_list.tail.data == 5
+    assert empty_list._length == 2
+
+def test_pop(empty_list):
+    with pytest.raises(IndexError):
+        empty_list.pop()
+    empty_list.push(7)
+    empty_list.push(3)
+    assert empty_list.pop() == 3
+    assert empty_list._length == 1
+    assert empty_list.head.data == 7
+    assert empty_list.tail.data == 7
+    assert empty_list.pop() == 7
+    assert empty_list._length == 0
+    assert empty_list.head is None
+    assert empty_list.tail is None
+
+def test_append(empty_list):
+    empty_list.append(10)
+    assert empty_list.head.data == 10
+    assert empty_list.tail.data == 10
+    assert empty_list._length == 1
+    empty_list.append(15)
+    assert empty_list.head.data == 10
+    assert empty_list.tail.data == 15
+    assert empty_list._length == 2
+
+def test_shift(empty_list):
+    with pytest.raises(IndexError):
+        empty_list.shift()
+    empty_list.append(8)
+    empty_list.append(13)
+    assert empty_list.shift() == 13
+    assert empty_list._length == 1
+    assert empty_list.head.data == 8
+    assert empty_list.tail.data == 8
+    assert empty_list.shift() == 8
+    assert empty_list._length == 0
+    assert empty_list.head is None
+    assert empty_list.tail is None
+
+def test_remove(list_with_values):
+    list_with_values.remove(3)
+    assert list_with_values._length == 4
+    assert list_with_values.head.data == 1
+    assert list_with_values.tail.data == 5
+
+    list_with_values.remove(1)
+    assert list_with_values._length == 3
+    assert list_with_values.head.data == 2
+    assert list_with_values.tail.data == 5
+
+    list_with_values.remove(5)
+    assert list_with_values._length == 2
+    assert list_with_values.head.data == 2
+    assert list_with_values.tail.data == 4
+
+    with pytest.raises(ValueError):
+        list_with_values.remove(10)
+
+def test_list_representation(empty_list, list_with_values):
+    assert empty_list._repr() == []
+    assert list_with_values._repr() == [5, 4, 3, 2, 1] 

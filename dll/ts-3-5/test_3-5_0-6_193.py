@@ -1,0 +1,77 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+# Test Node class
+def test_node_initialization():
+    node = Node(5)
+    assert node.data == 5
+    assert node.next is None
+    assert node.prev is None
+
+def test_node_representation():
+    node = Node(10)
+    assert repr(node) == "Value: 10"
+
+# Test DoubleLinkedList class
+def test_double_linked_list_initialization_empty():
+    dll = DoubleLinkedList()
+    assert dll.head is None
+    assert dll.tail is None
+    assert dll._length == 0
+
+def test_double_linked_list_initialization_with_data():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.head.data == 3
+    assert dll.tail.data == 1
+    assert dll._length == 3
+
+def test_double_linked_list_push():
+    dll = DoubleLinkedList()
+    dll.push(5)
+    assert dll.head.data == 5
+    assert dll.tail.data == 5
+    assert dll._length == 1
+
+def test_double_linked_list_pop():
+    dll = DoubleLinkedList([1, 2, 3])
+    popped_val = dll.pop()
+    assert popped_val == 3
+    assert dll.head.data == 2
+    assert dll._length == 2
+
+def test_double_linked_list_append():
+    dll = DoubleLinkedList()
+    dll.append(10)
+    assert dll.head.data == 10
+    assert dll.tail.data == 10
+    assert dll._length == 1
+
+def test_double_linked_list_shift():
+    dll = DoubleLinkedList([1, 2, 3])
+    shifted_val = dll.shift()
+    assert shifted_val == 1
+    assert dll.tail.data == 2
+    assert dll._length == 2
+
+def test_double_linked_list_remove():
+    dll = DoubleLinkedList([1, 2, 3, 4])
+    dll.remove(2)
+    assert dll.head.data == 4
+    assert dll.tail.data == 1
+    assert dll._length == 3
+
+def test_double_linked_list_remove_invalid_value():
+    dll = DoubleLinkedList([1, 2, 3])
+    with pytest.raises(ValueError):
+        dll.remove(5)
+
+def test_double_linked_list_repr():
+    dll = DoubleLinkedList([1, 2, 3, 4])
+    assert dll._repr() == [4, 3, 2, 1]

@@ -1,0 +1,45 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+import pytest
+
+def test_calculate_edit_distance_match():
+    str1 = "kitten"
+    str2 = "sitting"
+    expected = ['Substitute k', 'Substitute i', 'Match t', 'Match t', 'Match e', 'Insert g']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_insert():
+    str1 = "abc"
+    str2 = "abdc"
+    expected = ['Match a', 'Match b', 'Insert d', 'Match c']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_delete():
+    str1 = "Sunday"
+    str2 = "Saturday"
+    expected = ['Substitute S', 'Match u', 'Match n', 'Match d', 'Insert a', 'Match y']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_empty():
+    str1 = ""
+    str2 = "test"
+    expected = ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_same_strings():
+    str1 = "hello"
+    str2 = "hello"
+    expected = []
+    assert calculate_edit_distance(str1, str2) == expected
+
+def test_calculate_edit_distance_long_strings():
+    str1 = "This is a long string that needs to be edited for testing purposes."
+    str2 = "This is a long string that has been edited for testing purposes."
+    expected = ['Match T', 'Match h', 'Match i', 'Match s', 'Match  ', 'Match i', 'Match s', 'Match  ', 'Match a', 'Match  ', 'Match l', 'Match o', 'Match n', 'Match g', 'Insert  ', 'Insert h', 'Insert a', 'Match s', 'Match  ', 'Match b', 'Match e', 'Match e', 'Match n', 'Match  ', 'Insert e', 'Match d', 'Match i', 'Match t', 'Match e', 'Match d', 'Match  ', 'Match f', 'Match o', 'Match r', 'Match  ', 'Match t', 'Match e', 'Match s', 'Match t', 'Match i', 'Match n', 'Match g', 'Match  ', 'Match p', 'Match u', 'Match r', 'Match p', 'Match o', 'Match s', 'Match e', 'Match s', 'Match .']
+    assert calculate_edit_distance(str1, str2) == expected

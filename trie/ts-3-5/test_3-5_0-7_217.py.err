@@ -1,0 +1,59 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init():
+    words = ["hello", "world", "hi", "hey"]
+    trie = Trie(words)
+    assert trie.head == {
+        'h': {
+            'e': {
+                'l': {
+                    'l': {
+                        'o': {'__eof__': '__eof__'}
+                    }
+                },
+                'y': {'__eof__': '__eof__'}
+            },
+            'i': {'__eof__': '__eof__'},
+            'w': {
+                'o': {
+                    'r': {
+                        'l': {
+                            'd': {'__eof__': '__eof__'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+def test_trie_add():
+    trie = Trie([])
+    trie.add("test")
+    trie.add("testing")
+    assert trie.head == {
+        't': {
+            'e': {
+                's': {
+                    't': {'__eof__': '__eof__'},
+                    'i': {
+                        'n': {
+                            'g': {'__eof__': '__eof__'}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+def test_get_all_common_prefix():
+    trie = Trie(["hello", "world", "hi", "hey"])
+    assert trie.get_all_common_prefix("h") == ['hello', 'hi', 'hey']
+    assert trie.get_all_common_prefix("he") == ['hello', 'hey']
+    assert trie.get_all_common_prefix("w") == ['world']
+    assert trie.get_all_common_prefix("z") == []

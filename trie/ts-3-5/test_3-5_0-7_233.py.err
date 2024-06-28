@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+
+def test_trie_init():
+    words = ['apple', 'app', 'banana', 'bat']
+    trie = Trie(words)
+    assert trie.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}, '__eof__': '__eof__'}}, 'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 't': {'__eof__': '__eof__'}}}}
+
+def test_trie_add():
+    trie = Trie([])
+    trie.add('hello')
+    trie.add('how')
+    trie.add('are')
+    trie.add('you')
+    assert trie.head == {'h': {'e': {'l': {'l': {'o': {'__eof__': '__eof__'}}, '__eof__': '__eof__'}}, 'o': {'w': {'__eof__': '__eof__'}}}, 'a': {'r': {'e': {'__eof__': '__eof__'}}, 'y': {'o': {'u': {'__eof__': '__eof__'}}}}}
+
+def test_trie_get_all_common_prefix():
+    words = ['apple', 'app', 'banana', 'bat']
+    trie = Trie(words)
+    prefix = 'app'
+    common_prefixes = trie.get_all_common_prefix(prefix)
+    assert common_prefixes == ['app', 'apple']
+
+def test_trie_get_all_common_prefix_empty():
+    words = ['apple', 'app', 'banana', 'bat']
+    trie = Trie(words)
+    prefix = 'xyz'
+    common_prefixes = trie.get_all_common_prefix(prefix)
+    assert common_prefixes == []
+
+def test_trie_get_all_common_prefix_partial():
+    words = ['apple', 'app', 'banana', 'bat']
+    trie = Trie(words)
+    prefix = 'ban'
+    common_prefixes = trie.get_all_common_prefix(prefix)
+    assert common_prefixes == ['banana']

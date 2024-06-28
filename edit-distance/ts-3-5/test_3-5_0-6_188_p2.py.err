@@ -1,0 +1,22 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("", "") == []
+    assert calculate_edit_distance("hello", "hello") == []
+    assert calculate_edit_distance("cat", "hat") == ['Substitute c with h']
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute k with s', 'Insert s', 'Match i', 'Match t', 'Match t', 'Match e', 'Insert n']
+    assert calculate_edit_distance("abc", "yabd") == ['Substitute a with y', 'Insert y', 'Match b', 'Match c']
+    assert calculate_edit_distance("hello", "") == ['Delete h', 'Delete e', 'Delete l', 'Delete l', 'Delete o']
+    assert calculate_edit_distance("a", "abc") == ['Insert b', 'Insert c']
+    assert calculate_edit_distance("This is a long string to test", "Th1s 1s 4 l0ng str1ng t0 t3st") == ['Substitute h with 1', 'Substitute i with 1', 'Substitute s with 4', 'Substitute i with 1', 'Substitute n with 0', 'Insert 1', 'Insert 1', 'Insert 3']
+    assert calculate_edit_distance("abc", "abcdef") == ['Insert d', 'Insert e', 'Insert f']
+    assert calculate_edit_distance("abcdef", "abc") == ['Delete d', 'Delete e', 'Delete f']
+    assert calculate_edit_distance("abc", "def") == ['Substitute a with d', 'Substitute b with e', 'Substitute c with f']
+    assert calculate_edit_distance("abcdef", "azcdefg") == ['Substitute b with z', 'Insert z', 'Match c', 'Match d', 'Match e', 'Insert g']
+    assert calculate_edit_distance("123", "456") == ['Delete 1', 'Delete 2', 'Delete 3', 'Insert 4', 'Insert 5', 'Insert 6']

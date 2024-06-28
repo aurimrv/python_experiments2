@@ -1,0 +1,27 @@
+import sys
+import os
+from copy import deepcopy
+from heapq import heapify, heappop
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import heapsort
+
+def test_heap_sort():
+    assert heapsort.heap_sort([]) == []
+    assert heapsort.heap_sort([4, 1, 3, 2]) == [1, 2, 3, 4]
+    assert heapsort.heap_sort([-5, -1, -3, -2]) == [-5, -3, -2, -1]
+
+def test_max_heap_sort():
+    assert heapsort.max_heap_sort([]) == []
+    assert heapsort.max_heap_sort([4, 1, 3, 2]) == [4, 3, 2, 1]
+    assert heapsort.max_heap_sort([-5, -1, -3, -2]) == [-1, -2, -3, -5]
+
+def test_custom_heap_sort():
+    assert heapsort.custom_heap_sort([], sort='min') == []
+    assert heapsort.custom_heap_sort([4, 1, 3, 2], sort='min') == [1, 2, 3, 4]
+    assert heapsort.custom_heap_sort([4, 1, 3, 2], sort='max') == [4, 3, 2, 1]
+    assert heapsort.custom_heap_sort([-5, -1, -3, -2], sort='min') == [-5, -3, -2, -1]
+    assert heapsort.custom_heap_sort([-5, -1, -3, -2], sort='max') == [-1, -2, -3, -5]

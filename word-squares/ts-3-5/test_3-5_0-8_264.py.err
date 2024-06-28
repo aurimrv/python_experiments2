@@ -1,0 +1,33 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_word_squares_constructor():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+def test_word_squares_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == []
+
+def test_word_squares_single_input():
+    words = ['ball']
+    squares = word_squares(words)
+    assert squares == [['ball']]
+
+def test_word_squares_multiple_solutions():
+    words = ['ball', 'area', 'lead', 'lady', 'able']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball'], ['able', 'ball', 'lead', 'area']]
+
+def test_word_squares_no_solution():
+    words = ['ball', 'area', 'lead']
+    squares = word_squares(words)
+    assert squares == []

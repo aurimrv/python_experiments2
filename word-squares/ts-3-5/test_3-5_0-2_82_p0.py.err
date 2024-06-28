@@ -1,0 +1,37 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lady'], ['lead', 'area', 'lady', 'ball']]
+
+def test_construct_single_word():
+    words = ['ball']
+    squares = word_squares(words)
+    assert squares == [['ball']]
+
+def test_construct_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == []
+
+def test_construct_long_words():
+    words = ['hello', 'world', 'python', 'testing']
+    squares = word_squares(words)
+    assert squares == [['hello', 'world', 'python', 'testing'], ['world', 'hello', 'testing', 'python']]
+
+def test_construct_repeated_words():
+    words = ['hello', 'hello', 'hello', 'hello']
+    squares = word_squares(words)
+    assert squares == [['hello', 'hello', 'hello', 'hello']]
+
+def test_construct_mixed_words():
+    words = ['hello', 'world', 'hello', 'world']
+    squares = word_squares(words)
+    assert squares == [['hello', 'world', 'hello', 'world'], ['world', 'hello', 'world', 'hello']]

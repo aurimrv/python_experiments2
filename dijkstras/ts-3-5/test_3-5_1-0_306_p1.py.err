@@ -1,0 +1,63 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+import pytest
+
+class MockVertex:
+    def __init__(self, vertex_id):
+        self.id = vertex_id
+        self.adjacent = {}
+
+@pytest.fixture
+def weighted_graph():
+    vertex_A = MockVertex("A")
+    vertex_B = MockVertex("B")
+    vertex_C = MockVertex("C")
+
+    vertex_A.adjacent[vertex_B.id] = 1
+    vertex_A.adjacent[vertex_C.id] = 3
+    vertex_B.adjacent[vertex_C.id] = 2
+
+    weighted_graph = {
+        "A": vertex_A,
+        "B": vertex_B,
+        "C": vertex_C
+    }
+
+    return weighted_graph
+
+def test_dijkstras_simple_case(weighted_graph):
+    src = "A"
+    dst = "C"
+    expected_path = ["A", "C"]
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_same_source_and_destination(weighted_graph):
+    src = "B"
+    dst = "B"
+    expected_path = ["B"]
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_unreachable_destination(weighted_graph):
+    src = "C"
+    dst = "A"
+    expected_path = []
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_shortest_path_through_different_vertices(weighted_graph):
+    src = "A"
+    dst = "B"
+    expected_path = ["A", "B"]
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_shortest_path_through_single_vertex(weighted_graph):
+    src = "A"
+    dst = "C"
+    weighted_graph["A"].adjacent["C"] = 1
+    expected_path = ["A", "C"]
+    assert dijkstras(weighted_graph, src, dst) == expected_path

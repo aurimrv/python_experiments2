@@ -1,0 +1,77 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dll import Node, DoubleLinkedList
+
+import pytest
+
+@pytest.fixture
+def empty_list():
+    return DoubleLinkedList()
+
+@pytest.fixture
+def filled_list():
+    dll = DoubleLinkedList()
+    dll.push(1)
+    dll.push(2)
+    dll.push(3)
+    dll.append(4)
+    return dll
+
+def test_node_init():
+    n = Node(5)
+    assert n.data == 5
+
+def test_dll_init_empty_list(empty_list):
+    assert empty_list.head is None
+    assert empty_list.tail is None
+    assert empty_list._length == 0
+
+def test_dll_init_with_data():
+    dll = DoubleLinkedList([1, 2, 3])
+    assert dll.head.data == 3
+    assert dll.tail.data == 1
+    assert dll._length == 3
+
+def test_dll_push(empty_list):
+    empty_list.push(6)
+    assert empty_list.head.data == 6
+    assert empty_list.tail.data == 6
+    assert empty_list._length == 1
+
+def test_dll_push_multiple(empty_list):
+    empty_list.push(7)
+    empty_list.push(8)
+    assert empty_list.head.data == 8
+    assert empty_list.head.next.data == 7
+    assert empty_list.tail.data == 7
+    assert empty_list._length == 2
+
+def test_dll_pop(filled_list):
+    assert filled_list.pop() == 3
+    assert filled_list.head.data == 2
+    assert filled_list._length == 3
+
+def test_dll_append(empty_list):
+    empty_list.append(9)
+    assert empty_list.head.data == 9
+    assert empty_list.tail.data == 9
+    assert empty_list._length == 1
+
+def test_dll_shift(filled_list):
+    assert filled_list.shift() == 4
+    assert filled_list.tail.data == 1
+    assert filled_list._length == 3
+
+def test_dll_remove(filled_list):
+    filled_list.remove(2)
+    assert filled_list.head.data == 3
+    assert filled_list.tail.data == 3
+    assert filled_list._length == 2
+
+def test_dll_remove_value_not_present(filled_list):
+    with pytest.raises(ValueError):
+        filled_list.remove(5)

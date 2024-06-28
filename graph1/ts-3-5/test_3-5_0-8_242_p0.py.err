@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+from collections import defaultdict, deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from graph1 import Graph, WeightedGraph
+
+def test_graph_node_add_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    assert node2 in node1.adjacent_list
+
+def test_graph_node_remove_adjacent():
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node1.add_adjacent(node2)
+    node1.remove_adjacent(node2)
+    assert node2 not in node1.adjacent_list
+
+def test_graph_add_edge():
+    my_graph = Graph(3)
+    my_graph.add_edge(1, 2)
+    assert 2 in my_graph.graph[1]
+
+def test_graph_has_cycle_no_cycle():
+    my_graph = Graph(3)
+    my_graph.add_edge(1, 2)
+    my_graph.add_edge(2, 3)
+    assert my_graph.has_cycle() is False
+
+def test_weighted_graph_add_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge(1, 2, 5)
+    assert weighted_graph.vertices[1].adjacent[2] == 5

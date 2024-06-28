@@ -1,0 +1,55 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+import pytest
+
+@pytest.fixture
+def hashmap():
+    return HashMap()
+
+def test_insert(hashmap):
+    # Test inserting a new key-value pair
+    hashmap.insert('key1', 'value1')
+    assert hashmap.get('key1') == 'value1'
+
+    # Test inserting and overriding an existing key
+    hashmap.insert('key1', 'new_value1')
+    assert hashmap.get('key1') == 'new_value1'
+
+def test_get(hashmap):
+    # Test getting a value for an existing key
+    hashmap.insert('key2', 'value2')
+    assert hashmap.get('key2') == 'value2'
+
+    # Test getting a value for a non-existing key
+    with pytest.raises(KeyError):
+        hashmap.get('non_existing_key')
+
+def test_delete(hashmap):
+    # Test deleting an existing key
+    hashmap.insert('key3', 'value3')
+    deleted_value = hashmap.delete('key3')
+    assert deleted_value == ('key3', 'value3')
+    with pytest.raises(KeyError):
+        hashmap.get('key3')
+
+    # Test deleting a non-existing key
+    with pytest.raises(KeyError):
+        hashmap.delete('non_existing_key')
+
+def test_djb2():
+    # Test the djb2 hashing function
+    assert djb2('test') == 2090770981
+
+def test_sdbm():
+    # Test the sdbm hashing function
+    assert sdbm('test') == -1854048795
+
+def test_lose_lose():
+    # Test the lose_lose hashing function
+    assert lose_lose('test') == 448

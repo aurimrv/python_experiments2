@@ -1,0 +1,32 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from rabin_karp_substring_search import rabin_karp_find_substring
+
+import pytest
+
+@pytest.mark.parametrize("string, substring, base, prime_modulus, expected", [
+    ("hello", "ll", 256, 487, 2),
+    ("hello", "el", 256, 487, 1),
+    ("abracadabra", "cad", 256, 487, 4),
+    ("algorithm", "rithm", 256, 487, 4),
+    ("testing", "test", 256, 487, 0),
+    ("mutation", "tion", 256, 487, 4),
+])
+def test_rabin_karp_find_substring(string, substring, base, prime_modulus, expected):
+    assert rabin_karp_find_substring(string, substring, base, prime_modulus) == expected
+
+@pytest.mark.parametrize("string, substring, base, prime_modulus, expected", [
+    ("hello", "bbq", 256, 487, -1),
+    ("hello", "ello", 256, 487, 1),
+    ("abracadabra", "br", 256, 487, 1),
+    ("algorithm", "algo", 256, 487, -1),
+    ("testing", "nope", 256, 487, -1),
+    ("mutation", "mutate", 256, 487, -1),
+])
+def test_rabin_karp_find_substring_negative_cases(string, substring, base, prime_modulus, expected):
+    assert rabin_karp_find_substring(string, substring, base, prime_modulus) == expected

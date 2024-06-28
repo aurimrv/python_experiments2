@@ -1,0 +1,65 @@
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list2 import Node, LinkedList
+
+import pytest
+
+# Test cases for Node class
+def test_create_node():
+    node = Node(10)
+    assert node.data == 10
+    assert node.next is None
+
+def test_node_with_next():
+    next_node = Node(20)
+    node = Node(10, next_node)
+    assert node.data == 10
+    assert node.next.data == 20
+
+# Test cases for LinkedList class
+def test_linked_list_push():
+    llist = LinkedList()
+    llist.push(30)
+    assert llist.head.data == 30
+
+def test_linked_list_pop():
+    llist = LinkedList([10, 20, 30])
+    assert llist.pop() == 10
+    assert llist.pop() == 20
+
+def test_linked_list_size():
+    llist = LinkedList([10, 20, 30])
+    assert llist.size() == 3
+
+def test_linked_list_search_found():
+    llist = LinkedList([10, 20, 30])
+    assert llist.search(20).data == 20
+
+def test_linked_list_search_not_found():
+    llist = LinkedList([10, 20, 30])
+    assert llist.search(40) is None
+
+def test_linked_list_remove_head():
+    llist = LinkedList([10, 20, 30])
+    llist.remove(10)
+    assert llist.head.data == 20
+
+def test_linked_list_remove_middle():
+    llist = LinkedList([10, 20, 30])
+    llist.remove(20)
+    assert llist.size() == 2
+    assert llist.head.next.data == 30
+
+def test_linked_list_remove_last():
+    llist = LinkedList([10, 20, 30])
+    llist.remove(30)
+    assert llist.head.next.next is None
+
+def test_linked_list_display():
+    llist = LinkedList([10, 'sam', 37, 'tango'])
+    assert llist.display() == "('10, sam, 37, tango')"

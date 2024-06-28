@@ -1,0 +1,43 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from trie import Trie
+from word_squares import word_squares
+
+def test_construct():
+    words = ['ball', 'area', 'lead', 'lady']
+    expected_squares = [
+        ['ball', 'area', 'lead', 'lady'],
+        ['lead', 'area', 'ball', 'lady']
+    ]
+    assert word_squares(words) == expected_squares
+
+def test_construct_empty_words():
+    words = []
+    expected_squares = []
+    assert word_squares(words) == expected_squares
+
+def test_construct_single_word():
+    words = ['abcd']
+    expected_squares = [['abcd']]
+    assert word_squares(words) == expected_squares
+
+def test_construct_duplicate_words():
+    words = ['abcd', 'abcd', 'abcd']
+    expected_squares = [
+        ['abcd', 'abcd', 'abcd'],
+        ['abcd', 'abcd', 'abcd'],
+        ['abcd', 'abcd', 'abcd']
+    ]
+    assert word_squares(words) == expected_squares
+
+def test_construct_long_words():
+    words = ['hello', 'world', 'python', 'testing']
+    expected_squares = [
+        ['hello', 'world', 'python', 'testing'],
+        ['world', 'hello', 'testing', 'python']
+    ]
+    assert word_squares(words) == expected_squares

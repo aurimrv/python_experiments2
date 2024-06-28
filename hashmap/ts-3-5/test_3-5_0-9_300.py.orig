@@ -1,0 +1,47 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from hash_map import HashMap, djb2, sdbm, lose_lose
+
+import pytest
+
+# Test cases for the HashMap class
+class TestHashMap:
+    @pytest.fixture
+    def hashmap(self):
+        return HashMap()
+
+    def test_insert_and_get_single_key(self, hashmap):
+        hashmap.insert("key1", "value1")
+        assert hashmap.get("key1") == "value1"
+
+    def test_insert_and_get_multiple_keys(self, hashmap):
+        hashmap.insert("key1", "value1")
+        hashmap.insert("key2", "value2")
+        assert hashmap.get("key1") == "value1"
+        assert hashmap.get("key2") == "value2"
+
+    def test_insert_override_existing_key(self, hashmap):
+        hashmap.insert("key1", "value1")
+        hashmap.insert("key1", "new_value")
+        assert hashmap.get("key1") == "new_value"
+
+    def test_delete_key(self, hashmap):
+        hashmap.insert("key1", "value1")
+        assert hashmap.delete("key1") == ("key1", "value1")
+        with pytest.raises(KeyError):
+            hashmap.get("key1")
+
+# Test cases for the hashing functions
+class TestHashFunctions:
+    def test_djb2_hash(self):
+        assert djb2("test") == 464402406
+
+    def test_sdbm_hash(self):
+        assert sdbm("test") == 209462000
+
+    def test_lose_lose_hash(self):
+        assert lose_lose("test") == 448

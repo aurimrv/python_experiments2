@@ -1,0 +1,41 @@
+import os
+import sys
+from collections import deque
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from naive_tree import NaiveBinaryTree
+
+def test_naive_binary_tree():
+    # Create a simple binary tree for testing
+    tree = NaiveBinaryTree()
+    
+    # Test pre_order_traversal method
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    assert tree.pre_order_traversal() == [1, 2, 3]
+    
+    # Test in_order_traversal method
+    tree.head = Node(2)
+    tree.head.left = Node(1)
+    tree.head.right = Node(3)
+    assert tree.in_order_traversal() == [1, 2, 3]
+    
+    # Test post_order_traversal method
+    tree.head = Node(3)
+    tree.head.left = Node(1)
+    tree.head.right = Node(2)
+    assert tree.post_order_traversal() == [1, 2, 3]
+    
+    # Test level_order_traversal method
+    tree.head = Node(1)
+    tree.head.left = Node(2)
+    tree.head.right = Node(3)
+    tree.head.left.left = Node(4)
+    tree.head.left.right = Node(5)
+    tree.head.right.left = Node(6)
+    tree.head.right.right = Node(7)
+    assert tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]

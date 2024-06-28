@@ -1,0 +1,41 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_word_squares():
+    words = ["area", "lead", "wall", "lady", "ball"]
+    result = word_squares(words)
+    assert result == [['wall', 'area', 'lead', 'lady'], ['ball', 'area', 'lead', 'lady']]
+
+def test_construct():
+    words = ["area", "lead", "wall", "lady", "ball"]
+    square = ['wall', 'area', 'lead']
+    construct = word_squares(square)
+    assert construct == [['wall', 'area', 'lead', 'lady'], ['wall', 'area', 'lead', 'ball']]
+
+def test_get_all_common_prefix():
+    words = ["area", "lead", "wall", "lady", "ball"]
+    trie = Trie(words)
+    prefix_words = trie.get_all_common_prefix("lea")
+    assert prefix_words == ["lead"]
+
+def test_construct_edge_case():
+    words = ["a", "b", "c"]
+    square = ['a']
+    construct = word_squares(square)
+    assert construct == [['a', 'b', 'c']]
+
+def test_word_squares_empty_input():
+    words = []
+    result = word_squares(words)
+    assert result == []
+
+def test_construct_single_word():
+    words = ["hello"]
+    square = ['h', 'e', 'l']
+    construct = word_squares(square)
+    assert construct == [['h', 'e', 'l', 'l']]

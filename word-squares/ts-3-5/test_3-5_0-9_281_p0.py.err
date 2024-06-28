@@ -1,0 +1,30 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from word_squares import word_squares
+
+def test_construct_valid_square():
+    words = ['ball', 'area', 'lead', 'lane']
+    squares = word_squares(words)
+    assert squares == [['ball', 'area', 'lead', 'lane']], "Constructed square does not match expected result"
+    assert all(len(word) == len(squares[0]) for word in squares[0]), "All words in the constructed square should have the same length"
+
+def test_construct_multiple_squares():
+    words = ['area', 'lead', 'earl', 'last']
+    squares = word_squares(words)
+    assert len(squares) == 2, "Incorrect number of squares constructed"
+    assert all(len(word) == len(squares[0]) for word in squares[0]), "All words in the square should have the same length"
+
+def test_construct_empty_input():
+    words = []
+    squares = word_squares(words)
+    assert squares == [], "Empty input should return empty list"
+
+def test_construct_single_word_input():
+    words = ['ball']
+    squares = word_squares(words)
+    assert squares == [['ball']], "Single word input should return a square with just that word"
+    assert len(squares[0][0]) == 4, "Word length should match the input word"

@@ -1,0 +1,18 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from edit_distance import calculate_edit_distance
+
+def test_calculate_edit_distance():
+    assert calculate_edit_distance("kitten", "sitting") == ['Substitute s', 'Substitute i', 'Substitute t', 'Substitute t', 'Insert g']
+    assert calculate_edit_distance("intention", "execution") == ['Substitute e', 'Substitute x', 'Substitute e', 'Substitute c', 'Substitute u', 'Substitute t', 'Insert i', 'Insert o']
+    assert calculate_edit_distance("abc", "yabd") == ['Substitute y', 'Insert y', 'Substitute d']
+    assert calculate_edit_distance("abcdef", "abcdef") == []
+    assert calculate_edit_distance("abc", "def") == ['Delete a', 'Delete b', 'Delete c', 'Insert d', 'Insert e', 'Insert f']
+    assert calculate_edit_distance("", "test") == ['Insert t', 'Insert e', 'Insert s', 'Insert t']
+    assert calculate_edit_distance("test", "") == ['Delete t', 'Delete e', 'Delete s', 'Delete t']

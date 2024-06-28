@@ -1,0 +1,45 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from linked_list1 import ListNode
+
+import pytest
+
+@pytest.fixture
+def sample_linked_list():
+    node_1 = ListNode(1)
+    node_2 = ListNode(2)
+    node_3 = ListNode(3)
+    node_4 = ListNode(4)
+    node_5 = ListNode(5)
+    
+    node_1.next = node_2
+    node_2.next = node_3
+    node_3.next = node_4
+    node_4.next = node_5
+    node_5.next = node_2
+    
+    return node_1
+
+def test_contains_cycle(sample_linked_list):
+    assert sample_linked_list.contains_cycle() == True
+
+def test_get_beginning_of_cycle_if_exists(sample_linked_list):
+    cycle_start = sample_linked_list.get_beginning_of_cycle_if_exists()
+    assert cycle_start.val == 2
+
+def test_reverse(sample_linked_list):
+    reversed_list = sample_linked_list.reverse()
+    
+    assert reversed_list.val == 5
+    assert reversed_list.next.val == 4
+    assert reversed_list.next.next.val == 3
+    assert reversed_list.next.next.next.val == 2
+    assert reversed_list.next.next.next.next.val == 1
+
+def test_reverse_recursive(sample_linked_list):
+    with pytest.raises(RecursionError):
+        reversed_list = sample_linked_list.reverse_recursive()

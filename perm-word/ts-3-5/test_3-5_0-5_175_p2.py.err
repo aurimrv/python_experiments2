@@ -1,0 +1,37 @@
+import os
+import sys
+from itertools import permutations
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+def test_permutations_of_word_empty_string():
+    assert list(permutations('')) == [()]
+
+def test_permutations_of_word_single_letter():
+    assert list(permutations('a')) == [('a',)]
+
+def test_permutations_of_word_two_letters():
+    assert list(permutations('ab')) == [('a', 'b'), ('b', 'a')]
+
+def test_permutations_of_word_three_letters():
+    assert list(permutations('abc')) == [('a', 'b', 'c'), ('a', 'c', 'b'), ('b', 'a', 'c'), 
+                                         ('b', 'c', 'a'), ('c', 'a', 'b'), ('c', 'b', 'a')]
+
+def test_permutations_of_word_repeated_letters():
+    assert sorted(list(permutations('aab'))) == [('a', 'a', 'b'), ('a', 'b', 'a'), ('b', 'a', 'a')]
+
+def test_permutations_of_word_long_word():
+    assert sorted(list(permutations('abcd'))) == [('a', 'b', 'c', 'd'), ('a', 'b', 'd', 'c'), 
+                                                  ('a', 'c', 'b', 'd'), ('a', 'c', 'd', 'b'), 
+                                                  ('a', 'd', 'b', 'c'), ('a', 'd', 'c', 'b'),
+                                                  ('b', 'a', 'c', 'd'), ('b', 'a', 'd', 'c'), 
+                                                  ('b', 'c', 'a', 'd'), ('b', 'c', 'd', 'a'), 
+                                                  ('b', 'd', 'a', 'c'), ('b', 'd', 'c', 'a'),
+                                                  ('c', 'a', 'b', 'd'), ('c', 'a', 'd', 'b'), 
+                                                  ('c', 'b', 'a', 'd'), ('c', 'b', 'd', 'a'), 
+                                                  ('c', 'd', 'a', 'b'), ('c', 'd', 'b', 'a'),
+                                                  ('d', 'a', 'b', 'c'), ('d', 'a', 'c', 'b'), 
+                                                  ('d', 'b', 'a', 'c'), ('d', 'b', 'c', 'a'), 
+                                                  ('d', 'c', 'a', 'b'), ('d', 'c', 'b', 'a')]
