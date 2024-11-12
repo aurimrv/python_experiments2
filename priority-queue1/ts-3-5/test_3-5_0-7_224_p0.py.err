@@ -1,7 +1,6 @@
 import os
 import sys
 import itertools
-from heapq import heappush, heappop
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
@@ -9,33 +8,33 @@ sys.path.append(project_dir)
 
 from priority_queue1 import PriorityQueue
 
-def test_add_task():
-    pq = PriorityQueue()
-    pq.add_task('task1', 1)
-    assert 'task1' in pq.mapper
+import pytest
 
-def test_remove_task():
-    pq = PriorityQueue()
-    pq.add_task('task1', 1)
-    pq.remove_task('task1')
-    assert 'task1' not in pq.mapper
+@pytest.fixture
+def priority_queue():
+    return PriorityQueue()
 
-def test_set_priority():
-    pq = PriorityQueue()
-    pq.add_task('task1', 1)
-    pq.set_priority('task1', 2)
-    assert pq.mapper['task1'][0] == 2
+def test_add_task(priority_queue):
+    priority_queue.add_task('task1', 1)
+    assert len(priority_queue.pq) == 1
+    assert 'task1' in priority_queue.mapper
 
-def test_pop_task():
-    pq = PriorityQueue()
-    pq.add_task('task1', 1)
-    task = pq.pop_task()
-    assert task == 'task1'
-    assert 'task1' not in pq.mapper
+def test_remove_task(priority_queue):
+    priority_queue.add_task('task2', 2)
+    priority_queue.remove_task('task2')
+    assert priority_queue.mapper.get('task2') == PriorityQueue.REMOVED
 
-def test_pop_task_empty_queue():
-    pq = PriorityQueue()
-    try:
-        pq.pop_task()
-    except KeyError as e:
-        assert str(e) == 'Pop from empty priority queue.'
+def test_set_priority(priority_queue):
+    priority_queue.add_task('task3', 3)
+    priority_queue.set_priority('task3', 4)
+    assert priority_queue.pq[0][0] == 4
+
+def test_pop_task(priority_queue):
+    priority_queue.add_task('task4', 4)
+    task = priority_queue.pop_task()
+    assert task == 'task4'
+    assert 'task4' not in priority_queue.mapper
+
+def test_pop_task_empty_queue(priority_queue):
+    with pytest.raises(KeyError):
+        priority_queue.pop_task()

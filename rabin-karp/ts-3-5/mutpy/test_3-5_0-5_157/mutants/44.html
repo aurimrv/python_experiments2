@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #44</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number43').attr('title', 'ROR');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #44</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'rabin_karp_substring_search' from '/home/lucca/teste/python_experiments2/rabin-karp/./rabin_karp_substring_search.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>ts-3-5/test_3-5_0-5_157.py::test_rabin_karp_find_substring</code></li>
+    
+    <li>duration - 0.195 s</li>
+    
+    
+    <li>tests run - 1</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>def test_rabin_karp_find_substring():
+        assert rabin_karp_find_substring("hello world", "hello") == 0
+        assert rabin_karp_find_substring("hello world", "world") == 6
+        assert rabin_karp_find_substring("hello world", "world") == 6
+>       assert rabin_karp_find_substring("hello world", "foo") == -1
+
+ts-3-5/test_3-5_0-5_157.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = 'hello world', substring = 'foo', base = 256, prime_modulus = 487
+
+>   ???
+E   IndexError: string index out of range
+
+rabin_karp_substring_search:45: IndexError</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>ROR - line 43</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [43]; toolbar: false;">def rabin_karp_find_substring(string, substring, base=256, prime_modulus=487):
+    '''
+    Finds occurances of a substring in a string.
+
+    This uses the Rabin-Karp rolling hash to calculate a rolling hash
+    value for windows of letters in the string.  Since this is a rolling
+    hash when going to a new number we can drop the number that will not
+    be in the next window and add the new one to the hash.  Once the
+    hashes are the same there is a candidate match and the strings must be
+    examined letter by letter in case of hash collision.
+
+    Args:
+        string: the string that is being looked in
+        substring: the string to search for
+        base: the base used to calculate hashes
+        prime_modulus: positive prime number used to bound the hash results 
+
+    Returns:
+        Index of the beginning of the first occurance
+        of a substring that is within the string.
+
+    '''
+    
+    substring_hash = 0
+    rolling_hash = 0
+    base_n = pow(base, len(substring) - 1) % prime_modulus
+    
+    
+    for i in range(len(substring)):
+        rolling_hash = ((base * rolling_hash) + ord(string[i])) % prime_modulus
+        substring_hash = ((base * substring_hash) + ord(substring[i])) % prime_modulus
+    
+    for i in range((len(string) - len(substring)) + 1):
+        
+        if rolling_hash == substring_hash:
+            
+            for (s_i, letter) in enumerate(substring):
+                if letter != string[i + s_i]:
+                    break
+            else:
+                return i
+        
+        if i <= len(string) - len(substring):
+            
+            rolling_hash = ((rolling_hash - (base_n * ord(string[i]))) * base) + (ord(string[i + len(substring)]) % prime_modulus)
+            
+            
+            rolling_hash = (rolling_hash + prime_modulus) % prime_modulus
+    
+    return -1</pre>
+
+    </div>
+</body>
+</html>

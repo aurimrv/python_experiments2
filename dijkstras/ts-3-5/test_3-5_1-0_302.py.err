@@ -1,55 +1,42 @@
 import os
 import sys
-import pytest
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
-    def test_dijkstras_basic_case(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        
-        src = 'A'
-        dst = 'D'
-        
-        result = dijkstras(weighted_graph, src, dst)
-        
-        assert result == ['A', 'B', 'C', 'D']
+class TestDijkstrasAlgorithm:
     
-    def test_dijkstras_same_src_dst(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
+    def test_shortest_path_exists(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
         
-        src = 'A'
-        dst = 'A'
+        path = dijkstras(weighted_graph, 'A', 'C')
+        assert path == ['A', 'B', 'C']
+
+    def test_shortest_path_is_direct(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('X')
+        weighted_graph.add_vertex('Y')
+        weighted_graph.add_vertex('Z')
+        weighted_graph.add_edge('X', 'Y', 5)
+        weighted_graph.add_edge('Y', 'Z', 2)
         
-        result = dijkstras(weighted_graph, src, dst)
+        path = dijkstras(weighted_graph, 'X', 'Y')
+        assert path == ['X', 'Y']
+
+    def test_no_path_exists(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('P')
+        weighted_graph.add_vertex('Q')
+        weighted_graph.add_vertex('R')
+        weighted_graph.add_edge('P', 'Q', 3)
+        weighted_graph.add_edge('Q', 'R', 2)
         
-        assert result == ['A']
-    
-    def test_dijkstras_unreachable_dst(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        
-        src = 'A'
-        dst = 'E'  # Unreachable node
-        
-        result = dijkstras(weighted_graph, src, dst)
-        
-        assert result == []
+        path = dijkstras(weighted_graph, 'R', 'P')
+        assert path == []

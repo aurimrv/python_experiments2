@@ -6,70 +6,50 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
+def test_dijkstras_basic():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('A', 'D', 3)
     
-    def test_dijkstras_basic(self):
-        class Vertex:
-            def __init__(self):
-                self.adjacent = {}
-        
-        class WeightedGraph:
-            def __init__(self):
-                self.vertices = {}
-        
-        graph = WeightedGraph()
-        graph.vertices = {
-            'A': Vertex(),
-            'B': Vertex(),
-            'C': Vertex(),
-            'D': Vertex()
-        }
-        
-        graph.vertices['A'].adjacent = {'B': 3, 'C': 2}
-        graph.vertices['B'].adjacent = {'D': 5}
-        graph.vertices['C'].adjacent = {'D': 1}
-        
-        assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+
+def test_dijkstras_no_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
     
-    def test_dijkstras_no_path(self):
-        class Vertex:
-            def __init__(self):
-                self.adjacent = {}
-        
-        class WeightedGraph:
-            def __init__(self):
-                self.vertices = {}
-        
-        graph = WeightedGraph()
-        graph.vertices = {
-            'A': Vertex(),
-            'B': Vertex(),
-            'C': Vertex()
-        }
-        
-        graph.vertices['A'].adjacent = {'B': 3}
-        graph.vertices['C'].adjacent = {'B': 2}
-        
-        assert dijkstras(graph, 'A', 'C') == []
+    assert dijkstras(weighted_graph, 'A', 'C') == []
+
+def test_dijkstras_same_source_dest():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
     
-    def test_dijkstras_same_source_dest(self):
-        class Vertex:
-            def __init__(self):
-                self.adjacent = {}
-        
-        class WeightedGraph:
-            def __init__(self):
-                self.vertices = {}
-        
-        graph = WeightedGraph()
-        graph.vertices = {
-            'X': Vertex(),
-            'Y': Vertex(),
-            'Z': Vertex()
-        }
-        
-        graph.vertices['X'].adjacent = {'Y': 1}
-        graph.vertices['Y'].adjacent = {'Z': 2}
-        graph.vertices['Z'].adjacent = {'X': 3}
-        
-        assert dijkstras(graph, 'X', 'X') == ['X']
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = Vertex(vertex)
+
+    def add_edge(self, start, end, weight):
+        self.vertices[start].adjacent[end] = weight
+
+class Vertex:
+    def __init__(self, key):
+        self.key = key
+        self.adjacent = {}

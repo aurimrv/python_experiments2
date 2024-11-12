@@ -1,0 +1,2624 @@
+[*] Start mutation process:
+   - targets: linked_list2.py
+   - tests: ./ALL-SMART
+[*] 57 tests passed:
+   - test_linked_list2_MOSA [0.06479 s]
+   - test_linked_list2_WHOLE_SUITE [0.04943 s]
+   - test_linked_list2_MIO [0.05292 s]
+   - test_linked_list2_DYNAMOSA [0.05612 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:2] + ')'
+--------------------------------------------------------------------------------
+[0.08435 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+   - [#   2] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
++ 85:             display += str(curr.data) - ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.09388 s] incompetent
+
+TypeError: linked_list2:85: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   3] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:+2] + ')'
+--------------------------------------------------------------------------------
+[0.08797 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+   - [#   4] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:-2] - ')'
+--------------------------------------------------------------------------------
+[0.08903 s] incompetent
+
+TypeError: linked_list2:87: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   5] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
++ 45:         self._length -= 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+--------------------------------------------------------------------------------
+[0.11300 s] killed by ALL-SMART/test_linked_list2_MOSA.py::test_case_1
+
+def test_case_1():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.size()
+>       assert var_0 == 2
+E       AssertionError
+
+ALL-SMART/test_linked_list2_MOSA.py:20: AssertionError
+   - [#   6] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+- 53:         self._length -= 1
++ 53:         self._length += 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+--------------------------------------------------------------------------------
+[0.09394 s] survived
+   - [#   7] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+- 73:             self._length -= 1
++ 73:             self._length += 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.09472 s] survived
+   - [#   8] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
++ 77:                 self._length += 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+--------------------------------------------------------------------------------
+[0.09438 s] survived
+   - [#   9] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
++ 85:             display -= str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.08640 s] incompetent
+
+TypeError: linked_list2:85: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+   - [#  10] CDI linked_list2: 
+--------------------------------------------------------------------------------
+   6: 
+   7:     Data attribute for data storage and Next for pointer to next node.
+   8:     '''
+   9:     
+- 10:     def __init__(self, data, next_node=None):
+- 11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
+- 13:         self.next = next_node
+- 14: 
++ 10:     @classmethod
++ 11:     def __init__(self, data, next_node=None):
++ 12:         '''Attribute data and next_node.'''
++ 13:         self.data = data
++ 14:         self.next = next_node
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+  18: 
+--------------------------------------------------------------------------------
+[5.00666 s] timeout
+   - [#  11] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  26:     display() - will return a unicode string representing the list as
+  27:     if it were a Python tuple literal: "(12, \'sam\', 37, \'tango\')"
+  28:     '''
+  29:     
+- 30:     def __init__(self, data=None):
+- 31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
+- 33:         self.head = None
+- 34:         try:
+- 35:             for val in data:
+- 36:                 self.push(val)
+- 37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
+- 40:     
++ 30:     @classmethod
++ 31:     def __init__(self, data=None):
++ 32:         '''Linked list initialized with head.'''
++ 33:         self._length = 0
++ 34:         self.head = None
++ 35:         try:
++ 36:             for val in data:
++ 37:                 self.push(val)
++ 38:         except TypeError:
++ 39:             if data:
++ 40:                 self.push(data)
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+--------------------------------------------------------------------------------
+[0.08097 s] incompetent
+
+TypeError: linked_list2:40: TypeError: LinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  12] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+- 41:     def push(self, val):
+- 42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
+- 46:     
++ 41:     @classmethod
++ 42:     def push(self, val):
++ 43:         '''Insert a value at the head of the list.'''
++ 44:         old_head = self.head
++ 45:         self.head = Node(val, old_head)
++ 46:         self._length += 1
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+--------------------------------------------------------------------------------
+[0.09480 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>, val = True
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:44: AttributeError
+   - [#  13] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+- 47:     def pop(self):
+- 48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
+- 50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
+- 52:         self.head = self.head.next
+- 53:         self._length -= 1
+- 54:         return to_return.data
+- 55:     
++ 47:     @classmethod
++ 48:     def pop(self):
++ 49:         '''Remove the first value and return it.'''
++ 50:         if not (self.head):
++ 51:             raise IndexError('Cannot pop from an empty list')
++ 52:         to_return = self.head
++ 53:         self.head = self.head.next
++ 54:         self._length -= 1
++ 55:         return to_return.data
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+--------------------------------------------------------------------------------
+[0.08850 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_2
+
+def test_case_2():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        with pytest.raises(IndexError):
+>           linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:50: AttributeError
+   - [#  14] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the length of the list.'''
+- 58:         return self._length
+- 59:     
++ 56:     @classmethod
++ 57:     def size(self):
++ 58:         '''Return the length of the list.'''
++ 59:         return self._length
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+--------------------------------------------------------------------------------
+[0.08973 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_7
+
+def test_case_7():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+>       var_0 = linked_list_2.size()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute '_length'
+
+linked_list2:59: AttributeError
+   - [#  15] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+- 60:     def search(self, val):
+- 61:         '''Return the node containing val.'''
+- 62:         curr = self.head
+- 63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
+- 67:     
++ 60:     @classmethod
++ 61:     def search(self, val):
++ 62:         '''Return the node containing val.'''
++ 63:         curr = self.head
++ 64:         while curr:
++ 65:             if curr.data == val:
++ 66:                 return curr
++ 67:             curr = curr.next
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.10421 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        none_type_0 = None
+>       var_0 = linked_list_0.search(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>, val = None
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:63: AttributeError
+   - [#  16] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+- 68:     def remove(self, val):
+- 69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
+- 73:             self._length -= 1
+- 74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
+- 79:     
++ 68:     @classmethod
++ 69:     def remove(self, val):
++ 70:         '''Remove node from list if exists.'''
++ 71:         curr = self.head
++ 72:         if (curr and val is self.head.data):
++ 73:             self.head = self.head.next
++ 74:             self._length -= 1
++ 75:         while curr:
++ 76:             if (curr.next and curr.next.data == val):
++ 77:                 curr.next = curr.next.next
++ 78:                 self._length -= 1
++ 79:             curr = curr.next
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.08647 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+val = <linked_list2.LinkedList object at 0x7d25eb593f10>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:71: AttributeError
+   - [#  17] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+- 80:     def display(self):
+- 81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
+- 83:         display = '('
+- 84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 80:     @classmethod
++ 81:     def display(self):
++ 82:         '''Display list as a tuple.'''
++ 83:         curr = self.head
++ 84:         display = '('
++ 85:         while curr:
++ 86:             display += str(curr.data) + ', '
++ 87:             curr = curr.next
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.08727 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+>       var_1 = linked_list_0.display()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:83: AttributeError
+   - [#  18] COD linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if self.head:
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.09003 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_2
+
+def test_case_2():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        with pytest.raises(IndexError):
+>           linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb3a9720>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:52: AttributeError
+   - [#  19] COI linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
++ 38:             if not data:
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+--------------------------------------------------------------------------------
+[0.08794 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_1
+
+def test_case_1():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+>       assert linked_list_0.head is None
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:16: AssertionError
+   - [#  20] COI linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if not ((not (self.head))):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.09031 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_2
+
+def test_case_2():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        with pytest.raises(IndexError):
+>           linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb7f81f0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:52: AttributeError
+   - [#  21] COI linked_list2: 
+--------------------------------------------------------------------------------
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+- 63:         while curr:
++ 63:         while not curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+--------------------------------------------------------------------------------
+[0.08942 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_3
+
+def test_case_3():
+        int_0 = 1000
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.search(int_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb3a9540>, val = 1000
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+linked_list2:64: AttributeError
+   - [#  22] COI linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
++ 64:             if not (curr.data == val):
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.09123 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_11
+
+def test_case_11():
+        bool_0 = True
+        linked_list_0 = module_0.LinkedList(bool_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(bool_0)
+>       assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:119: AssertionError
+   - [#  23] COI linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if not ((curr and val is self.head.data)):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.08810 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb3aa5c0>
+val = <linked_list2.LinkedList object at 0x7d25eb3aa5c0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:72: AttributeError
+   - [#  24] COI linked_list2: 
+--------------------------------------------------------------------------------
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+- 74:         while curr:
++ 74:         while not curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.08686 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4cd300>
+val = <linked_list2.LinkedList object at 0x7d25eb4cd300>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:75: AttributeError
+   - [#  25] COI linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if not ((curr.next and curr.next.data == val)):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.09245 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_9
+
+def test_case_9():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.remove(linked_list_0)
+        var_1 = linked_list_0.push(var_0)
+        var_2 = linked_list_0.push(linked_list_0)
+>       var_3 = linked_list_0.remove(var_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb40d0c0>, val = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:76: AttributeError
+   - [#  26] COI linked_list2: 
+--------------------------------------------------------------------------------
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+- 84:         while curr:
++ 84:         while not curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.08927 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+   - [#  27] EHD linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
++ 38:             raise
++ 39:     
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.08656 s] incompetent
+
+TypeError: linked_list2:35: TypeError: 'NoneType' object is not iterable
+
+   - [#  28] EXS linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
++ 38:             pass
++ 39:     
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.09045 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_8
+
+def test_case_8():
+        none_type_0 = None
+        none_type_1 = None
+        linked_list_0 = module_0.LinkedList(none_type_1)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.search(none_type_0)
+        set_0 = set()
+        bool_0 = False
+        node_0 = module_0.Node(bool_0)
+        linked_list_1 = module_0.LinkedList(node_0)
+>       assert f'{type(linked_list_1.head).__module__}.{type(linked_list_1.head).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:85: AssertionError
+   - [#  29] LCR linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if (curr or val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.08791 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4cf8b0>
+val = <linked_list2.LinkedList object at 0x7d25eb4cf8b0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+linked_list2:71: AttributeError
+   - [#  30] LCR linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if (curr.next or curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.10764 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_9
+
+def test_case_9():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.remove(linked_list_0)
+        var_1 = linked_list_0.push(var_0)
+        var_2 = linked_list_0.push(linked_list_0)
+        var_3 = linked_list_0.remove(var_0)
+        none_type_0 = None
+>       var_4 = linked_list_0.remove(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4c1090>, val = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+linked_list2:75: AttributeError
+   - [#  31] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+- 37:         except TypeError:
++ 37:                 breakexcept TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.09587 s] killed by ALL-SMART/test_linked_list2_WHOLE_SUITE.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b'\xc7\x9d\xec\xa14\xc8\xf4\xbb\xe7J\xd6\xf3'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.pop()
+>       assert var_0 == 243
+E       AssertionError
+
+ALL-SMART/test_linked_list2_WHOLE_SUITE.py:86: AssertionError
+   - [#  32] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+- 67:     
++ 67:             break
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.09461 s] survived
+   - [#  33] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+- 79:     
++ 79:             break
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.09342 s] survived
+   - [#  34] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:             break
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.10055 s] killed by ALL-SMART/test_linked_list2_WHOLE_SUITE.py::test_case_10
+
+def test_case_10():
+        bytes_0 = b'\xe3\xd9\x98\x08\xd7\xbb=\x02\x08'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.display()
+>       assert var_0 == '(8, 2, 61, 187, 215, 8, 152, 217, 227)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_WHOLE_SUITE.py:108: AssertionError
+   - [#  35] RIL linked_list2: 
+--------------------------------------------------------------------------------
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+- 35:             for val in data:
++ 35:             for val in reversed(data):
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+--------------------------------------------------------------------------------
+[0.09635 s] killed by ALL-SMART/test_linked_list2_WHOLE_SUITE.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b'\xc7\x9d\xec\xa14\xc8\xf4\xbb\xe7J\xd6\xf3'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.pop()
+>       assert var_0 == 243
+E       AssertionError
+
+ALL-SMART/test_linked_list2_WHOLE_SUITE.py:86: AssertionError
+   - [#  36] ROR linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
++ 64:             if curr.data != val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.09159 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_11
+
+def test_case_11():
+        bool_0 = True
+        linked_list_0 = module_0.LinkedList(bool_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(bool_0)
+>       assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:119: AssertionError
+   - [#  37] ROR linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if (curr.next and curr.next.data != val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.09551 s] survived
+   - [#  38] SDI linked_list2: 
+--------------------------------------------------------------------------------
+   6: 
+   7:     Data attribute for data storage and Next for pointer to next node.
+   8:     '''
+   9:     
+- 10:     def __init__(self, data, next_node=None):
+- 11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
+- 13:         self.next = next_node
+- 14: 
++ 10:     @staticmethod
++ 11:     def __init__(self, data, next_node=None):
++ 12:         '''Attribute data and next_node.'''
++ 13:         self.data = data
++ 14:         self.next = next_node
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+  18: 
+--------------------------------------------------------------------------------
+[0.08695 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+linked_list2:44: in push
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = True, data = None, next_node = None
+
+>   ???
+E   AttributeError: 'bool' object has no attribute 'data'
+
+linked_list2:13: AttributeError
+   - [#  39] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  26:     display() - will return a unicode string representing the list as
+  27:     if it were a Python tuple literal: "(12, \'sam\', 37, \'tango\')"
+  28:     '''
+  29:     
+- 30:     def __init__(self, data=None):
+- 31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
+- 33:         self.head = None
+- 34:         try:
+- 35:             for val in data:
+- 36:                 self.push(val)
+- 37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
+- 40:     
++ 30:     @staticmethod
++ 31:     def __init__(self, data=None):
++ 32:         '''Linked list initialized with head.'''
++ 33:         self._length = 0
++ 34:         self.head = None
++ 35:         try:
++ 36:             for val in data:
++ 37:                 self.push(val)
++ 38:         except TypeError:
++ 39:             if data:
++ 40:                 self.push(data)
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+--------------------------------------------------------------------------------
+[0.08468 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = [True, True], data = None
+
+>   ???
+E   AttributeError: 'list' object has no attribute '_length'
+
+linked_list2:33: AttributeError
+   - [#  40] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+- 41:     def push(self, val):
+- 42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
+- 46:     
++ 41:     @staticmethod
++ 42:     def push(self, val):
++ 43:         '''Insert a value at the head of the list.'''
++ 44:         old_head = self.head
++ 45:         self.head = Node(val, old_head)
++ 46:         self._length += 1
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+--------------------------------------------------------------------------------
+[0.08423 s] incompetent
+
+TypeError: linked_list2:39: TypeError: LinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  41] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+- 47:     def pop(self):
+- 48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
+- 50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
+- 52:         self.head = self.head.next
+- 53:         self._length -= 1
+- 54:         return to_return.data
+- 55:     
++ 47:     @staticmethod
++ 48:     def pop(self):
++ 49:         '''Remove the first value and return it.'''
++ 50:         if not (self.head):
++ 51:             raise IndexError('Cannot pop from an empty list')
++ 52:         to_return = self.head
++ 53:         self.head = self.head.next
++ 54:         self._length -= 1
++ 55:         return to_return.data
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+--------------------------------------------------------------------------------
+[0.08977 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ALL-SMART/test_linked_list2_DYNAMOSA.py:23: TypeError: LinkedList.pop() missing 1 required positional argument: 'self'
+
+   - [#  42] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the length of the list.'''
+- 58:         return self._length
+- 59:     
++ 56:     @staticmethod
++ 57:     def size(self):
++ 58:         '''Return the length of the list.'''
++ 59:         return self._length
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+--------------------------------------------------------------------------------
+[0.08720 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ALL-SMART/test_linked_list2_DYNAMOSA.py:71: TypeError: LinkedList.size() missing 1 required positional argument: 'self'
+
+   - [#  43] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+- 60:     def search(self, val):
+- 61:         '''Return the node containing val.'''
+- 62:         curr = self.head
+- 63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
+- 67:     
++ 60:     @staticmethod
++ 61:     def search(self, val):
++ 62:         '''Return the node containing val.'''
++ 63:         curr = self.head
++ 64:         while curr:
++ 65:             if curr.data == val:
++ 66:                 return curr
++ 67:             curr = curr.next
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.08757 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ALL-SMART/test_linked_list2_DYNAMOSA.py:11: TypeError: LinkedList.search() missing 1 required positional argument: 'val'
+
+   - [#  44] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+- 68:     def remove(self, val):
+- 69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
+- 73:             self._length -= 1
+- 74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
+- 79:     
++ 68:     @staticmethod
++ 69:     def remove(self, val):
++ 70:         '''Remove node from list if exists.'''
++ 71:         curr = self.head
++ 72:         if (curr and val is self.head.data):
++ 73:             self.head = self.head.next
++ 74:             self._length -= 1
++ 75:         while curr:
++ 76:             if (curr.next and curr.next.data == val):
++ 77:                 curr.next = curr.next.next
++ 78:                 self._length -= 1
++ 79:             curr = curr.next
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.08696 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ALL-SMART/test_linked_list2_DYNAMOSA.py:36: TypeError: LinkedList.remove() missing 1 required positional argument: 'val'
+
+   - [#  45] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+- 80:     def display(self):
+- 81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
+- 83:         display = '('
+- 84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 80:     @staticmethod
++ 81:     def display(self):
++ 82:         '''Display list as a tuple.'''
++ 83:         curr = self.head
++ 84:         display = '('
++ 85:         while curr:
++ 86:             display += str(curr.data) + ', '
++ 87:             curr = curr.next
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.10004 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ALL-SMART/test_linked_list2_DYNAMOSA.py:49: TypeError: LinkedList.display() missing 1 required positional argument: 'self'
+
+   - [#  46] SDL linked_list2: 
+--------------------------------------------------------------------------------
+   8:     '''
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
++ 12:         pass
+  13:         self.next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+--------------------------------------------------------------------------------
+[0.08687 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        none_type_0 = None
+>       var_0 = linked_list_0.search(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb40e7d0>, val = None
+
+>   ???
+E   AttributeError: 'Node' object has no attribute 'data'
+
+linked_list2:64: AttributeError
+   - [#  47] SDL linked_list2: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+  12:         self.data = data
+- 13:         self.next = next_node
++ 13:         pass
+  14: 
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+--------------------------------------------------------------------------------
+[0.08743 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        none_type_0 = None
+>       var_0 = linked_list_0.search(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb44e5c0>, val = None
+
+>   ???
+E   AttributeError: 'Node' object has no attribute 'next'
+
+linked_list2:66: AttributeError
+   - [#  48] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  28:     '''
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
++ 32:         pass
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.08469 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb7fb400>, val = True
+
+>   ???
+E   AttributeError: 'LinkedList' object has no attribute '_length'
+
+linked_list2:45: AttributeError
+   - [#  49] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+- 33:         self.head = None
++ 33:         pass
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+--------------------------------------------------------------------------------
+[0.10944 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb5fada0>, val = True
+
+>   ???
+E   AttributeError: 'LinkedList' object has no attribute 'head'
+
+linked_list2:43: AttributeError
+   - [#  50] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 pass
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.08338 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+>       assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:9: AssertionError
+   - [#  51] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+- 39:                 self.push(data)
++ 39:                 pass
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.08938 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_8
+
+def test_case_8():
+        none_type_0 = None
+        none_type_1 = None
+        linked_list_0 = module_0.LinkedList(none_type_1)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.search(none_type_0)
+        set_0 = set()
+        bool_0 = False
+        node_0 = module_0.Node(bool_0)
+        linked_list_1 = module_0.LinkedList(node_0)
+>       assert f'{type(linked_list_1.head).__module__}.{type(linked_list_1.head).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:85: AssertionError
+   - [#  52] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
++ 43:         pass
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+--------------------------------------------------------------------------------
+[0.08399 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb48b580>, val = True
+
+>   ???
+E   NameError: name 'old_head' is not defined
+
+linked_list2:44: NameError
+   - [#  53] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
++ 44:         pass
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+--------------------------------------------------------------------------------
+[0.08318 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+>       assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:9: AssertionError
+   - [#  54] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
++ 51:         pass
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+--------------------------------------------------------------------------------
+[0.09155 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_12
+
+def test_case_12():
+        bool_0 = True
+        none_type_0 = None
+        linked_list_0 = module_0.LinkedList(none_type_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.size()
+        assert var_0 == 0
+        var_1 = linked_list_0.push(linked_list_0)
+        var_2 = linked_list_0.remove(var_0)
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+>       var_3 = linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb40e170>
+
+>   ???
+E   NameError: name 'to_return' is not defined
+
+linked_list2:54: NameError
+   - [#  55] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         pass
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.08964 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_12
+
+def test_case_12():
+        bool_0 = True
+        none_type_0 = None
+        linked_list_0 = module_0.LinkedList(none_type_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.size()
+        assert var_0 == 0
+        var_1 = linked_list_0.push(linked_list_0)
+        var_2 = linked_list_0.remove(var_0)
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+        var_3 = linked_list_0.pop()
+>       assert linked_list_0.head is None
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:138: AssertionError
+   - [#  56] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+- 54:         return to_return.data
++ 54:         pass
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+--------------------------------------------------------------------------------
+[0.09181 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_12
+
+def test_case_12():
+        bool_0 = True
+        none_type_0 = None
+        linked_list_0 = module_0.LinkedList(none_type_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.size()
+        assert var_0 == 0
+        var_1 = linked_list_0.push(linked_list_0)
+        var_2 = linked_list_0.remove(var_0)
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+        var_3 = linked_list_0.pop()
+        assert linked_list_0.head is None
+>       assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'linked_list2.LinkedList'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:139: AssertionError
+   - [#  57] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+- 58:         return self._length
++ 58:         pass
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+--------------------------------------------------------------------------------
+[0.09090 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_7
+
+def test_case_7():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+        var_0 = linked_list_2.size()
+>       assert var_0 == 0
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:72: AssertionError
+   - [#  58] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  58:         return self._length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+- 62:         curr = self.head
++ 62:         pass
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.08861 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        none_type_0 = None
+>       var_0 = linked_list_0.search(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb68f7f0>, val = None
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:63: UnboundLocalError
+   - [#  59] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+  64:             if curr.data == val:
+- 65:                 return curr
++ 65:                 pass
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+--------------------------------------------------------------------------------
+[0.09144 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_11
+
+def test_case_11():
+        bool_0 = True
+        linked_list_0 = module_0.LinkedList(bool_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(bool_0)
+>       assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:119: AssertionError
+   - [#  60] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  62:         curr = self.head
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+- 66:             curr = curr.next
++ 66:             pass
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+--------------------------------------------------------------------------------
+[5.00683 s] timeout
+   - [#  61] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
++ 70:         pass
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+--------------------------------------------------------------------------------
+[0.08294 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb68f0a0>
+val = <linked_list2.LinkedList object at 0x7d25eb68f0a0>
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:71: UnboundLocalError
+   - [#  62] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             pass
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.10805 s] killed by ALL-SMART/test_linked_list2_WHOLE_SUITE.py::test_case_5
+
+def test_case_5():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        linked_list_1 = module_0.LinkedList(linked_list_0)
+        assert f'{type(linked_list_1.head).__module__}.{type(linked_list_1.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_1.remove(linked_list_0)
+>       assert linked_list_1.head is None
+E       AssertionError
+
+ALL-SMART/test_linked_list2_WHOLE_SUITE.py:55: AssertionError
+   - [#  63] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
++ 76:                 pass
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+--------------------------------------------------------------------------------
+[0.09212 s] survived
+   - [#  64] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+- 78:             curr = curr.next
++ 78:             pass
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+--------------------------------------------------------------------------------
+[5.00671 s] timeout
+   - [#  65] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
++ 82:         pass
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.08481 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+>       var_1 = linked_list_0.display()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb7658d0>
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:84: UnboundLocalError
+   - [#  66] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+- 83:         display = '('
++ 83:         pass
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.08830 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+>       var_1 = linked_list_0.display()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb663070>
+
+>   ???
+E   UnboundLocalError: local variable 'display' referenced before assignment
+
+linked_list2:85: UnboundLocalError
+   - [#  67] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
++ 86:             pass
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[5.00682 s] timeout
+   - [#  68] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         pass
+--------------------------------------------------------------------------------
+[0.08443 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+   - [#  69] SIR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:] + ')'
+--------------------------------------------------------------------------------
+[0.08563 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+   - [#  70] SVD linked_list2: 
+--------------------------------------------------------------------------------
+   8:     '''
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
++ 12:         data = data
+  13:         self.next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  71] SVD linked_list2: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+  12:         self.data = data
+- 13:         self.next = next_node
++ 13:         next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  72] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  28:     '''
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
++ 32:         _length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  73] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+- 33:         self.head = None
++ 33:         head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  74] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 push(val)
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.08312 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb40f910>, data = [True, True]
+
+>   ???
+E   NameError: name 'push' is not defined
+
+linked_list2:36: NameError
+   - [#  75] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+- 39:                 self.push(data)
++ 39:                 push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.08980 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_8
+
+self = <linked_list2.LinkedList object at 0x7d25eb54eda0>
+data = <linked_list2.Node object at 0x7d25eb54eef0>
+
+>   ???
+E   TypeError: 'Node' object is not iterable
+
+linked_list2:35: TypeError
+
+During handling of the above exception, another exception occurred:
+
+    def test_case_8():
+        none_type_0 = None
+        none_type_1 = None
+        linked_list_0 = module_0.LinkedList(none_type_1)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.search(none_type_0)
+        set_0 = set()
+        bool_0 = False
+        node_0 = module_0.Node(bool_0)
+>       linked_list_1 = module_0.LinkedList(node_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb54eda0>
+data = <linked_list2.Node object at 0x7d25eb54eef0>
+
+>   ???
+E   NameError: name 'push' is not defined
+
+linked_list2:39: NameError
+   - [#  76] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
++ 43:         old_head = head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+--------------------------------------------------------------------------------
+[0.08349 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+>       linked_list_0 = module_0.LinkedList(list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list2:36: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4c06d0>, val = True
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:43: NameError
+   - [#  77] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
++ 44:         head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  78] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
++ 45:         _length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  79] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if not head:
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.10232 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_2
+
+def test_case_2():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        with pytest.raises(IndexError):
+>           linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4c3fd0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:49: NameError
+   - [#  80] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
++ 51:         to_return = head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+--------------------------------------------------------------------------------
+[0.08972 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_12
+
+def test_case_12():
+        bool_0 = True
+        none_type_0 = None
+        linked_list_0 = module_0.LinkedList(none_type_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.size()
+        assert var_0 == 0
+        var_1 = linked_list_0.push(linked_list_0)
+        var_2 = linked_list_0.remove(var_0)
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+>       var_3 = linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4cfb80>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:51: NameError
+   - [#  81] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  82] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         self.head = head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.08953 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_12
+
+def test_case_12():
+        bool_0 = True
+        none_type_0 = None
+        linked_list_0 = module_0.LinkedList(none_type_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.size()
+        assert var_0 == 0
+        var_1 = linked_list_0.push(linked_list_0)
+        var_2 = linked_list_0.remove(var_0)
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+>       var_3 = linked_list_0.pop()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb489ae0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:52: NameError
+   - [#  83] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+- 53:         self._length -= 1
++ 53:         _length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  84] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+- 58:         return self._length
++ 58:         return _length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+--------------------------------------------------------------------------------
+[0.08903 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_7
+
+def test_case_7():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        linked_list_1 = module_0.LinkedList()
+        assert linked_list_1.head is None
+        linked_list_2 = module_0.LinkedList()
+        assert linked_list_2.head is None
+>       var_0 = linked_list_2.size()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb48b730>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+linked_list2:58: NameError
+   - [#  85] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  58:         return self._length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+- 62:         curr = self.head
++ 62:         curr = head
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.08769 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        none_type_0 = None
+>       var_0 = linked_list_0.search(none_type_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4c3940>, val = None
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:62: NameError
+   - [#  86] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
++ 70:         curr = head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+--------------------------------------------------------------------------------
+[0.08785 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+>       var_0 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4cda50>
+val = <linked_list2.LinkedList object at 0x7d25eb4cda50>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:70: NameError
+   - [#  87] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if (curr and val is head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.08757 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.remove(linked_list_0)
+        var_1 = linked_list_0.push(var_0)
+        var_2 = linked_list_0.push(linked_list_0)
+        bool_0 = True
+>       var_3 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb4cfca0>
+val = <linked_list2.LinkedList object at 0x7d25eb4cfca0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:71: NameError
+   - [#  88] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  89] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             self.head = head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.08830 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_4
+
+def test_case_4():
+        linked_list_0 = module_0.LinkedList()
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert linked_list_0.head is None
+        var_0 = linked_list_0.remove(linked_list_0)
+        var_1 = linked_list_0.push(var_0)
+        var_2 = linked_list_0.push(linked_list_0)
+        bool_0 = True
+>       var_3 = linked_list_0.remove(linked_list_0)
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb3f0550>
+val = <linked_list2.LinkedList object at 0x7d25eb3f0550>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:72: NameError
+   - [#  90] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+- 73:             self._length -= 1
++ 73:             _length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  91] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
++ 77:                 _length -= 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  92] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
++ 82:         curr = head
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.08739 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+>       var_1 = linked_list_0.display()
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x7d25eb54e890>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:82: NameError
+   - [#  93] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 break
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.08633 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bool_0 = True
+        list_0 = [bool_0, bool_0]
+        linked_list_0 = module_0.LinkedList(list_0)
+>       assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:9: AssertionError
+   - [#  94] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
++ 64:             break
++ 65:     
++ 66:     
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+--------------------------------------------------------------------------------
+[0.08885 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_11
+
+def test_case_11():
+        bool_0 = True
+        linked_list_0 = module_0.LinkedList(bool_0)
+        assert f'{type(linked_list_0).__module__}.{type(linked_list_0).__qualname__}' == 'linked_list2.LinkedList'
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(bool_0)
+>       assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'linked_list2.Node'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:119: AssertionError
+   - [#  95] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
++ 75:             break
++ 76:     
++ 77:     
++ 78:     
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+--------------------------------------------------------------------------------
+[0.10889 s] survived
+   - [#  96] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
++ 85:             break
++ 86:         
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.08587 s] killed by ALL-SMART/test_linked_list2_DYNAMOSA.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xbe'
+        linked_list_0 = module_0.LinkedList(bytes_0)
+        assert f'{type(linked_list_0.head).__module__}.{type(linked_list_0.head).__qualname__}' == 'linked_list2.Node'
+        var_0 = linked_list_0.search(linked_list_0)
+        var_1 = linked_list_0.display()
+>       assert var_1 == '(190)'
+E       AssertionError
+
+ALL-SMART/test_linked_list2_DYNAMOSA.py:50: AssertionError
+[*] Mutation score [31.06925 s]: 89.2%
+   - all: 96
+   - killed: 62 (64.6%)
+   - survived: 8 (8.3%)
+   - incompetent: 22 (22.9%)
+   - timeout: 4 (4.2%)

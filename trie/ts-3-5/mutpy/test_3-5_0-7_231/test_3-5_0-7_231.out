@@ -1,0 +1,1554 @@
+[*] Start mutation process:
+   - targets: trie.py
+   - tests: ts-3-5/test_3-5_0-7_231.py
+[*] 3 tests passed:
+   - test_3-5_0-7_231 [0.17966 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 words.extend(getWords(val, prefix - key))
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.22482 s] incompetent
+
+TypeError: trie:34: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   2] ASR trie: 
+--------------------------------------------------------------------------------
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+- 27:             idx += 1
++ 27:             idx -= 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.20365 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8cbbdc0>
+trie_instance = <trie.Trie object at 0x7771a8cbb490>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#   3] CDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+-  5:     def __init__(self, words):
+-  6:         self.head = {}
+-  7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++  5:     @classmethod
++  6:     def __init__(self, words):
++  7:         self.head = {}
++  8:         for word in words:
++  9:             current = self.head
++ 10:             for letter in word:
++ 11:                 current = current.setdefault(letter, {})
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.19597 s] survived
+   - [#   4] CDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+- 13:     def add(self, word):
+- 14:         current = self.head
+- 15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 13:     @classmethod
++ 14:     def add(self, word):
++ 15:         current = self.head
++ 16:         for letter in word:
++ 17:             current = current.setdefault(letter, {})
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.20489 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c480d0>
+trie_instance = <trie.Trie object at 0x7771a8c49180>
+
+    def test_add(self, trie_instance):
+>       trie_instance.add('pear')
+
+ts-3-5/test_3-5_0-7_231.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'trie.Trie'>, word = 'pear'
+
+>   ???
+E   AttributeError: type object 'Trie' has no attribute 'head'
+
+trie:15: AttributeError
+   - [#   5] CDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+- 19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
+- 21:         node = self.head
+- 22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
+- 28:         
+- 29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
+- 31:                 return [prefix]
+- 32:             words = []
+- 33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
+- 37:         return getWords(node, prefix)
++ 19:     @classmethod
++ 20:     def get_all_common_prefix(self, prefix):
++ 21:         idx = 0
++ 22:         node = self.head
++ 23:         while idx < len(prefix):
++ 24:             letter = prefix[idx]
++ 25:             if letter not in node:
++ 26:                 return []
++ 27:             node = node[letter]
++ 28:             idx += 1
++ 29:         
++ 30:         def getWords(node, prefix):
++ 31:             if self.eof in node:
++ 32:                 return [prefix]
++ 33:             words = []
++ 34:             for (key, val) in node.items():
++ 35:                 words.extend(getWords(val, prefix + key))
++ 36:             return words
++ 37:         
++ 38:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.21076 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8e78280>
+trie_instance = <trie.Trie object at 0x7771a8e790c0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'trie.Trie'>, prefix = 'ap'
+
+>   ???
+E   AttributeError: type object 'Trie' has no attribute 'head'
+
+trie:22: AttributeError
+   - [#   6] COD trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+- 24:             if letter not in node:
++ 24:             if letter in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.20406 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a899de40>
+trie_instance = <trie.Trie object at 0x7771a899d510>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#   7] COI trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while not (idx < len(prefix)):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.20914 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8e78cd0>
+trie_instance = <trie.Trie object at 0x7771a8e7b460>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#   8] COI trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+- 24:             if letter not in node:
++ 24:             if not (letter not in node):
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.21576 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a18dc0>
+trie_instance = <trie.Trie object at 0x7771a8a18550>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#   9] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if not (self.eof in node):
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.20811 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c49960>
+trie_instance = <trie.Trie object at 0x7771a8c490c0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  10] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if self.eof not in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.20670 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d67850>
+trie_instance = <trie.Trie object at 0x7771a8d65660>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  11] OIL trie: 
+--------------------------------------------------------------------------------
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+- 12:     
++ 12:             break
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.21280 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d643a0>
+trie_instance = <trie.Trie object at 0x7771a8cdbbe0>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  12] OIL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++ 11:                 break
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.21259 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c9ce50>
+trie_instance = <trie.Trie object at 0x7771a8c9c8e0>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  13] OIL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 17:             break
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.21477 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d1b4c0>
+trie_instance = <trie.Trie object at 0x7771a8d19ed0>
+
+    def test_add(self, trie_instance):
+        trie_instance.add('pear')
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                      'p': {'e': {'a': {'r': {'__eof__': '__eof__'}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:27: AssertionError
+   - [#  14] OIL trie: 
+--------------------------------------------------------------------------------
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+- 28:         
++ 28:             break
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+--------------------------------------------------------------------------------
+[0.21060 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c1b4f0>
+trie_instance = <trie.Trie object at 0x7771a8c18280>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  15] OIL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
++ 35:                 break
++ 36:             return words
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.18318 s] survived
+   - [#  16] RIL trie: 
+--------------------------------------------------------------------------------
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+-  7:         for word in words:
++  7:         for word in reversed(words):
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+--------------------------------------------------------------------------------
+[0.18558 s] survived
+   - [#  17] RIL trie: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+-  9:             for letter in word:
++  9:             for letter in reversed(word):
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+--------------------------------------------------------------------------------
+[0.20945 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a75360>
+trie_instance = <trie.Trie object at 0x7771a8a75330>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  18] RIL trie: 
+--------------------------------------------------------------------------------
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+- 15:         for letter in word:
++ 15:         for letter in reversed(word):
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+--------------------------------------------------------------------------------
+[0.21263 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8e79540>
+trie_instance = <trie.Trie object at 0x7771a8e788b0>
+
+    def test_add(self, trie_instance):
+        trie_instance.add('pear')
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                      'p': {'e': {'a': {'r': {'__eof__': '__eof__'}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:27: AssertionError
+   - [#  19] RIL trie: 
+--------------------------------------------------------------------------------
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+- 33:             for (key, val) in node.items():
++ 33:             for (key, val) in reversed(node.items()):
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.18515 s] survived
+   - [#  20] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while idx > len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.20968 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8e795a0>
+trie_instance = <trie.Trie object at 0x7771a8a0e170>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  21] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while idx <= len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.20196 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a5c2e0>
+trie_instance = <trie.Trie object at 0x7771a8a5f820>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8a5f820>, prefix = 'ap'
+
+>   ???
+E   IndexError: string index out of range
+
+trie:23: IndexError
+   - [#  22] SDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+-  5:     def __init__(self, words):
+-  6:         self.head = {}
+-  7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++  5:     @staticmethod
++  6:     def __init__(self, words):
++  7:         self.head = {}
++  8:         for word in words:
++  9:             current = self.head
++ 10:             for letter in word:
++ 11:                 current = current.setdefault(letter, {})
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.21137 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ts-3-5/test_3-5_0-7_231.py:17: TypeError: Trie.__init__() missing 1 required positional argument: 'words'
+
+   - [#  23] SDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+- 13:     def add(self, word):
+- 14:         current = self.head
+- 15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 13:     @staticmethod
++ 14:     def add(self, word):
++ 15:         current = self.head
++ 16:         for letter in word:
++ 17:             current = current.setdefault(letter, {})
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.22801 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ts-3-5/test_3-5_0-7_231.py:26: TypeError: Trie.add() missing 1 required positional argument: 'word'
+
+   - [#  24] SDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+- 19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
+- 21:         node = self.head
+- 22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
+- 28:         
+- 29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
+- 31:                 return [prefix]
+- 32:             words = []
+- 33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
+- 37:         return getWords(node, prefix)
++ 19:     @staticmethod
++ 20:     def get_all_common_prefix(self, prefix):
++ 21:         idx = 0
++ 22:         node = self.head
++ 23:         while idx < len(prefix):
++ 24:             letter = prefix[idx]
++ 25:             if letter not in node:
++ 26:                 return []
++ 27:             node = node[letter]
++ 28:             idx += 1
++ 29:         
++ 30:         def getWords(node, prefix):
++ 31:             if self.eof in node:
++ 32:                 return [prefix]
++ 33:             words = []
++ 34:             for (key, val) in node.items():
++ 35:                 words.extend(getWords(val, prefix + key))
++ 36:             return words
++ 37:         
++ 38:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.21238 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ts-3-5/test_3-5_0-7_231.py:34: TypeError: Trie.get_all_common_prefix() missing 1 required positional argument: 'prefix'
+
+   - [#  25] SDL trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+-  3:     eof = '__eof__'
++  3:     pass
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+--------------------------------------------------------------------------------
+[0.22156 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c489a0>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8c48130>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'eof'
+
+trie:11: AttributeError
+   - [#  26] SDL trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+-  6:         self.head = {}
++  6:         pass
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.22578 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a89eb430>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a89eb190>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'head'
+
+trie:8: AttributeError
+   - [#  27] SDL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
++  8:             pass
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.21274 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d99db0>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8d995a0>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:10: UnboundLocalError
+   - [#  28] SDL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
++ 10:                 pass
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.21325 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c9e050>
+trie_instance = <trie.Trie object at 0x7771a8c9f0a0>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  29] SDL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             pass
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.21467 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d99cf0>
+trie_instance = <trie.Trie object at 0x7771a8d9bbb0>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  30] SDL trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+- 14:         current = self.head
++ 14:         pass
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.21520 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c9e1a0>
+trie_instance = <trie.Trie object at 0x7771a8c9fd00>
+
+    def test_add(self, trie_instance):
+>       trie_instance.add('pear')
+
+ts-3-5/test_3-5_0-7_231.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8c9fd00>, word = 'pear'
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:16: UnboundLocalError
+   - [#  31] SDL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
++ 16:             pass
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.20751 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c4e7a0>
+trie_instance = <trie.Trie object at 0x7771a8c4f3d0>
+
+    def test_add(self, trie_instance):
+        trie_instance.add('pear')
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                      'p': {'e': {'a': {'r': {'__eof__': '__eof__'}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:27: AssertionError
+   - [#  32] SDL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         pass
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.21197 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a5f880>
+trie_instance = <trie.Trie object at 0x7771a8a5ca30>
+
+    def test_add(self, trie_instance):
+        trie_instance.add('pear')
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                      'p': {'e': {'a': {'r': {'__eof__': '__eof__'}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:27: AssertionError
+   - [#  33] SDL trie: 
+--------------------------------------------------------------------------------
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
++ 20:         pass
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+--------------------------------------------------------------------------------
+[0.21301 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8cdb250>
+trie_instance = <trie.Trie object at 0x7771a8cdb640>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8cdb640>, prefix = 'ap'
+
+>   ???
+E   UnboundLocalError: local variable 'idx' referenced before assignment
+
+trie:22: UnboundLocalError
+   - [#  34] SDL trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+- 21:         node = self.head
++ 21:         pass
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.21208 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d9bb80>
+trie_instance = <trie.Trie object at 0x7771a8a37c40>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8a37c40>, prefix = 'ap'
+
+>   ???
+E   UnboundLocalError: local variable 'node' referenced before assignment
+
+trie:24: UnboundLocalError
+   - [#  35] SDL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
++ 23:             pass
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+--------------------------------------------------------------------------------
+[0.21315 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d67160>
+trie_instance = <trie.Trie object at 0x7771a8d67e50>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8d67e50>, prefix = 'ap'
+
+>   ???
+E   NameError: name 'letter' is not defined
+
+trie:24: NameError
+   - [#  36] SDL trie: 
+--------------------------------------------------------------------------------
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+- 25:                 return []
++ 25:                 pass
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+--------------------------------------------------------------------------------
+[0.19055 s] survived
+   - [#  37] SDL trie: 
+--------------------------------------------------------------------------------
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+- 26:             node = node[letter]
++ 26:             pass
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+--------------------------------------------------------------------------------
+[0.21108 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d66fe0>
+trie_instance = <trie.Trie object at 0x7771a8d676a0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  38] SDL trie: 
+--------------------------------------------------------------------------------
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+- 31:                 return [prefix]
++ 31:                 pass
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+--------------------------------------------------------------------------------
+[0.21659 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d67940>
+trie_instance = <trie.Trie object at 0x7771a8d65570>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+trie:34: in getWords
+    ???
+trie:34: in getWords
+    ???
+trie:34: in getWords
+    ???
+trie:34: in getWords
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = '__eof__', prefix = 'apple__eof__'
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'items'
+
+trie:33: AttributeError
+   - [#  39] SDL trie: 
+--------------------------------------------------------------------------------
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+- 32:             words = []
++ 32:             pass
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+--------------------------------------------------------------------------------
+[0.21055 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a35ea0>
+trie_instance = <trie.Trie object at 0x7771a8a361d0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'p': {'l': {'e': {'__eof__': '__eof__'}}}}, prefix = 'ap'
+
+>   ???
+E   NameError: name 'words' is not defined
+
+trie:34: NameError
+   - [#  40] SDL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 pass
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.21312 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c4bc70>
+trie_instance = <trie.Trie object at 0x7771a8c4bac0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  41] SDL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
++ 35:             pass
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.21354 s] incompetent
+
+TypeError: trie:34: TypeError: 'NoneType' object is not iterable
+
+   - [#  42] SDL trie: 
+--------------------------------------------------------------------------------
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+- 37:         return getWords(node, prefix)
++ 37:         pass
+--------------------------------------------------------------------------------
+[0.21121 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c4b2e0>
+trie_instance = <trie.Trie object at 0x7771a8c4ada0>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  43] SVD trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+-  6:         self.head = {}
++  6:         head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  44] SVD trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
++  8:             current = head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.20628 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c9fc10>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8c9f1c0>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:8: NameError
+   - [#  45] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             current[eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.21432 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c4bac0>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8c48910>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+   - [#  46] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             current[self.eof] = eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.23236 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a37190>
+
+    @pytest.fixture
+    def trie_instance(self):
+        words = ['apple', 'banana', 'grape', 'orange']
+>       return Trie(words)
+
+ts-3-5/test_3-5_0-7_231.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8a350f0>
+words = ['apple', 'banana', 'grape', 'orange']
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+   - [#  47] SVD trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+- 14:         current = self.head
++ 14:         current = head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.20084 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a89fc130>
+trie_instance = <trie.Trie object at 0x7771a89fc250>
+
+    def test_add(self, trie_instance):
+>       trie_instance.add('pear')
+
+ts-3-5/test_3-5_0-7_231.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a89fc250>, word = 'pear'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:14: NameError
+   - [#  48] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         current[eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.21144 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a36200>
+trie_instance = <trie.Trie object at 0x7771a8a35720>
+
+    def test_add(self, trie_instance):
+>       trie_instance.add('pear')
+
+ts-3-5/test_3-5_0-7_231.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a8a35720>, word = 'pear'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+   - [#  49] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         current[self.eof] = eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.21217 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a89c6a70>
+trie_instance = <trie.Trie object at 0x7771a89c7190>
+
+    def test_add(self, trie_instance):
+>       trie_instance.add('pear')
+
+ts-3-5/test_3-5_0-7_231.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a89c7190>, word = 'pear'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+   - [#  50] SVD trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+- 21:         node = self.head
++ 21:         node = head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.20456 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a89c6650>
+trie_instance = <trie.Trie object at 0x7771a89c4820>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7771a89c4820>, prefix = 'ap'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:21: NameError
+   - [#  51] SVD trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.20958 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8a36fb0>
+trie_instance = <trie.Trie object at 0x7771a8a34d30>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+
+ts-3-5/test_3-5_0-7_231.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'p': {'l': {'e': {'__eof__': '__eof__'}}}}, prefix = 'ap'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:30: NameError
+   - [#  52] ZIL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++  8:             break
++  9:     
++ 10:     
++ 11:     
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.22903 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8d64f70>
+trie_instance = <trie.Trie object at 0x7771a8d67100>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  53] ZIL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
++ 10:                 break
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.23389 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_init
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c18400>
+trie_instance = <trie.Trie object at 0x7771a8c180a0>
+
+    def test_init(self, trie_instance):
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:20: AssertionError
+   - [#  54] ZIL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
++ 16:             break
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.21780 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_add
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a89e8b20>
+trie_instance = <trie.Trie object at 0x7771a89e8400>
+
+    def test_add(self, trie_instance):
+        trie_instance.add('pear')
+>       assert trie_instance.head == {'a': {'p': {'p': {'l': {'e': {'__eof__': '__eof__'}}}}},
+                                      'b': {'a': {'n': {'a': {'n': {'a': {'__eof__': '__eof__'}}}}}},
+                                      'g': {'r': {'a': {'p': {'e': {'__eof__': '__eof__'}}}}},
+                                      'o': {'r': {'a': {'n': {'g': {'e': {'__eof__': '__eof__'}}}}}},
+                                      'p': {'e': {'a': {'r': {'__eof__': '__eof__'}}}}}
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:27: AssertionError
+   - [#  55] ZIL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
++ 23:             break
++ 24:         
++ 25:         
++ 26:         
++ 27:         
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.19942 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a88b5a20>
+trie_instance = <trie.Trie object at 0x7771a88b5d20>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+   - [#  56] ZIL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 break
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.20537 s] killed by ts-3-5/test_3-5_0-7_231.py::TestTrie::test_get_all_common_prefix
+
+self = <test_3-5_0-7_231.TestTrie object at 0x7771a8c1ad70>
+trie_instance = <trie.Trie object at 0x7771a8c19780>
+
+    def test_get_all_common_prefix(self, trie_instance):
+>       assert trie_instance.get_all_common_prefix('ap') == ['apple']
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_231.py:34: AssertionError
+[*] Mutation score [13.02521 s]: 90.0%
+   - all: 56
+   - killed: 45 (80.4%)
+   - survived: 5 (8.9%)
+   - incompetent: 6 (10.7%)
+   - timeout: 0 (0.0%)

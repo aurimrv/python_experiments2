@@ -1,68 +1,62 @@
 import os
 import sys
-import pytest
 
-# Add project directory to sys.path for correct imports
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import dijkstras, WeightedGraph, Vertex
+from dijkstras import dijkstras
 
-def test_dijkstras_shortest_path():
-    # Create a weighted graph
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v4 = Vertex('D')
-    v1.add_edge(v2, 1)
-    v1.add_edge(v3, 3)
-    v2.add_edge(v3, 1)
-    v2.add_edge(v4, 4)
-    v3.add_edge(v4, 1)
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+# Test Cases
 
-    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+def test_dijkstras_shortest_path_empty_graph():
+    weighted_graph = WeightedGraph()
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-def test_dijkstras_no_path():
-    # Create a weighted graph with no path from src to dst
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v4 = Vertex('D')
-    v1.add_edge(v2, 1)
-    v3.add_edge(v4, 1)
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+def test_dijkstras_shortest_path_single_edge():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 5)
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
 
-    assert dijkstras(graph, 'A', 'D') == []
+def test_dijkstras_shortest_path_complex_graph():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 3)
+    weighted_graph.add_edge('A', 'C', 2)
+    weighted_graph.add_edge('B', 'C', 1)
+    weighted_graph.add_edge('B', 'D', 4)
+    weighted_graph.add_edge('C', 'D', 1)
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-def test_dijkstras_same_src_dst():
-    # Create a weighted graph with same source and destination
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v4 = Vertex('D')
-    v1.add_edge(v2, 1)
-    v1.add_edge(v4, 4)
-    v2.add_edge(v3, 1)
-    v4.add_edge(v3, 1)
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+def test_dijkstras_shortest_path_disconnected_graph():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 2)
+    weighted_graph.add_edge('C', 'D', 3)
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-    assert dijkstras(graph, 'A', 'A') == ['A']
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
 
-def test_dijkstras_invalid_src():
-    # Create a weighted graph
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v1.add_edge(v2, 1)
-    v1.add_edge(v3, 3)
-    v2.add_edge(v3, 1)
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3}
+    def add_edge(self, src, dst, weight):
+        if src not in self.vertices:
+            self.vertices[src] = Vertex(src)
+        if dst not in self.vertices:
+            self.vertices[dst] = Vertex(dst)
+        self.vertices[src].add_adjacent(dst, weight)
+        self.vertices[dst].add_adjacent(src, weight)
 
-    with pytest.raises(KeyError):
-        dijkstras(graph, 'Z', 'C')
+class Vertex:
+    def __init__(self, name):
+        self.name = name
+        self.adjacent = {}
+
+    def add_adjacent(self, vertex, weight):
+        self.adjacent[vertex] = weight

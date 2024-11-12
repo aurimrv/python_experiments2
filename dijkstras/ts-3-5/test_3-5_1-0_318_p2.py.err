@@ -1,58 +1,42 @@
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
-    
-    def test_dijkstras_basic(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': 4},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': 4, 'B': 1}
-        }
-        src = 'A'
-        dst = 'C'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+def test_dijkstras():
+    weighted_graph = {
+        '1': {'2': 7, '3': 9, '6': 14},
+        '2': {'1': 7, '3': 10, '4': 15},
+        '3': {'1': 9, '2': 10, '4': 11, '6': 2},
+        '4': {'2': 15, '3': 11, '5': 6},
+        '5': {'4': 6, '6': 9},
+        '6': {'1': 14, '3': 2, '5': 9}
+    }
+    src, dst = '1', '5'
+    assert dijkstras(weighted_graph, src, dst) == ['1', '3', '6', '5']
 
-    def test_dijkstras_single_node(self):
-        weighted_graph = {
-            'A': {}
-        }
-        src = 'A'
-        dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == ['A']
+    weighted_graph = {
+        'A': {'B': 3, 'C': 4},
+        'B': {'A': 3, 'C': 1, 'D': 5},
+        'C': {'A': 4, 'B': 1, 'D': 2},
+        'D': {'B': 5, 'C': 2}
+    }
+    src, dst = 'A', 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-    def test_dijkstras_unreachable_node(self):
-        weighted_graph = {
-            'A': {'B': 2},
-            'B': {'A': 2}
-        }
-        src = 'A'
-        dst = 'C'
-        assert dijkstras(weighted_graph, src, dst) == []
+def test_dijkstras_invalid():
+    weighted_graph = {
+        'A': {'B': 3, 'C': 4},
+        'B': {'A': 3, 'C': 1, 'D': 5},
+        'C': {'A': 4, 'B': 1, 'D': 2},
+        'D': {'B': 5, 'C': 2}
+    }
 
-    def test_dijkstras_same_node(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': 4},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': 4, 'B': 1}
-        }
-        src = 'A'
-        dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == ['A']
+    src, dst = 'Z', 'B'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-    def test_dijkstras_large_graph(self):
-        weighted_graph = {
-            'A': {'B': 5, 'C': 2},
-            'B': {'A': 3, 'C': 1, 'D': 6},
-            'C': {'A': 1, 'B': 2, 'D': 4},
-            'D': {'B': 1, 'C': 4}
-        }
-        src = 'A'
-        dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+    src, dst = 'A', 'Z'
+    assert dijkstras(weighted_graph, src, dst) == []

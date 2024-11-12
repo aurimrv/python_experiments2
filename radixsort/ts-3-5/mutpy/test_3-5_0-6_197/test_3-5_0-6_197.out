@@ -1,0 +1,855 @@
+[*] Start mutation process:
+   - targets: radixsort.py
+   - tests: ts-3-5/test_3-5_0-6_197.py
+[*] 8 tests passed:
+   - test_3-5_0-6_197 [0.18725 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num / (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.21135 s] incompetent
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+   - [#   2] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num * (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.20413 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list2-expected_output2]
+
+input_list = [100, 20, 345, 13, 87], expected_output = [13, 20, 87, 100, 345]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#   3] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num // (base * iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.21136 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], iteration = 0
+
+>   ???
+E   ZeroDivisionError: integer division or modulo by zero
+
+radixsort:8: ZeroDivisionError
+   - [#   4] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num // (base ** iteration)) * base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.22499 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], iteration = 0
+
+>   ???
+E   IndexError: list index out of range
+
+radixsort:9: IndexError
+   - [#   5] AOR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base * iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.20070 s] survived
+   - [#   6] ASR radixsort: 
+--------------------------------------------------------------------------------
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+- 26:         iteration += 1
++ 26:         iteration -= 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.23223 s] incompetent
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+   - [#   7] COI radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while not (base ** iteration <= max_value):
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.20971 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#   8] OIL radixsort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+- 10:         
++ 10:             break
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+--------------------------------------------------------------------------------
+[0.21084 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#   9] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
+- 19:     
++ 18:             break
++ 19:         return nums
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.21086 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  10] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
+- 19:     
++ 18:                 break
++ 19:         return nums
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.21432 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list2-expected_output2]
+
+input_list = [100, 20, 345, 13, 87], expected_output = [13, 20, 87, 100, 345]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  11] OIL radixsort: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+- 27:     
++ 27:         break
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.21412 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list2-expected_output2]
+
+input_list = [100, 20, 345, 13, 87], expected_output = [13, 20, 87, 100, 345]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  12] RIL radixsort: 
+--------------------------------------------------------------------------------
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+-  7:         for num in ar:
++  7:         for num in reversed(ar):
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+--------------------------------------------------------------------------------
+[0.21264 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list2-expected_output2]
+
+input_list = [100, 20, 345, 13, 87], expected_output = [13, 20, 87, 100, 345]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  13] RIL radixsort: 
+--------------------------------------------------------------------------------
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+- 15:         for bucket in buckets:
++ 15:         for bucket in reversed(buckets):
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+--------------------------------------------------------------------------------
+[0.21394 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  14] RIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+- 16:             for num in bucket:
++ 16:             for num in reversed(bucket):
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+--------------------------------------------------------------------------------
+[0.21660 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list2-expected_output2]
+
+input_list = [100, 20, 345, 13, 87], expected_output = [13, 20, 87, 100, 345]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  15] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base ** iteration >= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.21523 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  16] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base ** iteration < max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.19082 s] survived
+   - [#  17] SDL radixsort: 
+--------------------------------------------------------------------------------
+   1: def radixsort(ar: list, base=10):
+   2:     '''
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+-  5:         buckets = [[] for x in range(0, base)]
++  5:         pass
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+--------------------------------------------------------------------------------
+[0.21376 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], iteration = 0
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+radixsort:9: NameError
+   - [#  18] SDL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             pass
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.21443 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], iteration = 0
+
+>   ???
+E   NameError: name 'digit' is not defined
+
+radixsort:9: NameError
+   - [#  19] SDL radixsort: 
+--------------------------------------------------------------------------------
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+-  9:             buckets[digit].append(num)
++  9:             pass
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.21304 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  20] SDL radixsort: 
+--------------------------------------------------------------------------------
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+- 11:         return buckets
++ 11:         pass
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+--------------------------------------------------------------------------------
+[0.21731 s] incompetent
+
+TypeError: radixsort:15: TypeError: 'NoneType' object is not iterable
+
+   - [#  21] SDL radixsort: 
+--------------------------------------------------------------------------------
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+- 14:         nums = []
++ 14:         pass
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+--------------------------------------------------------------------------------
+[0.21602 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+buckets = [[], [1], [2], [3], [], [], ...]
+
+>   ???
+E   NameError: name 'nums' is not defined
+
+radixsort:17: NameError
+   - [#  22] SDL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+- 17:                 nums.append(num)
++ 17:                 pass
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.21065 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  23] SDL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
++ 18:         pass
+  19:     
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+--------------------------------------------------------------------------------
+[0.21260 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  24] SDL radixsort: 
+--------------------------------------------------------------------------------
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+- 20:     max_value = max(ar)
++ 20:     pass
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+--------------------------------------------------------------------------------
+[0.21440 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], base = 10
+
+>   ???
+E   NameError: name 'max_value' is not defined
+
+radixsort:24: NameError
+   - [#  25] SDL radixsort: 
+--------------------------------------------------------------------------------
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+- 22:     iteration = 0
++ 22:     pass
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+--------------------------------------------------------------------------------
+[0.21006 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+
+ts-3-5/test_3-5_0-6_197.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 2, 1], base = 10
+
+>   ???
+E   UnboundLocalError: local variable 'iteration' referenced before assignment
+
+radixsort:24: UnboundLocalError
+   - [#  26] SDL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+- 25:         ar = create_list(create_buckets(ar, iteration))
++ 25:         pass
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.21358 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  27] SDL radixsort: 
+--------------------------------------------------------------------------------
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+- 28:     return ar
++ 28:     pass
+--------------------------------------------------------------------------------
+[0.21128 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  28] ZIL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
+-  9:             buckets[digit].append(num)
++  8:             break
++  9:         
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.23400 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  29] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+- 16:             for num in bucket:
+- 17:                 nums.append(num)
++ 16:             break
++ 17:         
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.21578 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  30] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+- 17:                 nums.append(num)
++ 17:                 break
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.20857 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+   - [#  31] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+- 25:         ar = create_list(create_buckets(ar, iteration))
+- 26:         iteration += 1
++ 25:         break
++ 26:     
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.21360 s] killed by ts-3-5/test_3-5_0-6_197.py::test_radixsort[input_list0-expected_output0]
+
+input_list = [3, 2, 1], expected_output = [1, 2, 3]
+
+    @pytest.mark.parametrize("input_list, expected_output", [
+        ([3, 2, 1], [1, 2, 3]),
+        ([5, 2, 9, 3, 6], [2, 3, 5, 6, 9]),
+        ([100, 20, 345, 13, 87], [13, 20, 87, 100, 345]),
+    ])
+    def test_radixsort(input_list, expected_output):
+>       assert radixsort(input_list) == expected_output
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_197.py:17: AssertionError
+[*] Mutation score [7.32296 s]: 92.9%
+   - all: 31
+   - killed: 26 (83.9%)
+   - survived: 2 (6.5%)
+   - incompetent: 3 (9.7%)
+   - timeout: 0 (0.0%)

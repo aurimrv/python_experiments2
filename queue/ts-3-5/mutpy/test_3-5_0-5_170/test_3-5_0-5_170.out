@@ -1,0 +1,595 @@
+[*] Start mutation process:
+   - targets: a_queue.py
+   - tests: ts-3-5/test_3-5_0-5_170.py
+[*] 6 tests passed:
+   - test_3-5_0-5_170 [0.12689 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI a_queue: 
+--------------------------------------------------------------------------------
+  15:     If the queue is empty, returns None
+  16:     size(): return the size of the queue. Returns 0 if the queue is empty.
+  17:     '''
+  18:     
+- 19:     def __init__(self, data=None):
+- 20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
+- 22:     
++ 19:     @classmethod
++ 20:     def __init__(self, data=None):
++ 21:         '''Initialize queue data structure.'''
++ 22:         self._container = DoubleLinkedList(data)
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+--------------------------------------------------------------------------------
+[0.13891 s] killed by ts-3-5/test_3-5_0-5_170.py::test_size
+
+empty_queue = <a_queue.Queue object at 0x7646a4eb8340>
+queue_with_values = <a_queue.Queue object at 0x7646a4eb8910>
+
+    def test_size(empty_queue, queue_with_values):
+>       assert empty_queue.size() == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:35: AssertionError
+   - [#   2] CDI a_queue: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+- 23:     def enqueue(self, val):
+- 24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
+- 26:     
++ 23:     @classmethod
++ 24:     def enqueue(self, val):
++ 25:         '''Add a value to the queue.'''
++ 26:         self._container.append(val)
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+--------------------------------------------------------------------------------
+[0.14067 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4dbbf70>
+
+    def test_enqueue(empty_queue):
+>       empty_queue.enqueue(1)
+
+ts-3-5/test_3-5_0-5_170.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>, val = 1
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:26: AttributeError
+   - [#   3] CDI a_queue: 
+--------------------------------------------------------------------------------
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+- 27:     def dequeue(self):
+- 28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
+- 30:     
++ 27:     @classmethod
++ 28:     def dequeue(self):
++ 29:         '''Remove a value from the front of the queue.'''
++ 30:         return self._container.pop()
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.14176 s] killed by ts-3-5/test_3-5_0-5_170.py::test_dequeue
+
+queue_with_values = <a_queue.Queue object at 0x7646a4d97070>
+
+    def test_dequeue(queue_with_values):
+>       assert queue_with_values.dequeue() == 1
+
+ts-3-5/test_3-5_0-5_170.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:30: AttributeError
+   - [#   4] CDI a_queue: 
+--------------------------------------------------------------------------------
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+- 31:     def peek(self):
+- 32:         '''Return the next value in the queue without dequing it.'''
+- 33:         try:
+- 34:             return self._container.head.data
+- 35:         except AttributeError:
+- 36:             return None
+- 37:     
++ 31:     @classmethod
++ 32:     def peek(self):
++ 33:         '''Return the next value in the queue without dequing it.'''
++ 34:         try:
++ 35:             return self._container.head.data
++ 36:         except AttributeError:
++ 37:             return None
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.15234 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4f745b0>
+
+    def test_enqueue(empty_queue):
+        empty_queue.enqueue(1)
+>       assert empty_queue.peek() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:25: AssertionError
+   - [#   5] CDI a_queue: 
+--------------------------------------------------------------------------------
+  34:             return self._container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+- 38:     def size(self):
+- 39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 38:     @classmethod
++ 39:     def size(self):
++ 40:         '''Return the size of the queue.'''
++ 41:         return self._container._length
+--------------------------------------------------------------------------------
+[0.15620 s] killed by ts-3-5/test_3-5_0-5_170.py::test_size
+
+empty_queue = <a_queue.Queue object at 0x7646a4dd9e40>
+queue_with_values = <a_queue.Queue object at 0x7646a4dd8b50>
+
+    def test_size(empty_queue, queue_with_values):
+>       assert empty_queue.size() == 0
+
+ts-3-5/test_3-5_0-5_170.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:41: AttributeError
+   - [#   6] EHD a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             raise
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.13159 s] killed by ts-3-5/test_3-5_0-5_170.py::test_peek
+
+empty_queue = <a_queue.Queue object at 0x7646a4e43880>
+
+    def test_peek(empty_queue):
+>       assert empty_queue.peek() is None
+
+ts-3-5/test_3-5_0-5_170.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4e43880>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+a_queue:34: AttributeError
+   - [#   7] EXS a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             pass
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.11185 s] survived
+   - [#   8] SDI a_queue: 
+--------------------------------------------------------------------------------
+  15:     If the queue is empty, returns None
+  16:     size(): return the size of the queue. Returns 0 if the queue is empty.
+  17:     '''
+  18:     
+- 19:     def __init__(self, data=None):
+- 20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
+- 22:     
++ 19:     @staticmethod
++ 20:     def __init__(self, data=None):
++ 21:         '''Initialize queue data structure.'''
++ 22:         self._container = DoubleLinkedList(data)
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+--------------------------------------------------------------------------------
+[0.13367 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ts-3-5/test_3-5_0-5_170.py:13: TypeError: Queue.__init__() missing 1 required positional argument: 'self'
+
+   - [#   9] SDI a_queue: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+- 23:     def enqueue(self, val):
+- 24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
+- 26:     
++ 23:     @staticmethod
++ 24:     def enqueue(self, val):
++ 25:         '''Add a value to the queue.'''
++ 26:         self._container.append(val)
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+--------------------------------------------------------------------------------
+[0.13006 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ts-3-5/test_3-5_0-5_170.py:24: TypeError: Queue.enqueue() missing 1 required positional argument: 'val'
+
+   - [#  10] SDI a_queue: 
+--------------------------------------------------------------------------------
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+- 27:     def dequeue(self):
+- 28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
+- 30:     
++ 27:     @staticmethod
++ 28:     def dequeue(self):
++ 29:         '''Remove a value from the front of the queue.'''
++ 30:         return self._container.pop()
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.13041 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ts-3-5/test_3-5_0-5_170.py:28: TypeError: Queue.dequeue() missing 1 required positional argument: 'self'
+
+   - [#  11] SDI a_queue: 
+--------------------------------------------------------------------------------
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+- 31:     def peek(self):
+- 32:         '''Return the next value in the queue without dequing it.'''
+- 33:         try:
+- 34:             return self._container.head.data
+- 35:         except AttributeError:
+- 36:             return None
+- 37:     
++ 31:     @staticmethod
++ 32:     def peek(self):
++ 33:         '''Return the next value in the queue without dequing it.'''
++ 34:         try:
++ 35:             return self._container.head.data
++ 36:         except AttributeError:
++ 37:             return None
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.13610 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ts-3-5/test_3-5_0-5_170.py:25: TypeError: Queue.peek() missing 1 required positional argument: 'self'
+
+   - [#  12] SDI a_queue: 
+--------------------------------------------------------------------------------
+  34:             return self._container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+- 38:     def size(self):
+- 39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 38:     @staticmethod
++ 39:     def size(self):
++ 40:         '''Return the size of the queue.'''
++ 41:         return self._container._length
+--------------------------------------------------------------------------------
+[0.13234 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ts-3-5/test_3-5_0-5_170.py:35: TypeError: Queue.size() missing 1 required positional argument: 'self'
+
+   - [#  13] SDL a_queue: 
+--------------------------------------------------------------------------------
+  17:     '''
+  18:     
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
++ 21:         pass
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.13866 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4ddae30>
+
+    def test_enqueue(empty_queue):
+>       empty_queue.enqueue(1)
+
+ts-3-5/test_3-5_0-5_170.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4ddae30>, val = 1
+
+>   ???
+E   AttributeError: 'Queue' object has no attribute '_container'
+
+a_queue:25: AttributeError
+   - [#  14] SDL a_queue: 
+--------------------------------------------------------------------------------
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
++ 25:         pass
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.14400 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4e48220>
+
+    def test_enqueue(empty_queue):
+        empty_queue.enqueue(1)
+>       assert empty_queue.peek() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:25: AssertionError
+   - [#  15] SDL a_queue: 
+--------------------------------------------------------------------------------
+  25:         self._container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
++ 29:         pass
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+--------------------------------------------------------------------------------
+[0.14309 s] killed by ts-3-5/test_3-5_0-5_170.py::test_dequeue
+
+queue_with_values = <a_queue.Queue object at 0x7646a4cb1900>
+
+    def test_dequeue(queue_with_values):
+>       assert queue_with_values.dequeue() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:28: AssertionError
+   - [#  16] SDL a_queue: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+- 34:             return self._container.head.data
++ 34:             pass
+  35:         except AttributeError:
+  36:             return None
+  37:     
+  38:     def size(self):
+--------------------------------------------------------------------------------
+[0.12926 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4fdc6a0>
+
+    def test_enqueue(empty_queue):
+        empty_queue.enqueue(1)
+>       assert empty_queue.peek() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:25: AssertionError
+   - [#  17] SDL a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             pass
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.11711 s] survived
+   - [#  18] SDL a_queue: 
+--------------------------------------------------------------------------------
+  36:             return None
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 40:         pass
+--------------------------------------------------------------------------------
+[0.13205 s] killed by ts-3-5/test_3-5_0-5_170.py::test_size
+
+empty_queue = <a_queue.Queue object at 0x7646a4cb04f0>
+queue_with_values = <a_queue.Queue object at 0x7646a4cb03a0>
+
+    def test_size(empty_queue, queue_with_values):
+>       assert empty_queue.size() == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_170.py:35: AssertionError
+   - [#  19] SVD a_queue: 
+--------------------------------------------------------------------------------
+  17:     '''
+  18:     
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
++ 21:         _container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  20] SVD a_queue: 
+--------------------------------------------------------------------------------
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
++ 25:         _container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.13033 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4cb4ac0>
+
+    def test_enqueue(empty_queue):
+>       empty_queue.enqueue(1)
+
+ts-3-5/test_3-5_0-5_170.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4cb4ac0>, val = 1
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:25: NameError
+   - [#  21] SVD a_queue: 
+--------------------------------------------------------------------------------
+  25:         self._container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
++ 29:         return _container.pop()
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+--------------------------------------------------------------------------------
+[0.14073 s] killed by ts-3-5/test_3-5_0-5_170.py::test_dequeue
+
+queue_with_values = <a_queue.Queue object at 0x7646a4cbace0>
+
+    def test_dequeue(queue_with_values):
+>       assert queue_with_values.dequeue() == 1
+
+ts-3-5/test_3-5_0-5_170.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4cbace0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:29: NameError
+   - [#  22] SVD a_queue: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+- 34:             return self._container.head.data
++ 34:             return _container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+  38:     def size(self):
+--------------------------------------------------------------------------------
+[0.13122 s] killed by ts-3-5/test_3-5_0-5_170.py::test_enqueue
+
+empty_queue = <a_queue.Queue object at 0x7646a4d97e50>
+
+    def test_enqueue(empty_queue):
+        empty_queue.enqueue(1)
+>       assert empty_queue.peek() == 1
+
+ts-3-5/test_3-5_0-5_170.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4d97e50>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:34: NameError
+   - [#  23] SVD a_queue: 
+--------------------------------------------------------------------------------
+  36:             return None
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 40:         return _container._length
+--------------------------------------------------------------------------------
+[0.13270 s] killed by ts-3-5/test_3-5_0-5_170.py::test_size
+
+empty_queue = <a_queue.Queue object at 0x7646a4e41ed0>
+queue_with_values = <a_queue.Queue object at 0x7646a4e42320>
+
+    def test_size(empty_queue, queue_with_values):
+>       assert empty_queue.size() == 0
+
+ts-3-5/test_3-5_0-5_170.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7646a4e41ed0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:40: NameError
+[*] Mutation score [3.42909 s]: 88.2%
+   - all: 23
+   - killed: 15 (65.2%)
+   - survived: 2 (8.7%)
+   - incompetent: 6 (26.1%)
+   - timeout: 0 (0.0%)

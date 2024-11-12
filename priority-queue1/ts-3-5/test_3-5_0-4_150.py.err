@@ -23,6 +23,7 @@ def test_remove_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
     pq.remove_task('task1')
+    assert len(pq.pq) == 0
     assert 'task1' not in pq.mapper
 
 def test_set_priority():
@@ -34,9 +35,13 @@ def test_set_priority():
 def test_pop_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
-    task = pq.pop_task()
-    assert task == 'task1'
-    assert 'task1' not in pq.mapper
+    pq.add_task('task2', 2)
+    assert pq.pop_task() == 'task2'
+    assert pq.pop_task() == 'task1'
 
-    with pytest.raises(KeyError):
+def test_pop_task_empty_queue():
+    pq = PriorityQueue()
+    try:
         pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

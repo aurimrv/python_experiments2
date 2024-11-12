@@ -1,77 +1,63 @@
 import os
 import sys
-from functools import reduce
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class WeightedGraph:
-    def __init__(self):
-        self.vertices = {}
-
-        A = Vertex('A')
-        B = Vertex('B')
-        C = Vertex('C')
-        D = Vertex('D')
-        E = Vertex('E')
-
-        A.add_adjacent(B, 1)
-        B.add_adjacent(A, 1)
-        B.add_adjacent(C, 2)
-        B.add_adjacent(D, 3)
-        D.add_adjacent(E, 2)
-
-        self.vertices = {
-            'A': A,
-            'B': B,
-            'C': C,
-            'D': D,
-            'E': E
-        }
-
-class Vertex:
-    def __init__(self, key):
-        self.key = key
-        self.adjacent = {}
-
-    def add_adjacent(self, vertex, weight):
-        self.adjacent[vertex.key] = weight 
-
-def test_dijkstras():
-    weighted_graph = WeightedGraph()
-
+def test_dijkstras_simple_case():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
     src = 'A'
-    dst = 'E'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A', 'B', 'D', 'E']
-
-def test_dijkstras_with_no_possible_path():
-    weighted_graph = WeightedGraph()
-
-    src = 'A'
-    dst = 'I'
-
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == []
-
-def test_dijkstras_with_same_source_and_destination():
-    weighted_graph = WeightedGraph()
-
-    src = 'C'
-    dst = 'C'
-
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['C']
-
-def test_dijkstras_with_single_node_graph():
-    weighted_graph = WeightedGraph()
-
+def test_dijkstras_same_src_and_dst():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
     src = 'A'
     dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A'] 
+def test_dijkstras_no_path_available():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1},
+        'C': {'D': 2},
+        'D': {'C': 2}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_dijkstras_negative_weights():
+    weighted_graph = {
+        'A': {'B': -1, 'C': 4},
+        'B': {'A': -1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_large_graph():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4, 'D': 2},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'E': 1},
+        'D': {'B': 5, 'C': 1, 'E': 3},
+        'E': {'C': 1, 'D': 3}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'D', 'E']

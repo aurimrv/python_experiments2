@@ -1,0 +1,937 @@
+[*] Start mutation process:
+   - targets: find_duplicates.py
+   - tests: ./ALL-SMART
+[*] 41 tests passed:
+   - test_find_duplicates_WHOLE_SUITE [0.05827 s]
+   - test_find_duplicates_MOSA [0.04606 s]
+   - test_find_duplicates_MIO [0.04373 s]
+   - test_find_duplicates_DYNAMOSA [0.05390 s]
+[*] Start mutants generation and execution:
+   - [#   1] ASR find_duplicates: 
+--------------------------------------------------------------------------------
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+- 23:             ptr_1 += 1
++ 23:             ptr_1 -= 1
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+--------------------------------------------------------------------------------
+[0.07981 s] survived
+   - [#   2] ASR find_duplicates: 
+--------------------------------------------------------------------------------
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+- 24:             ptr_2 += 1
++ 24:             ptr_2 -= 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+  28:             ptr_2 += 1
+--------------------------------------------------------------------------------
+[0.08228 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_7
+
+def test_case_7():
+        str_0 = '_'
+        list_0 = [str_0, str_0, str_0]
+>       var_0 = module_0.duplicates_pre_sorted(list_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = ['_', '_', '_'], arr2 = '_'
+
+>   ???
+E   IndexError: string index out of range
+
+find_duplicates:21: IndexError
+   - [#   3] ASR find_duplicates: 
+--------------------------------------------------------------------------------
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+- 26:             ptr_1 += 1
++ 26:             ptr_1 -= 1
+  27:         else:
+  28:             ptr_2 += 1
+  29:     
+  30:     return output
+--------------------------------------------------------------------------------
+[0.08599 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_10
+
+def test_case_10():
+        str_0 = 'j{_'
+        list_0 = [str_0, str_0, str_0]
+>       var_0 = module_0.duplicates_pre_sorted(list_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = ['j{_', 'j{_', 'j{_'], arr2 = 'j{_'
+
+>   ???
+E   IndexError: list index out of range
+
+find_duplicates:21: IndexError
+   - [#   4] ASR find_duplicates: 
+--------------------------------------------------------------------------------
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+- 28:             ptr_2 += 1
++ 28:             ptr_2 -= 1
+  29:     
+  30:     return output
+  31: 
+  32: def duplicates_bin_search(arr1, arr2):
+--------------------------------------------------------------------------------
+[0.09625 s] killed by ALL-SMART/test_find_duplicates_MIO.py::test_case_3
+
+def test_case_3():
+        str_0 = 'kG9*J\t^IG'
+        tuple_0 = (str_0, str_0)
+        var_0 = module_0.duplicates_pre_sorted(tuple_0, tuple_0)
+>       var_1 = module_0.duplicates_pre_sorted(tuple_0, str_0)
+
+ALL-SMART/test_find_duplicates_MIO.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = ('kG9*J\t^IG', 'kG9*J\t^IG'), arr2 = 'kG9*J\t^IG'
+
+>   ???
+E   IndexError: string index out of range
+
+find_duplicates:21: IndexError
+   - [#   5] COI find_duplicates: 
+--------------------------------------------------------------------------------
+   4:     arr1_seen = set(arr1)
+   5:     output = []
+   6:     
+   7:     for element in arr2:
+-  8:         if element in arr1_seen:
++  8:         if not (element in arr1_seen):
+   9:             output.append(element)
+  10:     
+  11:     return output
+  12: 
+--------------------------------------------------------------------------------
+[0.08014 s] survived
+   - [#   6] COI find_duplicates: 
+--------------------------------------------------------------------------------
+   4:     arr1_seen = set(arr1)
+   5:     output = []
+   6:     
+   7:     for element in arr2:
+-  8:         if element in arr1_seen:
++  8:         if element not in arr1_seen:
+   9:             output.append(element)
+  10:     
+  11:     return output
+  12: 
+--------------------------------------------------------------------------------
+[0.07993 s] survived
+   - [#   7] COI find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while not ((ptr_1 < len(arr1) and ptr_2 < len(arr2))):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08163 s] incompetent
+
+TypeError: find_duplicates:21: TypeError: 'complex' object is not subscriptable
+
+   - [#   8] COI find_duplicates: 
+--------------------------------------------------------------------------------
+  17:     ptr_2 = 0
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+- 21:         if arr2[ptr_2] == arr1[ptr_1]:
++ 21:         if not (arr2[ptr_2] == arr1[ptr_1]):
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+--------------------------------------------------------------------------------
+[0.08009 s] survived
+   - [#   9] COI find_duplicates: 
+--------------------------------------------------------------------------------
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+- 25:         elif arr2[ptr_2] > arr1[ptr_1]:
++ 25:         elif not (arr2[ptr_2] > arr1[ptr_1]):
+  26:             ptr_1 += 1
+  27:         else:
+  28:             ptr_2 += 1
+  29:     
+--------------------------------------------------------------------------------
+[0.08088 s] survived
+   - [#  10] COI find_duplicates: 
+--------------------------------------------------------------------------------
+  35: 
+  36:     '''
+  37:     
+  38:     
+- 39:     if len(arr2) < len(arr1):
++ 39:     if not (len(arr2) < len(arr1)):
+  40:         (arr1, arr2) = (arr2, arr1)
+  41:     
+  42:     output = []
+  43:     
+--------------------------------------------------------------------------------
+[0.08433 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b']?6\xda\x83'
+        dict_0 = {}
+        var_0 = module_0.duplicates_linear(dict_0, dict_0)
+        tuple_0 = (dict_0,)
+        var_1 = module_0.duplicates_bin_search(dict_0, dict_0)
+        var_2 = module_0.duplicates_linear(bytes_0, var_1)
+>       var_3 = module_0.duplicates_bin_search(var_1, tuple_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+find_duplicates:45: in duplicates_bin_search
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+list = [], target = {}
+
+    def binary_search(list, target):
+        """
+        Search a sorted list.
+    
+        :param list: the input sorted list
+        :param target: the value that is to be found
+        :return: index of target in list, or -1 if not found
+        """
+    
+        # the initial left and right index
+        l = 0
+        r = len(list)
+    
+        # while left is less than right, if they cross then the value
+        # couldn't have been found
+        while l <= r:
+    
+            # get the midpoint of l and r
+            mid = (r+l)//2
+    
+            # if the midpoint is equal to the target, return it
+>           if list[mid] == target:
+E           IndexError: list index out of range
+
+binary_search.py:22: IndexError
+   - [#  11] COI find_duplicates: 
+--------------------------------------------------------------------------------
+  41:     
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+- 45:         if binary_search(arr2, element) >= 0:
++ 45:         if not (binary_search(arr2, element) >= 0):
+  46:             output.append(element)
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08140 s] survived
+   - [#  12] LCR find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while (ptr_1 < len(arr1) or ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08414 s] incompetent
+
+TypeError: find_duplicates:19: TypeError: object of type 'complex' has no len()
+
+   - [#  13] OIL find_duplicates: 
+--------------------------------------------------------------------------------
+   6:     
+   7:     for element in arr2:
+   8:         if element in arr1_seen:
+   9:             output.append(element)
+- 10:     
++ 10:         break
+  11:     return output
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+  14:     output = []
+--------------------------------------------------------------------------------
+[0.08002 s] survived
+   - [#  14] OIL find_duplicates: 
+--------------------------------------------------------------------------------
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+- 28:             ptr_2 += 1
++ 28:             ptr_2 += 1break
+  29:     
+  30:     return output
+  31: 
+  32: def duplicates_bin_search(arr1, arr2):
+--------------------------------------------------------------------------------
+[0.07933 s] survived
+   - [#  15] OIL find_duplicates: 
+--------------------------------------------------------------------------------
+  43:     
+  44:     for element in arr1:
+  45:         if binary_search(arr2, element) >= 0:
+  46:             output.append(element)
+- 47:     
++ 47:         break
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08102 s] survived
+   - [#  16] RIL find_duplicates: 
+--------------------------------------------------------------------------------
+   3: def duplicates_linear(arr1, arr2):
+   4:     arr1_seen = set(arr1)
+   5:     output = []
+   6:     
+-  7:     for element in arr2:
++  7:     for element in reversed(arr2):
+   8:         if element in arr1_seen:
+   9:             output.append(element)
+  10:     
+  11:     return output
+--------------------------------------------------------------------------------
+[0.07866 s] survived
+   - [#  17] RIL find_duplicates: 
+--------------------------------------------------------------------------------
+  40:         (arr1, arr2) = (arr2, arr1)
+  41:     
+  42:     output = []
+  43:     
+- 44:     for element in arr1:
++ 44:     for element in reversed(arr1):
+  45:         if binary_search(arr2, element) >= 0:
+  46:             output.append(element)
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08052 s] survived
+   - [#  18] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while (ptr_1 > len(arr1) and ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.07923 s] survived
+   - [#  19] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while (ptr_1 <= len(arr1) and ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08415 s] incompetent
+
+TypeError: find_duplicates:19: TypeError: object of type 'complex' has no len()
+
+   - [#  20] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while (ptr_1 < len(arr1) and ptr_2 > len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08040 s] survived
+   - [#  21] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+- 19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
++ 19:     while (ptr_1 < len(arr1) and ptr_2 <= len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08311 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_7
+
+def test_case_7():
+        str_0 = '_'
+        list_0 = [str_0, str_0, str_0]
+>       var_0 = module_0.duplicates_pre_sorted(list_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = ['_', '_', '_'], arr2 = '_'
+
+>   ???
+E   IndexError: string index out of range
+
+find_duplicates:21: IndexError
+   - [#  22] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  17:     ptr_2 = 0
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+- 21:         if arr2[ptr_2] == arr1[ptr_1]:
++ 21:         if arr2[ptr_2] != arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+--------------------------------------------------------------------------------
+[0.08613 s] survived
+   - [#  23] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+- 25:         elif arr2[ptr_2] > arr1[ptr_1]:
++ 25:         elif arr2[ptr_2] < arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+  28:             ptr_2 += 1
+  29:     
+--------------------------------------------------------------------------------
+[0.08202 s] survived
+   - [#  24] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+  22:             output.append(arr1[ptr_1])
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+- 25:         elif arr2[ptr_2] > arr1[ptr_1]:
++ 25:         elif arr2[ptr_2] >= arr1[ptr_1]:
+  26:             ptr_1 += 1
+  27:         else:
+  28:             ptr_2 += 1
+  29:     
+--------------------------------------------------------------------------------
+[0.08619 s] survived
+   - [#  25] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  35: 
+  36:     '''
+  37:     
+  38:     
+- 39:     if len(arr2) < len(arr1):
++ 39:     if len(arr2) > len(arr1):
+  40:         (arr1, arr2) = (arr2, arr1)
+  41:     
+  42:     output = []
+  43:     
+--------------------------------------------------------------------------------
+[0.09824 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b']?6\xda\x83'
+        dict_0 = {}
+        var_0 = module_0.duplicates_linear(dict_0, dict_0)
+        tuple_0 = (dict_0,)
+        var_1 = module_0.duplicates_bin_search(dict_0, dict_0)
+        var_2 = module_0.duplicates_linear(bytes_0, var_1)
+>       var_3 = module_0.duplicates_bin_search(var_1, tuple_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+find_duplicates:45: in duplicates_bin_search
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+list = [], target = {}
+
+    def binary_search(list, target):
+        """
+        Search a sorted list.
+    
+        :param list: the input sorted list
+        :param target: the value that is to be found
+        :return: index of target in list, or -1 if not found
+        """
+    
+        # the initial left and right index
+        l = 0
+        r = len(list)
+    
+        # while left is less than right, if they cross then the value
+        # couldn't have been found
+        while l <= r:
+    
+            # get the midpoint of l and r
+            mid = (r+l)//2
+    
+            # if the midpoint is equal to the target, return it
+>           if list[mid] == target:
+E           IndexError: list index out of range
+
+binary_search.py:22: IndexError
+   - [#  26] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  35: 
+  36:     '''
+  37:     
+  38:     
+- 39:     if len(arr2) < len(arr1):
++ 39:     if len(arr2) <= len(arr1):
+  40:         (arr1, arr2) = (arr2, arr1)
+  41:     
+  42:     output = []
+  43:     
+--------------------------------------------------------------------------------
+[0.07997 s] survived
+   - [#  27] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  41:     
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+- 45:         if binary_search(arr2, element) >= 0:
++ 45:         if binary_search(arr2, element) <= 0:
+  46:             output.append(element)
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08093 s] survived
+   - [#  28] ROR find_duplicates: 
+--------------------------------------------------------------------------------
+  41:     
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+- 45:         if binary_search(arr2, element) >= 0:
++ 45:         if binary_search(arr2, element) > 0:
+  46:             output.append(element)
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08034 s] survived
+   - [#  29] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+   1: from binary_search import binary_search
+   2: 
+   3: def duplicates_linear(arr1, arr2):
+-  4:     arr1_seen = set(arr1)
++  4:     pass
+   5:     output = []
+   6:     
+   7:     for element in arr2:
+   8:         if element in arr1_seen:
+--------------------------------------------------------------------------------
+[0.08281 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        int_0 = 91
+        bool_0 = False
+        bytes_0 = b'\x80'
+        tuple_0 = (int_0, bool_0, bytes_0)
+>       var_0 = module_0.duplicates_linear(tuple_0, bytes_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = (91, False, b'\x80'), arr2 = b'\x80'
+
+>   ???
+E   NameError: name 'arr1_seen' is not defined
+
+find_duplicates:8: NameError
+   - [#  30] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+   1: from binary_search import binary_search
+   2: 
+   3: def duplicates_linear(arr1, arr2):
+   4:     arr1_seen = set(arr1)
+-  5:     output = []
++  5:     pass
+   6:     
+   7:     for element in arr2:
+   8:         if element in arr1_seen:
+   9:             output.append(element)
+--------------------------------------------------------------------------------
+[0.08277 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        int_0 = 91
+        bool_0 = False
+        bytes_0 = b'\x80'
+        tuple_0 = (int_0, bool_0, bytes_0)
+>       var_0 = module_0.duplicates_linear(tuple_0, bytes_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = (91, False, b'\x80'), arr2 = b'\x80'
+
+>   ???
+E   NameError: name 'output' is not defined
+
+find_duplicates:11: NameError
+   - [#  31] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+   5:     output = []
+   6:     
+   7:     for element in arr2:
+   8:         if element in arr1_seen:
+-  9:             output.append(element)
++  9:             pass
+  10:     
+  11:     return output
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+--------------------------------------------------------------------------------
+[0.08225 s] survived
+   - [#  32] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+   7:     for element in arr2:
+   8:         if element in arr1_seen:
+   9:             output.append(element)
+  10:     
+- 11:     return output
++ 11:     pass
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+  14:     output = []
+  15:     
+--------------------------------------------------------------------------------
+[0.08263 s] incompetent
+
+TypeError: find_duplicates:4: TypeError: 'NoneType' object is not iterable
+
+   - [#  33] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     return output
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+- 14:     output = []
++ 14:     pass
+  15:     
+  16:     ptr_1 = 0
+  17:     ptr_2 = 0
+  18:     
+--------------------------------------------------------------------------------
+[0.08377 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = 'kFWlt8d>XU'
+>       var_0 = module_0.duplicates_pre_sorted(str_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = 'kFWlt8d>XU', arr2 = 'kFWlt8d>XU'
+
+>   ???
+E   NameError: name 'output' is not defined
+
+find_duplicates:22: NameError
+   - [#  34] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+  14:     output = []
+  15:     
+- 16:     ptr_1 = 0
++ 16:     pass
+  17:     ptr_2 = 0
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+--------------------------------------------------------------------------------
+[0.08516 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = 'kFWlt8d>XU'
+>       var_0 = module_0.duplicates_pre_sorted(str_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = 'kFWlt8d>XU', arr2 = 'kFWlt8d>XU'
+
+>   ???
+E   UnboundLocalError: local variable 'ptr_1' referenced before assignment
+
+find_duplicates:19: UnboundLocalError
+   - [#  35] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  13: def duplicates_pre_sorted(arr1, arr2):
+  14:     output = []
+  15:     
+  16:     ptr_1 = 0
+- 17:     ptr_2 = 0
++ 17:     pass
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+--------------------------------------------------------------------------------
+[0.08352 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = 'kFWlt8d>XU'
+>       var_0 = module_0.duplicates_pre_sorted(str_0, str_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = 'kFWlt8d>XU', arr2 = 'kFWlt8d>XU'
+
+>   ???
+E   UnboundLocalError: local variable 'ptr_2' referenced before assignment
+
+find_duplicates:19: UnboundLocalError
+   - [#  36] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+  21:         if arr2[ptr_2] == arr1[ptr_1]:
+- 22:             output.append(arr1[ptr_1])
++ 22:             pass
+  23:             ptr_1 += 1
+  24:             ptr_2 += 1
+  25:         elif arr2[ptr_2] > arr1[ptr_1]:
+  26:             ptr_1 += 1
+--------------------------------------------------------------------------------
+[0.08324 s] survived
+   - [#  37] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  26:             ptr_1 += 1
+  27:         else:
+  28:             ptr_2 += 1
+  29:     
+- 30:     return output
++ 30:     pass
+  31: 
+  32: def duplicates_bin_search(arr1, arr2):
+  33:     '''
+  34:     Find duplicates in 2 sets, where one is much larger than the other.
+--------------------------------------------------------------------------------
+[0.08575 s] incompetent
+
+TypeError: find_duplicates:39: TypeError: object of type 'NoneType' has no len()
+
+   - [#  38] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  36:     '''
+  37:     
+  38:     
+  39:     if len(arr2) < len(arr1):
+- 40:         (arr1, arr2) = (arr2, arr1)
++ 40:         pass
+  41:     
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+--------------------------------------------------------------------------------
+[0.08637 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b']?6\xda\x83'
+        dict_0 = {}
+        var_0 = module_0.duplicates_linear(dict_0, dict_0)
+        tuple_0 = (dict_0,)
+        var_1 = module_0.duplicates_bin_search(dict_0, dict_0)
+        var_2 = module_0.duplicates_linear(bytes_0, var_1)
+        var_3 = module_0.duplicates_bin_search(var_1, tuple_0)
+        var_4 = module_0.duplicates_pre_sorted(var_1, bytes_0)
+>       var_5 = module_0.duplicates_bin_search(tuple_0, var_1)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+find_duplicates:45: in duplicates_bin_search
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+list = [], target = {}
+
+    def binary_search(list, target):
+        """
+        Search a sorted list.
+    
+        :param list: the input sorted list
+        :param target: the value that is to be found
+        :return: index of target in list, or -1 if not found
+        """
+    
+        # the initial left and right index
+        l = 0
+        r = len(list)
+    
+        # while left is less than right, if they cross then the value
+        # couldn't have been found
+        while l <= r:
+    
+            # get the midpoint of l and r
+            mid = (r+l)//2
+    
+            # if the midpoint is equal to the target, return it
+>           if list[mid] == target:
+E           IndexError: list index out of range
+
+binary_search.py:22: IndexError
+   - [#  39] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  38:     
+  39:     if len(arr2) < len(arr1):
+  40:         (arr1, arr2) = (arr2, arr1)
+  41:     
+- 42:     output = []
++ 42:     pass
+  43:     
+  44:     for element in arr1:
+  45:         if binary_search(arr2, element) >= 0:
+  46:             output.append(element)
+--------------------------------------------------------------------------------
+[0.08524 s] killed by ALL-SMART/test_find_duplicates_DYNAMOSA.py::test_case_3
+
+def test_case_3():
+        str_0 = 'V'
+        var_0 = module_0.duplicates_pre_sorted(str_0, str_0)
+        var_1 = module_0.duplicates_linear(str_0, str_0)
+        var_2 = module_0.duplicates_linear(var_1, str_0)
+>       var_3 = module_0.duplicates_bin_search(var_1, var_0)
+
+ALL-SMART/test_find_duplicates_DYNAMOSA.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+arr1 = ['V'], arr2 = ['V']
+
+>   ???
+E   NameError: name 'output' is not defined
+
+find_duplicates:46: NameError
+   - [#  40] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+  45:         if binary_search(arr2, element) >= 0:
+- 46:             output.append(element)
++ 46:             pass
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08182 s] survived
+   - [#  41] SDL find_duplicates: 
+--------------------------------------------------------------------------------
+  44:     for element in arr1:
+  45:         if binary_search(arr2, element) >= 0:
+  46:             output.append(element)
+  47:     
+- 48:     return output
++ 48:     pass
+--------------------------------------------------------------------------------
+[0.09051 s] incompetent
+
+TypeError: find_duplicates:7: TypeError: 'NoneType' object is not iterable
+
+   - [#  42] ZIL find_duplicates: 
+--------------------------------------------------------------------------------
+   4:     arr1_seen = set(arr1)
+   5:     output = []
+   6:     
+   7:     for element in arr2:
+-  8:         if element in arr1_seen:
+-  9:             output.append(element)
++  8:         break
++  9:     
+  10:     
+  11:     return output
+  12: 
+  13: def duplicates_pre_sorted(arr1, arr2):
+--------------------------------------------------------------------------------
+[0.08372 s] survived
+   - [#  43] ZIL find_duplicates: 
+--------------------------------------------------------------------------------
+  17:     ptr_2 = 0
+  18:     
+  19:     while (ptr_1 < len(arr1) and ptr_2 < len(arr2)):
+  20:         
+- 21:         if arr2[ptr_2] == arr1[ptr_1]:
+- 22:             output.append(arr1[ptr_1])
+- 23:             ptr_1 += 1
+- 24:             ptr_2 += 1
+- 25:         elif arr2[ptr_2] > arr1[ptr_1]:
+- 26:             ptr_1 += 1
+- 27:         else:
+- 28:             ptr_2 += 1
++ 21:         break
++ 22:     
++ 23:     
++ 24:     
++ 25:     
++ 26:     
++ 27:     
++ 28:     
+  29:     
+  30:     return output
+  31: 
+  32: def duplicates_bin_search(arr1, arr2):
+--------------------------------------------------------------------------------
+[0.08254 s] survived
+   - [#  44] ZIL find_duplicates: 
+--------------------------------------------------------------------------------
+  41:     
+  42:     output = []
+  43:     
+  44:     for element in arr1:
+- 45:         if binary_search(arr2, element) >= 0:
+- 46:             output.append(element)
++ 45:         break
++ 46:     
+  47:     
+  48:     return output
+--------------------------------------------------------------------------------
+[0.08440 s] survived
+[*] Mutation score [4.87405 s]: 34.2%
+   - all: 44
+   - killed: 13 (29.5%)
+   - survived: 25 (56.8%)
+   - incompetent: 6 (13.6%)
+   - timeout: 0 (0.0%)

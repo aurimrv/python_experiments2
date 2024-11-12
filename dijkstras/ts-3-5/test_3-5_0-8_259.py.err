@@ -7,57 +7,89 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 class TestDijkstras:
-    def test_dijkstras_basic_case(self):
-        weighted_graph = {
-            'A': {'B': 5, 'C': 3},
-            'B': {'A': 5, 'C': 1, 'D': 4},
-            'C': {'A': 3, 'B': 1, 'D': 2},
-            'D': {'B': 4, 'C': 2}
+    
+    def test_shortest_path_simple(self):
+        class WeightedGraph:
+            def __init__(self, vertices):
+                self.vertices = vertices
+
+        class Vertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+
+        vertices = {
+            'A': Vertex({'B': 1, 'C': 4}),
+            'B': Vertex({'A': 1, 'C': 2, 'D': 5}),
+            'C': Vertex({'A': 4, 'B': 2, 'D': 1}),
+            'D': Vertex({'B': 5, 'C': 1})
         }
+
+        weighted_graph = WeightedGraph(vertices)
         src = 'A'
         dst = 'D'
         assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-    def test_dijkstras_unreachable_destination(self):
-        weighted_graph = {
-            'A': {'B': 5, 'C': 3},
-            'B': {'A': 5, 'C': 1, 'D': 4},
-            'C': {'A': 3, 'B': 1, 'D': 2},
-            'D': {'B': 4, 'C': 2}
+    def test_shortest_path_no_path(self):
+        class WeightedGraph:
+            def __init__(self, vertices):
+                self.vertices = vertices
+
+        class Vertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+
+        vertices = {
+            'A': Vertex({'B': 1, 'C': 4}),
+            'B': Vertex({'A': 1, 'C': 2}),
+            'C': Vertex({'A': 4, 'B': 2})
         }
-        src = 'B'
+
+        weighted_graph = WeightedGraph(vertices)
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == []
+
+    def test_shortest_path_same_source_dest(self):
+        class WeightedGraph:
+            def __init__(self, vertices):
+                self.vertices = vertices
+
+        class Vertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+
+        vertices = {
+            'A': Vertex({'B': 1, 'C': 4}),
+            'B': Vertex({'A': 1, 'C': 2}),
+            'C': Vertex({'A': 4, 'B': 2})
+        }
+
+        weighted_graph = WeightedGraph(vertices)
+        src = 'A'
         dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == []
+        assert dijkstras(weighted_graph, src, dst) == ['A']
 
-    def test_dijkstras_identical_source_and_destination(self):
-        weighted_graph = {
-            'A': {'B': 5, 'C': 3},
-            'B': {'A': 5, 'C': 1, 'D': 4},
-            'C': {'A': 3, 'B': 1, 'D': 2},
-            'D': {'B': 4, 'C': 2}
-        }
-        src = 'C'
-        dst = 'C'
-        assert dijkstras(weighted_graph, src, dst) == ['C']
+    def test_shortest_path_large_graph(self):
+        class WeightedGraph:
+            def __init__(self, vertices):
+                self.vertices = vertices
 
-    def test_dijkstras_no_edges(self):
-        weighted_graph = {
-            'A': {},
-            'B': {},
-            'C': {},
-            'D': {}
+        class Vertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+
+        vertices = {
+            'A': Vertex({'B': 1, 'C': 4}),
+            'B': Vertex({'A': 1, 'C': 2, 'D': 5}),
+            'C': Vertex({'A': 4, 'B': 2, 'D': 1}),
+            'D': Vertex({'B': 5, 'C': 1}),
+            'E': Vertex({'B': 3, 'C': 2, 'F': 4}),
+            'F': Vertex({'E': 4, 'G': 2}),
+            'G': Vertex({'F': 2, 'H': 3}),
+            'H': Vertex({'G': 3})
         }
+
+        weighted_graph = WeightedGraph(vertices)
         src = 'A'
-        dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == []
-
-    def test_dijkstras_negative_weights(self):
-        weighted_graph = {
-            'A': {'B': -5, 'C': 3},
-            'B': {'A': 1, 'C': 1, 'D': 4},
-            'C': {'A': 3, 'B': 1, 'D': 2},
-            'D': {'B': 4, 'C': 2}
-        }
-        src = 'A'
-        dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+        dst = 'H'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D', 'G', 'H']

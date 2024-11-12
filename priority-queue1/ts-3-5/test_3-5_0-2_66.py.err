@@ -32,10 +32,6 @@ def test_set_priority():
     pq.set_priority('task1', 2)
     assert pq.mapper['task1'][0] == 2
 
-    pq.add_task('task2', 3)
-    pq.set_priority('task2')
-    assert pq.mapper['task2'][0] == 2
-
 def test_pop_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
@@ -49,3 +45,10 @@ def test_pop_task():
     assert task == 'task1'
     assert len(pq.pq) == 0
     assert 'task1' not in pq.mapper
+
+def test_pop_task_empty_queue():
+    pq = PriorityQueue()
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

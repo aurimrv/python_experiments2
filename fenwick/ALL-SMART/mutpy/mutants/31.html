@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #31</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number7').attr('title', 'OIL');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #31</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'fenwick_tree' from '/home/lucca/teste/python_experiments2/fenwick/./fenwick_tree.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>ALL-SMART/test_fenwick_tree_DYNAMOSA.py::test_case_0</code></li>
+    
+    <li>duration - 0.077 s</li>
+    
+    
+    <li>tests run - 1</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>def test_case_0():
+        bytes_0 = b'\xf1\xd15\xe2 \xcb\xff\xc3\xa9\xd1J'
+        fenwick_tree_0 = module_0.FenwickTree(bytes_0)
+        assert f'{type(fenwick_tree_0).__module__}.{type(fenwick_tree_0).__qualname__}' == 'fenwick_tree.FenwickTree'
+>       assert fenwick_tree_0.nums == [0, 241, 209, 53, 226, 32, 203, 255, 195, 169, 209, 74]
+E       AssertionError
+
+ALL-SMART/test_fenwick_tree_DYNAMOSA.py:9: AssertionError</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>OIL - line 7</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [7]; toolbar: false;">class FenwickTree:
+    
+    def __init__(self, arr):
+        self.nums = [0] * (len(arr) + 1)
+        self.tree = [0] * (len(arr) + 1)
+        
+        for i in range(len(arr)):
+            self.update(i, arr[i])
+            break
+    def update(self, index, value):
+        index += 1
+        delta = value - self.nums[index]
+        self.nums[index] = value
+        while index <= len(self.tree) - 1:
+            self.tree[index] += delta
+            index += index & (-index)
+    
+    def sum_of_n(self, index):
+        s = 0
+        index += 1
+        
+        while index > 0:
+            s += self.tree[index]
+            index -= index & (-index)
+        
+        return s
+    
+    def sum_of_range(self, start, end):
+        
+        start -= 1
+        return self.sum_of_n(end) - self.sum_of_n(start)</pre>
+
+    </div>
+</body>
+</html>

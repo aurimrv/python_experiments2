@@ -1,0 +1,860 @@
+[*] Start mutation process:
+   - targets: mergesort.py
+   - tests: ts-3-5/test_3-5_0-8_249.py
+[*] 7 tests passed:
+   - test_3-5_0-8_249 [0.16843 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR mergesort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+- 10:         left = sort(l[:len(l) // 2])
++ 10:         left = sort(l[:len(l) / 2])
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+--------------------------------------------------------------------------------
+[0.16767 s] incompetent
+
+TypeError: mergesort:10: TypeError: slice indices must be integers or None or have an __index__ method
+
+   - [#   2] AOR mergesort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+- 10:         left = sort(l[:len(l) // 2])
++ 10:         left = sort(l[:len(l) * 2])
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+--------------------------------------------------------------------------------
+[0.18590 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#   3] AOR mergesort: 
+--------------------------------------------------------------------------------
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+- 11:         right = sort(l[len(l) // 2:])
++ 11:         right = sort(l[len(l) / 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+  15:         return output
+--------------------------------------------------------------------------------
+[0.17588 s] incompetent
+
+TypeError: mergesort:11: TypeError: slice indices must be integers or None or have an __index__ method
+
+   - [#   4] AOR mergesort: 
+--------------------------------------------------------------------------------
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+- 11:         right = sort(l[len(l) // 2:])
++ 11:         right = sort(l[len(l) * 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+  15:         return output
+--------------------------------------------------------------------------------
+[0.16590 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+   - [#   5] COI mergesort: 
+--------------------------------------------------------------------------------
+   3: def mergesort(list):
+   4:     
+   5:     def sort(l):
+   6:         
+-  7:         if len(l) <= 1:
++  7:         if not (len(l) <= 1):
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+  11:         right = sort(l[len(l) // 2:])
+--------------------------------------------------------------------------------
+[0.17571 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_empty_list
+
+def test_mergesort_empty_list():
+>       assert mergesort([]) == []
+
+ts-3-5/test_3-5_0-8_249.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#   6] COI mergesort: 
+--------------------------------------------------------------------------------
+  19:         res = []
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+- 23:         while (l1 and l2):
++ 23:         while not ((l1 and l2)):
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+--------------------------------------------------------------------------------
+[0.17099 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_reverse_sorted_list
+
+def test_mergesort_reverse_sorted_list():
+>       assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:18: AssertionError
+   - [#   7] COI mergesort: 
+--------------------------------------------------------------------------------
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+- 24:             if l1[0] < l2[0]:
++ 24:             if not (l1[0] < l2[0]):
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+--------------------------------------------------------------------------------
+[0.17212 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+   - [#   8] COI mergesort: 
+--------------------------------------------------------------------------------
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+- 28:         while l1:
++ 28:         while not l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+  32:         return res
+--------------------------------------------------------------------------------
+[0.17334 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:13: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l1 = deque([]), l2 = deque([2])
+
+>   ???
+E   IndexError: pop from an empty deque
+
+mergesort:29: IndexError
+   - [#   9] COI mergesort: 
+--------------------------------------------------------------------------------
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+  29:             res.append(l1.popleft())
+- 30:         while l2:
++ 30:         while not l2:
+  31:             res.append(l2.popleft())
+  32:         return res
+  33:     
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[0.17506 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+   - [#  10] LCR mergesort: 
+--------------------------------------------------------------------------------
+  19:         res = []
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+- 23:         while (l1 and l2):
++ 23:         while (l1 or l2):
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+--------------------------------------------------------------------------------
+[0.17313 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:13: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l1 = deque([]), l2 = deque([2])
+
+>   ???
+E   IndexError: deque index out of range
+
+mergesort:24: IndexError
+   - [#  11] OIL mergesort: 
+--------------------------------------------------------------------------------
+  23:         while (l1 and l2):
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+- 27:                 res.append(l2.popleft())
++ 27:                 res.append(l2.popleft())break
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+--------------------------------------------------------------------------------
+[0.16544 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_reverse_sorted_list
+
+def test_mergesort_reverse_sorted_list():
+>       assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:18: AssertionError
+   - [#  12] OIL mergesort: 
+--------------------------------------------------------------------------------
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+  29:             res.append(l1.popleft())
+- 30:         while l2:
+- 31:             res.append(l2.popleft())
+- 32:         return res
+- 33:     
++ 30:             break
++ 31:         while l2:
++ 32:             res.append(l2.popleft())
++ 33:         return res
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[0.17153 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_reverse_sorted_list
+
+def test_mergesort_reverse_sorted_list():
+>       assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:18: AssertionError
+   - [#  13] OIL mergesort: 
+--------------------------------------------------------------------------------
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+- 32:         return res
+- 33:     
++ 32:             break
++ 33:         return res
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[0.17257 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+   - [#  14] ROR mergesort: 
+--------------------------------------------------------------------------------
+   3: def mergesort(list):
+   4:     
+   5:     def sort(l):
+   6:         
+-  7:         if len(l) <= 1:
++  7:         if len(l) >= 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+  11:         right = sort(l[len(l) // 2:])
+--------------------------------------------------------------------------------
+[0.17549 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_empty_list
+
+def test_mergesort_empty_list():
+>       assert mergesort([]) == []
+
+ts-3-5/test_3-5_0-8_249.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#  15] ROR mergesort: 
+--------------------------------------------------------------------------------
+   3: def mergesort(list):
+   4:     
+   5:     def sort(l):
+   6:         
+-  7:         if len(l) <= 1:
++  7:         if len(l) < 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+  11:         right = sort(l[len(l) // 2:])
+--------------------------------------------------------------------------------
+[0.17768 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:11: in sort
+    ???
+mergesort:11: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#  16] ROR mergesort: 
+--------------------------------------------------------------------------------
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+- 24:             if l1[0] < l2[0]:
++ 24:             if l1[0] > l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+--------------------------------------------------------------------------------
+[0.17230 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+   - [#  17] ROR mergesort: 
+--------------------------------------------------------------------------------
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+- 24:             if l1[0] < l2[0]:
++ 24:             if l1[0] <= l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+--------------------------------------------------------------------------------
+[0.14805 s] survived
+   - [#  18] SDL mergesort: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def sort(l):
+   6:         
+   7:         if len(l) <= 1:
+-  8:             return l
++  8:             pass
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+--------------------------------------------------------------------------------
+[0.17639 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_empty_list
+
+def test_mergesort_empty_list():
+>       assert mergesort([]) == []
+
+ts-3-5/test_3-5_0-8_249.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#  19] SDL mergesort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+- 10:         left = sort(l[:len(l) // 2])
++ 10:         pass
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+--------------------------------------------------------------------------------
+[0.17363 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:11: in sort
+    ???
+mergesort:11: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = [4, 5]
+
+>   ???
+E   NameError: name 'left' is not defined
+
+mergesort:13: NameError
+   - [#  20] SDL mergesort: 
+--------------------------------------------------------------------------------
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+- 11:         right = sort(l[len(l) // 2:])
++ 11:         pass
+  12:         
+  13:         output = merge(left, right)
+  14:         
+  15:         return output
+--------------------------------------------------------------------------------
+[0.16248 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = [1, 2]
+
+>   ???
+E   NameError: name 'right' is not defined
+
+mergesort:13: NameError
+   - [#  21] SDL mergesort: 
+--------------------------------------------------------------------------------
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+- 13:         output = merge(left, right)
++ 13:         pass
+  14:         
+  15:         return output
+  16:     
+  17:     def merge(l1, l2):
+--------------------------------------------------------------------------------
+[0.17058 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = [1, 2]
+
+>   ???
+E   NameError: name 'output' is not defined
+
+mergesort:15: NameError
+   - [#  22] SDL mergesort: 
+--------------------------------------------------------------------------------
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+- 15:         return output
++ 15:         pass
+  16:     
+  17:     def merge(l1, l2):
+  18:         
+  19:         res = []
+--------------------------------------------------------------------------------
+[0.17364 s] incompetent
+
+TypeError: mergesort:21: TypeError: 'NoneType' object is not iterable
+
+   - [#  23] SDL mergesort: 
+--------------------------------------------------------------------------------
+  15:         return output
+  16:     
+  17:     def merge(l1, l2):
+  18:         
+- 19:         res = []
++ 19:         pass
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+--------------------------------------------------------------------------------
+[0.17272 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:13: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l1 = deque([1]), l2 = deque([2])
+
+>   ???
+E   NameError: name 'res' is not defined
+
+mergesort:25: NameError
+   - [#  24] SDL mergesort: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def merge(l1, l2):
+  18:         
+  19:         res = []
+- 20:         l1 = deque(l1)
++ 20:         pass
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+  24:             if l1[0] < l2[0]:
+--------------------------------------------------------------------------------
+[0.17341 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:13: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l1 = [1], l2 = deque([2])
+
+>   ???
+E   AttributeError: 'list' object has no attribute 'popleft'
+
+mergesort:25: AttributeError
+   - [#  25] SDL mergesort: 
+--------------------------------------------------------------------------------
+  17:     def merge(l1, l2):
+  18:         
+  19:         res = []
+  20:         l1 = deque(l1)
+- 21:         l2 = deque(l2)
++ 21:         pass
+  22:         
+  23:         while (l1 and l2):
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+--------------------------------------------------------------------------------
+[0.17527 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:13: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l1 = deque([]), l2 = [2]
+
+>   ???
+E   AttributeError: 'list' object has no attribute 'popleft'
+
+mergesort:31: AttributeError
+   - [#  26] SDL mergesort: 
+--------------------------------------------------------------------------------
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+  24:             if l1[0] < l2[0]:
+- 25:                 res.append(l1.popleft())
++ 25:                 pass
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+  29:             res.append(l1.popleft())
+--------------------------------------------------------------------------------
+[5.00660 s] timeout
+   - [#  27] SDL mergesort: 
+--------------------------------------------------------------------------------
+  23:         while (l1 and l2):
+  24:             if l1[0] < l2[0]:
+  25:                 res.append(l1.popleft())
+  26:             else:
+- 27:                 res.append(l2.popleft())
++ 27:                 pass
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+--------------------------------------------------------------------------------
+[5.00677 s] timeout
+   - [#  28] SDL mergesort: 
+--------------------------------------------------------------------------------
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+- 29:             res.append(l1.popleft())
++ 29:             pass
+  30:         while l2:
+  31:             res.append(l2.popleft())
+  32:         return res
+  33:     
+--------------------------------------------------------------------------------
+[5.00645 s] timeout
+   - [#  29] SDL mergesort: 
+--------------------------------------------------------------------------------
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+- 31:             res.append(l2.popleft())
++ 31:             pass
+  32:         return res
+  33:     
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[5.00664 s] timeout
+   - [#  30] SDL mergesort: 
+--------------------------------------------------------------------------------
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+- 32:         return res
++ 32:         pass
+  33:     
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[0.18589 s] incompetent
+
+TypeError: mergesort:21: TypeError: 'NoneType' object is not iterable
+
+   - [#  31] SDL mergesort: 
+--------------------------------------------------------------------------------
+  30:         while l2:
+  31:             res.append(l2.popleft())
+  32:         return res
+  33:     
+- 34:     return sort(list)
++ 34:     pass
+--------------------------------------------------------------------------------
+[0.18250 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_empty_list
+
+def test_mergesort_empty_list():
+>       assert mergesort([]) == []
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:12: AssertionError
+   - [#  32] SIR mergesort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+- 10:         left = sort(l[:len(l) // 2])
++ 10:         left = sort(l[:])
+  11:         right = sort(l[len(l) // 2:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+--------------------------------------------------------------------------------
+[0.18845 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:10: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#  33] SIR mergesort: 
+--------------------------------------------------------------------------------
+   7:         if len(l) <= 1:
+   8:             return l
+   9:         
+  10:         left = sort(l[:len(l) // 2])
+- 11:         right = sort(l[len(l) // 2:])
++ 11:         right = sort(l[:])
+  12:         
+  13:         output = merge(left, right)
+  14:         
+  15:         return output
+--------------------------------------------------------------------------------
+[0.18635 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+
+ts-3-5/test_3-5_0-8_249.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+mergesort:34: in mergesort
+    ???
+mergesort:10: in sort
+    ???
+mergesort:11: in sort
+    ???
+mergesort:11: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+   - [#  34] ZIL mergesort: 
+--------------------------------------------------------------------------------
+  20:         l1 = deque(l1)
+  21:         l2 = deque(l2)
+  22:         
+  23:         while (l1 and l2):
+- 24:             if l1[0] < l2[0]:
+- 25:                 res.append(l1.popleft())
+- 26:             else:
+- 27:                 res.append(l2.popleft())
++ 24:             break
++ 25:         
++ 26:         
++ 27:         
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+  31:             res.append(l2.popleft())
+--------------------------------------------------------------------------------
+[0.17135 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_reverse_sorted_list
+
+def test_mergesort_reverse_sorted_list():
+>       assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:18: AssertionError
+   - [#  35] ZIL mergesort: 
+--------------------------------------------------------------------------------
+  25:                 res.append(l1.popleft())
+  26:             else:
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+- 29:             res.append(l1.popleft())
++ 29:             break
+  30:         while l2:
+  31:             res.append(l2.popleft())
+  32:         return res
+  33:     
+--------------------------------------------------------------------------------
+[0.17227 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_reverse_sorted_list
+
+def test_mergesort_reverse_sorted_list():
+>       assert mergesort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:18: AssertionError
+   - [#  36] ZIL mergesort: 
+--------------------------------------------------------------------------------
+  27:                 res.append(l2.popleft())
+  28:         while l1:
+  29:             res.append(l1.popleft())
+  30:         while l2:
+- 31:             res.append(l2.popleft())
++ 31:             break
+  32:         return res
+  33:     
+  34:     return sort(list)
+--------------------------------------------------------------------------------
+[0.17021 s] killed by ts-3-5/test_3-5_0-8_249.py::test_mergesort_sorted_list
+
+def test_mergesort_sorted_list():
+>       assert mergesort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_249.py:15: AssertionError
+[*] Mutation score [26.49775 s]: 96.9%
+   - all: 36
+   - killed: 27 (75.0%)
+   - survived: 1 (2.8%)
+   - incompetent: 4 (11.1%)
+   - timeout: 4 (11.1%)

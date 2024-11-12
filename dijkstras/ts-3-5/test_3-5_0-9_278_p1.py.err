@@ -1,0 +1,78 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+
+    def test_dijkstras_with_single_route(self):
+        class Vertex:
+            def __init__(self, data):
+                self.data = data
+                self.adjacent = {}
+
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        weighted_graph = WeightedGraph()
+        a = Vertex('A')
+        b = Vertex('B')
+        c = Vertex('C')
+        a.adjacent[b] = 2
+        b.adjacent[c] = 3
+        weighted_graph.vertices = {'A': a, 'B': b, 'C': c}
+
+        assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+
+    def test_dijkstras_with_multiple_routes(self):
+        class Vertex:
+            def __init__(self, data):
+                self.data = data
+                self.adjacent = {}
+
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        weighted_graph = WeightedGraph()
+        a = Vertex('A')
+        b = Vertex('B')
+        c = Vertex('C')
+        d = Vertex('D')
+        e = Vertex('E')
+        a.adjacent[b] = 1
+        b.adjacent[c] = 2
+        a.adjacent[d] = 3
+        d.adjacent[e] = 4
+        e.adjacent[c] = 1
+        weighted_graph.vertices = {'A': a, 'B': b, 'C': c, 'D': d, 'E': e}
+
+        assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+        assert dijkstras(weighted_graph, 'A', 'E') == ['A', 'D', 'E']
+        assert dijkstras(weighted_graph, 'B', 'C') == ['B', 'C']
+
+    def test_dijkstras_with_no_route(self):
+        class Vertex:
+            def __init__(self, data):
+                self.data = data
+                self.adjacent = {}
+
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        weighted_graph = WeightedGraph()
+        a = Vertex('A')
+        b = Vertex('B')
+        c = Vertex('C')
+        a.adjacent[b] = 1
+        b.adjacent[c] = 2
+        weighted_graph.vertices = {'A': a, 'B': b, 'C': c}
+
+        assert dijkstras(weighted_graph, 'A', 'D') == []

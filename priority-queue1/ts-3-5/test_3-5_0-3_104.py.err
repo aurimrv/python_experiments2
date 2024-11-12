@@ -11,41 +11,44 @@ from priority_queue1 import PriorityQueue
 
 def test_add_task():
     pq = PriorityQueue()
-    pq.add_task("Task1", 1)
-    assert len(pq.pq) == 1
-    assert pq.mapper["Task1"][0] == 1
+    pq.add_task('Task1', 5)
+    assert pq.pq == [[5, 0, 'Task1']]
+    assert pq.mapper == {'Task1': [5, 0, 'Task1']}
 
-    pq.add_task("Task2", 2)
-    assert len(pq.pq) == 2
-    assert pq.mapper["Task2"][0] == 2
+    pq.add_task('Task2', 3)
+    assert pq.pq == [[3, 1, 'Task2'], [5, 0, 'Task1']]
+    assert pq.mapper == {'Task1': [5, 0, 'Task1'], 'Task2': [3, 1, 'Task2']}
 
 def test_remove_task():
     pq = PriorityQueue()
-    pq.add_task("Task1", 1)
-    pq.remove_task("Task1")
-    assert "Task1" not in pq.mapper
-    assert len(pq.pq) == 0
+    pq.add_task('Task1', 5)
+    pq.add_task('Task2', 3)
+
+    pq.remove_task('Task1')
+    assert pq.pq == [[3, 1, 'Task2']]
+    assert pq.mapper == {'Task2': [3, 1, 'Task2']}
 
 def test_set_priority():
     pq = PriorityQueue()
-    pq.add_task("Task1", 1)
-    pq.set_priority("Task1", 3)
-    assert pq.mapper["Task1"][0] == 3
+    pq.add_task('Task1', 5)
+    pq.add_task('Task2', 3)
 
-    pq.set_priority("Task1")
-    assert pq.mapper["Task1"][0] == 0
+    pq.set_priority('Task1', 2)
+    assert pq.pq == [[2, 3, 'Task1'], [3, 1, 'Task2']]
+    assert pq.mapper == {'Task1': [2, 3, 'Task1'], 'Task2': [3, 1, 'Task2']}
 
 def test_pop_task():
     pq = PriorityQueue()
-    pq.add_task("Task1", 1)
-    pq.add_task("Task2", 2)
-    task = pq.pop_task()
-    assert task == "Task2"
-    assert len(pq.pq) == 1
+    pq.add_task('Task1', 5)
+    pq.add_task('Task2', 3)
 
-    task = pq.pop_task()
-    assert task == "Task1"
-    assert len(pq.pq) == 0
+    assert pq.pop_task() == 'Task2'
+    assert pq.pq == [[5, 0, 'Task1']]
+    assert pq.mapper == {'Task1': [5, 0, 'Task1']}
+
+    assert pq.pop_task() == 'Task1'
+    assert pq.pq == []
+    assert pq.mapper == {}
 
 def test_pop_task_empty_queue():
     pq = PriorityQueue()

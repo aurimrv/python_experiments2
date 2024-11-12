@@ -6,32 +6,41 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-# Test case for dijkstras function
-def test_dijkstras():
-    class Vertex:
-        def __init__(self, value):
-            self.value = value
-            self.adjacent = {}
+def test_dijkstras_simple_case():
+    # Define a simple weighted graph setup
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'A': 4, 'B': 2}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
 
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
+def test_dijkstras_empty_graph():
+    # Test with an empty weighted graph
+    weighted_graph = {}
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-    # Setup weighted graph
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v1.adjacent = {'B': 1, 'C': 4}
-    v2.adjacent = {'A': 1, 'C': 2}
-    v3.adjacent = {'A': 4, 'B': 2}
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3}
+def test_dijkstras_same_source_and_destination():
+    # Test when source and destination nodes are the same
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'A': 4, 'B': 2}
+    }
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
 
-    assert dijkstras(graph, 'A', 'C') == ['A', 'B', 'C']
-    assert dijkstras(graph, 'A', 'B') == ['A', 'B']
-    assert dijkstras(graph, 'B', 'A') == ['B', 'A']
-    assert dijkstras(graph, 'B', 'C') == ['B', 'C']
-    assert dijkstras(graph, 'C', 'A') == ['C', 'A']
-    assert dijkstras(graph, 'C', 'B') == ['C', 'B']
-
-    # Additional test cases can be added as needed
+def test_dijkstras_unreachable_destination():
+    # Test when destination node is unreachable
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == None

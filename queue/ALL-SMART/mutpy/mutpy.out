@@ -1,0 +1,582 @@
+[*] Start mutation process:
+   - targets: a_queue.py
+   - tests: ./ALL-SMART
+[*] 21 tests passed:
+   - test_a_queue_WHOLE_SUITE [0.06030 s]
+   - test_a_queue_MIO [0.04391 s]
+   - test_a_queue_MOSA [0.04222 s]
+   - test_a_queue_DYNAMOSA [0.04291 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI a_queue: 
+--------------------------------------------------------------------------------
+  15:     If the queue is empty, returns None
+  16:     size(): return the size of the queue. Returns 0 if the queue is empty.
+  17:     '''
+  18:     
+- 19:     def __init__(self, data=None):
+- 20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
+- 22:     
++ 19:     @classmethod
++ 20:     def __init__(self, data=None):
++ 21:         '''Initialize queue data structure.'''
++ 22:         self._container = DoubleLinkedList(data)
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+--------------------------------------------------------------------------------
+[0.06683 s] survived
+   - [#   2] CDI a_queue: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+- 23:     def enqueue(self, val):
+- 24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
+- 26:     
++ 23:     @classmethod
++ 24:     def enqueue(self, val):
++ 25:         '''Add a value to the queue.'''
++ 26:         self._container.append(val)
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+--------------------------------------------------------------------------------
+[0.08116 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_1
+
+def test_case_1():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.enqueue(queue_0)
+
+ALL-SMART/test_a_queue_MOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>, val = <a_queue.Queue object at 0x7e2fefdc4580>
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:26: AttributeError
+   - [#   3] CDI a_queue: 
+--------------------------------------------------------------------------------
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+- 27:     def dequeue(self):
+- 28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
+- 30:     
++ 27:     @classmethod
++ 28:     def dequeue(self):
++ 29:         '''Remove a value from the front of the queue.'''
++ 30:         return self._container.pop()
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.08547 s] killed by ALL-SMART/test_a_queue_WHOLE_SUITE.py::test_case_4
+
+def test_case_4():
+        str_0 = '2"wU\'\x0c"Z3`3G66[vUW'
+        set_0 = {str_0, str_0, str_0, str_0}
+        bytes_0 = b'\x15\x87\xd7\xdd\xa5\x99M`\xab\xa6\xe4KY\xb2\x8f\x8f\xd4'
+        bool_0 = True
+        queue_0 = module_0.Queue(set_0)
+        queue_1 = module_0.Queue()
+        complex_0 = -1111 + 1510.263j
+        var_0 = queue_0.peek()
+        tuple_0 = (bytes_0, bool_0, complex_0, bool_0)
+        var_1 = queue_0.peek()
+        var_2 = queue_0.size()
+        queue_2 = module_0.Queue(tuple_0)
+        var_3 = queue_2.size()
+>       var_4 = queue_2.dequeue()
+
+ALL-SMART/test_a_queue_WHOLE_SUITE.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:30: AttributeError
+   - [#   4] CDI a_queue: 
+--------------------------------------------------------------------------------
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+- 31:     def peek(self):
+- 32:         '''Return the next value in the queue without dequing it.'''
+- 33:         try:
+- 34:             return self._container.head.data
+- 35:         except AttributeError:
+- 36:             return None
+- 37:     
++ 31:     @classmethod
++ 32:     def peek(self):
++ 33:         '''Return the next value in the queue without dequing it.'''
++ 34:         try:
++ 35:             return self._container.head.data
++ 36:         except AttributeError:
++ 37:             return None
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.06954 s] survived
+   - [#   5] CDI a_queue: 
+--------------------------------------------------------------------------------
+  34:             return self._container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+- 38:     def size(self):
+- 39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 38:     @classmethod
++ 39:     def size(self):
++ 40:         '''Return the size of the queue.'''
++ 41:         return self._container._length
+--------------------------------------------------------------------------------
+[0.07805 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_2
+
+def test_case_2():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.size()
+
+ALL-SMART/test_a_queue_MOSA.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'a_queue.Queue'>
+
+>   ???
+E   AttributeError: type object 'Queue' has no attribute '_container'
+
+a_queue:41: AttributeError
+   - [#   6] EHD a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             raise
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.07904 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_0
+
+def test_case_0():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.peek()
+
+ALL-SMART/test_a_queue_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2fefdf8670>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+a_queue:34: AttributeError
+   - [#   7] EXS a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             pass
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.06522 s] survived
+   - [#   8] SDI a_queue: 
+--------------------------------------------------------------------------------
+  15:     If the queue is empty, returns None
+  16:     size(): return the size of the queue. Returns 0 if the queue is empty.
+  17:     '''
+  18:     
+- 19:     def __init__(self, data=None):
+- 20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
+- 22:     
++ 19:     @staticmethod
++ 20:     def __init__(self, data=None):
++ 21:         '''Initialize queue data structure.'''
++ 22:         self._container = DoubleLinkedList(data)
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+--------------------------------------------------------------------------------
+[0.07501 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ALL-SMART/test_a_queue_MOSA.py:6: TypeError: Queue.__init__() missing 1 required positional argument: 'self'
+
+   - [#   9] SDI a_queue: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+- 23:     def enqueue(self, val):
+- 24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
+- 26:     
++ 23:     @staticmethod
++ 24:     def enqueue(self, val):
++ 25:         '''Add a value to the queue.'''
++ 26:         self._container.append(val)
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+--------------------------------------------------------------------------------
+[0.08042 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ALL-SMART/test_a_queue_MOSA.py:11: TypeError: Queue.enqueue() missing 1 required positional argument: 'val'
+
+   - [#  10] SDI a_queue: 
+--------------------------------------------------------------------------------
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+  26:     
+- 27:     def dequeue(self):
+- 28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
+- 30:     
++ 27:     @staticmethod
++ 28:     def dequeue(self):
++ 29:         '''Remove a value from the front of the queue.'''
++ 30:         return self._container.pop()
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.08611 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ALL-SMART/test_a_queue_WHOLE_SUITE.py:47: TypeError: Queue.dequeue() missing 1 required positional argument: 'self'
+
+   - [#  11] SDI a_queue: 
+--------------------------------------------------------------------------------
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+  30:     
+- 31:     def peek(self):
+- 32:         '''Return the next value in the queue without dequing it.'''
+- 33:         try:
+- 34:             return self._container.head.data
+- 35:         except AttributeError:
+- 36:             return None
+- 37:     
++ 31:     @staticmethod
++ 32:     def peek(self):
++ 33:         '''Return the next value in the queue without dequing it.'''
++ 34:         try:
++ 35:             return self._container.head.data
++ 36:         except AttributeError:
++ 37:             return None
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.07966 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ALL-SMART/test_a_queue_MOSA.py:7: TypeError: Queue.peek() missing 1 required positional argument: 'self'
+
+   - [#  12] SDI a_queue: 
+--------------------------------------------------------------------------------
+  34:             return self._container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+- 38:     def size(self):
+- 39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 38:     @staticmethod
++ 39:     def size(self):
++ 40:         '''Return the size of the queue.'''
++ 41:         return self._container._length
+--------------------------------------------------------------------------------
+[0.07869 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/queue/ALL-SMART/test_a_queue_MOSA.py:15: TypeError: Queue.size() missing 1 required positional argument: 'self'
+
+   - [#  13] SDL a_queue: 
+--------------------------------------------------------------------------------
+  17:     '''
+  18:     
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
++ 21:         pass
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.08157 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_1
+
+def test_case_1():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.enqueue(queue_0)
+
+ALL-SMART/test_a_queue_MOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2fefd5a410>
+val = <a_queue.Queue object at 0x7e2fefd5a410>
+
+>   ???
+E   AttributeError: 'Queue' object has no attribute '_container'
+
+a_queue:25: AttributeError
+   - [#  14] SDL a_queue: 
+--------------------------------------------------------------------------------
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
++ 25:         pass
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.09218 s] killed by ALL-SMART/test_a_queue_WHOLE_SUITE.py::test_case_6
+
+def test_case_6():
+        queue_0 = module_0.Queue()
+        none_type_0 = None
+        var_0 = queue_0.enqueue(none_type_0)
+>       var_1 = queue_0.dequeue()
+
+ALL-SMART/test_a_queue_WHOLE_SUITE.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+a_queue:29: in dequeue
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x7e2fefdc4550>
+
+    def pop(self):
+        """Remove the val from the head of the list."""
+        to_return = self.head
+        if self._length < 1:
+>           raise IndexError('Cannot pop from an empty list.')
+E           IndexError: Cannot pop from an empty list.
+
+dll.py:56: IndexError
+   - [#  15] SDL a_queue: 
+--------------------------------------------------------------------------------
+  25:         self._container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
++ 29:         pass
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+--------------------------------------------------------------------------------
+[0.06769 s] survived
+   - [#  16] SDL a_queue: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+- 34:             return self._container.head.data
++ 34:             pass
+  35:         except AttributeError:
+  36:             return None
+  37:     
+  38:     def size(self):
+--------------------------------------------------------------------------------
+[0.06498 s] survived
+   - [#  17] SDL a_queue: 
+--------------------------------------------------------------------------------
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+  34:             return self._container.head.data
+  35:         except AttributeError:
+- 36:             return None
++ 36:             pass
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+  40:         return self._container._length
+--------------------------------------------------------------------------------
+[0.06811 s] survived
+   - [#  18] SDL a_queue: 
+--------------------------------------------------------------------------------
+  36:             return None
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 40:         pass
+--------------------------------------------------------------------------------
+[0.06999 s] survived
+   - [#  19] SVD a_queue: 
+--------------------------------------------------------------------------------
+  17:     '''
+  18:     
+  19:     def __init__(self, data=None):
+  20:         '''Initialize queue data structure.'''
+- 21:         self._container = DoubleLinkedList(data)
++ 21:         _container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+  25:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  20] SVD a_queue: 
+--------------------------------------------------------------------------------
+  21:         self._container = DoubleLinkedList(data)
+  22:     
+  23:     def enqueue(self, val):
+  24:         '''Add a value to the queue.'''
+- 25:         self._container.append(val)
++ 25:         _container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+  29:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.08364 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_1
+
+def test_case_1():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.enqueue(queue_0)
+
+ALL-SMART/test_a_queue_MOSA.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2fefd77400>
+val = <a_queue.Queue object at 0x7e2fefd77400>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:25: NameError
+   - [#  21] SVD a_queue: 
+--------------------------------------------------------------------------------
+  25:         self._container.append(val)
+  26:     
+  27:     def dequeue(self):
+  28:         '''Remove a value from the front of the queue.'''
+- 29:         return self._container.pop()
++ 29:         return _container.pop()
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+--------------------------------------------------------------------------------
+[0.08691 s] killed by ALL-SMART/test_a_queue_WHOLE_SUITE.py::test_case_4
+
+def test_case_4():
+        str_0 = '2"wU\'\x0c"Z3`3G66[vUW'
+        set_0 = {str_0, str_0, str_0, str_0}
+        bytes_0 = b'\x15\x87\xd7\xdd\xa5\x99M`\xab\xa6\xe4KY\xb2\x8f\x8f\xd4'
+        bool_0 = True
+        queue_0 = module_0.Queue(set_0)
+        queue_1 = module_0.Queue()
+        complex_0 = -1111 + 1510.263j
+        var_0 = queue_0.peek()
+        tuple_0 = (bytes_0, bool_0, complex_0, bool_0)
+        var_1 = queue_0.peek()
+        var_2 = queue_0.size()
+        queue_2 = module_0.Queue(tuple_0)
+        var_3 = queue_2.size()
+>       var_4 = queue_2.dequeue()
+
+ALL-SMART/test_a_queue_WHOLE_SUITE.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2feffdcb50>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:29: NameError
+   - [#  22] SVD a_queue: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def peek(self):
+  32:         '''Return the next value in the queue without dequing it.'''
+  33:         try:
+- 34:             return self._container.head.data
++ 34:             return _container.head.data
+  35:         except AttributeError:
+  36:             return None
+  37:     
+  38:     def size(self):
+--------------------------------------------------------------------------------
+[0.08246 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_0
+
+def test_case_0():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.peek()
+
+ALL-SMART/test_a_queue_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2fefd5a410>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:34: NameError
+   - [#  23] SVD a_queue: 
+--------------------------------------------------------------------------------
+  36:             return None
+  37:     
+  38:     def size(self):
+  39:         '''Return the size of the queue.'''
+- 40:         return self._container._length
++ 40:         return _container._length
+--------------------------------------------------------------------------------
+[0.07989 s] killed by ALL-SMART/test_a_queue_MOSA.py::test_case_2
+
+def test_case_2():
+        queue_0 = module_0.Queue()
+>       var_0 = queue_0.size()
+
+ALL-SMART/test_a_queue_MOSA.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <a_queue.Queue object at 0x7e2fefdc4b80>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+a_queue:40: NameError
+[*] Mutation score [2.21996 s]: 58.8%
+   - all: 23
+   - killed: 10 (43.5%)
+   - survived: 7 (30.4%)
+   - incompetent: 6 (26.1%)
+   - timeout: 0 (0.0%)

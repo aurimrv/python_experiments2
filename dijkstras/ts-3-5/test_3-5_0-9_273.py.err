@@ -1,48 +1,71 @@
-import pytest
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import dijkstras, WeightedGraph, Vertex
+from dijkstras import dijkstras
 
-@pytest.fixture
-def example_weighted_graph():
-    graph = WeightedGraph()
-    vertices = ['A', 'B', 'C', 'D', 'E']
-    
-    for vertex in vertices:
-        graph.add_vertex(Vertex(vertex))
-    
-    graph.add_edge('A', 'B', 1)
-    graph.add_edge('A', 'C', 4)
-    graph.add_edge('B', 'C', 2)
-    graph.add_edge('B', 'D', 5)
-    graph.add_edge('C', 'D', 1)
-    graph.add_edge('C', 'E', 3)
-    graph.add_edge('D', 'E', 7)
-    
-    return graph
+def test_dijkstras_valid_path():
+    # Test for a valid path between two nodes in the graph
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('A', 'C', 3)
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
 
-def test_dijkstras_shortest_path(example_weighted_graph):
-    assert dijkstras(example_weighted_graph, 'A', 'E') == ['A', 'C', 'D', 'E']
-    assert dijkstras(example_weighted_graph, 'B', 'E') == ['B', 'C', 'D', 'E']
-    assert dijkstras(example_weighted_graph, 'A', 'D') == ['A', 'C', 'D']
-    assert dijkstras(example_weighted_graph, 'B', 'C') == ['B', 'C']
-    assert dijkstras(example_weighted_graph, 'C', 'A') == ['C', 'A']
+def test_dijkstras_no_path():
+    # Test for when there is no path between the source and destination nodes
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-def test_dijkstras_unreachable_destination(example_weighted_graph):
-    assert dijkstras(example_weighted_graph, 'E', 'A') == []
+def test_dijkstras_same_source_destination():
+    # Test for the case where source and destination nodes are the same
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
 
-def test_dijkstras_same_source_and_destination(example_weighted_graph):
-    assert dijkstras(example_weighted_graph, 'A', 'A') == ['A']
-    assert dijkstras(example_weighted_graph, 'D', 'D') == ['D']
-
-def test_dijkstras_invalid_source_or_destination(example_weighted_graph):
+def test_dijkstras_invalid_source():
+    # Test for an invalid source node
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'B'
+    dst = 'A'
     with pytest.raises(KeyError):
-        dijkstras(example_weighted_graph, 'F', 'A')
+        dijkstras(weighted_graph, src, dst)
 
+def test_dijkstras_invalid_destination():
+    # Test for an invalid destination node
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'A'
+    dst = 'B'
     with pytest.raises(KeyError):
-        dijkstras(example_weighted_graph, 'A', 'F')
+        dijkstras(weighted_graph, src, dst)
+
+def test_dijkstras_disconnected_graph():
+    # Test for a graph with disconnected components
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('C', 'D', 2)
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == []

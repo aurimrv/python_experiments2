@@ -1,0 +1,728 @@
+[*] Start mutation process:
+   - targets: combinations.py
+   - tests: ts-3-5/test_3-5_0-2_66.py
+[*] 2 tests passed:
+   - test_3-5_0-2_66 [0.13788 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR combinations: 
+--------------------------------------------------------------------------------
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
++  9:         for j in range(i - 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+  13: 
+--------------------------------------------------------------------------------
+[0.17792 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+>       assert combinations_of_word('a') == ['a']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:16: AssertionError
+   - [#   2] AOR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[i:j - 1])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.20013 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#   3] AOR combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             temp = temp - [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.15595 s] incompetent
+
+TypeError: combinations:41: TypeError: unsupported operand type(s) for -: 'list' and 'list'
+
+   - [#   4] AOR combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             temp = temp + [output - letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.15827 s] incompetent
+
+TypeError: combinations:41: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   5] OIL combinations: 
+--------------------------------------------------------------------------------
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+- 11:     
++ 11:         break
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+--------------------------------------------------------------------------------
+[0.15937 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#   6] OIL combinations: 
+--------------------------------------------------------------------------------
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+- 11:     
++ 11:             break
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+--------------------------------------------------------------------------------
+[0.14762 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#   7] OIL combinations: 
+--------------------------------------------------------------------------------
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+- 43:     
++ 43:         break
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.16164 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+        assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+    
+        # Test case for three-digit input
+>       assert combinations_of_phone_input('234') == ['adg', 'adh', 'adi', 'aeg', 'aeh', 'aei', 'afg', 'afh', 'afi', 'bdg', 'bdh', 'bdi', 'beg', 'beh', 'bei', 'bfg', 'bfh', 'bfi', 'cdg', 'cdh', 'cdi', 'ceg', 'ceh', 'cei', 'cfg', 'cfh', 'cfi']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:29: AssertionError
+   - [#   8] OIL combinations: 
+--------------------------------------------------------------------------------
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
+- 43:     
++ 42:             break
++ 43:         outputs = temp
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.16684 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+   - [#   9] RIL combinations: 
+--------------------------------------------------------------------------------
+   3:     Find all combinations of letters in a word.
+   4: 
+   5:     '''
+   6:     output = []
+-  7:     for i in range(0, len(string)):
++  7:     for i in reversed(range(0, len(string))):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+--------------------------------------------------------------------------------
+[0.16136 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  10] RIL combinations: 
+--------------------------------------------------------------------------------
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
++  9:         for j in reversed(range(i + 1, len(string))):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+  13: 
+--------------------------------------------------------------------------------
+[0.15907 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  11] RIL combinations: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+- 38:     for i in range(1, len(string)):
++ 38:     for i in reversed(range(1, len(string))):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+--------------------------------------------------------------------------------
+[0.16296 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+        assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+    
+        # Test case for three-digit input
+>       assert combinations_of_phone_input('234') == ['adg', 'adh', 'adi', 'aeg', 'aeh', 'aei', 'afg', 'afh', 'afi', 'bdg', 'bdh', 'bdi', 'beg', 'beh', 'bei', 'bfg', 'bfh', 'bfi', 'cdg', 'cdh', 'cdi', 'ceg', 'ceh', 'cei', 'cfg', 'cfh', 'cfi']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:29: AssertionError
+   - [#  12] RIL combinations: 
+--------------------------------------------------------------------------------
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+- 40:         for output in outputs:
++ 40:         for output in reversed(outputs):
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.16316 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+   - [#  13] SDL combinations: 
+--------------------------------------------------------------------------------
+   2:     '''
+   3:     Find all combinations of letters in a word.
+   4: 
+   5:     '''
+-  6:     output = []
++  6:     pass
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+--------------------------------------------------------------------------------
+[0.15736 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+>       assert combinations_of_word('') == []
+
+ts-3-5/test_3-5_0-2_66.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = ''
+
+>   ???
+E   NameError: name 'output' is not defined
+
+combinations:12: NameError
+   - [#  14] SDL combinations: 
+--------------------------------------------------------------------------------
+   4: 
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+-  8:         output.append(string[i])
++  8:         pass
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+--------------------------------------------------------------------------------
+[0.15192 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+>       assert combinations_of_word('a') == ['a']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:16: AssertionError
+   - [#  15] SDL combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             pass
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.16321 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  16] SDL combinations: 
+--------------------------------------------------------------------------------
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+- 12:     return output
++ 12:     pass
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+  16:     Find all permutations of phone numbers in an input of numbers.
+--------------------------------------------------------------------------------
+[0.16851 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+>       assert combinations_of_word('') == []
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:13: AssertionError
+   - [#  17] SDL combinations: 
+--------------------------------------------------------------------------------
+  20:     contain all combinations possible.  Only combinations that are
+  21:     full length using all input numbers in the string.
+  22: 
+  23:     """
+- 24:     phone_mapper = {\
+- 25:         '1': [], \
+- 26:         '2': ['a', 'b', 'c'], \
+- 27:         '3': ['d', 'e', 'f'], \
+- 28:         '4': ['g', 'h', 'i'], \
+- 29:         '5': ['j', 'k', 'l'], \
+- 30:         '6': ['m', 'n', 'o'], \
+- 31:         '7': ['p', 'q', 'r', 's'], \
+- 32:         '8': ['t', 'u', 'v'], \
+- 33:         '9': ['w', 'x', 'y', 'z']}
++ 24:     pass
++ 25:     
++ 26:     
++ 27:     
++ 28:     
++ 29:     
++ 30:     
++ 31:     
++ 32:     
++ 33:     
+  34:     
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+--------------------------------------------------------------------------------
+[0.16516 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+>       assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+
+ts-3-5/test_3-5_0-2_66.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '2'
+
+>   ???
+E   NameError: name 'phone_mapper' is not defined
+
+combinations:36: NameError
+   - [#  18] SDL combinations: 
+--------------------------------------------------------------------------------
+  32:         '8': ['t', 'u', 'v'], \
+  33:         '9': ['w', 'x', 'y', 'z']}
+  34:     
+  35:     
+- 36:     outputs = [letter for letter in phone_mapper[string[0]]]
++ 36:     pass
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+--------------------------------------------------------------------------------
+[0.16736 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+>       assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+
+ts-3-5/test_3-5_0-2_66.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '2'
+
+>   ???
+E   UnboundLocalError: local variable 'outputs' referenced before assignment
+
+combinations:44: UnboundLocalError
+   - [#  19] SDL combinations: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+- 39:         temp = []
++ 39:         pass
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+--------------------------------------------------------------------------------
+[0.19654 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+
+ts-3-5/test_3-5_0-2_66.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '23'
+
+>   ???
+E   UnboundLocalError: local variable 'temp' referenced before assignment
+
+combinations:41: UnboundLocalError
+   - [#  20] SDL combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             pass
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.17615 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+   - [#  21] SDL combinations: 
+--------------------------------------------------------------------------------
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
++ 42:         pass
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.19075 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+   - [#  22] SDL combinations: 
+--------------------------------------------------------------------------------
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+- 44:     return outputs
++ 44:     pass
+--------------------------------------------------------------------------------
+[0.18507 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+>       assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:23: AssertionError
+   - [#  23] SIR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[:j + 1])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.16539 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  24] SIR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[i:])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.16475 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  25] ZIL combinations: 
+--------------------------------------------------------------------------------
+   4: 
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+-  8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++  8:         break
++  9:     
++ 10:     
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.15942 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+>       assert combinations_of_word('a') == ['a']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:16: AssertionError
+   - [#  26] ZIL combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             break
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.17030 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_word
+
+def test_combinations_of_word():
+        # Test case for empty string
+        assert combinations_of_word('') == []
+    
+        # Test case for single character string
+        assert combinations_of_word('a') == ['a']
+    
+        # Test case for a simple word
+>       assert combinations_of_word('cat') == ['c', 'ca', 'cat', 'a', 'at', 't']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:19: AssertionError
+   - [#  27] ZIL combinations: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+- 39:         temp = []
+- 40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
++ 39:         break
++ 40:     
++ 41:     
++ 42:     
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.17168 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+   - [#  28] ZIL combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             break
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.18079 s] killed by ts-3-5/test_3-5_0-2_66.py::test_combinations_of_phone_input
+
+def test_combinations_of_phone_input():
+        # Test case for single digit input
+        assert combinations_of_phone_input('2') == ['a', 'b', 'c']
+    
+        # Test case for two-digit input
+>       assert combinations_of_phone_input('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_66.py:26: AssertionError
+[*] Mutation score [5.67708 s]: 100.0%
+   - all: 28
+   - killed: 26 (92.9%)
+   - survived: 0 (0.0%)
+   - incompetent: 2 (7.1%)
+   - timeout: 0 (0.0%)

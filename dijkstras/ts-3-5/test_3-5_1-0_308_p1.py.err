@@ -6,35 +6,51 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_empty_graph():
-    assert dijkstras({}, 'A', 'B') == []
-
-def test_dijkstras_single_node_graph():
-    weighted_graph = {
-        'A': {}
-    }
-    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
-
-def test_dijkstras_shortest_path():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 3},
-        'B': {'C': 1},
-        'C': {}
-    }
-    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
-
-def test_dijkstras_unreachable_destination():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 3},
-        'B': {'C': 1},
-        'C': {}
-    }
-    assert dijkstras(weighted_graph, 'A', 'D') == []
-
-def test_dijkstras_same_weight_different_paths():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 2},
-        'B': {'C': 1},
-        'C': {}
-    }
-    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+class TestDijkstras:
+    
+    def test_basic_shortest_path(self):
+        class MockVertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+            
+        class MockWeightedGraph:
+            vertices = {
+                'A': MockVertex({'B': 1, 'C': 4}),
+                'B': MockVertex({'A': 1, 'C': 2}),
+                'C': MockVertex({'B': 2, 'D': 5}),
+                'D': MockVertex({'C': 5})
+            }
+        
+        path = dijkstras(MockWeightedGraph(), 'A', 'D')
+        assert path == ['A', 'B', 'C', 'D']
+    
+    def test_shortest_path_loop(self):
+        class MockVertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+            
+        class MockWeightedGraph:
+            vertices = {
+                'A': MockVertex({'B': 1, 'C': 4}),
+                'B': MockVertex({'A': 1, 'C': 2}),
+                'C': MockVertex({'B': 2, 'D': 5}),
+                'D': MockVertex({'C': 5})
+            }
+        
+        path = dijkstras(MockWeightedGraph(), 'A', 'A')
+        assert path == ['A']
+    
+    def test_shortest_path_unreachable(self):
+        class MockVertex:
+            def __init__(self, adjacent):
+                self.adjacent = adjacent
+            
+        class MockWeightedGraph:
+            vertices = {
+                'A': MockVertex({'B': 1}),
+                'B': MockVertex({'A': 1}),
+                'C': MockVertex({})
+            }
+        
+        path = dijkstras(MockWeightedGraph(), 'A', 'C')
+        assert path == []

@@ -7,39 +7,59 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 class TestDijkstras:
-    
     def test_dijkstras_shortest_path(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.vertices = {
-            'A': Vertex('A', {'B': 1, 'C': 4}),
-            'B': Vertex('B', {'A': 1, 'C': 2, 'D': 5}),
-            'C': Vertex('C', {'A': 4, 'B': 2, 'D': 1}),
-            'D': Vertex('D', {'B': 5, 'C': 1})
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
         }
         src = 'A'
         dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+        expected_path = ['A', 'B', 'C', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    def test_dijkstras_shortest_path_same_src_dst(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.vertices = {
-            'A': Vertex('A', {'B': 1, 'C': 4}),
-            'B': Vertex('B', {'A': 1, 'C': 2, 'D': 5}),
-            'C': Vertex('C', {'A': 4, 'B': 2, 'D': 1}),
-            'D': Vertex('D', {'B': 5, 'C': 1})
+    def test_dijkstras_no_path(self):
+        weighted_graph = {
+            'A': {'B': 1},
+            'B': {'A': 1},
+            'C': {}
+        }
+        src = 'A'
+        dst = 'C'
+        expected_path = []
+        assert dijkstras(weighted_graph, src, dst) == expected_path
+
+    def test_dijkstras_same_src_dst(self):
+        weighted_graph = {
+            'A': {'B': 1},
+            'B': {'A': 1},
+            'C': {}
         }
         src = 'A'
         dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == ['A']
+        expected_path = ['A']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    def test_dijkstras_no_path(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.vertices = {
-            'A': Vertex('A', {'B': 1, 'C': 4}),
-            'B': Vertex('B', {'A': 1, 'C': 2, 'D': 5}),
-            'C': Vertex('C', {'A': 4, 'B': 2}),
-            'D': Vertex('D', {'B': 5})
+    def test_dijkstras_multiple_paths(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
         }
         src = 'A'
         dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == []
+        expected_path = ['A', 'B', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
+
+    def test_dijkstras_unreachable_dst(self):
+        weighted_graph = {
+            'A': {'B': 1},
+            'B': {'A': 1},
+            'C': {}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = []
+        assert dijkstras(weighted_graph, src, dst) == expected_path

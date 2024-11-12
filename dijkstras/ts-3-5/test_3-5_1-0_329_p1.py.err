@@ -1,38 +1,74 @@
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_shortest_path():
-    class Vertex:
-        def __init__(self, label):
-            self.label = label
-            self.adjacent = {}
+class TestDijkstras:
+    def test_shortest_path_case1(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
+    def test_shortest_path_case2(self):
+        weighted_graph = {
+            'A': {'B': 3, 'C': 2},
+            'B': {'A': 3, 'D': 1},
+            'C': {'A': 2, 'D': 3},
+            'D': {'B': 1, 'C': 3}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
 
-    # Create a simple test weighted graph
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v4 = Vertex('D')
+    def test_shortest_path_case3(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 4},
+            'B': {'A': 2, 'D': 3},
+            'C': {'A': 4, 'D': 6},
+            'D': {'B': 3, 'C': 6}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
 
-    v1.adjacent[v2] = 1
-    v1.adjacent[v3] = 4
-    v2.adjacent[v3] = 2
-    v2.adjacent[v4] = 5
-    v3.adjacent[v4] = 1
+    def test_shortest_path_case4(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 5},
+            'B': {'A': 2, 'C': 2, 'D': 6},
+            'C': {'A': 5, 'B': 2, 'D': 3},
+            'D': {'B': 6, 'C': 3}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
 
-    graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+    def test_shortest_path_case5(self):
+        weighted_graph = {
+            'A': {'B': 5, 'C': 2},
+            'B': {'A': 5, 'D': 4},
+            'C': {'A': 2, 'D': 7},
+            'D': {'B': 4, 'C': 7}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
-    assert dijkstras(graph, 'A', 'B') == ['A', 'B']
-    assert dijkstras(graph, 'B', 'D') == ['B', 'C', 'D']
-    assert dijkstras(graph, 'C', 'A') == ['C', 'A'] 
+    def test_shortest_path_case6(self):
+        weighted_graph = {
+            'A': {'B': 3, 'C': 6},
+            'B': {'A': 3, 'D': 2},
+            'C': {'A': 6, 'D': 4},
+            'D': {'B': 2, 'C': 4}
+        }
+        src = 'A'
+        dst = 'D'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']

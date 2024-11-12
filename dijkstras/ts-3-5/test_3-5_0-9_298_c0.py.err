@@ -1,0 +1,65 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_simple():
+    graph = Graph()
+    
+    A = Vertex('A')
+    B = Vertex('B')
+    C = Vertex('C')
+    D = Vertex('D')
+    
+    graph.add_vertex(A)
+    graph.add_vertex(B)
+    graph.add_vertex(C)
+    graph.add_vertex(D)
+    
+    graph.add_edge(A, B, 1)
+    graph.add_edge(A, C, 4)
+    graph.add_edge(B, C, 2)
+    graph.add_edge(B, D, 5)
+    graph.add_edge(C, D, 1)
+    
+    result = dijkstras(graph, 'A', 'D')
+    
+    assert result == ['A', 'C', 'D']
+    
+def test_dijkstras_no_path():
+    graph = Graph()
+    
+    A = Vertex('A')
+    B = Vertex('B')
+    C = Vertex('C')
+    D = Vertex('D')
+    
+    graph.add_vertex(A)
+    graph.add_vertex(B)
+    graph.add_vertex(C)
+    graph.add_vertex(D)
+    
+    graph.add_edge(A, B, 2)
+    graph.add_edge(A, C, 3)
+    graph.add_edge(B, C, 1)
+    graph.add_edge(B, D, 4)
+    
+    result = dijkstras(graph, 'A', 'D')
+    
+    assert result == []
+
+def test_dijkstras_same_node():
+    graph = Graph()
+    
+    A = Vertex('A')
+    
+    graph.add_vertex(A)
+    
+    result = dijkstras(graph, 'A', 'A')
+    
+    assert result == ['A']

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #19</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number6').attr('title', 'SDL');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #19</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'dijkstras' from '/home/lucca/teste/python_experiments2/dijkstras/./dijkstras.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>ts-3-5/test_3-5_1-0_327.py::TestDijkstras::test_shortest_path_case1</code></li>
+    
+    <li>duration - 0.208 s</li>
+    
+    
+    <li>tests run - 1</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>self = <test_3-5_1-0_327.TestDijkstras object at 0x7f9fb98e27d0>
+
+    def test_shortest_path_case1(self):
+        # Test case with a simple graph
+        class Vertex:
+            def __init__(self, value):
+                self.value = value
+                self.adjacent = {}
+    
+        class Graph:
+            def __init__(self):
+                self.vertices = {}
+    
+        graph = Graph()
+        graph.vertices = {
+            'A': Vertex('A'),
+            'B': Vertex('B'),
+            'C': Vertex('C')
+        }
+        graph.vertices['A'].adjacent = {'B': 3, 'C': 1}
+        graph.vertices['B'].adjacent = {'C': 2}
+    
+>       result = dijkstras(graph, 'A', 'C')
+
+ts-3-5/test_3-5_1-0_327.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weighted_graph = <test_3-5_1-0_327.TestDijkstras.test_shortest_path_case1.<locals>.Graph object at 0x7f9fb98e17b0>
+src = 'A', dst = 'C'
+
+>   ???
+E   NameError: name 'dist' is not defined
+
+dijkstras:12: NameError</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>SDL - line 6</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [6]; toolbar: false;">from functools import reduce
+
+def dijkstras(weighted_graph, src, dst):
+    
+    vertices = set()
+    pass
+    prev = {}
+    
+    
+    for vertex in weighted_graph.vertices:
+        vertices.add(vertex)
+        dist[vertex] = float('inf')
+        prev[vertex] = None
+    
+    dist[src] = 0
+    
+    while vertices:
+        min_dist_node = min(list(filter((lambda x: (x[0] in vertices)), dist.items())), key=lambda x: (x[1]))[0]
+        
+        if min_dist_node == dst:
+            break
+        
+        vertices.remove(min_dist_node)
+        
+        for neighbor in weighted_graph.vertices[min_dist_node].adjacent:
+            
+            distance = weighted_graph.vertices[min_dist_node].adjacent[neighbor]
+            
+            if distance < dist[neighbor]:
+                dist[neighbor] = distance
+                prev[neighbor] = min_dist_node
+    
+    
+    path = []
+    current = dst
+    while prev[current]:
+        path.append(current)
+        current = prev[current]
+    path.append(current)
+    
+    return path[::-1]</pre>
+
+    </div>
+</body>
+</html>

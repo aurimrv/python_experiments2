@@ -1,0 +1,57 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+from dijkstras import WeightedGraph
+from dijkstras import Vertex
+
+class TestDijkstras:
+    def test_dijkstras_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        
+        vertex_a = Vertex()
+        vertex_b = Vertex()
+        vertex_c = Vertex()
+        vertex_d = Vertex()
+        
+        vertex_a.adjacent = {vertex_b: 1, vertex_c: 4}
+        vertex_b.adjacent = {vertex_a: 1, vertex_d: 2, vertex_c: 3}
+        vertex_c.adjacent = {vertex_a: 4, vertex_b: 3, vertex_d: 5}
+        vertex_d.adjacent = {vertex_b: 2, vertex_c: 5}
+        
+        weighted_graph.vertices = {
+            'A': vertex_a,
+            'B': vertex_b,
+            'C': vertex_c,
+            'D': vertex_d
+        }
+        
+        src = 'A'
+        dst = 'D'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+
+    def test_dijkstras_no_path(self):
+        weighted_graph = WeightedGraph()
+        
+        vertex_a = Vertex()
+        vertex_b = Vertex()
+        vertex_c = Vertex()
+        
+        vertex_a.adjacent = {vertex_b: 1}
+        vertex_b.adjacent = {vertex_a: 1}
+        vertex_c.adjacent = {}
+        
+        weighted_graph.vertices = {
+            'A': vertex_a,
+            'B': vertex_b,
+            'C': vertex_c
+        }
+        
+        src = 'A'
+        dst = 'C'
+        
+        assert dijkstras(weighted_graph, src, dst) == []

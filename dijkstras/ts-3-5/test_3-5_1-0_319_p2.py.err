@@ -1,0 +1,44 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+from weighted_graph import WeightedGraph
+
+class TestDijkstrasAlgorithm:
+
+    def test_shortest_path_found(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 4)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 5)
+        weighted_graph.add_edge('C', 'D', 1)
+        shortest_path = dijkstras(weighted_graph, 'A', 'D')
+        assert shortest_path == ['A', 'C', 'D']
+
+    def test_no_path_found(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('C', 'D', 3)
+        shortest_path = dijkstras(weighted_graph, 'D', 'A')
+        assert shortest_path == []
+
+    def test_same_source_and_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        shortest_path = dijkstras(weighted_graph, 'B', 'B')
+        assert shortest_path == ['B']
+
+    def test_multiple_paths_same_length(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 3)
+        weighted_graph.add_edge('C', 'D', 3)
+        shortest_path = dijkstras(weighted_graph, 'A', 'D')
+        assert shortest_path in [['A', 'B', 'D'], ['A', 'C', 'D']]

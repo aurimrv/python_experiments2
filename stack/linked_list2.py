@@ -85,3 +85,4 @@ class LinkedList(object):
             display += str(curr.data) + ', '
             curr = curr.next
         return display[:-2] + ')'
+

@@ -1,0 +1,42 @@
+import os
+import sys
+import pytest
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph
+
+@pytest.fixture
+def weighted_graph():
+    graph = WeightedGraph()
+    
+    vertices = {'A', 'B', 'C', 'D', 'E'}
+    for v in vertices:
+        graph.add_vertex(v)
+        
+    graph.add_edge('A', 'B', 1)
+    graph.add_edge('A', 'C', 3)
+    graph.add_edge('B', 'C', 2)
+    graph.add_edge('B', 'D', 4)
+    graph.add_edge('C', 'D', 1)
+    graph.add_edge('C', 'E', 5)
+    graph.add_edge('D', 'E', 1)
+    
+    return graph
+
+def test_dijkstras_shortest_path(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'E') == ['A', 'B', 'C', 'D', 'E']
+    
+def test_dijkstras_start_and_end_same_vertex(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+    
+def test_dijkstras_no_path_exists(weighted_graph):
+    assert dijkstras(weighted_graph, 'D', 'A') == []    
+
+def test_dijkstras_path_with_single_edge(weighted_graph):
+    assert dijkstras(weighted_graph, 'B', 'D') == ['B', 'C', 'D']
+    
+def test_dijkstras_path_with_negative_weight(weighted_graph):
+    weighted_graph.add_edge('C', 'B', -2)
+    assert dijkstras(weighted_graph, 'A', 'E') == ['A', 'C', 'B', 'D', 'E']

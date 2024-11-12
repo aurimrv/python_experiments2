@@ -1,0 +1,1497 @@
+[*] Start mutation process:
+   - targets: priority_queue1.py
+   - tests: ./ALL-SMART
+[*] 4 tests passed:
+   - test_priority_queue1_MOSA [0.15837 s]
+   - test_priority_queue1_MIO [0.08384 s]
+   - test_priority_queue1_WHOLE_SUITE [0.06692 s]
+   - test_priority_queue1_DYNAMOSA [0.06772 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
++ 24:         entry[1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.06626 s] incompetent
+
+TypeError: priority_queue1:20: TypeError: '<' not supported between instances of 'int' and 'str'
+
+   - [#   2] AOR priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
++ 24:         entry[+1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.06702 s] incompetent
+
+TypeError: priority_queue1:20: TypeError: '<' not supported between instances of 'int' and 'str'
+
+   - [#   3] AOR priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+- 31:                 priority = min(0, entry[0] - 1)
++ 31:                 priority = min(0, entry[0] + 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.17410 s] survived
+   - [#   4] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+- 11:     def __init__(self):
+- 12:         pass
+- 13:     
++ 11:     @classmethod
++ 12:     def __init__(self):
++ 13:         pass
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+--------------------------------------------------------------------------------
+[0.18273 s] survived
+   - [#   5] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+- 14:     def add_task(self, task, priority=0):
+- 15:         if task in self.mapper:
+- 16:             self.remove_task(task)
+- 17:         count = next(self.counter)
+- 18:         entry = [priority, count, task]
+- 19:         self.mapper[task] = entry
+- 20:         heappush(self.pq, entry)
+- 21:     
++ 14:     @classmethod
++ 15:     def add_task(self, task, priority=0):
++ 16:         if task in self.mapper:
++ 17:             self.remove_task(task)
++ 18:         count = next(self.counter)
++ 19:         entry = [priority, count, task]
++ 20:         self.mapper[task] = entry
++ 21:         heappush(self.pq, entry)
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+--------------------------------------------------------------------------------
+[0.06882 s] incompetent
+
+TypeError: priority_queue1:17: TypeError: PriorityQueue.remove_task() missing 1 required positional argument: 'task'
+
+   - [#   6] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+- 22:     def remove_task(self, task):
+- 23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
+- 25:     
++ 22:     @classmethod
++ 23:     def remove_task(self, task):
++ 24:         entry = self.mapper.pop(task)
++ 25:         entry[-1] = self.REMOVED
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+--------------------------------------------------------------------------------
+[0.17531 s] survived
+   - [#   7] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+- 26:     def set_priority(self, task, priority=None):
+- 27:         if task in self.mapper:
+- 28:             entry = self.mapper.pop(task)
+- 29:             
+- 30:             if not priority:
+- 31:                 priority = min(0, entry[0] - 1)
+- 32:             
+- 33:             self.add_task(entry[2], priority)
+- 34:     
++ 26:     @classmethod
++ 27:     def set_priority(self, task, priority=None):
++ 28:         if task in self.mapper:
++ 29:             entry = self.mapper.pop(task)
++ 30:             
++ 31:             if not priority:
++ 32:                 priority = min(0, entry[0] - 1)
++ 33:             
++ 34:             self.add_task(entry[2], priority)
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+--------------------------------------------------------------------------------
+[0.18897 s] survived
+   - [#   8] CDI priority_queue1: 
+--------------------------------------------------------------------------------
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+- 35:     def pop_task(self):
+- 36:         while self.pq:
+- 37:             (_, _, task) = heappop(self.pq)
+- 38:             if task is not self.REMOVED:
+- 39:                 del self.mapper[task]
+- 40:                 return task
+- 41:         raise KeyError('Pop from empty priority queue.')
++ 35:     @classmethod
++ 36:     def pop_task(self):
++ 37:         while self.pq:
++ 38:             (_, _, task) = heappop(self.pq)
++ 39:             if task is not self.REMOVED:
++ 40:                 del self.mapper[task]
++ 41:                 return task
++ 42:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.19483 s] survived
+   - [#   9] COD priority_queue1: 
+--------------------------------------------------------------------------------
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+- 30:             if not priority:
++ 30:             if priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+--------------------------------------------------------------------------------
+[0.18918 s] survived
+   - [#  10] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+- 15:         if task in self.mapper:
++ 15:         if not (task in self.mapper):
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.06839 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfe9ff0>, task = None
+
+>   ???
+E   KeyError: None
+
+priority_queue1:23: KeyError
+   - [#  11] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+- 15:         if task in self.mapper:
++ 15:         if task not in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.07019 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfeb070>, task = None
+
+>   ???
+E   KeyError: None
+
+priority_queue1:23: KeyError
+   - [#  12] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+- 27:         if task in self.mapper:
++ 27:         if not (task in self.mapper):
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.06865 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+        var_2 = priority_queue_2.pop_task()
+>       var_3 = priority_queue_2.set_priority(var_1)
+
+ALL-SMART/test_priority_queue1_MOSA.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bff25f0>, task = None
+priority = None
+
+>   ???
+E   KeyError: None
+
+priority_queue1:28: KeyError
+   - [#  13] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+- 27:         if task in self.mapper:
++ 27:         if task not in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.08509 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+        var_2 = priority_queue_2.pop_task()
+>       var_3 = priority_queue_2.set_priority(var_1)
+
+ALL-SMART/test_priority_queue1_MOSA.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be7ce20>, task = None
+priority = None
+
+>   ???
+E   KeyError: None
+
+priority_queue1:28: KeyError
+   - [#  14] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+- 30:             if not priority:
++ 30:             if not ((not priority)):
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+--------------------------------------------------------------------------------
+[0.17562 s] survived
+   - [#  15] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+- 36:         while self.pq:
++ 36:         while not (self.pq):
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+--------------------------------------------------------------------------------
+[0.06787 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0a1d20>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+   - [#  16] COI priority_queue1: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+- 38:             if task is not self.REMOVED:
++ 38:             if not (task is not self.REMOVED):
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06757 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0c2890>
+
+>   ???
+E   KeyError: '__removed-task__'
+
+priority_queue1:39: KeyError
+   - [#  17] OIL priority_queue1: 
+--------------------------------------------------------------------------------
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+- 41:         raise KeyError('Pop from empty priority queue.')
++ 41:             break
++ 42:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06923 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0c2d10>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+   - [#  18] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+- 11:     def __init__(self):
+- 12:         pass
+- 13:     
++ 11:     @staticmethod
++ 12:     def __init__(self):
++ 13:         pass
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+--------------------------------------------------------------------------------
+[0.06721 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue1/ALL-SMART/test_priority_queue1_MOSA.py:10: TypeError: PriorityQueue.__init__() missing 1 required positional argument: 'self'
+
+   - [#  19] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+- 14:     def add_task(self, task, priority=0):
+- 15:         if task in self.mapper:
+- 16:             self.remove_task(task)
+- 17:         count = next(self.counter)
+- 18:         entry = [priority, count, task]
+- 19:         self.mapper[task] = entry
+- 20:         heappush(self.pq, entry)
+- 21:     
++ 14:     @staticmethod
++ 15:     def add_task(self, task, priority=0):
++ 16:         if task in self.mapper:
++ 17:             self.remove_task(task)
++ 18:         count = next(self.counter)
++ 19:         entry = [priority, count, task]
++ 20:         self.mapper[task] = entry
++ 21:         heappush(self.pq, entry)
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+--------------------------------------------------------------------------------
+[0.06787 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue1/ALL-SMART/test_priority_queue1_MOSA.py:12: TypeError: PriorityQueue.add_task() missing 1 required positional argument: 'task'
+
+   - [#  20] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+- 22:     def remove_task(self, task):
+- 23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
+- 25:     
++ 22:     @staticmethod
++ 23:     def remove_task(self, task):
++ 24:         entry = self.mapper.pop(task)
++ 25:         entry[-1] = self.REMOVED
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+--------------------------------------------------------------------------------
+[0.06842 s] incompetent
+
+TypeError: priority_queue1:16: TypeError: PriorityQueue.remove_task() missing 1 required positional argument: 'task'
+
+   - [#  21] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+- 26:     def set_priority(self, task, priority=None):
+- 27:         if task in self.mapper:
+- 28:             entry = self.mapper.pop(task)
+- 29:             
+- 30:             if not priority:
+- 31:                 priority = min(0, entry[0] - 1)
+- 32:             
+- 33:             self.add_task(entry[2], priority)
+- 34:     
++ 26:     @staticmethod
++ 27:     def set_priority(self, task, priority=None):
++ 28:         if task in self.mapper:
++ 29:             entry = self.mapper.pop(task)
++ 30:             
++ 31:             if not priority:
++ 32:                 priority = min(0, entry[0] - 1)
++ 33:             
++ 34:             self.add_task(entry[2], priority)
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+--------------------------------------------------------------------------------
+[0.06711 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue1/ALL-SMART/test_priority_queue1_MOSA.py:17: TypeError: PriorityQueue.set_priority() missing 1 required positional argument: 'task'
+
+   - [#  22] SDI priority_queue1: 
+--------------------------------------------------------------------------------
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+- 35:     def pop_task(self):
+- 36:         while self.pq:
+- 37:             (_, _, task) = heappop(self.pq)
+- 38:             if task is not self.REMOVED:
+- 39:                 del self.mapper[task]
+- 40:                 return task
+- 41:         raise KeyError('Pop from empty priority queue.')
++ 35:     @staticmethod
++ 36:     def pop_task(self):
++ 37:         while self.pq:
++ 38:             (_, _, task) = heappop(self.pq)
++ 39:             if task is not self.REMOVED:
++ 40:                 del self.mapper[task]
++ 41:                 return task
++ 42:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06803 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue1/ALL-SMART/test_priority_queue1_MOSA.py:16: TypeError: PriorityQueue.pop_task() missing 1 required positional argument: 'self'
+
+   - [#  23] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   2: from heapq import heappush, heappop
+   3: 
+   4: class PriorityQueue:
+   5:     
+-  6:     pq = []
++  6:     pass
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+--------------------------------------------------------------------------------
+[0.06999 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfe99f0>, task = None
+priority = 0
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'pq'
+
+priority_queue1:20: AttributeError
+   - [#  24] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   3: 
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+-  7:     mapper = {}
++  7:     pass
+   8:     REMOVED = '__removed-task__'
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+--------------------------------------------------------------------------------
+[0.06803 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0a30a0>, task = None
+priority = 0
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'mapper'
+
+priority_queue1:15: AttributeError
+   - [#  25] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   4: class PriorityQueue:
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+-  8:     REMOVED = '__removed-task__'
++  8:     pass
+   9:     counter = itertools.count()
+  10:     
+  11:     def __init__(self):
+  12:         pass
+--------------------------------------------------------------------------------
+[0.06787 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+>       assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+E       AttributeError: type object 'PriorityQueue' has no attribute 'REMOVED'
+
+ALL-SMART/test_priority_queue1_MOSA.py:11: AttributeError
+   - [#  26] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+   5:     
+   6:     pq = []
+   7:     mapper = {}
+   8:     REMOVED = '__removed-task__'
+-  9:     counter = itertools.count()
++  9:     pass
+  10:     
+  11:     def __init__(self):
+  12:         pass
+  13:     
+--------------------------------------------------------------------------------
+[0.07177 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be7a920>, task = None
+priority = 0
+
+>   ???
+E   AttributeError: 'PriorityQueue' object has no attribute 'counter'
+
+priority_queue1:17: AttributeError
+   - [#  27] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+- 16:             self.remove_task(task)
++ 16:             pass
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+--------------------------------------------------------------------------------
+[0.07719 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_3
+
+def test_case_3():
+        bytes_0 = b'G"\xc8D\xb0\xc6\xaaU:s\x18&\xc6s'
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        priority_queue_1 = module_0.PriorityQueue()
+        var_0 = priority_queue_1.set_priority(bytes_0, bytes_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bd63760>
+
+>   ???
+E   KeyError: None
+
+priority_queue1:39: KeyError
+   - [#  28] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+- 17:         count = next(self.counter)
++ 17:         pass
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+--------------------------------------------------------------------------------
+[0.07135 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c03bcd0>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'count' is not defined
+
+priority_queue1:18: NameError
+   - [#  29] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+- 18:         entry = [priority, count, task]
++ 18:         pass
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+--------------------------------------------------------------------------------
+[0.07199 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0b5840>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'entry' is not defined
+
+priority_queue1:19: NameError
+   - [#  30] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+- 19:         self.mapper[task] = entry
++ 19:         pass
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.06896 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c094130>
+
+>   ???
+E   KeyError: None
+
+priority_queue1:39: KeyError
+   - [#  31] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+- 20:         heappush(self.pq, entry)
++ 20:         pass
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+--------------------------------------------------------------------------------
+[0.06860 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bef8550>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+   - [#  32] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+- 23:         entry = self.mapper.pop(task)
++ 23:         pass
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+--------------------------------------------------------------------------------
+[0.06975 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be7faf0>, task = None
+
+>   ???
+E   NameError: name 'entry' is not defined
+
+priority_queue1:24: NameError
+   - [#  33] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
++ 24:         pass
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.08254 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_3
+
+def test_case_3():
+        bytes_0 = b'G"\xc8D\xb0\xc6\xaaU:s\x18&\xc6s'
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        priority_queue_1 = module_0.PriorityQueue()
+        var_0 = priority_queue_1.set_priority(bytes_0, bytes_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30befac20>
+
+>   ???
+E   KeyError: None
+
+priority_queue1:39: KeyError
+   - [#  34] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+- 28:             entry = self.mapper.pop(task)
++ 28:             pass
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+--------------------------------------------------------------------------------
+[0.20267 s] survived
+   - [#  35] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+- 31:                 priority = min(0, entry[0] - 1)
++ 31:                 pass
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+--------------------------------------------------------------------------------
+[0.19371 s] survived
+   - [#  36] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+- 33:             self.add_task(entry[2], priority)
++ 33:             pass
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+--------------------------------------------------------------------------------
+[0.19237 s] survived
+   - [#  37] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+- 37:             (_, _, task) = heappop(self.pq)
++ 37:             pass
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.08382 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfea6e0>
+
+>   ???
+E   NameError: name 'task' is not defined
+
+priority_queue1:38: NameError
+   - [#  38] SDL priority_queue1: 
+--------------------------------------------------------------------------------
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+- 40:                 return task
++ 40:                 pass
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.07153 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be5d6c0>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+   - [#  39] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  11:     def __init__(self):
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+- 15:         if task in self.mapper:
++ 15:         if task in mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+--------------------------------------------------------------------------------
+[0.06938 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bd3d870>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:15: NameError
+   - [#  40] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  12:         pass
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+- 16:             self.remove_task(task)
++ 16:             remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+--------------------------------------------------------------------------------
+[0.06983 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be7bb50>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'remove_task' is not defined
+
+priority_queue1:16: NameError
+   - [#  41] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     def add_task(self, task, priority=0):
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+- 17:         count = next(self.counter)
++ 17:         count = next(counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+--------------------------------------------------------------------------------
+[0.07032 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be79120>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'counter' is not defined
+
+priority_queue1:17: NameError
+   - [#  42] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  15:         if task in self.mapper:
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+- 19:         self.mapper[task] = entry
++ 19:         mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.06616 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0a2dd0>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:19: NameError
+   - [#  43] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  16:             self.remove_task(task)
+  17:         count = next(self.counter)
+  18:         entry = [priority, count, task]
+  19:         self.mapper[task] = entry
+- 20:         heappush(self.pq, entry)
++ 20:         heappush(pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+--------------------------------------------------------------------------------
+[0.07019 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+>       var_0 = priority_queue_0.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c0a0a00>, task = None
+priority = 0
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:20: NameError
+   - [#  44] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  19:         self.mapper[task] = entry
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+- 23:         entry = self.mapper.pop(task)
++ 23:         entry = mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+--------------------------------------------------------------------------------
+[0.07007 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30be79720>, task = None
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:23: NameError
+   - [#  45] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  20:         heappush(self.pq, entry)
+  21:     
+  22:     def remove_task(self, task):
+  23:         entry = self.mapper.pop(task)
+- 24:         entry[-1] = self.REMOVED
++ 24:         entry[-1] = REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+  28:             entry = self.mapper.pop(task)
+--------------------------------------------------------------------------------
+[0.07051 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+>       var_1 = priority_queue_1.add_task(none_type_0)
+
+ALL-SMART/test_priority_queue1_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+priority_queue1:16: in add_task
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfd58a0>, task = None
+
+>   ???
+E   NameError: name 'REMOVED' is not defined
+
+priority_queue1:24: NameError
+   - [#  46] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  23:         entry = self.mapper.pop(task)
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+- 27:         if task in self.mapper:
++ 27:         if task in mapper:
+  28:             entry = self.mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+--------------------------------------------------------------------------------
+[0.07102 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+        var_2 = priority_queue_2.pop_task()
+>       var_3 = priority_queue_2.set_priority(var_1)
+
+ALL-SMART/test_priority_queue1_MOSA.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfead40>, task = None
+priority = None
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:27: NameError
+   - [#  47] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  24:         entry[-1] = self.REMOVED
+  25:     
+  26:     def set_priority(self, task, priority=None):
+  27:         if task in self.mapper:
+- 28:             entry = self.mapper.pop(task)
++ 28:             entry = mapper.pop(task)
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+--------------------------------------------------------------------------------
+[0.17962 s] survived
+   - [#  48] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  29:             
+  30:             if not priority:
+  31:                 priority = min(0, entry[0] - 1)
+  32:             
+- 33:             self.add_task(entry[2], priority)
++ 33:             add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+--------------------------------------------------------------------------------
+[0.17623 s] survived
+   - [#  49] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  32:             
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+- 36:         while self.pq:
++ 36:         while pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+--------------------------------------------------------------------------------
+[0.06452 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c03a830>
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:36: NameError
+   - [#  50] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+- 37:             (_, _, task) = heappop(self.pq)
++ 37:             (_, _, task) = heappop(pq)
+  38:             if task is not self.REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06638 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30c03b7c0>
+
+>   ???
+E   NameError: name 'pq' is not defined
+
+priority_queue1:37: NameError
+   - [#  51] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+- 38:             if task is not self.REMOVED:
++ 38:             if task is not REMOVED:
+  39:                 del self.mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06853 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfe8130>
+
+>   ???
+E   NameError: name 'REMOVED' is not defined
+
+priority_queue1:38: NameError
+   - [#  52] SVD priority_queue1: 
+--------------------------------------------------------------------------------
+  35:     def pop_task(self):
+  36:         while self.pq:
+  37:             (_, _, task) = heappop(self.pq)
+  38:             if task is not self.REMOVED:
+- 39:                 del self.mapper[task]
++ 39:                 del mapper[task]
+  40:                 return task
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06989 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfd7010>
+
+>   ???
+E   NameError: name 'mapper' is not defined
+
+priority_queue1:39: NameError
+   - [#  53] ZIL priority_queue1: 
+--------------------------------------------------------------------------------
+  33:             self.add_task(entry[2], priority)
+  34:     
+  35:     def pop_task(self):
+  36:         while self.pq:
+- 37:             (_, _, task) = heappop(self.pq)
+- 38:             if task is not self.REMOVED:
+- 39:                 del self.mapper[task]
+- 40:                 return task
++ 37:             break
++ 38:         
++ 39:         
++ 40:         
+  41:         raise KeyError('Pop from empty priority queue.')
+--------------------------------------------------------------------------------
+[0.06740 s] killed by ALL-SMART/test_priority_queue1_MOSA.py::test_case_0
+
+def test_case_0():
+        none_type_0 = None
+        priority_queue_0 = module_0.PriorityQueue()
+        assert module_0.PriorityQueue.REMOVED == "__removed-task__"
+        var_0 = priority_queue_0.add_task(none_type_0)
+        priority_queue_1 = module_0.PriorityQueue()
+        var_1 = priority_queue_1.add_task(none_type_0)
+        priority_queue_2 = module_0.PriorityQueue()
+>       var_2 = priority_queue_2.pop_task()
+
+ALL-SMART/test_priority_queue1_MOSA.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue1.PriorityQueue object at 0x7eb30bfea290>
+
+>   ???
+E   KeyError: 'Pop from empty priority queue.'
+
+priority_queue1:41: KeyError
+[*] Mutation score [6.83735 s]: 73.3%
+   - all: 53
+   - killed: 33 (62.3%)
+   - survived: 12 (22.6%)
+   - incompetent: 8 (15.1%)
+   - timeout: 0 (0.0%)

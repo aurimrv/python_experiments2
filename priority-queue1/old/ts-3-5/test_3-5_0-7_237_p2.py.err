@@ -1,0 +1,33 @@
+import os
+import sys
+from priority_queue1 import PriorityQueue
+
+def test_add_task():
+    pq = PriorityQueue()
+    pq.add_task("Task1", 1)
+    assert len(pq.pq) == 1
+    assert pq.mapper["Task1"][0] == 1
+
+    pq.add_task("Task2", 2)
+    assert len(pq.pq) == 2
+    assert pq.mapper["Task2"][0] == 2
+
+def test_remove_task():
+    pq = PriorityQueue()
+    pq.add_task("Task1", 1)
+    pq.remove_task("Task1")
+    assert len(pq.pq) == 0
+    assert "Task1" not in pq.mapper
+
+def test_set_priority():
+    pq = PriorityQueue()
+    pq.add_task("Task1", 1)
+    pq.set_priority("Task1", 2)
+    assert pq.mapper["Task1"][0] == 2
+
+def test_pop_task():
+    pq = PriorityQueue()
+    pq.add_task("Task1", 1)
+    pq.add_task("Task2", 2)
+    assert pq.pop_task() == "Task2"
+    assert len(pq.pq) == 1

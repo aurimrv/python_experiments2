@@ -1,0 +1,68 @@
+import os
+import sys
+import itertools
+from heapq import heappush, heappop
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+
+def test_add_task():
+    pq = PriorityQueue()
+    
+    pq.add_task('task1', 3)
+    assert pq.pq == [[3, 0, 'task1']]
+    assert pq.mapper == {'task1': [3, 0, 'task1']}
+    
+    pq.add_task('task2', 1)
+    assert pq.pq == [[1, 1, 'task2'], [3, 0, 'task1']]
+    assert pq.mapper == {'task1': [3, 0, 'task1'], 'task2': [1, 1, 'task2']}
+
+def test_remove_task():
+    pq = PriorityQueue()
+    
+    pq.add_task('task1', 3)
+    pq.add_task('task2', 1)
+    
+    pq.remove_task('task1')
+    assert pq.pq == [[1, 1, 'task2']]
+    assert pq.mapper == {'task2': [1, 1, 'task2']}
+    
+    pq.remove_task('task2')
+    assert pq.pq == []
+    assert pq.mapper == {}
+
+def test_set_priority():
+    pq = PriorityQueue()
+    
+    pq.add_task('task1', 3)
+    pq.add_task('task2', 1)
+    
+    pq.set_priority('task1', 2)
+    assert pq.pq == [[1, 1, 'task2'], [2, 2, 'task1']]
+    assert pq.mapper == {'task1': [2, 2, 'task1'], 'task2': [1, 1, 'task2']}
+    
+    pq.set_priority('task2', 0)
+    assert pq.pq == [[0, 0, 'task2'], [2, 2, 'task1']]
+    assert pq.mapper == {'task1': [2, 2, 'task1'], 'task2': [0, 0, 'task2']}
+
+def test_pop_task():
+    pq = PriorityQueue()
+    
+    pq.add_task('task1', 3)
+    pq.add_task('task2', 1)
+    
+    assert pq.pop_task() == 'task2'
+    assert pq.pq == [[3, 0, 'task1']]
+    assert pq.mapper == {'task1': [3, 0, 'task1']}
+    
+    assert pq.pop_task() == 'task1'
+    assert pq.pq == []
+    assert pq.mapper == {}
+
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

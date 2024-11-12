@@ -1,0 +1,195 @@
+[*] Start mutation process:
+   - targets: factorial.py
+   - tests: ts-3-5/test_3-5_0-8_241.py
+[*] 6 tests passed:
+   - test_3-5_0-8_241 [0.12317 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x / y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14688 s] killed by ts-3-5/test_3-5_0-8_241.py::test_factorial_valid_input[5-120]
+
+n = 5, expected = 120
+
+    @pytest.mark.parametrize("n, expected", [
+        (0, 0),
+        (1, 1),
+        (5, 120),
+        (10, 3628800)
+    ])
+    def test_factorial_valid_input(n, expected):
+>       assert factorial(n) == expected
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:18: AssertionError
+   - [#   2] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x // y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14505 s] killed by ts-3-5/test_3-5_0-8_241.py::test_factorial_valid_input[5-120]
+
+n = 5, expected = 120
+
+    @pytest.mark.parametrize("n, expected", [
+        (0, 0),
+        (1, 1),
+        (5, 120),
+        (10, 3628800)
+    ])
+    def test_factorial_valid_input(n, expected):
+>       assert factorial(n) == expected
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:18: AssertionError
+   - [#   3] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x ** y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.15258 s] killed by ts-3-5/test_3-5_0-8_241.py::test_factorial_valid_input[5-120]
+
+n = 5, expected = 120
+
+    @pytest.mark.parametrize("n, expected", [
+        (0, 0),
+        (1, 1),
+        (5, 120),
+        (10, 3628800)
+    ])
+    def test_factorial_valid_input(n, expected):
+>       assert factorial(n) == expected
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:18: AssertionError
+   - [#   4] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x * y)), range(1, n - 1))
+--------------------------------------------------------------------------------
+[0.13982 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   5] COI factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if not (n <= 0):
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14369 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   6] ROR factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if n >= 0:
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14688 s] killed by ts-3-5/test_3-5_0-8_241.py::test_factorial_valid_input[1-1]
+
+n = 1, expected = 1
+
+    @pytest.mark.parametrize("n, expected", [
+        (0, 0),
+        (1, 1),
+        (5, 120),
+        (10, 3628800)
+    ])
+    def test_factorial_valid_input(n, expected):
+>       assert factorial(n) == expected
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:18: AssertionError
+   - [#   7] ROR factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if n < 0:
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14527 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   8] SDL factorial: 
+--------------------------------------------------------------------------------
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+  15:     if n <= 0:
+- 16:         return 0
++ 16:         pass
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14272 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   9] SDL factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     pass
+--------------------------------------------------------------------------------
+[0.14316 s] killed by ts-3-5/test_3-5_0-8_241.py::test_factorial_valid_input[1-1]
+
+n = 1, expected = 1
+
+    @pytest.mark.parametrize("n, expected", [
+        (0, 0),
+        (1, 1),
+        (5, 120),
+        (10, 3628800)
+    ])
+    def test_factorial_valid_input(n, expected):
+>       assert factorial(n) == expected
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:18: AssertionError
+[*] Mutation score [1.53265 s]: 100.0%
+   - all: 9
+   - killed: 5 (55.6%)
+   - survived: 0 (0.0%)
+   - incompetent: 4 (44.4%)
+   - timeout: 0 (0.0%)

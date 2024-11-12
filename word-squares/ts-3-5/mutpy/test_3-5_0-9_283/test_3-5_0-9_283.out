@@ -1,0 +1,544 @@
+[*] Start mutation process:
+   - targets: word_squares.py
+   - tests: ts-3-5/test_3-5_0-9_283.py
+[*] 5 tests passed:
+   - test_3-5_0-9_283 [0.19608 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR word_squares: 
+--------------------------------------------------------------------------------
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+- 19:             construct(square + [prefix_word])
++ 19:             construct(square - [prefix_word])
+  20:     
+  21:     construct.squares = []
+  22:     
+  23:     
+--------------------------------------------------------------------------------
+[0.20850 s] incompetent
+
+TypeError: word_squares:19: TypeError: unsupported operand type(s) for -: 'list' and 'list'
+
+   - [#   2] ASR word_squares: 
+--------------------------------------------------------------------------------
+  11:         
+  12:         prefix = ''
+  13:         idx = len(square)
+  14:         for i in range(idx):
+- 15:             prefix += square[i][idx]
++ 15:             prefix -= square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+--------------------------------------------------------------------------------
+[0.20536 s] incompetent
+
+TypeError: word_squares:15: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+   - [#   3] COI word_squares: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     trie = Trie(words)
+   6:     
+   7:     def construct(square):
+-  8:         if len(square) == len(square[0]):
++  8:         if not (len(square) == len(square[0])):
+   9:             construct.squares.append(square)
+  10:             return
+  11:         
+  12:         prefix = ''
+--------------------------------------------------------------------------------
+[0.22262 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#   4] OIL word_squares: 
+--------------------------------------------------------------------------------
+  12:         prefix = ''
+  13:         idx = len(square)
+  14:         for i in range(idx):
+  15:             prefix += square[i][idx]
+- 16:         
++ 16:             break
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+  20:     
+--------------------------------------------------------------------------------
+[0.20311 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#   5] OIL word_squares: 
+--------------------------------------------------------------------------------
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+- 20:     
++ 20:             break
+  21:     construct.squares = []
+  22:     
+  23:     
+  24:     for word in words:
+--------------------------------------------------------------------------------
+[0.18079 s] survived
+   - [#   6] OIL word_squares: 
+--------------------------------------------------------------------------------
+  22:     
+  23:     
+  24:     for word in words:
+  25:         construct([word])
+- 26:     
++ 26:         break
+  27:     return construct.squares
+--------------------------------------------------------------------------------
+[0.20392 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_duplicate_words
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_duplicate_words(words):
+>       assert len(word_squares(["ball", "ball", "area", "lead", "lady"])) == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:28: AssertionError
+   - [#   7] RIL word_squares: 
+--------------------------------------------------------------------------------
+  10:             return
+  11:         
+  12:         prefix = ''
+  13:         idx = len(square)
+- 14:         for i in range(idx):
++ 14:         for i in reversed(range(idx)):
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+--------------------------------------------------------------------------------
+[0.20588 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#   8] RIL word_squares: 
+--------------------------------------------------------------------------------
+  14:         for i in range(idx):
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+- 18:         for prefix_word in prefix_words:
++ 18:         for prefix_word in reversed(prefix_words):
+  19:             construct(square + [prefix_word])
+  20:     
+  21:     construct.squares = []
+  22:     
+--------------------------------------------------------------------------------
+[0.18257 s] survived
+   - [#   9] RIL word_squares: 
+--------------------------------------------------------------------------------
+  20:     
+  21:     construct.squares = []
+  22:     
+  23:     
+- 24:     for word in words:
++ 24:     for word in reversed(words):
+  25:         construct([word])
+  26:     
+  27:     return construct.squares
+--------------------------------------------------------------------------------
+[0.18164 s] survived
+   - [#  10] ROR word_squares: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     trie = Trie(words)
+   6:     
+   7:     def construct(square):
+-  8:         if len(square) == len(square[0]):
++  8:         if len(square) != len(square[0]):
+   9:             construct.squares.append(square)
+  10:             return
+  11:         
+  12:         prefix = ''
+--------------------------------------------------------------------------------
+[0.20631 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  11] SDL word_squares: 
+--------------------------------------------------------------------------------
+   1: from trie import Trie
+   2: 
+   3: def word_squares(words):
+   4:     
+-  5:     trie = Trie(words)
++  5:     pass
+   6:     
+   7:     def construct(square):
+   8:         if len(square) == len(square[0]):
+   9:             construct.squares.append(square)
+--------------------------------------------------------------------------------
+[0.20760 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball']
+
+>   ???
+E   NameError: name 'trie' is not defined
+
+word_squares:17: NameError
+   - [#  12] SDL word_squares: 
+--------------------------------------------------------------------------------
+   5:     trie = Trie(words)
+   6:     
+   7:     def construct(square):
+   8:         if len(square) == len(square[0]):
+-  9:             construct.squares.append(square)
++  9:             pass
+  10:             return
+  11:         
+  12:         prefix = ''
+  13:         idx = len(square)
+--------------------------------------------------------------------------------
+[0.21177 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  13] SDL word_squares: 
+--------------------------------------------------------------------------------
+   6:     
+   7:     def construct(square):
+   8:         if len(square) == len(square[0]):
+   9:             construct.squares.append(square)
+- 10:             return
++ 10:             pass
+  11:         
+  12:         prefix = ''
+  13:         idx = len(square)
+  14:         for i in range(idx):
+--------------------------------------------------------------------------------
+[0.19708 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+word_squares:19: in construct
+    ???
+word_squares:19: in construct
+    ???
+word_squares:19: in construct
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball', 'area', 'lead', 'lady']
+
+>   ???
+E   IndexError: string index out of range
+
+word_squares:15: IndexError
+   - [#  14] SDL word_squares: 
+--------------------------------------------------------------------------------
+   8:         if len(square) == len(square[0]):
+   9:             construct.squares.append(square)
+  10:             return
+  11:         
+- 12:         prefix = ''
++ 12:         pass
+  13:         idx = len(square)
+  14:         for i in range(idx):
+  15:             prefix += square[i][idx]
+  16:         
+--------------------------------------------------------------------------------
+[0.18979 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball']
+
+>   ???
+E   UnboundLocalError: local variable 'prefix' referenced before assignment
+
+word_squares:15: UnboundLocalError
+   - [#  15] SDL word_squares: 
+--------------------------------------------------------------------------------
+   9:             construct.squares.append(square)
+  10:             return
+  11:         
+  12:         prefix = ''
+- 13:         idx = len(square)
++ 13:         pass
+  14:         for i in range(idx):
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+--------------------------------------------------------------------------------
+[0.20377 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball']
+
+>   ???
+E   NameError: name 'idx' is not defined
+
+word_squares:14: NameError
+   - [#  16] SDL word_squares: 
+--------------------------------------------------------------------------------
+  13:         idx = len(square)
+  14:         for i in range(idx):
+  15:             prefix += square[i][idx]
+  16:         
+- 17:         prefix_words = trie.get_all_common_prefix(prefix)
++ 17:         pass
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+  20:     
+  21:     construct.squares = []
+--------------------------------------------------------------------------------
+[0.20482 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball']
+
+>   ???
+E   NameError: name 'prefix_words' is not defined
+
+word_squares:18: NameError
+   - [#  17] SDL word_squares: 
+--------------------------------------------------------------------------------
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+- 19:             construct(square + [prefix_word])
++ 19:             pass
+  20:     
+  21:     construct.squares = []
+  22:     
+  23:     
+--------------------------------------------------------------------------------
+[0.20391 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  18] SDL word_squares: 
+--------------------------------------------------------------------------------
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+  20:     
+- 21:     construct.squares = []
++ 21:     pass
+  22:     
+  23:     
+  24:     for word in words:
+  25:         construct([word])
+--------------------------------------------------------------------------------
+[0.20629 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+
+ts-3-5/test_3-5_0-9_283.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+word_squares:25: in word_squares
+    ???
+word_squares:19: in construct
+    ???
+word_squares:19: in construct
+    ???
+word_squares:19: in construct
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+square = ['ball', 'area', 'lead', 'lady']
+
+>   ???
+E   AttributeError: 'function' object has no attribute 'squares'
+
+word_squares:9: AttributeError
+   - [#  19] SDL word_squares: 
+--------------------------------------------------------------------------------
+  21:     construct.squares = []
+  22:     
+  23:     
+  24:     for word in words:
+- 25:         construct([word])
++ 25:         pass
+  26:     
+  27:     return construct.squares
+--------------------------------------------------------------------------------
+[0.20487 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  20] SDL word_squares: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     for word in words:
+  25:         construct([word])
+  26:     
+- 27:     return construct.squares
++ 27:     pass
+--------------------------------------------------------------------------------
+[0.20733 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  21] ZIL word_squares: 
+--------------------------------------------------------------------------------
+  11:         
+  12:         prefix = ''
+  13:         idx = len(square)
+  14:         for i in range(idx):
+- 15:             prefix += square[i][idx]
++ 15:             break
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+  19:             construct(square + [prefix_word])
+--------------------------------------------------------------------------------
+[0.22546 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  22] ZIL word_squares: 
+--------------------------------------------------------------------------------
+  15:             prefix += square[i][idx]
+  16:         
+  17:         prefix_words = trie.get_all_common_prefix(prefix)
+  18:         for prefix_word in prefix_words:
+- 19:             construct(square + [prefix_word])
++ 19:             break
+  20:     
+  21:     construct.squares = []
+  22:     
+  23:     
+--------------------------------------------------------------------------------
+[0.21417 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+   - [#  23] ZIL word_squares: 
+--------------------------------------------------------------------------------
+  21:     construct.squares = []
+  22:     
+  23:     
+  24:     for word in words:
+- 25:         construct([word])
++ 25:         break
+  26:     
+  27:     return construct.squares
+--------------------------------------------------------------------------------
+[0.19486 s] killed by ts-3-5/test_3-5_0-9_283.py::test_construct_single_square
+
+words = ['ball', 'area', 'lead', 'lady']
+
+    def test_construct_single_square(words):
+>       assert word_squares(words) == [['ball', 'area', 'lead', 'lady']]
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_283.py:16: AssertionError
+[*] Mutation score [5.27551 s]: 85.7%
+   - all: 23
+   - killed: 18 (78.3%)
+   - survived: 3 (13.0%)
+   - incompetent: 2 (8.7%)
+   - timeout: 0 (0.0%)

@@ -39,3 +39,4 @@ class PriorityQueue():
                 del self.mapper[task]
                 return task
         raise KeyError('Pop from empty priority queue.')
+

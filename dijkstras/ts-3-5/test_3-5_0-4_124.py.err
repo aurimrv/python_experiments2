@@ -7,61 +7,71 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 class TestDijkstras:
-    def test_dijkstras_shortest_path(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'B', 'C', 'D']
+    def test_shortest_path_found(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 3)
+        weighted_graph.add_edge('B', 'D', 2)
+        weighted_graph.add_edge('C', 'D', 1)
+        assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'D']
 
-    def test_dijkstras_no_path(self):
-        weighted_graph = {
-            'A': {'B': 1},
-            'B': {'A': 1},
-            'C': {}
-        }
-        src = 'A'
-        dst = 'C'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == []
+    def test_no_path_found(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        assert dijkstras(weighted_graph, 'A', 'C') == []
 
-    def test_dijkstras_same_source_dest(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'A'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A']
+    def test_same_source_and_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_edge('A', 'B', 1)
+        assert dijkstras(weighted_graph, 'A', 'A') == ['A']
 
-    def test_dijkstras_unreachable_destination(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'D'
-        dst = 'A'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == []
+    def test_multiple_paths_same_length(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 1)
+        weighted_graph.add_edge('C', 'D', 1)
+        assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'D']  # Both A->B->D and A->C->D are valid paths
 
-    def test_dijkstras_negative_weights(self):
-        weighted_graph = {
-            'A': {'B': -2, 'C': 4},
-            'B': {'A': -2, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'B', 'C', 'D']
+    def test_unreachable_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        assert dijkstras(weighted_graph, 'A', 'C') == []  # 'C' is unreachable from 'A'
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = Vertex(vertex)
+
+    def add_edge(self, start, end, weight):
+        if start in self.vertices and end in self.vertices:
+            self.vertices[start].add_adjacent(end, weight)
+            self.vertices[end].add_adjacent(start, weight)
+
+class Vertex:
+    def __init__(self, label):
+        self.label = label
+        self.adjacent = {}
+
+    def add_adjacent(self, vertex, weight):
+        self.adjacent[vertex] = weight

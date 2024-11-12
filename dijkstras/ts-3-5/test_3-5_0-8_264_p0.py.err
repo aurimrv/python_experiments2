@@ -6,39 +6,43 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    class Vertex:
-        def __init__(self, value):
-            self.value = value
-            self.adjacent = {}
+class TestDijkstras:
 
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
+    def test_dijkstras_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 3)
+        weighted_graph.add_edge('C', 'D', 1)
+        
+        assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'C', 'D']
     
-    weighted_graph = WeightedGraph()
-    vertex_a = Vertex('A')
-    vertex_b = Vertex('B')
-    vertex_c = Vertex('C')
-    vertex_d = Vertex('D')
+    def test_dijkstras_path_not_reachable(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('B', 'C', 2)
+        
+        assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
     
-    vertex_a.adjacent = {'B': 2, 'C': 4}
-    vertex_b.adjacent = {'D': 3}
-    vertex_c.adjacent = {'D': 1}
-    
-    weighted_graph.vertices = {'A': vertex_a, 'B': vertex_b, 'C': vertex_c, 'D': vertex_d}
-    
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'D']
-    
-    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
-    
-    vertex_e = Vertex('E')
-    vertex_f = Vertex('F')
-    
-    vertex_d.adjacent = {'E': 2, 'F': 5}
-    vertex_e.adjacent = {'C': 3}
-    vertex_f.adjacent = {'A': 1}
-    
-    weighted_graph.vertices = {'A': vertex_a, 'B': vertex_b, 'C': vertex_c, 'D': vertex_d, 'E': vertex_e, 'F': vertex_f}
-    
-    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'D', 'E', 'C'] 
+    def test_dijkstras_identical_weights(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 1)
+        weighted_graph.add_edge('B', 'C', 1)
+        
+        assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'C']
+
+    def test_dijkstras_empty_graph(self):
+        weighted_graph = WeightedGraph()
+        
+        assert dijkstras(weighted_graph, 'A', 'B') == []  # No path in an empty graph

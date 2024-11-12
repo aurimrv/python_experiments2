@@ -7,53 +7,58 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 def test_dijkstras():
-    # Test case 1: Shortest path between two directly connected nodes
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_edge('A', 'B', 5)
-    assert dijkstras(weighted_graph, 'A', 'B') == ['A', 'B']
+    # Test case 1: Shortest path from src to dst in a simple graph
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2},
+        'C': {'A': 4, 'B': 2}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
 
-    # Test case 2: Shortest path between two nodes with intermediate nodes
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_vertex('C')
-    weighted_graph.add_vertex('D')
-    weighted_graph.add_edge('A', 'B', 2)
-    weighted_graph.add_edge('B', 'C', 3)
-    weighted_graph.add_edge('C', 'D', 4)
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+    # Test case 2: Shortest path from src to dst in a graph with multiple paths
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-    # Test case 3: Shortest path where destination is not directly reachable
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_vertex('C')
-    weighted_graph.add_vertex('D')
-    weighted_graph.add_edge('A', 'B', 2)
-    weighted_graph.add_edge('B', 'C', 3)
-    weighted_graph.add_edge('C', 'D', 4)
-    weighted_graph.add_edge('A', 'D', 10)
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+    # Test case 3: Shortest path from src to dst in a graph with cycles
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1, 'A': 2}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
 
-    # Test case 4: Shortest path with negative edge weights
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_vertex('C')
-    weighted_graph.add_edge('A', 'B', -2)
-    weighted_graph.add_edge('B', 'C', -3)
-    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+    # Test case 4: Shortest path from src to dst in a graph with same distance paths
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1, 'E': 2},
+        'E': {'D': 2}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'E']
 
-    # Test case 5: Shortest path with multiple paths of same length
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_vertex('C')
-    weighted_graph.add_vertex('D')
-    weighted_graph.add_edge('A', 'B', 2)
-    weighted_graph.add_edge('A', 'C', 3)
-    weighted_graph.add_edge('B', 'D', 4)
-    weighted_graph.add_edge('C', 'D', 4)
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'D']
+    # Test case 5: Shortest path from src to dst in a graph with disconnected nodes
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1},
+        'C': {'A': 4},
+        'D': {'E': 3},
+        'E': {'D': 3}
+    }
+    src = 'A'
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == []

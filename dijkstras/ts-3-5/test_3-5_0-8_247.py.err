@@ -7,46 +7,53 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 def test_dijkstras():
-    # Test case 1
     weighted_graph = {
-        'a': {'b': 1, 'c': 4},
-        'b': {'a': 1, 'c': 2, 'd': 5},
-        'c': {'a': 4, 'b': 2, 'd': 1},
-        'd': {'b': 5, 'c': 1}
-    }
-    src = 'a'
-    dst = 'd'
-    assert dijkstras(weighted_graph, src, dst) == ['a', 'b', 'c', 'd']
-
-    # Test case 2
-    weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'A': 1, 'C': 2, 'D': 5},
-        'C': {'A': 4, 'B': 2, 'D': 1},
-        'D': {'B': 5, 'C': 1}
+        'A': {'B': 5, 'C': 8},
+        'B': {'A': 5, 'C': 2, 'D': 6},
+        'C': {'A': 8, 'B': 2, 'D': 7},
+        'D': {'B': 6, 'C': 7}
     }
     src = 'A'
     dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+    expected_path = ['A', 'B', 'D']
 
-    # Test case 3
-    weighted_graph = {
-        'x': {'y': 3, 'z': 1},
-        'y': {'x': 3, 'z': 2, 'w': 4},
-        'z': {'x': 1, 'y': 2, 'w': 1},
-        'w': {'y': 4, 'z': 1}
-    }
-    src = 'x'
-    dst = 'w'
-    assert dijkstras(weighted_graph, src, dst) == ['x', 'z', 'w']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    # Test case 4
+def test_dijkstras_multiple_paths():
     weighted_graph = {
-        '1': {'2': 2, '3': 1},
-        '2': {'1': 2, '3': 3, '4': 4},
-        '3': {'1': 1, '2': 3, '4': 2},
-        '4': {'2': 4, '3': 2}
+        'A': {'B': 3, 'C': 8},
+        'B': {'A': 3, 'C': 2, 'D': 6},
+        'C': {'A': 8, 'B': 2, 'D': 7},
+        'D': {'B': 6, 'C': 7}
     }
-    src = '1'
-    dst = '4'
-    assert dijkstras(weighted_graph, src, dst) == ['1', '3', '4']
+    src = 'A'
+    dst = 'D'
+    expected_path = ['A', 'B', 'D']
+
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_no_path():
+    weighted_graph = {
+        'A': {'B': 3, 'C': 8},
+        'B': {'A': 3, 'C': 2, 'D': 6},
+        'C': {'A': 8, 'B': 2, 'D': 7},
+        'D': {'B': 6, 'C': 7}
+    }
+    src = 'A'
+    dst = 'E'  # No direct path from A to E
+    expected_path = []
+
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+def test_dijkstras_same_source_destination():
+    weighted_graph = {
+        'A': {'B': 3, 'C': 8},
+        'B': {'A': 3, 'C': 2, 'D': 6},
+        'C': {'A': 8, 'B': 2, 'D': 7},
+        'D': {'B': 6, 'C': 7}
+    }
+    src = 'A'
+    dst = 'A'  # Source and destination are the same
+    expected_path = ['A']
+
+    assert dijkstras(weighted_graph, src, dst) == expected_path

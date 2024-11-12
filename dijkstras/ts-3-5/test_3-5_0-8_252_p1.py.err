@@ -1,57 +1,48 @@
 import os
 import sys
+from functools import reduce
+
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
+def test_dijkstras_shortest_path():
     weighted_graph = {
-        'A': {'B': 5, 'D': 9, 'E': 2},
-        'B': {'A': 5, 'C': 2},
-        'C': {'B': 2, 'D': 3},
-        'D': {'A': 9, 'C': 3, 'E': 4},
-        'E': {'A': 2, 'D': 4}
+        'A': {'B': 3, 'C': 1},
+        'B': {'A': 3, 'C': 7, 'D': 5},
+        'C': {'A': 1, 'B': 7, 'D': 4},
+        'D': {'B': 5, 'C': 4}
     }
-
+    
     src = 'A'
-    dst = 'C'
-    expected_path = ['A', 'E', 'D', 'C']
-    assert dijkstras(weighted_graph, src, dst) == expected_path
+    dst = 'D'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-def test_dijkstras_multiple_paths():
+def test_dijkstras_same_source_and_destination():
     weighted_graph = {
-        'A': {'B': 5, 'D': 9, 'E': 2},
-        'B': {'A': 5, 'C': 2},
-        'C': {'B': 2, 'D': 3, 'E': 1},
-        'D': {'A': 9, 'C': 3, 'E': 4},
-        'E': {'A': 2, 'D': 4, 'C': 1}
+        'A': {'B': 3, 'C': 1},
+        'B': {'A': 3, 'C': 7, 'D': 5},
+        'C': {'A': 1, 'B': 7, 'D': 4},
+        'D': {'B': 5, 'C': 4}
     }
+    
+    src = 'B'
+    dst = 'B'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['B']
 
-    src = 'A'
-    dst = 'C'
-    expected_path = ['A', 'E', 'C']
-    assert dijkstras(weighted_graph, src, dst) == expected_path
-
-def test_dijkstras_no_path():
+def test_dijkstras_unreachable_destination():
     weighted_graph = {
-        'A': {'B': 5},
-        'B': {'A': 5},
-        'C': {}
+        'A': {'B': 3, 'C': 1},
+        'B': {'A': 3, 'C': 7, 'D': 5},
+        'C': {'A': 1, 'B': 7, 'D': 4},
+        'D': {'B': 5, 'C': 4}
     }
-
-    src = 'A'
-    dst = 'C'
-    expected_path = []
-    assert dijkstras(weighted_graph, src, dst) == expected_path
-
-def test_dijkstras_single_vertex_graph():
-    weighted_graph = {
-        'A': {}
-    }
-
-    src = 'A'
-    dst = 'A'
-    expected_path = ['A']
-    assert dijkstras(weighted_graph, src, dst) == expected_path
+    
+    src = 'C'
+    dst = 'E'
+    
+    assert dijkstras(weighted_graph, src, dst) == []

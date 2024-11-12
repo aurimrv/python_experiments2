@@ -1,6 +1,5 @@
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
@@ -8,65 +7,126 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 class TestDijkstras:
-    def test_dijkstras_basic_case(self):
+    def test_shortest_path_1(self):
         weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_vertex('C')
-        weighted_graph.add_vertex('D')
-        weighted_graph.add_edge('A', 'B', 1)
-        weighted_graph.add_edge('B', 'C', 2)
-        weighted_graph.add_edge('C', 'D', 3)
-        weighted_graph.add_edge('A', 'D', 10)
-
-        src = 'A'
-        dst = 'D'
-
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'D']
-
-    def test_dijkstras_multiple_paths(self):
+        vertex_a = Vertex('A')
+        vertex_b = Vertex('B')
+        vertex_c = Vertex('C')
+        weighted_graph.add_vertex(vertex_a)
+        weighted_graph.add_vertex(vertex_b)
+        weighted_graph.add_vertex(vertex_c)
+        weighted_graph.add_edge(vertex_a, vertex_b, 1)
+        weighted_graph.add_edge(vertex_b, vertex_c, 2)
+        weighted_graph.add_edge(vertex_a, vertex_c, 4)
+        
+        src = vertex_a
+        dst = vertex_c
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'C']
+    
+    def test_shortest_path_2(self):
         weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_vertex('C')
-        weighted_graph.add_edge('A', 'B', 1)
-        weighted_graph.add_edge('B', 'C', 1)
-        weighted_graph.add_edge('A', 'C', 2)
+        vertex_a = Vertex('A')
+        vertex_b = Vertex('B')
+        vertex_c = Vertex('C')
+        vertex_d = Vertex('D')
+        weighted_graph.add_vertex(vertex_a)
+        weighted_graph.add_vertex(vertex_b)
+        weighted_graph.add_vertex(vertex_c)
+        weighted_graph.add_vertex(vertex_d)
+        weighted_graph.add_edge(vertex_a, vertex_b, 2)
+        weighted_graph.add_edge(vertex_b, vertex_c, 1)
+        weighted_graph.add_edge(vertex_c, vertex_d, 3)
+        
+        src = vertex_a
+        dst = vertex_d
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'B', 'C', 'D']
 
-        src = 'A'
-        dst = 'C'
-
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'C']
-
-    def test_dijkstras_no_path(self):
+    def test_shortest_path_3(self):
         weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_edge('A', 'B', 1)
+        vertex_a = Vertex('A')
+        vertex_b = Vertex('B')
+        vertex_c = Vertex('C')
+        vertex_d = Vertex('D')
+        weighted_graph.add_vertex(vertex_a)
+        weighted_graph.add_vertex(vertex_b)
+        weighted_graph.add_vertex(vertex_c)
+        weighted_graph.add_vertex(vertex_d)
+        weighted_graph.add_edge(vertex_a, vertex_b, 3)
+        weighted_graph.add_edge(vertex_b, vertex_d, 2)
+        weighted_graph.add_edge(vertex_a, vertex_c, 5)
+        weighted_graph.add_edge(vertex_c, vertex_d, 4)
+        
+        src = vertex_a
+        dst = vertex_d
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'B', 'D']
 
-        src = 'A'
-        dst = 'C'
+    def test_shortest_path_4(self):
+        weighted_graph = WeightedGraph()
+        vertex_a = Vertex('A')
+        vertex_b = Vertex('B')
+        vertex_c = Vertex('C')
+        vertex_d = Vertex('D')
+        weighted_graph.add_vertex(vertex_a)
+        weighted_graph.add_vertex(vertex_b)
+        weighted_graph.add_vertex(vertex_c)
+        weighted_graph.add_vertex(vertex_d)
+        weighted_graph.add_edge(vertex_a, vertex_b, 1)
+        weighted_graph.add_edge(vertex_b, vertex_d, 2)
+        weighted_graph.add_edge(vertex_a, vertex_c, 5)
+        weighted_graph.add_edge(vertex_c, vertex_d, 4)
+        
+        src = vertex_a
+        dst = vertex_d
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'B', 'D']
 
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == []
+    def test_shortest_path_5(self):
+        weighted_graph = WeightedGraph()
+        vertex_a = Vertex('A')
+        vertex_b = Vertex('B')
+        vertex_c = Vertex('C')
+        weighted_graph.add_vertex(vertex_a)
+        weighted_graph.add_vertex(vertex_b)
+        weighted_graph.add_vertex(vertex_c)
+        weighted_graph.add_edge(vertex_a, vertex_b, 10)
+        weighted_graph.add_edge(vertex_a, vertex_c, 3)
+        weighted_graph.add_edge(vertex_b, vertex_c, 1)
+        
+        src = vertex_a
+        dst = vertex_c
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'C']
 
 class WeightedGraph:
     def __init__(self):
         self.vertices = {}
-
-    def add_vertex(self, key):
-        self.vertices[key] = Vertex(key)
-
-    def add_edge(self, src, dst, weight):
-        self.vertices[src].add_adjacent(dst, weight)
-        self.vertices[dst].add_adjacent(src, weight)
+    
+    def add_vertex(self, vertex):
+        self.vertices[vertex] = vertex
+    
+    def add_edge(self, from_vertex, to_vertex, weight):
+        if from_vertex not in self.vertices or to_vertex not in self.vertices:
+            raise ValueError("Vertices not in graph")
+        self.vertices[from_vertex].add_adjacent(to_vertex, weight)
+        self.vertices[to_vertex].add_adjacent(from_vertex, weight)
 
 class Vertex:
-    def __init__(self, key):
-        self.key = key
+    def __init__(self, label):
+        self.label = label
         self.adjacent = {}
-
-    def add_adjacent(self, key, weight):
-        self.adjacent[key] = weight
+    
+    def add_adjacent(self, vertex, weight):
+        self.adjacent[vertex] = weight

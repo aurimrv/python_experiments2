@@ -4,35 +4,55 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import dijkstras, WeightedGraph, Vertex
+from dijkstras import dijkstras
 
-import pytest
-
-@pytest.fixture
-def sample_weighted_graph():
-    graph = WeightedGraph()
-    vertex1 = Vertex('A')
-    vertex2 = Vertex('B')
-    vertex3 = Vertex('C')
-    vertex4 = Vertex('D')
+class TestDijkstras:
     
-    vertex1.add_adjacent(vertex2, 5)
-    vertex1.add_adjacent(vertex3, 10)
-    vertex2.add_adjacent(vertex4, 3)
-    vertex3.add_adjacent(vertex4, 7)
+    def test_shortest_path_returned_correctly(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        weighted_graph.add_vertex('D')
+        
+        weighted_graph.add_edge('A', 'B', 1)
+        weighted_graph.add_edge('A', 'C', 4)
+        weighted_graph.add_edge('B', 'C', 2)
+        weighted_graph.add_edge('B', 'D', 5)
+        weighted_graph.add_edge('C', 'D', 1)
+        
+        src = 'A'
+        dst = 'D'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
     
-    graph.add_vertex(vertex1)
-    graph.add_vertex(vertex2)
-    graph.add_vertex(vertex3)
-    graph.add_vertex(vertex4)
+    def test_no_path_available(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        
+        weighted_graph.add_edge('A', 'B', 3)
+        
+        src = 'A'
+        dst = 'B'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
     
-    return graph
-
-def test_dijkstras_shortest_path(sample_weighted_graph):
-    assert dijkstras(sample_weighted_graph, 'A', 'D') == ['A', 'B', 'D']
-
-def test_dijkstras_same_node(sample_weighted_graph):
-    assert dijkstras(sample_weighted_graph, 'A', 'A') == ['A']
-
-def test_dijkstras_unreachable_destination(sample_weighted_graph):
-    assert dijkstras(sample_weighted_graph, 'A', 'Z') == []
+    def test_same_source_and_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        
+        src = 'A'
+        dst = 'A'
+        
+        assert dijkstras(weighted_graph, src, dst) == ['A']
+    
+    def test_unreachable_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        
+        src = 'A'
+        dst = 'B'
+        
+        assert dijkstras(weighted_graph, src, dst) == []

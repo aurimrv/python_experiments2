@@ -6,44 +6,40 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_basic():
-    weighted_graph = {
-        'A': {'B': 2, 'C': 9},
-        'B': {'A': 2, 'D': 3},
-        'C': {'A': 9, 'E': 4},
-        'D': {'B': 3, 'F': 5},
-        'E': {'C': 4, 'F': 6},
-        'F': {'D': 5, 'E': 6}
-    }
-    src = 'A'
-    dst = 'F'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'F']
+class TestDijkstras:
+    
+    def test_dijkstras_case1(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 4},
+            'B': {'A': 1, 'C': 2, 'D': 5},
+            'C': {'A': 4, 'B': 2, 'D': 1},
+            'D': {'B': 5, 'C': 1}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'B', 'C', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
+    
+    def test_dijkstras_case2(self):
+        weighted_graph = {
+            'A': {'B': 3, 'C': 5},
+            'B': {'A': 3, 'D': 2},
+            'C': {'A': 5, 'D': 7},
+            'D': {'B': 2, 'C': 7}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'B', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_different_graph():
-    weighted_graph = {
-        'S': {'A': 4, 'B': 3},
-        'A': {'S': 4, 'B': 1, 'C': 10},
-        'B': {'S': 3, 'A': 1, 'C': 2},
-        'C': {'A': 10, 'B': 2}
-    }
-    src = 'S'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['S', 'B', 'C']
-
-def test_dijkstras_single_vertex_graph():
-    weighted_graph = {
-        'X': {}
-    }
-    src = 'X'
-    dst = 'X'
-    assert dijkstras(weighted_graph, src, dst) == ['X']
-
-def test_dijkstras_no_path():
-    weighted_graph = {
-        'X': {'Y': 5},
-        'Y': {'Z': 3},
-        'Z': {}
-    }
-    src = 'X'
-    dst = 'Z'
-    assert dijkstras(weighted_graph, src, dst) == []
+    def test_dijkstras_case3(self):
+        weighted_graph = {
+            'A': {'B': 5, 'C': 2},
+            'B': {'A': 5, 'C': 1, 'D': 3},
+            'C': {'A': 2, 'B': 1, 'D': 4},
+            'D': {'B': 3, 'C': 4}
+        }
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'C', 'B', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path

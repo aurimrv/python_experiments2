@@ -6,88 +6,60 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_shortest_path():
-    class Vertex:
-        def __init__(self):
-            self.adjacent = {}
-    
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-    
-    wg = WeightedGraph()
-    
-    v1 = Vertex()
-    v2 = Vertex()
-    v3 = Vertex()
-    
-    v1.adjacent = {v2: 2, v3: 5}
-    v2.adjacent = {v1: 2, v3: 2}
-    v3.adjacent = {v1: 5, v2: 2}
-    
-    wg.vertices = {'A': v1, 'B': v2, 'C': v3}
-    
-    assert dijkstras(wg, 'A', 'C') == ['A', 'B', 'C']
-    assert dijkstras(wg, 'A', 'B') == ['A', 'B']
-    assert dijkstras(wg, 'B', 'C') == ['B', 'C']
-    
-def test_dijkstras_unreachable_destination():
-    class Vertex:
-        def __init__(self):
-            self.adjacent = {}
-    
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-    
-    wg = WeightedGraph()
-    
-    v1 = Vertex()
-    v2 = Vertex()
-    
-    v1.adjacent = {v2: 3}
-    v2.adjacent = {v1: 3}
-    
-    wg.vertices = {'A': v1, 'B': v2}
-    
-    assert dijkstras(wg, 'A', 'C') == ['A']  # Unreachable destination
+class TestDijkstras:
 
-def test_dijkstras_same_source_destination():
-    class Vertex:
-        def __init__(self):
-            self.adjacent = {}
-    
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-    
-    wg = WeightedGraph()
-    
-    v1 = Vertex()
-    
-    v1.adjacent = {}
-    
-    wg.vertices = {'A': v1}
-    
-    assert dijkstras(wg, 'A', 'A') == ['A']
+    def test_shortest_path_case1(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'D'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'B', 'D']
 
-def test_dijkstras_no_path():
-    class Vertex:
-        def __init__(self):
-            self.adjacent = {}
-    
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-    
-    wg = WeightedGraph()
-    
-    v1 = Vertex()
-    v2 = Vertex()
-    
-    v1.adjacent = {v2: 3}
-    v2.adjacent = {v1: 3}
-    
-    wg.vertices = {'A': v1, 'B': v2}
-    
-    assert dijkstras(wg, 'A', 'B') == ['A']  # No path from A to B
+    def test_shortest_path_case2(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'C'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'C']
+
+    def test_shortest_path_case3(self):
+        weighted_graph = WeightedGraph()
+        src = 'B'
+        dst = 'D'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['B', 'D']
+
+    def test_shortest_path_case4(self):
+        weighted_graph = WeightedGraph()
+        src = 'C'
+        dst = 'D'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['C', 'D']
+
+    def test_shortest_path_case5(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'E'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'E']
+
+    def test_shortest_path_case6(self):
+        weighted_graph = WeightedGraph()
+        src = 'B'
+        dst = 'E'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['B', 'E']
+
+    def test_shortest_path_case7(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'F'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['A', 'E', 'F']
+
+    def test_shortest_path_case8(self):
+        weighted_graph = WeightedGraph()
+        src = 'D'
+        dst = 'F'
+        result = dijkstras(weighted_graph, src, dst)
+        assert result == ['D', 'E', 'F']

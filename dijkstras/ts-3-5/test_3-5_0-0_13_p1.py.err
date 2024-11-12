@@ -35,30 +35,20 @@ def test_dijkstras():
     assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
 
     weighted_graph = {
-        'A': {'B': 3, 'C': 5},
-        'B': {'A': 3, 'D': 2},
-        'C': {'A': 5, 'D': 4},
-        'D': {'B': 2, 'C': 4}
+        'A': {'B': 2, 'C': -3},
+        'B': {'A': 2, 'C': 2, 'D': 1},
+        'C': {'A': -3, 'B': 2, 'D': 4},
+        'D': {'B': 1, 'C': 4}
     }
     src = 'A'
     dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
     weighted_graph = {
-        'A': {'B': -2, 'C': 3},
-        'B': {'A': -2, 'D': 1},
-        'C': {'A': 3, 'D': -4},
-        'D': {'B': 1, 'C': -4}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
-
-    weighted_graph = {
-        'A': {'B': 1, 'C': 1},
-        'B': {'A': 1, 'D': 1},
-        'C': {'A': 1, 'D': 1},
-        'D': {'B': 1, 'C': 1}
+        'A': {'B': 2},
+        'B': {'A': 2},
+        'C': {'D': 3},
+        'D': {'C': 3}
     }
     src = 'A'
     dst = 'D'
@@ -66,37 +56,47 @@ def test_dijkstras():
 
     weighted_graph = {
         'A': {'A': 0, 'B': 2},
-        'B': {'A': 2, 'C': 3},
-        'C': {'B': 3}
+        'B': {'A': 2}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
 
     weighted_graph = {
         'A': {'B': 2},
         'B': {'A': 2},
         'C': {'D': 3},
         'D': {'C': 3}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+    weighted_graph = {
+        'A': {'B': 1, 'C': 1},
+        'B': {'A': 1, 'C': 1},
+        'C': {'A': 1, 'B': 1}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+
+    weighted_graph = {
+        'A': {'B': 1, 'C': 2},
+        'B': {'A': 1, 'C': 3, 'D': 4},
+        'C': {'A': 2, 'B': 3, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1},
+        'C': {},
+        'D': {}
     }
     src = 'A'
     dst = 'D'
     assert dijkstras(weighted_graph, src, dst) == []
-
-    weighted_graph = {
-        'A': {'B': 2},
-        'B': {'A': 2},
-        'C': {'D': 3},
-        'D': {'C': 3}
-    }
-    src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == []
-
-    weighted_graph = {
-        'A': {'B': 2},
-        'B': {'A': 2}
-    }
-    src = 'A'
-    dst = 'A'
-    assert dijkstras(weighted_graph, src, dst) == ['A']

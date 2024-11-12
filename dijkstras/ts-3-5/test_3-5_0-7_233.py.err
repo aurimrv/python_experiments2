@@ -6,109 +6,40 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    # Test Case 1: Shortest path between two directly connected nodes
-    weighted_graph = {
-        'A': {'B': 1},
-        'B': {'A': 1}
-    }
-    src = 'A'
-    dst = 'B'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+class TestDijkstras:
 
-    # Test Case 2: Shortest path with multiple intermediate nodes
-    weighted_graph = {
-        'A': {'B': 1, 'C': 2},
-        'B': {'A': 1, 'D': 3},
-        'C': {'A': 2, 'D': 2},
-        'D': {'B': 3, 'C': 2}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+    def test_shortest_path_case1(self):
+        weighted_graph = {
+            "A": {"B": 1, "C": 4},
+            "B": {"A": 1, "C": 2, "D": 5},
+            "C": {"A": 4, "B": 2, "D": 1},
+            "D": {"B": 5, "C": 1}
+        }
+        src = "A"
+        dst = "D"
+        expected_path = ["A", "B", "C", "D"]
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    # Test Case 3: Shortest path with same distance paths
-    weighted_graph = {
-        'A': {'B': 1, 'C': 2},
-        'B': {'A': 1, 'D': 3},
-        'C': {'A': 2, 'D': 2},
-        'D': {'B': 3, 'C': 2, 'E': 2},
-        'E': {'D': 2}
-    }
-    src = 'A'
-    dst = 'E'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D', 'E']
+    def test_shortest_path_case2(self):
+        weighted_graph = {
+            "A": {"B": 3, "C": 2},
+            "B": {"A": 3, "C": 4, "D": 2},
+            "C": {"A": 2, "B": 4, "D": 1},
+            "D": {"B": 2, "C": 1}
+        }
+        src = "A"
+        dst = "D"
+        expected_path = ["A", "C", "D"]
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    # Test Case 4: No path between nodes
-    weighted_graph = {
-        'A': {'B': 1},
-        'B': {'A': 1},
-        'C': {'D': 2},
-        'D': {'C': 2}
-    }
-    src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == []
-
-    # Test Case 5: Shortest path with negative weights
-    weighted_graph = {
-        'A': {'B': -1, 'C': 2},
-        'B': {'A': -1, 'D': 3},
-        'C': {'A': 2, 'D': 2},
-        'D': {'B': 3, 'C': 2}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
-
-    # Test Case 6: Shortest path with loopback to source
-    weighted_graph = {
-        'A': {'B': 1, 'C': 3},
-        'B': {'A': 1, 'D': 2},
-        'C': {'A': 3, 'D': 1},
-        'D': {'B': 2, 'C': 1}
-    }
-    src = 'A'
-    dst = 'A'
-    assert dijkstras(weighted_graph, src, dst) == ['A']
-
-    # Test Case 7: Shortest path with multiple paths to destination
-    weighted_graph = {
-        'A': {'B': 1, 'C': 5},
-        'B': {'A': 1, 'D': 2, 'C': 2},
-        'C': {'A': 5, 'D': 1},
-        'D': {'B': 2, 'C': 1}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
-
-    # Test Case 8: Shortest path with single node graph
-    weighted_graph = {
-        'A': {}
-    }
-    src = 'A'
-    dst = 'A'
-    assert dijkstras(weighted_graph, src, dst) == ['A']
-
-    # Test Case 9: Shortest path with different edge weights
-    weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'D': 2},
-        'C': {'D': 1},
-        'D': {}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
-
-    # Test Case 10: Shortest path with multiple paths of equal length
-    weighted_graph = {
-        'A': {'B': 1, 'C': 2},
-        'B': {'D': 2},
-        'C': {'D': 2},
-        'D': {}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+    def test_shortest_path_case3(self):
+        weighted_graph = {
+            "A": {"B": 2, "C": 3},
+            "B": {"A": 2, "C": 1, "D": 4},
+            "C": {"A": 3, "B": 1, "D": 5},
+            "D": {"B": 4, "C": 5}
+        }
+        src = "A"
+        dst = "D"
+        expected_path = ["A", "B", "D"]
+        assert dijkstras(weighted_graph, src, dst) == expected_path

@@ -1,0 +1,60 @@
+import pytest
+import os
+import sys
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph, Vertex
+
+weighted_graph = WeightedGraph()
+
+def test_dijkstras_path_exists():
+    vertex_a = Vertex("A")
+    vertex_b = Vertex("B")
+    vertex_c = Vertex("C")
+    
+    vertex_a.add_adjacent(vertex_b, 2)
+    vertex_b.add_adjacent(vertex_c, 3)
+    
+    weighted_graph.add_vertex(vertex_a)
+    weighted_graph.add_vertex(vertex_b)
+    weighted_graph.add_vertex(vertex_c)
+    
+    assert dijkstras(weighted_graph, "A", "C") == ["A", "B", "C"]
+
+def test_dijkstras_no_path():
+    vertex_a = Vertex("A")
+    vertex_b = Vertex("B")
+    vertex_c = Vertex("C")
+    
+    vertex_a.add_adjacent(vertex_b, 2)
+    
+    weighted_graph.add_vertex(vertex_a)
+    weighted_graph.add_vertex(vertex_b)
+    weighted_graph.add_vertex(vertex_c)
+    
+    assert dijkstras(weighted_graph, "A", "C") == []
+
+def test_dijkstras_identical_src_dst():
+    vertex_a = Vertex("A")
+    
+    weighted_graph.add_vertex(vertex_a)
+    
+    assert dijkstras(weighted_graph, "A", "A") == ["A"]
+
+def test_dijkstras_multiple_paths():
+    vertex_a = Vertex("A")
+    vertex_b = Vertex("B")
+    vertex_c = Vertex("C")
+    
+    vertex_a.add_adjacent(vertex_b, 1)
+    vertex_a.add_adjacent(vertex_c, 3)
+    vertex_b.add_adjacent(vertex_c, 2)
+    
+    weighted_graph.add_vertex(vertex_a)
+    weighted_graph.add_vertex(vertex_b)
+    weighted_graph.add_vertex(vertex_c)
+    
+    assert dijkstras(weighted_graph, "A", "C") == ["A", "B", "C"]

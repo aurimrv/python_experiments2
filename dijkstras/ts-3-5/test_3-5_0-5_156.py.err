@@ -1,42 +1,66 @@
 import os
 import sys
+import pytest
+
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
-    
-    def test_dijkstras_shortest_path(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
-    
-    def test_dijkstras_shortest_path_same_node(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == ['A']
-    
-    def test_dijkstras_shortest_path_unreachable(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'E'
-        assert dijkstras(weighted_graph, src, dst) == []
+class WeightedGraph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+
+class Vertex:
+    def __init__(self, adjacent):
+        self.adjacent = adjacent
+
+def test_dijkstras():
+    # Test case 1: Shortest path between two directly connected vertices
+    graph = WeightedGraph({
+        'A': Vertex({'B': 2}),
+        'B': Vertex({})
+    })
+    assert dijkstras(graph, 'A', 'B') == ['A', 'B']
+
+    # Test case 2: Shortest path between two vertices with multiple paths
+    graph = WeightedGraph({
+        'A': Vertex({'B': 2, 'C': 4}),
+        'B': Vertex({'D': 3}),
+        'C': Vertex({'D': 1}),
+        'D': Vertex({})
+    })
+    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+
+    # Test case 3: Shortest path between two vertices with loops
+    graph = WeightedGraph({
+        'A': Vertex({'B': 2, 'C': 4}),
+        'B': Vertex({'D': 3}),
+        'C': Vertex({'D': 1, 'B': 1}),
+        'D': Vertex({'A': 7})
+    })
+    assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+
+    # Test case 4: Shortest path between two vertices with no direct path
+    graph = WeightedGraph({
+        'A': Vertex({'B': 2}),
+        'B': Vertex({'C': 1}),
+        'C': Vertex({'D': 3}),
+        'D': Vertex({})
+    })
+    assert dijkstras(graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+
+    # Test case 5: Shortest path between same source and destination
+    graph = WeightedGraph({
+        'A': Vertex({'B': 2}),
+        'B': Vertex({})
+    })
+    assert dijkstras(graph, 'A', 'A') == ['A']
+
+    # Test case 6: Shortest path in a graph with negative weights
+    graph = WeightedGraph({
+        'A': Vertex({'B': -2}),
+        'B': Vertex({})
+    })
+    assert dijkstras(graph, 'A', 'B') == ['A', 'B']

@@ -1,0 +1,2059 @@
+[*] Start mutation process:
+   - targets: binary_search_tree.py
+   - tests: ts-3-5/test_3-5_0-8_241.py
+[*] 6 tests passed:
+   - test_3-5_0-8_241 [0.19752 s]
+[*] Start mutants generation and execution:
+   - [#   1] ASR binary_search_tree: 
+--------------------------------------------------------------------------------
+  57:                 return t2
+  58:             if not t2:
+  59:                 return t1
+  60:             
+- 61:             t1.value += t2.value
++ 61:             t1.value -= t2.value
+  62:             
+  63:             
+  64:             t1.left = mergeOntoT1(t1.left, t2.left)
+  65:             
+--------------------------------------------------------------------------------
+[0.21017 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28c4df0>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#   2] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+   1: from tree_node import BinaryTreeNode
+   2: 
+   3: class BinarySearchTree:
+   4:     
+-  5:     def __init__(self):
+-  6:         self.head = None
+-  7:     
++  5:     @classmethod
++  6:     def __init__(self):
++  7:         self.head = None
+   8:     def insert(self, val):
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+--------------------------------------------------------------------------------
+[0.19260 s] survived
+   - [#   3] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+-  8:     def insert(self, val):
+-  9:         if not (self.head):
+- 10:             self.head = BinaryTreeNode(val, None)
+- 11:             return
+- 12:         def add_node_recursive(node):
+- 13:             if val < node.value:
+- 14:                 if node.left:
+- 15:                     add_node_recursive(node.left)
+- 16:                 else:
+- 17:                     node.left = BinaryTreeNode(val, node)
+- 18:             
+- 19:             elif node.right:
+- 20:                 add_node_recursive(node.right)
+- 21:             else:
+- 22:                 node.right = BinaryTreeNode(val, node)
+- 23:         add_node_recursive(self.head)
+- 24:     
++  8:     @classmethod
++  9:     def insert(self, val):
++ 10:         if not (self.head):
++ 11:             self.head = BinaryTreeNode(val, None)
++ 12:             return
++ 13:         def add_node_recursive(node):
++ 14:             if val < node.value:
++ 15:                 if node.left:
++ 16:                     add_node_recursive(node.left)
++ 17:                 else:
++ 18:                     node.left = BinaryTreeNode(val, node)
++ 19:             
++ 20:             elif node.right:
++ 21:                 add_node_recursive(node.right)
++ 22:             else:
++ 23:                 node.right = BinaryTreeNode(val, node)
++ 24:         add_node_recursive(self.head)
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+  28:     def delete(self, value):
+--------------------------------------------------------------------------------
+[0.20831 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28ee1d0>
+
+    def test_insert(bst):
+>       bst.insert(5)
+
+ts-3-5/test_3-5_0-8_241.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>, val = 5
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:10: AttributeError
+   - [#   4] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+  24:     
+- 25:     def min(self):
+- 26:         return self.head.min().value
+- 27:     
++ 25:     @classmethod
++ 26:     def min(self):
++ 27:         return self.head.min().value
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+  31:     def search(self, value):
+--------------------------------------------------------------------------------
+[0.21318 s] killed by ts-3-5/test_3-5_0-8_241.py::test_min
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29f84c0>
+
+    def test_min(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.min() == 3
+
+ts-3-5/test_3-5_0-8_241.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:27: AttributeError
+   - [#   5] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  24:     
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+- 28:     def delete(self, value):
+- 29:         self.head.delete(value)
+- 30:     
++ 28:     @classmethod
++ 29:     def delete(self, value):
++ 30:         self.head.delete(value)
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+--------------------------------------------------------------------------------
+[0.20536 s] killed by ts-3-5/test_3-5_0-8_241.py::test_delete
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a4580>
+
+    def test_delete(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       bst.delete(3)
+
+ts-3-5/test_3-5_0-8_241.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>, value = 3
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:30: AttributeError
+   - [#   6] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+- 31:     def search(self, value):
+- 32:         node = self.head
+- 33:         while node:
+- 34:             if value == node.value:
+- 35:                 return node
+- 36:             if value > node.value:
+- 37:                 node = node.right
+- 38:             else:
+- 39:                 node = node.left
+- 40:         
+- 41:         return node
+- 42:     
++ 31:     @classmethod
++ 32:     def search(self, value):
++ 33:         node = self.head
++ 34:         while node:
++ 35:             if value == node.value:
++ 36:                 return node
++ 37:             if value > node.value:
++ 38:                 node = node.right
++ 39:             else:
++ 40:                 node = node.left
++ 41:         
++ 42:         return node
+  43:     def in_order_traversal(self):
+  44:         output = []
+  45:         def recur(node):
+  46:             if node:
+--------------------------------------------------------------------------------
+[0.20960 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25fd060>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+
+ts-3-5/test_3-5_0-8_241.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>, value = 5
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:33: AttributeError
+   - [#   7] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  39:                 node = node.left
+  40:         
+  41:         return node
+  42:     
+- 43:     def in_order_traversal(self):
+- 44:         output = []
+- 45:         def recur(node):
+- 46:             if node:
+- 47:                 recur(node.left)
+- 48:                 output.append(node.value)
+- 49:                 recur(node.right)
+- 50:         recur(self.head)
+- 51:         return output
+- 52:     
++ 43:     @classmethod
++ 44:     def in_order_traversal(self):
++ 45:         output = []
++ 46:         def recur(node):
++ 47:             if node:
++ 48:                 recur(node.left)
++ 49:                 output.append(node.value)
++ 50:                 recur(node.right)
++ 51:         recur(self.head)
++ 52:         return output
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+--------------------------------------------------------------------------------
+[0.21271 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a6aa0>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+
+ts-3-5/test_3-5_0-8_241.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:51: AttributeError
+   - [#   8] CDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  49:                 recur(node.right)
+  50:         recur(self.head)
+  51:         return output
+  52:     
+- 53:     def merge(self, tree):
+- 54:         
+- 55:         def mergeOntoT1(t1, t2):
+- 56:             if not t1:
+- 57:                 return t2
+- 58:             if not t2:
+- 59:                 return t1
+- 60:             
+- 61:             t1.value += t2.value
+- 62:             
++ 53:     @classmethod
++ 54:     def merge(self, tree):
++ 55:         
++ 56:         def mergeOntoT1(t1, t2):
++ 57:             if not t1:
++ 58:                 return t2
++ 59:             if not t2:
++ 60:                 return t1
++ 61:             
++ 62:             t1.value += t2.value
+  63:             
+- 64:             t1.left = mergeOntoT1(t1.left, t2.left)
+- 65:             
++ 64:             
++ 65:             t1.left = mergeOntoT1(t1.left, t2.left)
+  66:             
+- 67:             t1.right = mergeOntoT1(t1.right, t2.right)
+- 68:             
+- 69:             return t1
+- 70:         
+- 71:         mergeOntoT1(self.head, tree.head)
++ 67:             
++ 68:             t1.right = mergeOntoT1(t1.right, t2.right)
++ 69:             
++ 70:             return t1
++ 71:         
++ 72:         mergeOntoT1(self.head, tree.head)
+--------------------------------------------------------------------------------
+[0.20609 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2635990>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+>       bst1.merge(bst2)
+
+ts-3-5/test_3-5_0-8_241.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'binary_search_tree.BinarySearchTree'>
+tree = <binary_search_tree.BinarySearchTree object at 0x7fa8f26351b0>
+
+>   ???
+E   AttributeError: type object 'BinarySearchTree' has no attribute 'head'
+
+binary_search_tree:72: AttributeError
+   - [#   9] COD binary_search_tree: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+   8:     def insert(self, val):
+-  9:         if not (self.head):
++  9:         if self.head:
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+--------------------------------------------------------------------------------
+[0.21211 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f26543d0>
+
+    def test_insert(bst):
+>       bst.insert(5)
+
+ts-3-5/test_3-5_0-8_241.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:23: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:13: AttributeError
+   - [#  10] COD binary_search_tree: 
+--------------------------------------------------------------------------------
+  52:     
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+- 56:             if not t1:
++ 56:             if t1:
+  57:                 return t2
+  58:             if not t2:
+  59:                 return t1
+  60:             
+--------------------------------------------------------------------------------
+[0.21331 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a5090>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#  11] COD binary_search_tree: 
+--------------------------------------------------------------------------------
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+  57:                 return t2
+- 58:             if not t2:
++ 58:             if t2:
+  59:                 return t1
+  60:             
+  61:             t1.value += t2.value
+  62:             
+--------------------------------------------------------------------------------
+[0.21066 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29b1660>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#  12] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+   8:     def insert(self, val):
+-  9:         if not (self.head):
++  9:         if not ((not (self.head))):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+--------------------------------------------------------------------------------
+[0.20317 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f24f7fd0>
+
+    def test_insert(bst):
+>       bst.insert(5)
+
+ts-3-5/test_3-5_0-8_241.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:23: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:13: AttributeError
+   - [#  13] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+- 13:             if val < node.value:
++ 13:             if not (val < node.value):
+  14:                 if node.left:
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+--------------------------------------------------------------------------------
+[0.20389 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f26bb850>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+>       assert bst.head.left.value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:22: AssertionError
+   - [#  14] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+- 14:                 if node.left:
++ 14:                 if not (node.left):
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+  18:             
+--------------------------------------------------------------------------------
+[0.19631 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f268b550>
+
+    def test_insert(bst):
+        bst.insert(5)
+>       bst.insert(3)
+
+ts-3-5/test_3-5_0-8_241.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:23: in insert
+    ???
+binary_search_tree:15: in add_node_recursive
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:13: AttributeError
+   - [#  15] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+  18:             
+- 19:             elif node.right:
++ 19:             elif not (node.right):
+  20:                 add_node_recursive(node.right)
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+--------------------------------------------------------------------------------
+[0.20439 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f254ffd0>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+>       bst.insert(7)
+
+ts-3-5/test_3-5_0-8_241.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:23: in insert
+    ???
+binary_search_tree:20: in add_node_recursive
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:13: AttributeError
+   - [#  16] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  29:         self.head.delete(value)
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+- 33:         while node:
++ 33:         while not node:
+  34:             if value == node.value:
+  35:                 return node
+  36:             if value > node.value:
+  37:                 node = node.right
+--------------------------------------------------------------------------------
+[0.20729 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2688dc0>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(5).value == 5
+>       assert bst.search(3).value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:43: AssertionError
+   - [#  17] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+- 34:             if value == node.value:
++ 34:             if not (value == node.value):
+  35:                 return node
+  36:             if value > node.value:
+  37:                 node = node.right
+  38:             else:
+--------------------------------------------------------------------------------
+[0.20343 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a8dc0>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:42: AssertionError
+   - [#  18] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+- 36:             if value > node.value:
++ 36:             if not (value > node.value):
+  37:                 node = node.right
+  38:             else:
+  39:                 node = node.left
+  40:         
+--------------------------------------------------------------------------------
+[0.22478 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f23ced10>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(5).value == 5
+>       assert bst.search(3).value == 3
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:43: AttributeError
+   - [#  19] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  42:     
+  43:     def in_order_traversal(self):
+  44:         output = []
+  45:         def recur(node):
+- 46:             if node:
++ 46:             if not node:
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+  49:                 recur(node.right)
+  50:         recur(self.head)
+--------------------------------------------------------------------------------
+[0.23532 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25e40d0>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  20] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  52:     
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+- 56:             if not t1:
++ 56:             if not ((not t1)):
+  57:                 return t2
+  58:             if not t2:
+  59:                 return t1
+  60:             
+--------------------------------------------------------------------------------
+[0.20645 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2972830>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#  21] COI binary_search_tree: 
+--------------------------------------------------------------------------------
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+  57:                 return t2
+- 58:             if not t2:
++ 58:             if not ((not t2)):
+  59:                 return t1
+  60:             
+  61:             t1.value += t2.value
+  62:             
+--------------------------------------------------------------------------------
+[0.21197 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29f8f70>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#  22] OIL binary_search_tree: 
+--------------------------------------------------------------------------------
+  35:                 return node
+  36:             if value > node.value:
+  37:                 node = node.right
+  38:             else:
+- 39:                 node = node.left
++ 39:                 node = node.leftbreak
+  40:         
+  41:         return node
+  42:     
+  43:     def in_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.21047 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29b1a80>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(5).value == 5
+        assert bst.search(3).value == 3
+        assert bst.search(7).value == 7
+>       assert bst.search(10) is None
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:45: AssertionError
+   - [#  23] ROR binary_search_tree: 
+--------------------------------------------------------------------------------
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+- 13:             if val < node.value:
++ 13:             if val > node.value:
+  14:                 if node.left:
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+--------------------------------------------------------------------------------
+[0.20509 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29fa530>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+>       assert bst.head.left.value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:22: AssertionError
+   - [#  24] ROR binary_search_tree: 
+--------------------------------------------------------------------------------
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+- 13:             if val < node.value:
++ 13:             if val <= node.value:
+  14:                 if node.left:
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+--------------------------------------------------------------------------------
+[0.18763 s] survived
+   - [#  25] ROR binary_search_tree: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+- 34:             if value == node.value:
++ 34:             if value != node.value:
+  35:                 return node
+  36:             if value > node.value:
+  37:                 node = node.right
+  38:             else:
+--------------------------------------------------------------------------------
+[0.20916 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2542890>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:42: AssertionError
+   - [#  26] ROR binary_search_tree: 
+--------------------------------------------------------------------------------
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+- 36:             if value > node.value:
++ 36:             if value < node.value:
+  37:                 node = node.right
+  38:             else:
+  39:                 node = node.left
+  40:         
+--------------------------------------------------------------------------------
+[0.20940 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25a5fc0>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(5).value == 5
+>       assert bst.search(3).value == 3
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:43: AttributeError
+   - [#  27] ROR binary_search_tree: 
+--------------------------------------------------------------------------------
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+- 36:             if value > node.value:
++ 36:             if value >= node.value:
+  37:                 node = node.right
+  38:             else:
+  39:                 node = node.left
+  40:         
+--------------------------------------------------------------------------------
+[0.18854 s] survived
+   - [#  28] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+   1: from tree_node import BinaryTreeNode
+   2: 
+   3: class BinarySearchTree:
+   4:     
+-  5:     def __init__(self):
+-  6:         self.head = None
+-  7:     
++  5:     @staticmethod
++  6:     def __init__(self):
++  7:         self.head = None
+   8:     def insert(self, val):
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+--------------------------------------------------------------------------------
+[0.21486 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:15: TypeError: BinarySearchTree.__init__() missing 1 required positional argument: 'self'
+
+   - [#  29] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+-  8:     def insert(self, val):
+-  9:         if not (self.head):
+- 10:             self.head = BinaryTreeNode(val, None)
+- 11:             return
+- 12:         def add_node_recursive(node):
+- 13:             if val < node.value:
+- 14:                 if node.left:
+- 15:                     add_node_recursive(node.left)
+- 16:                 else:
+- 17:                     node.left = BinaryTreeNode(val, node)
+- 18:             
+- 19:             elif node.right:
+- 20:                 add_node_recursive(node.right)
+- 21:             else:
+- 22:                 node.right = BinaryTreeNode(val, node)
+- 23:         add_node_recursive(self.head)
+- 24:     
++  8:     @staticmethod
++  9:     def insert(self, val):
++ 10:         if not (self.head):
++ 11:             self.head = BinaryTreeNode(val, None)
++ 12:             return
++ 13:         def add_node_recursive(node):
++ 14:             if val < node.value:
++ 15:                 if node.left:
++ 16:                     add_node_recursive(node.left)
++ 17:                 else:
++ 18:                     node.left = BinaryTreeNode(val, node)
++ 19:             
++ 20:             elif node.right:
++ 21:                 add_node_recursive(node.right)
++ 22:             else:
++ 23:                 node.right = BinaryTreeNode(val, node)
++ 24:         add_node_recursive(self.head)
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+  28:     def delete(self, value):
+--------------------------------------------------------------------------------
+[0.20478 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:18: TypeError: BinarySearchTree.insert() missing 1 required positional argument: 'val'
+
+   - [#  30] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+  24:     
+- 25:     def min(self):
+- 26:         return self.head.min().value
+- 27:     
++ 25:     @staticmethod
++ 26:     def min(self):
++ 27:         return self.head.min().value
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+  31:     def search(self, value):
+--------------------------------------------------------------------------------
+[0.21267 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:29: TypeError: BinarySearchTree.min() missing 1 required positional argument: 'self'
+
+   - [#  31] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  24:     
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+- 28:     def delete(self, value):
+- 29:         self.head.delete(value)
+- 30:     
++ 28:     @staticmethod
++ 29:     def delete(self, value):
++ 30:         self.head.delete(value)
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+--------------------------------------------------------------------------------
+[0.21334 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:35: TypeError: BinarySearchTree.delete() missing 1 required positional argument: 'value'
+
+   - [#  32] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+- 31:     def search(self, value):
+- 32:         node = self.head
+- 33:         while node:
+- 34:             if value == node.value:
+- 35:                 return node
+- 36:             if value > node.value:
+- 37:                 node = node.right
+- 38:             else:
+- 39:                 node = node.left
+- 40:         
+- 41:         return node
+- 42:     
++ 31:     @staticmethod
++ 32:     def search(self, value):
++ 33:         node = self.head
++ 34:         while node:
++ 35:             if value == node.value:
++ 36:                 return node
++ 37:             if value > node.value:
++ 38:                 node = node.right
++ 39:             else:
++ 40:                 node = node.left
++ 41:         
++ 42:         return node
+  43:     def in_order_traversal(self):
+  44:         output = []
+  45:         def recur(node):
+  46:             if node:
+--------------------------------------------------------------------------------
+[0.20681 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:42: TypeError: BinarySearchTree.search() missing 1 required positional argument: 'value'
+
+   - [#  33] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  39:                 node = node.left
+  40:         
+  41:         return node
+  42:     
+- 43:     def in_order_traversal(self):
+- 44:         output = []
+- 45:         def recur(node):
+- 46:             if node:
+- 47:                 recur(node.left)
+- 48:                 output.append(node.value)
+- 49:                 recur(node.right)
+- 50:         recur(self.head)
+- 51:         return output
+- 52:     
++ 43:     @staticmethod
++ 44:     def in_order_traversal(self):
++ 45:         output = []
++ 46:         def recur(node):
++ 47:             if node:
++ 48:                 recur(node.left)
++ 49:                 output.append(node.value)
++ 50:                 recur(node.right)
++ 51:         recur(self.head)
++ 52:         return output
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+--------------------------------------------------------------------------------
+[0.21638 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:51: TypeError: BinarySearchTree.in_order_traversal() missing 1 required positional argument: 'self'
+
+   - [#  34] SDI binary_search_tree: 
+--------------------------------------------------------------------------------
+  49:                 recur(node.right)
+  50:         recur(self.head)
+  51:         return output
+  52:     
+- 53:     def merge(self, tree):
+- 54:         
+- 55:         def mergeOntoT1(t1, t2):
+- 56:             if not t1:
+- 57:                 return t2
+- 58:             if not t2:
+- 59:                 return t1
+- 60:             
+- 61:             t1.value += t2.value
+- 62:             
++ 53:     @staticmethod
++ 54:     def merge(self, tree):
++ 55:         
++ 56:         def mergeOntoT1(t1, t2):
++ 57:             if not t1:
++ 58:                 return t2
++ 59:             if not t2:
++ 60:                 return t1
++ 61:             
++ 62:             t1.value += t2.value
+  63:             
+- 64:             t1.left = mergeOntoT1(t1.left, t2.left)
+- 65:             
++ 64:             
++ 65:             t1.left = mergeOntoT1(t1.left, t2.left)
+  66:             
+- 67:             t1.right = mergeOntoT1(t1.right, t2.right)
+- 68:             
+- 69:             return t1
+- 70:         
+- 71:         mergeOntoT1(self.head, tree.head)
++ 67:             
++ 68:             t1.right = mergeOntoT1(t1.right, t2.right)
++ 69:             
++ 70:             return t1
++ 71:         
++ 72:         mergeOntoT1(self.head, tree.head)
+--------------------------------------------------------------------------------
+[0.22830 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/bst1/ts-3-5/test_3-5_0-8_241.py:60: TypeError: BinarySearchTree.merge() missing 1 required positional argument: 'tree'
+
+   - [#  35] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+   2: 
+   3: class BinarySearchTree:
+   4:     
+   5:     def __init__(self):
+-  6:         self.head = None
++  6:         pass
+   7:     
+   8:     def insert(self, val):
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+--------------------------------------------------------------------------------
+[0.20513 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2540bb0>
+
+    def test_insert(bst):
+>       bst.insert(5)
+
+ts-3-5/test_3-5_0-8_241.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2540bb0>, val = 5
+
+>   ???
+E   AttributeError: 'BinarySearchTree' object has no attribute 'head'
+
+binary_search_tree:9: AttributeError
+   - [#  36] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+   6:         self.head = None
+   7:     
+   8:     def insert(self, val):
+   9:         if not (self.head):
+- 10:             self.head = BinaryTreeNode(val, None)
++ 10:             pass
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+  14:                 if node.left:
+--------------------------------------------------------------------------------
+[0.21041 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2ade590>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.head.value == 5
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:21: AttributeError
+   - [#  37] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+   7:     
+   8:     def insert(self, val):
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+- 11:             return
++ 11:             pass
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+  14:                 if node.left:
+  15:                     add_node_recursive(node.left)
+--------------------------------------------------------------------------------
+[0.20904 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2554760>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+        assert bst.head.left.value == 3
+>       assert bst.head.right.value == 7
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:23: AssertionError
+   - [#  38] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+  14:                 if node.left:
+- 15:                     add_node_recursive(node.left)
++ 15:                     pass
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+  18:             
+  19:             elif node.right:
+--------------------------------------------------------------------------------
+[0.18370 s] survived
+   - [#  39] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  13:             if val < node.value:
+  14:                 if node.left:
+  15:                     add_node_recursive(node.left)
+  16:                 else:
+- 17:                     node.left = BinaryTreeNode(val, node)
++ 17:                     pass
+  18:             
+  19:             elif node.right:
+  20:                 add_node_recursive(node.right)
+  21:             else:
+--------------------------------------------------------------------------------
+[0.21096 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2a52d10>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+>       assert bst.head.left.value == 3
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:22: AttributeError
+   - [#  40] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  16:                 else:
+  17:                     node.left = BinaryTreeNode(val, node)
+  18:             
+  19:             elif node.right:
+- 20:                 add_node_recursive(node.right)
++ 20:                 pass
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+  24:     
+--------------------------------------------------------------------------------
+[0.19326 s] survived
+   - [#  41] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  18:             
+  19:             elif node.right:
+  20:                 add_node_recursive(node.right)
+  21:             else:
+- 22:                 node.right = BinaryTreeNode(val, node)
++ 22:                 pass
+  23:         add_node_recursive(self.head)
+  24:     
+  25:     def min(self):
+  26:         return self.head.min().value
+--------------------------------------------------------------------------------
+[0.20362 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2543730>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+        assert bst.head.left.value == 3
+>       assert bst.head.right.value == 7
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:23: AttributeError
+   - [#  42] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  19:             elif node.right:
+  20:                 add_node_recursive(node.right)
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+- 23:         add_node_recursive(self.head)
++ 23:         pass
+  24:     
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+--------------------------------------------------------------------------------
+[0.20428 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2a25330>
+
+    def test_insert(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.head.value == 5
+>       assert bst.head.left.value == 3
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:22: AttributeError
+   - [#  43] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+  24:     
+  25:     def min(self):
+- 26:         return self.head.min().value
++ 26:         pass
+  27:     
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+--------------------------------------------------------------------------------
+[0.20902 s] killed by ts-3-5/test_3-5_0-8_241.py::test_min
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25b4f70>
+
+    def test_min(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.min() == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:29: AssertionError
+   - [#  44] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+  28:     def delete(self, value):
+- 29:         self.head.delete(value)
++ 29:         pass
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+--------------------------------------------------------------------------------
+[0.20343 s] killed by ts-3-5/test_3-5_0-8_241.py::test_delete
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29b0880>
+
+    def test_delete(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        bst.delete(3)
+>       assert bst.head.left is None
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:36: AssertionError
+   - [#  45] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+  31:     def search(self, value):
+- 32:         node = self.head
++ 32:         pass
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+  36:             if value > node.value:
+--------------------------------------------------------------------------------
+[0.20904 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2815d80>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+
+ts-3-5/test_3-5_0-8_241.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2815d80>, value = 5
+
+>   ???
+E   UnboundLocalError: local variable 'node' referenced before assignment
+
+binary_search_tree:33: UnboundLocalError
+   - [#  46] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+  34:             if value == node.value:
+- 35:                 return node
++ 35:                 pass
+  36:             if value > node.value:
+  37:                 node = node.right
+  38:             else:
+  39:                 node = node.left
+--------------------------------------------------------------------------------
+[0.21218 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25b4cd0>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:42: AttributeError
+   - [#  47] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+  36:             if value > node.value:
+- 37:                 node = node.right
++ 37:                 pass
+  38:             else:
+  39:                 node = node.left
+  40:         
+  41:         return node
+--------------------------------------------------------------------------------
+[5.00671 s] timeout
+   - [#  48] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  35:                 return node
+  36:             if value > node.value:
+  37:                 node = node.right
+  38:             else:
+- 39:                 node = node.left
++ 39:                 pass
+  40:         
+  41:         return node
+  42:     
+  43:     def in_order_traversal(self):
+--------------------------------------------------------------------------------
+[5.00607 s] timeout
+   - [#  49] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  37:                 node = node.right
+  38:             else:
+  39:                 node = node.left
+  40:         
+- 41:         return node
++ 41:         pass
+  42:     
+  43:     def in_order_traversal(self):
+  44:         output = []
+  45:         def recur(node):
+--------------------------------------------------------------------------------
+[0.17843 s] survived
+   - [#  50] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  40:         
+  41:         return node
+  42:     
+  43:     def in_order_traversal(self):
+- 44:         output = []
++ 44:         pass
+  45:         def recur(node):
+  46:             if node:
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+--------------------------------------------------------------------------------
+[0.21113 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29f9060>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+
+ts-3-5/test_3-5_0-8_241.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:50: in in_order_traversal
+    ???
+binary_search_tree:47: in recur
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <tree_node.BinaryTreeNode object at 0x7fa8f29f9c00>
+
+>   ???
+E   NameError: name 'output' is not defined
+
+binary_search_tree:48: NameError
+   - [#  51] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  43:     def in_order_traversal(self):
+  44:         output = []
+  45:         def recur(node):
+  46:             if node:
+- 47:                 recur(node.left)
++ 47:                 pass
+  48:                 output.append(node.value)
+  49:                 recur(node.right)
+  50:         recur(self.head)
+  51:         return output
+--------------------------------------------------------------------------------
+[0.21398 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f29b19c0>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  52] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  44:         output = []
+  45:         def recur(node):
+  46:             if node:
+  47:                 recur(node.left)
+- 48:                 output.append(node.value)
++ 48:                 pass
+  49:                 recur(node.right)
+  50:         recur(self.head)
+  51:         return output
+  52:     
+--------------------------------------------------------------------------------
+[0.22042 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f288f250>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  53] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  45:         def recur(node):
+  46:             if node:
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+- 49:                 recur(node.right)
++ 49:                 pass
+  50:         recur(self.head)
+  51:         return output
+  52:     
+  53:     def merge(self, tree):
+--------------------------------------------------------------------------------
+[0.20438 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2555720>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  54] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  46:             if node:
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+  49:                 recur(node.right)
+- 50:         recur(self.head)
++ 50:         pass
+  51:         return output
+  52:     
+  53:     def merge(self, tree):
+  54:         
+--------------------------------------------------------------------------------
+[0.20977 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a7a90>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  55] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+  49:                 recur(node.right)
+  50:         recur(self.head)
+- 51:         return output
++ 51:         pass
+  52:     
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+--------------------------------------------------------------------------------
+[0.20261 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2add9f0>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:51: AssertionError
+   - [#  56] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  53:     def merge(self, tree):
+  54:         
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+- 57:                 return t2
++ 57:                 pass
+  58:             if not t2:
+  59:                 return t1
+  60:             
+  61:             t1.value += t2.value
+--------------------------------------------------------------------------------
+[0.20920 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2540910>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+>       bst1.merge(bst2)
+
+ts-3-5/test_3-5_0-8_241.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:71: in merge
+    ???
+binary_search_tree:67: in mergeOntoT1
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t1 = None, t2 = <tree_node.BinaryTreeNode object at 0x7fa8f2543880>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:61: AttributeError
+   - [#  57] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  55:         def mergeOntoT1(t1, t2):
+  56:             if not t1:
+  57:                 return t2
+  58:             if not t2:
+- 59:                 return t1
++ 59:                 pass
+  60:             
+  61:             t1.value += t2.value
+  62:             
+  63:             
+--------------------------------------------------------------------------------
+[0.21591 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28a4100>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+>       bst1.merge(bst2)
+
+ts-3-5/test_3-5_0-8_241.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+binary_search_tree:71: in merge
+    ???
+binary_search_tree:64: in mergeOntoT1
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t1 = <tree_node.BinaryTreeNode object at 0x7fa8f28a5930>, t2 = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+binary_search_tree:61: AttributeError
+   - [#  58] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  60:             
+  61:             t1.value += t2.value
+  62:             
+  63:             
+- 64:             t1.left = mergeOntoT1(t1.left, t2.left)
++ 64:             pass
+  65:             
+  66:             
+  67:             t1.right = mergeOntoT1(t1.right, t2.right)
+  68:             
+--------------------------------------------------------------------------------
+[0.18102 s] survived
+   - [#  59] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  63:             
+  64:             t1.left = mergeOntoT1(t1.left, t2.left)
+  65:             
+  66:             
+- 67:             t1.right = mergeOntoT1(t1.right, t2.right)
++ 67:             pass
+  68:             
+  69:             return t1
+  70:         
+  71:         mergeOntoT1(self.head, tree.head)
+--------------------------------------------------------------------------------
+[0.20931 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25b6bf0>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+        assert bst1.head.value == 12
+>       assert bst1.head.right.value == 9
+E       AttributeError: 'NoneType' object has no attribute 'value'
+
+ts-3-5/test_3-5_0-8_241.py:62: AttributeError
+   - [#  60] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  65:             
+  66:             
+  67:             t1.right = mergeOntoT1(t1.right, t2.right)
+  68:             
+- 69:             return t1
++ 69:             pass
+  70:         
+  71:         mergeOntoT1(self.head, tree.head)
+--------------------------------------------------------------------------------
+[0.19019 s] survived
+   - [#  61] SDL binary_search_tree: 
+--------------------------------------------------------------------------------
+  67:             t1.right = mergeOntoT1(t1.right, t2.right)
+  68:             
+  69:             return t1
+  70:         
+- 71:         mergeOntoT1(self.head, tree.head)
++ 71:         pass
+--------------------------------------------------------------------------------
+[0.20453 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2554700>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+        bst1.merge(bst2)
+>       assert bst1.head.value == 12
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:61: AssertionError
+   - [#  62] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+   2: 
+   3: class BinarySearchTree:
+   4:     
+   5:     def __init__(self):
+-  6:         self.head = None
++  6:         head = None
+   7:     
+   8:     def insert(self, val):
+   9:         if not (self.head):
+  10:             self.head = BinaryTreeNode(val, None)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  63] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+   8:     def insert(self, val):
+-  9:         if not (self.head):
++  9:         if not head:
+  10:             self.head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+--------------------------------------------------------------------------------
+[0.20704 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2540ca0>
+
+    def test_insert(bst):
+>       bst.insert(5)
+
+ts-3-5/test_3-5_0-8_241.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2540ca0>, val = 5
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:9: NameError
+   - [#  64] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+   6:         self.head = None
+   7:     
+   8:     def insert(self, val):
+   9:         if not (self.head):
+- 10:             self.head = BinaryTreeNode(val, None)
++ 10:             head = BinaryTreeNode(val, None)
+  11:             return
+  12:         def add_node_recursive(node):
+  13:             if val < node.value:
+  14:                 if node.left:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  65] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  19:             elif node.right:
+  20:                 add_node_recursive(node.right)
+  21:             else:
+  22:                 node.right = BinaryTreeNode(val, node)
+- 23:         add_node_recursive(self.head)
++ 23:         add_node_recursive(head)
+  24:     
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+--------------------------------------------------------------------------------
+[0.20594 s] killed by ts-3-5/test_3-5_0-8_241.py::test_insert
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25428c0>
+
+    def test_insert(bst):
+        bst.insert(5)
+>       bst.insert(3)
+
+ts-3-5/test_3-5_0-8_241.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f25428c0>, val = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:23: NameError
+   - [#  66] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  22:                 node.right = BinaryTreeNode(val, node)
+  23:         add_node_recursive(self.head)
+  24:     
+  25:     def min(self):
+- 26:         return self.head.min().value
++ 26:         return head.min().value
+  27:     
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+--------------------------------------------------------------------------------
+[0.20048 s] killed by ts-3-5/test_3-5_0-8_241.py::test_min
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f288e2f0>
+
+    def test_min(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.min() == 3
+
+ts-3-5/test_3-5_0-8_241.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f288e2f0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:26: NameError
+   - [#  67] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  25:     def min(self):
+  26:         return self.head.min().value
+  27:     
+  28:     def delete(self, value):
+- 29:         self.head.delete(value)
++ 29:         head.delete(value)
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+--------------------------------------------------------------------------------
+[0.20894 s] killed by ts-3-5/test_3-5_0-8_241.py::test_delete
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f28f2ef0>
+
+    def test_delete(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       bst.delete(3)
+
+ts-3-5/test_3-5_0-8_241.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f28f2ef0>, value = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:29: NameError
+   - [#  68] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  28:     def delete(self, value):
+  29:         self.head.delete(value)
+  30:     
+  31:     def search(self, value):
+- 32:         node = self.head
++ 32:         node = head
+  33:         while node:
+  34:             if value == node.value:
+  35:                 return node
+  36:             if value > node.value:
+--------------------------------------------------------------------------------
+[0.20882 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2542e60>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.search(5).value == 5
+
+ts-3-5/test_3-5_0-8_241.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2542e60>, value = 5
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:32: NameError
+   - [#  69] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  46:             if node:
+  47:                 recur(node.left)
+  48:                 output.append(node.value)
+  49:                 recur(node.right)
+- 50:         recur(self.head)
++ 50:         recur(head)
+  51:         return output
+  52:     
+  53:     def merge(self, tree):
+  54:         
+--------------------------------------------------------------------------------
+[0.20553 s] killed by ts-3-5/test_3-5_0-8_241.py::test_in_order_traversal
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2973520>
+
+    def test_in_order_traversal(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+>       assert bst.in_order_traversal() == [3, 5, 7]
+
+ts-3-5/test_3-5_0-8_241.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2973520>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:50: NameError
+   - [#  70] SVD binary_search_tree: 
+--------------------------------------------------------------------------------
+  67:             t1.right = mergeOntoT1(t1.right, t2.right)
+  68:             
+  69:             return t1
+  70:         
+- 71:         mergeOntoT1(self.head, tree.head)
++ 71:         mergeOntoT1(head, tree.head)
+--------------------------------------------------------------------------------
+[0.21045 s] killed by ts-3-5/test_3-5_0-8_241.py::test_merge
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f25359c0>
+
+    def test_merge(bst):
+        bst1 = BinarySearchTree()
+        bst2 = BinarySearchTree()
+        bst1.insert(5)
+        bst1.insert(3)
+        bst2.insert(7)
+        bst2.insert(9)
+>       bst1.merge(bst2)
+
+ts-3-5/test_3-5_0-8_241.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <binary_search_tree.BinarySearchTree object at 0x7fa8f2534700>
+tree = <binary_search_tree.BinarySearchTree object at 0x7fa8f25358d0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+binary_search_tree:71: NameError
+   - [#  71] ZIL binary_search_tree: 
+--------------------------------------------------------------------------------
+  30:     
+  31:     def search(self, value):
+  32:         node = self.head
+  33:         while node:
+- 34:             if value == node.value:
+- 35:                 return node
+- 36:             if value > node.value:
+- 37:                 node = node.right
+- 38:             else:
+- 39:                 node = node.left
++ 34:             break
++ 35:         
++ 36:         
++ 37:         
++ 38:         
++ 39:         
+  40:         
+  41:         return node
+  42:     
+  43:     def in_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.22540 s] killed by ts-3-5/test_3-5_0-8_241.py::test_search
+
+bst = <binary_search_tree.BinarySearchTree object at 0x7fa8f2816ec0>
+
+    def test_search(bst):
+        bst.insert(5)
+        bst.insert(3)
+        bst.insert(7)
+        assert bst.search(5).value == 5
+>       assert bst.search(3).value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_241.py:43: AssertionError
+[*] Mutation score [26.45895 s]: 87.1%
+   - all: 71
+   - killed: 52 (73.2%)
+   - survived: 8 (11.3%)
+   - incompetent: 9 (12.7%)
+   - timeout: 2 (2.8%)

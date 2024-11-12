@@ -1,0 +1,67 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_basic_case(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('A')
+        weighted_graph.add_vertex('B')
+        weighted_graph.add_vertex('C')
+        
+        weighted_graph.add_edge('A', 'B', 5)
+        weighted_graph.add_edge('B', 'C', 3)
+        
+        src = 'A'
+        dst = 'C'
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['A', 'B', 'C']
+        
+    def test_dijkstras_same_source_and_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('X')
+        
+        src = 'X'
+        dst = 'X'
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['X']
+        
+    def test_dijkstras_unreachable_destination(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('P')
+        weighted_graph.add_vertex('Q')
+        
+        weighted_graph.add_edge('P', 'Q', 7)
+        
+        src = 'P'
+        dst = 'R'
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == []
+        
+    def test_dijkstras_negative_weight(self):
+        weighted_graph = WeightedGraph()
+        weighted_graph.add_vertex('Y')
+        weighted_graph.add_vertex('Z')
+        
+        weighted_graph.add_edge('Y', 'Z', -2)
+        
+        src = 'Y'
+        dst = 'Z'
+        
+        path = dijkstras(weighted_graph, src, dst)
+        
+        assert path == ['Y', 'Z']
+
+    # Add more test cases as needed

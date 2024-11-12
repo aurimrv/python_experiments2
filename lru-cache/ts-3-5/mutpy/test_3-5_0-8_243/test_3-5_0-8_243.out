@@ -1,0 +1,2886 @@
+[*] Start mutation process:
+   - targets: lru_cache.py
+   - tests: ts-3-5/test_3-5_0-8_243.py
+[*] 6 tests passed:
+   - test_3-5_0-8_243 [0.14296 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD lru_cache: 
+--------------------------------------------------------------------------------
+  133:             self._add(node)
+  134:             
+  135:             return node.val
+  136:         else:
+- 137:             return -1
++ 137:             return 1
+  138:     
+  139:     def _add(self, node):
+  140:         '''
+  141:         Internal function.  Add a node to the end of the LRU list.
+--------------------------------------------------------------------------------
+[0.18191 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce096afe0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09687f0>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+        lru_cache.put(4, 'd')
+>       assert lru_cache.get(1) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:40: AssertionError
+   - [#   2] AOR lru_cache: 
+--------------------------------------------------------------------------------
+  133:             self._add(node)
+  134:             
+  135:             return node.val
+  136:         else:
+- 137:             return -1
++ 137:             return +1
+  138:     
+  139:     def _add(self, node):
+  140:         '''
+  141:         Internal function.  Add a node to the end of the LRU list.
+--------------------------------------------------------------------------------
+[0.17372 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0a31600>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0a31090>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+        lru_cache.put(4, 'd')
+>       assert lru_cache.get(1) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:40: AssertionError
+   - [#   3] CDI lru_cache: 
+--------------------------------------------------------------------------------
+    9: 
+   10: 
+   11:     '''
+   12:     
+-  13:     def __init__(self, key, val):
+-  14:         '''
+-  15:         Create a node.
+-  16: 
+-  17:         Node will have a key and value, and blank
+-  18:         previous and next values.
+-  19: 
+-  20:         :param key: the lookup key value
+-  21:         :param val: the value corresponding to the key
+-  22:         '''
+-  23:         self.key = key
+-  24:         self.val = val
+-  25:         self.next = None
+-  26:         self.prev = None
+-  27: 
++  13:     @classmethod
++  14:     def __init__(self, key, val):
++  15:         '''
++  16:         Create a node.
++  17: 
++  18:         Node will have a key and value, and blank
++  19:         previous and next values.
++  20: 
++  21:         :param key: the lookup key value
++  22:         :param val: the value corresponding to the key
++  23:         '''
++  24:         self.key = key
++  25:         self.val = val
++  26:         self.next = None
++  27:         self.prev = None
+   28: 
+   29: class LruCache:
+   30:     
+   31:     '''
+--------------------------------------------------------------------------------
+[0.16869 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_multiple_elements
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce08940a0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0894820>
+
+    def test_put_get_multiple_elements(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:25: AssertionError
+   - [#   4] CDI lru_cache: 
+--------------------------------------------------------------------------------
+   50:     '''
+   51:     Constant value used by the head and tail as terminating values.
+   52:     '''
+   53:     
+-  54:     def __init__(self, capacity):
+-  55:         '''
+-  56:         Create an LRU Cache.
+-  57: 
+-  58:         :param capacity: the maximum number of elements that can be stored in the cache,
+-  59:             must be greater than 0
+-  60:         '''
+-  61:         if capacity <= 1:
+-  62:             raise ValueError('Capacity must be >= 1')
+-  63:         
++  54:     @classmethod
++  55:     def __init__(self, capacity):
++  56:         '''
++  57:         Create an LRU Cache.
++  58: 
++  59:         :param capacity: the maximum number of elements that can be stored in the cache,
++  60:             must be greater than 0
++  61:         '''
++  62:         if capacity <= 1:
++  63:             raise ValueError('Capacity must be >= 1')
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+-  67:         
++  65:         
++  66:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  67:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   68:         
+-  69:         self.head.next = self.tail
+-  70:         self.tail.prev = self.head
+-  71:         
++  69:         
++  70:         self.head.next = self.tail
++  71:         self.tail.prev = self.head
+   72:         
+-  73:         self.lookup_map = {}
+-  74:         
++  73:         
++  74:         self.lookup_map = {}
+   75:         
+-  76:         self.capacity = capacity
+-  77:     
++  76:         
++  77:         self.capacity = capacity
+   78:     def put(self, key, value):
+   79:         '''
+   80:         Add a value to the cache.
+   81: 
+--------------------------------------------------------------------------------
+[0.14994 s] survived
+   - [#   5] CDI lru_cache: 
+--------------------------------------------------------------------------------
+   74:         
+   75:         
+   76:         self.capacity = capacity
+   77:     
+-  78:     def put(self, key, value):
+-  79:         '''
+-  80:         Add a value to the cache.
+-  81: 
+-  82:         If adding the value will cause the cache to go above capacity, then
+-  83:         the least recently item will be dropped.
+-  84: 
+-  85:         :param key: the lookup key of the item
+-  86:         :param value: the value stored on key
+-  87:         :return: None
+-  88:         '''
+-  89:         
+-  90:         if key in self.lookup_map:
+-  91:             
+-  92:             node = self.lookup_map.pop(key)
+-  93:             self._remove(node)
+-  94:         
++  78:     @classmethod
++  79:     def put(self, key, value):
++  80:         '''
++  81:         Add a value to the cache.
++  82: 
++  83:         If adding the value will cause the cache to go above capacity, then
++  84:         the least recently item will be dropped.
++  85: 
++  86:         :param key: the lookup key of the item
++  87:         :param value: the value stored on key
++  88:         :return: None
++  89:         '''
++  90:         
++  91:         if key in self.lookup_map:
++  92:             
++  93:             node = self.lookup_map.pop(key)
++  94:             self._remove(node)
+   95:         
+-  96:         node = ListNode(key, value)
+-  97:         
++  96:         
++  97:         node = ListNode(key, value)
+   98:         
+-  99:         self._add(node)
+- 100:         
++  99:         
++ 100:         self._add(node)
+  101:         
+- 102:         self.lookup_map[key] = node
+- 103:         
++ 102:         
++ 103:         self.lookup_map[key] = node
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
+- 106:             
+- 107:             least_recently_used_node = self.head.next
+- 108:             
++ 105:         
++ 106:         if len(self.lookup_map) > self.capacity:
++ 107:             
++ 108:             least_recently_used_node = self.head.next
+  109:             
+- 110:             self._remove(least_recently_used_node)
+- 111:             
++ 110:             
++ 111:             self._remove(least_recently_used_node)
+  112:             
+- 113:             del self.lookup_map[least_recently_used_node.key]
+- 114:     
++ 113:             
++ 114:             del self.lookup_map[least_recently_used_node.key]
+  115:     def get(self, key):
+  116:         '''
+  117:         Get a value from the cache.
+  118: 
+--------------------------------------------------------------------------------
+[0.17190 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09a8e50>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09a9570>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'lru_cache.LruCache'>, key = 1, value = 'a'
+
+>   ???
+E   AttributeError: type object 'LruCache' has no attribute 'lookup_map'
+
+lru_cache:91: AttributeError
+   - [#   6] CDI lru_cache: 
+--------------------------------------------------------------------------------
+  111:             
+  112:             
+  113:             del self.lookup_map[least_recently_used_node.key]
+  114:     
+- 115:     def get(self, key):
+- 116:         '''
+- 117:         Get a value from the cache.
+- 118: 
+- 119:         This will reset the key in the drop order.
+- 120: 
+- 121:         :param key: the key to lookup
+- 122:         :return: the value of the key or -1 if the key is not found
+- 123:         '''
+- 124:         
+- 125:         if key in self.lookup_map:
+- 126:             
+- 127:             node = self.lookup_map[key]
+- 128:             
++ 115:     @classmethod
++ 116:     def get(self, key):
++ 117:         '''
++ 118:         Get a value from the cache.
++ 119: 
++ 120:         This will reset the key in the drop order.
++ 121: 
++ 122:         :param key: the key to lookup
++ 123:         :return: the value of the key or -1 if the key is not found
++ 124:         '''
++ 125:         
++ 126:         if key in self.lookup_map:
++ 127:             
++ 128:             node = self.lookup_map[key]
+  129:             
+- 130:             self._remove(node)
+- 131:             
++ 130:             
++ 131:             self._remove(node)
+  132:             
+- 133:             self._add(node)
+- 134:             
+- 135:             return node.val
+- 136:         else:
+- 137:             return -1
+- 138:     
++ 133:             
++ 134:             self._add(node)
++ 135:             
++ 136:             return node.val
++ 137:         else:
++ 138:             return -1
+  139:     def _add(self, node):
+  140:         '''
+  141:         Internal function.  Add a node to the end of the LRU list.
+  142: 
+--------------------------------------------------------------------------------
+[0.17260 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce098b7c0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce094e500>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'lru_cache.LruCache'>, key = 1
+
+>   ???
+E   AttributeError: type object 'LruCache' has no attribute 'lookup_map'
+
+lru_cache:126: AttributeError
+   - [#   7] CDI lru_cache: 
+--------------------------------------------------------------------------------
+  135:             return node.val
+  136:         else:
+  137:             return -1
+  138:     
+- 139:     def _add(self, node):
+- 140:         '''
+- 141:         Internal function.  Add a node to the end of the LRU list.
+- 142: 
+- 143:         This function will add a node immediately in front of the tail
+- 144:         node.  Sets the node previous to the tail to the previous of
+- 145:         the new node, and the next of the new node to the tail.
+- 146: 
+- 147:         :param node:m the node to add to the list
+- 148:         :return: None
+- 149:         '''
+- 150:         old_last_node = self.tail.prev
+- 151:         
++ 139:     @classmethod
++ 140:     def _add(self, node):
++ 141:         '''
++ 142:         Internal function.  Add a node to the end of the LRU list.
++ 143: 
++ 144:         This function will add a node immediately in front of the tail
++ 145:         node.  Sets the node previous to the tail to the previous of
++ 146:         the new node, and the next of the new node to the tail.
++ 147: 
++ 148:         :param node:m the node to add to the list
++ 149:         :return: None
++ 150:         '''
++ 151:         old_last_node = self.tail.prev
+  152:         
+- 153:         node.prev = old_last_node
+- 154:         
++ 153:         
++ 154:         node.prev = old_last_node
+  155:         
+- 156:         node.next = self.tail
+- 157:         
++ 156:         
++ 157:         node.next = self.tail
+  158:         
+- 159:         old_last_node.next = node
+- 160:         
++ 159:         
++ 160:         old_last_node.next = node
+  161:         
+- 162:         self.tail.prev = node
+- 163:     
++ 162:         
++ 163:         self.tail.prev = node
+  164:     def _remove(self, node):
+  165:         '''
+  166:         Internal function.  Remove a node from the list.
+  167: 
+--------------------------------------------------------------------------------
+[0.16509 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09ab520>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09ab5e0>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'lru_cache.LruCache'>
+node = <lru_cache.ListNode object at 0x7f5ce09a90f0>
+
+>   ???
+E   AttributeError: type object 'LruCache' has no attribute 'tail'
+
+lru_cache:151: AttributeError
+   - [#   8] CDI lru_cache: 
+--------------------------------------------------------------------------------
+  160:         
+  161:         
+  162:         self.tail.prev = node
+  163:     
+- 164:     def _remove(self, node):
+- 165:         '''
+- 166:         Internal function.  Remove a node from the list.
+- 167: 
+- 168:         This function will remove a node by getting its prev and next
+- 169:         and linking them together, thus removing the node and allowing
+- 170:         it to be garbage collected.
+- 171: 
+- 172:         :param node: the node to remove from the list
+- 173:         :return: None
+- 174:         '''
+- 175:         
++ 164:     @classmethod
++ 165:     def _remove(self, node):
++ 166:         '''
++ 167:         Internal function.  Remove a node from the list.
++ 168: 
++ 169:         This function will remove a node by getting its prev and next
++ 170:         and linking them together, thus removing the node and allowing
++ 171:         it to be garbage collected.
++ 172: 
++ 173:         :param node: the node to remove from the list
++ 174:         :return: None
++ 175:         '''
+  176:         
+- 177:         previous_node = node.prev
+- 178:         next_node = node.next
+- 179:         
++ 177:         
++ 178:         previous_node = node.prev
++ 179:         next_node = node.next
+  180:         
+- 181:         previous_node.next = next_node
+- 182:         
++ 181:         
++ 182:         previous_node.next = next_node
+  183:         
+- 184:         next_node.prev = previous_node
++ 184:         
++ 185:         next_node.prev = previous_node
+--------------------------------------------------------------------------------
+[0.14720 s] survived
+   - [#   9] COI lru_cache: 
+--------------------------------------------------------------------------------
+   57: 
+   58:         :param capacity: the maximum number of elements that can be stored in the cache,
+   59:             must be greater than 0
+   60:         '''
+-  61:         if capacity <= 1:
++  61:         if not (capacity <= 1):
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+--------------------------------------------------------------------------------
+[0.17323 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07c1d20>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07c1d50>, capacity = 3
+
+>   ???
+E   ValueError: Capacity must be >= 1
+
+lru_cache:62: ValueError
+   - [#  10] COI lru_cache: 
+--------------------------------------------------------------------------------
+   86:         :param value: the value stored on key
+   87:         :return: None
+   88:         '''
+   89:         
+-  90:         if key in self.lookup_map:
++  90:         if not (key in self.lookup_map):
+   91:             
+   92:             node = self.lookup_map.pop(key)
+   93:             self._remove(node)
+   94:         
+--------------------------------------------------------------------------------
+[0.17032 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09260e0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0927640>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0927640>, key = 1, value = 'a'
+
+>   ???
+E   KeyError: 1
+
+lru_cache:92: KeyError
+   - [#  11] COI lru_cache: 
+--------------------------------------------------------------------------------
+   86:         :param value: the value stored on key
+   87:         :return: None
+   88:         '''
+   89:         
+-  90:         if key in self.lookup_map:
++  90:         if key not in self.lookup_map:
+   91:             
+   92:             node = self.lookup_map.pop(key)
+   93:             self._remove(node)
+   94:         
+--------------------------------------------------------------------------------
+[0.16503 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce08702e0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce086df60>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce086df60>, key = 1, value = 'a'
+
+>   ???
+E   KeyError: 1
+
+lru_cache:92: KeyError
+   - [#  12] COI lru_cache: 
+--------------------------------------------------------------------------------
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
++ 105:         if not (len(self.lookup_map) > self.capacity):
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+--------------------------------------------------------------------------------
+[0.17162 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069b100>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069b130>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  13] COI lru_cache: 
+--------------------------------------------------------------------------------
+  121:         :param key: the key to lookup
+  122:         :return: the value of the key or -1 if the key is not found
+  123:         '''
+  124:         
+- 125:         if key in self.lookup_map:
++ 125:         if not (key in self.lookup_map):
+  126:             
+  127:             node = self.lookup_map[key]
+  128:             
+  129:             
+--------------------------------------------------------------------------------
+[0.17445 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce06bcc10>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce06bcc40>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  14] COI lru_cache: 
+--------------------------------------------------------------------------------
+  121:         :param key: the key to lookup
+  122:         :return: the value of the key or -1 if the key is not found
+  123:         '''
+  124:         
+- 125:         if key in self.lookup_map:
++ 125:         if key not in self.lookup_map:
+  126:             
+  127:             node = self.lookup_map[key]
+  128:             
+  129:             
+--------------------------------------------------------------------------------
+[0.17460 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0684220>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0684610>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  15] ROR lru_cache: 
+--------------------------------------------------------------------------------
+   57: 
+   58:         :param capacity: the maximum number of elements that can be stored in the cache,
+   59:             must be greater than 0
+   60:         '''
+-  61:         if capacity <= 1:
++  61:         if capacity >= 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+--------------------------------------------------------------------------------
+[0.18917 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce075dd80>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce075dd50>, capacity = 3
+
+>   ???
+E   ValueError: Capacity must be >= 1
+
+lru_cache:62: ValueError
+   - [#  16] ROR lru_cache: 
+--------------------------------------------------------------------------------
+   57: 
+   58:         :param capacity: the maximum number of elements that can be stored in the cache,
+   59:             must be greater than 0
+   60:         '''
+-  61:         if capacity <= 1:
++  61:         if capacity < 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+--------------------------------------------------------------------------------
+[0.14631 s] survived
+   - [#  17] ROR lru_cache: 
+--------------------------------------------------------------------------------
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
++ 105:         if len(self.lookup_map) < self.capacity:
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+--------------------------------------------------------------------------------
+[0.16295 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0c7fb80>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0af9ea0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  18] ROR lru_cache: 
+--------------------------------------------------------------------------------
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
++ 105:         if len(self.lookup_map) >= self.capacity:
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+--------------------------------------------------------------------------------
+[0.16285 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_multiple_elements
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0c7f580>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0af9ea0>
+
+    def test_put_get_multiple_elements(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:25: AssertionError
+   - [#  19] SDI lru_cache: 
+--------------------------------------------------------------------------------
+    9: 
+   10: 
+   11:     '''
+   12:     
+-  13:     def __init__(self, key, val):
+-  14:         '''
+-  15:         Create a node.
+-  16: 
+-  17:         Node will have a key and value, and blank
+-  18:         previous and next values.
+-  19: 
+-  20:         :param key: the lookup key value
+-  21:         :param val: the value corresponding to the key
+-  22:         '''
+-  23:         self.key = key
+-  24:         self.val = val
+-  25:         self.next = None
+-  26:         self.prev = None
+-  27: 
++  13:     @staticmethod
++  14:     def __init__(self, key, val):
++  15:         '''
++  16:         Create a node.
++  17: 
++  18:         Node will have a key and value, and blank
++  19:         previous and next values.
++  20: 
++  21:         :param key: the lookup key value
++  22:         :param val: the value corresponding to the key
++  23:         '''
++  24:         self.key = key
++  25:         self.val = val
++  26:         self.next = None
++  27:         self.prev = None
+   28: 
+   29: class LruCache:
+   30:     
+   31:     '''
+--------------------------------------------------------------------------------
+[0.17357 s] incompetent
+
+TypeError: lru_cache:65: TypeError: ListNode.__init__() missing 1 required positional argument: 'val'
+
+   - [#  20] SDI lru_cache: 
+--------------------------------------------------------------------------------
+   50:     '''
+   51:     Constant value used by the head and tail as terminating values.
+   52:     '''
+   53:     
+-  54:     def __init__(self, capacity):
+-  55:         '''
+-  56:         Create an LRU Cache.
+-  57: 
+-  58:         :param capacity: the maximum number of elements that can be stored in the cache,
+-  59:             must be greater than 0
+-  60:         '''
+-  61:         if capacity <= 1:
+-  62:             raise ValueError('Capacity must be >= 1')
+-  63:         
++  54:     @staticmethod
++  55:     def __init__(self, capacity):
++  56:         '''
++  57:         Create an LRU Cache.
++  58: 
++  59:         :param capacity: the maximum number of elements that can be stored in the cache,
++  60:             must be greater than 0
++  61:         '''
++  62:         if capacity <= 1:
++  63:             raise ValueError('Capacity must be >= 1')
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+-  67:         
++  65:         
++  66:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  67:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   68:         
+-  69:         self.head.next = self.tail
+-  70:         self.tail.prev = self.head
+-  71:         
++  69:         
++  70:         self.head.next = self.tail
++  71:         self.tail.prev = self.head
+   72:         
+-  73:         self.lookup_map = {}
+-  74:         
++  73:         
++  74:         self.lookup_map = {}
+   75:         
+-  76:         self.capacity = capacity
+-  77:     
++  76:         
++  77:         self.capacity = capacity
+   78:     def put(self, key, value):
+   79:         '''
+   80:         Add a value to the cache.
+   81: 
+--------------------------------------------------------------------------------
+[0.16570 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/lru-cache/ts-3-5/test_3-5_0-8_243.py:15: TypeError: LruCache.__init__() missing 1 required positional argument: 'capacity'
+
+   - [#  21] SDI lru_cache: 
+--------------------------------------------------------------------------------
+   74:         
+   75:         
+   76:         self.capacity = capacity
+   77:     
+-  78:     def put(self, key, value):
+-  79:         '''
+-  80:         Add a value to the cache.
+-  81: 
+-  82:         If adding the value will cause the cache to go above capacity, then
+-  83:         the least recently item will be dropped.
+-  84: 
+-  85:         :param key: the lookup key of the item
+-  86:         :param value: the value stored on key
+-  87:         :return: None
+-  88:         '''
+-  89:         
+-  90:         if key in self.lookup_map:
+-  91:             
+-  92:             node = self.lookup_map.pop(key)
+-  93:             self._remove(node)
+-  94:         
++  78:     @staticmethod
++  79:     def put(self, key, value):
++  80:         '''
++  81:         Add a value to the cache.
++  82: 
++  83:         If adding the value will cause the cache to go above capacity, then
++  84:         the least recently item will be dropped.
++  85: 
++  86:         :param key: the lookup key of the item
++  87:         :param value: the value stored on key
++  88:         :return: None
++  89:         '''
++  90:         
++  91:         if key in self.lookup_map:
++  92:             
++  93:             node = self.lookup_map.pop(key)
++  94:             self._remove(node)
+   95:         
+-  96:         node = ListNode(key, value)
+-  97:         
++  96:         
++  97:         node = ListNode(key, value)
+   98:         
+-  99:         self._add(node)
+- 100:         
++  99:         
++ 100:         self._add(node)
+  101:         
+- 102:         self.lookup_map[key] = node
+- 103:         
++ 102:         
++ 103:         self.lookup_map[key] = node
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
+- 106:             
+- 107:             least_recently_used_node = self.head.next
+- 108:             
++ 105:         
++ 106:         if len(self.lookup_map) > self.capacity:
++ 107:             
++ 108:             least_recently_used_node = self.head.next
+  109:             
+- 110:             self._remove(least_recently_used_node)
+- 111:             
++ 110:             
++ 111:             self._remove(least_recently_used_node)
+  112:             
+- 113:             del self.lookup_map[least_recently_used_node.key]
+- 114:     
++ 113:             
++ 114:             del self.lookup_map[least_recently_used_node.key]
+  115:     def get(self, key):
+  116:         '''
+  117:         Get a value from the cache.
+  118: 
+--------------------------------------------------------------------------------
+[0.16720 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/lru-cache/ts-3-5/test_3-5_0-8_243.py:18: TypeError: LruCache.put() missing 1 required positional argument: 'value'
+
+   - [#  22] SDI lru_cache: 
+--------------------------------------------------------------------------------
+  111:             
+  112:             
+  113:             del self.lookup_map[least_recently_used_node.key]
+  114:     
+- 115:     def get(self, key):
+- 116:         '''
+- 117:         Get a value from the cache.
+- 118: 
+- 119:         This will reset the key in the drop order.
+- 120: 
+- 121:         :param key: the key to lookup
+- 122:         :return: the value of the key or -1 if the key is not found
+- 123:         '''
+- 124:         
+- 125:         if key in self.lookup_map:
+- 126:             
+- 127:             node = self.lookup_map[key]
+- 128:             
++ 115:     @staticmethod
++ 116:     def get(self, key):
++ 117:         '''
++ 118:         Get a value from the cache.
++ 119: 
++ 120:         This will reset the key in the drop order.
++ 121: 
++ 122:         :param key: the key to lookup
++ 123:         :return: the value of the key or -1 if the key is not found
++ 124:         '''
++ 125:         
++ 126:         if key in self.lookup_map:
++ 127:             
++ 128:             node = self.lookup_map[key]
+  129:             
+- 130:             self._remove(node)
+- 131:             
++ 130:             
++ 131:             self._remove(node)
+  132:             
+- 133:             self._add(node)
+- 134:             
+- 135:             return node.val
+- 136:         else:
+- 137:             return -1
+- 138:     
++ 133:             
++ 134:             self._add(node)
++ 135:             
++ 136:             return node.val
++ 137:         else:
++ 138:             return -1
+  139:     def _add(self, node):
+  140:         '''
+  141:         Internal function.  Add a node to the end of the LRU list.
+  142: 
+--------------------------------------------------------------------------------
+[0.16265 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/lru-cache/ts-3-5/test_3-5_0-8_243.py:19: TypeError: LruCache.get() missing 1 required positional argument: 'key'
+
+   - [#  23] SDI lru_cache: 
+--------------------------------------------------------------------------------
+  135:             return node.val
+  136:         else:
+  137:             return -1
+  138:     
+- 139:     def _add(self, node):
+- 140:         '''
+- 141:         Internal function.  Add a node to the end of the LRU list.
+- 142: 
+- 143:         This function will add a node immediately in front of the tail
+- 144:         node.  Sets the node previous to the tail to the previous of
+- 145:         the new node, and the next of the new node to the tail.
+- 146: 
+- 147:         :param node:m the node to add to the list
+- 148:         :return: None
+- 149:         '''
+- 150:         old_last_node = self.tail.prev
+- 151:         
++ 139:     @staticmethod
++ 140:     def _add(self, node):
++ 141:         '''
++ 142:         Internal function.  Add a node to the end of the LRU list.
++ 143: 
++ 144:         This function will add a node immediately in front of the tail
++ 145:         node.  Sets the node previous to the tail to the previous of
++ 146:         the new node, and the next of the new node to the tail.
++ 147: 
++ 148:         :param node:m the node to add to the list
++ 149:         :return: None
++ 150:         '''
++ 151:         old_last_node = self.tail.prev
+  152:         
+- 153:         node.prev = old_last_node
+- 154:         
++ 153:         
++ 154:         node.prev = old_last_node
+  155:         
+- 156:         node.next = self.tail
+- 157:         
++ 156:         
++ 157:         node.next = self.tail
+  158:         
+- 159:         old_last_node.next = node
+- 160:         
++ 159:         
++ 160:         old_last_node.next = node
+  161:         
+- 162:         self.tail.prev = node
+- 163:     
++ 162:         
++ 163:         self.tail.prev = node
+  164:     def _remove(self, node):
+  165:         '''
+  166:         Internal function.  Remove a node from the list.
+  167: 
+--------------------------------------------------------------------------------
+[0.16503 s] incompetent
+
+TypeError: lru_cache:99: TypeError: LruCache._add() missing 1 required positional argument: 'node'
+
+   - [#  24] SDI lru_cache: 
+--------------------------------------------------------------------------------
+  160:         
+  161:         
+  162:         self.tail.prev = node
+  163:     
+- 164:     def _remove(self, node):
+- 165:         '''
+- 166:         Internal function.  Remove a node from the list.
+- 167: 
+- 168:         This function will remove a node by getting its prev and next
+- 169:         and linking them together, thus removing the node and allowing
+- 170:         it to be garbage collected.
+- 171: 
+- 172:         :param node: the node to remove from the list
+- 173:         :return: None
+- 174:         '''
+- 175:         
++ 164:     @staticmethod
++ 165:     def _remove(self, node):
++ 166:         '''
++ 167:         Internal function.  Remove a node from the list.
++ 168: 
++ 169:         This function will remove a node by getting its prev and next
++ 170:         and linking them together, thus removing the node and allowing
++ 171:         it to be garbage collected.
++ 172: 
++ 173:         :param node: the node to remove from the list
++ 174:         :return: None
++ 175:         '''
+  176:         
+- 177:         previous_node = node.prev
+- 178:         next_node = node.next
+- 179:         
++ 177:         
++ 178:         previous_node = node.prev
++ 179:         next_node = node.next
+  180:         
+- 181:         previous_node.next = next_node
+- 182:         
++ 181:         
++ 182:         previous_node.next = next_node
+  183:         
+- 184:         next_node.prev = previous_node
++ 184:         
++ 185:         next_node.prev = previous_node
+--------------------------------------------------------------------------------
+[0.17196 s] incompetent
+
+TypeError: lru_cache:130: TypeError: LruCache._remove() missing 1 required positional argument: 'node'
+
+   - [#  25] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   19: 
+   20:         :param key: the lookup key value
+   21:         :param val: the value corresponding to the key
+   22:         '''
+-  23:         self.key = key
++  23:         pass
+   24:         self.val = val
+   25:         self.next = None
+   26:         self.prev = None
+   27: 
+--------------------------------------------------------------------------------
+[0.16231 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0926e00>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0925870>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0925870>, key = 4, value = 'd'
+
+>   ???
+E   AttributeError: 'ListNode' object has no attribute 'key'
+
+lru_cache:113: AttributeError
+   - [#  26] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   20:         :param key: the lookup key value
+   21:         :param val: the value corresponding to the key
+   22:         '''
+   23:         self.key = key
+-  24:         self.val = val
++  24:         pass
+   25:         self.next = None
+   26:         self.prev = None
+   27: 
+   28: 
+--------------------------------------------------------------------------------
+[0.17255 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07eee30>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce06874c0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce06874c0>, key = 1
+
+>   ???
+E   AttributeError: 'ListNode' object has no attribute 'val'
+
+lru_cache:135: AttributeError
+   - [#  27] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   21:         :param val: the value corresponding to the key
+   22:         '''
+   23:         self.key = key
+   24:         self.val = val
+-  25:         self.next = None
++  25:         pass
+   26:         self.prev = None
+   27: 
+   28: 
+   29: class LruCache:
+--------------------------------------------------------------------------------
+[0.14038 s] survived
+   - [#  28] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   22:         '''
+   23:         self.key = key
+   24:         self.val = val
+   25:         self.next = None
+-  26:         self.prev = None
++  26:         pass
+   27: 
+   28: 
+   29: class LruCache:
+   30:     
+--------------------------------------------------------------------------------
+[0.13879 s] survived
+   - [#  29] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   45:         get: O(1), amortized worst case: O(N)
+   46: 
+   47:     '''
+   48:     
+-  49:     terminal_value = 0
++  49:     pass
+   50:     '''
+   51:     Constant value used by the head and tail as terminating values.
+   52:     '''
+   53:     
+--------------------------------------------------------------------------------
+[0.19191 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0988c70>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0988d30>, capacity = 3
+
+>   ???
+E   AttributeError: 'LruCache' object has no attribute 'terminal_value'
+
+lru_cache:65: AttributeError
+   - [#  30] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   46: 
+   47:     '''
+   48:     
+   49:     terminal_value = 0
+-  50:     '''
+-  51:     Constant value used by the head and tail as terminating values.
+-  52:     '''
++  50:     pass
++  51:     
++  52:     
+   53:     
+   54:     def __init__(self, capacity):
+   55:         '''
+   56:         Create an LRU Cache.
+--------------------------------------------------------------------------------
+[0.14330 s] survived
+   - [#  31] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   61:         if capacity <= 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  65:         pass
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+--------------------------------------------------------------------------------
+[0.19106 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0907be0>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0907370>, capacity = 3
+
+>   ???
+E   AttributeError: 'LruCache' object has no attribute 'head'
+
+lru_cache:69: AttributeError
+   - [#  32] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
++  66:         pass
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+--------------------------------------------------------------------------------
+[0.16692 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0a30df0>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0a328c0>, capacity = 3
+
+>   ???
+E   AttributeError: 'LruCache' object has no attribute 'tail'
+
+lru_cache:69: AttributeError
+   - [#  33] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+-  69:         self.head.next = self.tail
++  69:         pass
+   70:         self.tail.prev = self.head
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+--------------------------------------------------------------------------------
+[0.14970 s] survived
+   - [#  34] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+-  70:         self.tail.prev = self.head
++  70:         pass
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+   74:         
+--------------------------------------------------------------------------------
+[0.15978 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0bf0f10>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0bf05b0>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0bf05b0>
+node = <lru_cache.ListNode object at 0x7f5ce0bf3b80>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+lru_cache:159: AttributeError
+   - [#  35] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+   71:         
+   72:         
+-  73:         self.lookup_map = {}
++  73:         pass
+   74:         
+   75:         
+   76:         self.capacity = capacity
+   77:     
+--------------------------------------------------------------------------------
+[0.17074 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce086cca0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce086c9d0>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce086c9d0>, key = 1, value = 'a'
+
+>   ???
+E   AttributeError: 'LruCache' object has no attribute 'lookup_map'
+
+lru_cache:90: AttributeError
+   - [#  36] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   72:         
+   73:         self.lookup_map = {}
+   74:         
+   75:         
+-  76:         self.capacity = capacity
++  76:         pass
+   77:     
+   78:     def put(self, key, value):
+   79:         '''
+   80:         Add a value to the cache.
+--------------------------------------------------------------------------------
+[0.17300 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce086cca0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce086c9d0>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce086c9d0>, key = 1, value = 'a'
+
+>   ???
+E   AttributeError: 'LruCache' object has no attribute 'capacity'
+
+lru_cache:105: AttributeError
+   - [#  37] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   88:         '''
+   89:         
+   90:         if key in self.lookup_map:
+   91:             
+-  92:             node = self.lookup_map.pop(key)
++  92:             pass
+   93:             self._remove(node)
+   94:         
+   95:         
+   96:         node = ListNode(key, value)
+--------------------------------------------------------------------------------
+[0.17397 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_replace_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069e6e0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069dea0>
+
+    def test_put_get_replace_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       lru_cache.put(1, 'new_a')
+
+ts-3-5/test_3-5_0-8_243.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069dea0>, key = 1, value = 'new_a'
+
+>   ???
+E   UnboundLocalError: local variable 'node' referenced before assignment
+
+lru_cache:93: UnboundLocalError
+   - [#  38] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   89:         
+   90:         if key in self.lookup_map:
+   91:             
+   92:             node = self.lookup_map.pop(key)
+-  93:             self._remove(node)
++  93:             pass
+   94:         
+   95:         
+   96:         node = ListNode(key, value)
+   97:         
+--------------------------------------------------------------------------------
+[0.14432 s] survived
+   - [#  39] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   92:             node = self.lookup_map.pop(key)
+   93:             self._remove(node)
+   94:         
+   95:         
+-  96:         node = ListNode(key, value)
++  96:         pass
+   97:         
+   98:         
+   99:         self._add(node)
+  100:         
+--------------------------------------------------------------------------------
+[0.16853 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0793490>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0792f80>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0792f80>, key = 1, value = 'a'
+
+>   ???
+E   UnboundLocalError: local variable 'node' referenced before assignment
+
+lru_cache:99: UnboundLocalError
+   - [#  40] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   95:         
+   96:         node = ListNode(key, value)
+   97:         
+   98:         
+-  99:         self._add(node)
++  99:         pass
+  100:         
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+--------------------------------------------------------------------------------
+[0.17478 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069c9a0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069dbd0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:130: in get
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069dbd0>
+node = <lru_cache.ListNode object at 0x7f5ce069f6a0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+lru_cache:181: AttributeError
+   - [#  41] SDL lru_cache: 
+--------------------------------------------------------------------------------
+   98:         
+   99:         self._add(node)
+  100:         
+  101:         
+- 102:         self.lookup_map[key] = node
++ 102:         pass
+  103:         
+  104:         
+  105:         if len(self.lookup_map) > self.capacity:
+  106:             
+--------------------------------------------------------------------------------
+[0.17452 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07e9ea0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce07e81f0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  42] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  103:         
+  104:         
+  105:         if len(self.lookup_map) > self.capacity:
+  106:             
+- 107:             least_recently_used_node = self.head.next
++ 107:             pass
+  108:             
+  109:             
+  110:             self._remove(least_recently_used_node)
+  111:             
+--------------------------------------------------------------------------------
+[0.17323 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069f490>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069fd90>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069fd90>, key = 4, value = 'd'
+
+>   ???
+E   NameError: name 'least_recently_used_node' is not defined
+
+lru_cache:110: NameError
+   - [#  43] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+- 110:             self._remove(least_recently_used_node)
++ 110:             pass
+  111:             
+  112:             
+  113:             del self.lookup_map[least_recently_used_node.key]
+  114:     
+--------------------------------------------------------------------------------
+[0.14903 s] survived
+   - [#  44] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  123:         '''
+  124:         
+  125:         if key in self.lookup_map:
+  126:             
+- 127:             node = self.lookup_map[key]
++ 127:             pass
+  128:             
+  129:             
+  130:             self._remove(node)
+  131:             
+--------------------------------------------------------------------------------
+[0.17767 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0904c10>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0904af0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0904af0>, key = 1
+
+>   ???
+E   NameError: name 'node' is not defined
+
+lru_cache:130: NameError
+   - [#  45] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  126:             
+  127:             node = self.lookup_map[key]
+  128:             
+  129:             
+- 130:             self._remove(node)
++ 130:             pass
+  131:             
+  132:             
+  133:             self._add(node)
+  134:             
+--------------------------------------------------------------------------------
+[0.14973 s] survived
+   - [#  46] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  129:             
+  130:             self._remove(node)
+  131:             
+  132:             
+- 133:             self._add(node)
++ 133:             pass
+  134:             
+  135:             return node.val
+  136:         else:
+  137:             return -1
+--------------------------------------------------------------------------------
+[0.14873 s] survived
+   - [#  47] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  131:             
+  132:             
+  133:             self._add(node)
+  134:             
+- 135:             return node.val
++ 135:             pass
+  136:         else:
+  137:             return -1
+  138:     
+  139:     def _add(self, node):
+--------------------------------------------------------------------------------
+[0.16616 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07eed70>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce07edb10>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:19: AssertionError
+   - [#  48] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  133:             self._add(node)
+  134:             
+  135:             return node.val
+  136:         else:
+- 137:             return -1
++ 137:             pass
+  138:     
+  139:     def _add(self, node):
+  140:         '''
+  141:         Internal function.  Add a node to the end of the LRU list.
+--------------------------------------------------------------------------------
+[0.17432 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0925f00>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09243d0>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+        lru_cache.put(4, 'd')
+>       assert lru_cache.get(1) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:40: AssertionError
+   - [#  49] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  146: 
+  147:         :param node:m the node to add to the list
+  148:         :return: None
+  149:         '''
+- 150:         old_last_node = self.tail.prev
++ 150:         pass
+  151:         
+  152:         
+  153:         node.prev = old_last_node
+  154:         
+--------------------------------------------------------------------------------
+[0.17097 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09ab4c0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09a8100>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce09a8100>
+node = <lru_cache.ListNode object at 0x7f5ce09a8520>
+
+>   ???
+E   NameError: name 'old_last_node' is not defined
+
+lru_cache:153: NameError
+   - [#  50] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  149:         '''
+  150:         old_last_node = self.tail.prev
+  151:         
+  152:         
+- 153:         node.prev = old_last_node
++ 153:         pass
+  154:         
+  155:         
+  156:         node.next = self.tail
+  157:         
+--------------------------------------------------------------------------------
+[0.17410 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09696f0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce096b850>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:130: in get
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce096b850>
+node = <lru_cache.ListNode object at 0x7f5ce0968280>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+lru_cache:181: AttributeError
+   - [#  51] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  152:         
+  153:         node.prev = old_last_node
+  154:         
+  155:         
+- 156:         node.next = self.tail
++ 156:         pass
+  157:         
+  158:         
+  159:         old_last_node.next = node
+  160:         
+--------------------------------------------------------------------------------
+[0.17570 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09245b0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0afbb80>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:130: in get
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0afbb80>
+node = <lru_cache.ListNode object at 0x7f5ce0924f70>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'prev'
+
+lru_cache:184: AttributeError
+   - [#  52] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  155:         
+  156:         node.next = self.tail
+  157:         
+  158:         
+- 159:         old_last_node.next = node
++ 159:         pass
+  160:         
+  161:         
+  162:         self.tail.prev = node
+  163:     
+--------------------------------------------------------------------------------
+[0.17282 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069e2f0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069ea40>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:110: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069ea40>
+node = <lru_cache.ListNode object at 0x7f5ce069c5b0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'prev'
+
+lru_cache:184: AttributeError
+   - [#  53] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  158:         
+  159:         old_last_node.next = node
+  160:         
+  161:         
+- 162:         self.tail.prev = node
++ 162:         pass
+  163:     
+  164:     def _remove(self, node):
+  165:         '''
+  166:         Internal function.  Remove a node from the list.
+--------------------------------------------------------------------------------
+[0.17539 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0a30fd0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0a30490>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+        lru_cache.put(4, 'd')
+>       assert lru_cache.get(1) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:40: AssertionError
+   - [#  54] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  173:         :return: None
+  174:         '''
+  175:         
+  176:         
+- 177:         previous_node = node.prev
++ 177:         pass
+  178:         next_node = node.next
+  179:         
+  180:         
+  181:         previous_node.next = next_node
+--------------------------------------------------------------------------------
+[0.16293 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce09048b0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce09078b0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:130: in get
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce09078b0>
+node = <lru_cache.ListNode object at 0x7f5ce0907790>
+
+>   ???
+E   NameError: name 'previous_node' is not defined
+
+lru_cache:181: NameError
+   - [#  55] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  174:         '''
+  175:         
+  176:         
+  177:         previous_node = node.prev
+- 178:         next_node = node.next
++ 178:         pass
+  179:         
+  180:         
+  181:         previous_node.next = next_node
+  182:         
+--------------------------------------------------------------------------------
+[0.17350 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0927190>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069f910>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:130: in get
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069f910>
+node = <lru_cache.ListNode object at 0x7f5ce09257b0>
+
+>   ???
+E   NameError: name 'next_node' is not defined
+
+lru_cache:181: NameError
+   - [#  56] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  177:         previous_node = node.prev
+  178:         next_node = node.next
+  179:         
+  180:         
+- 181:         previous_node.next = next_node
++ 181:         pass
+  182:         
+  183:         
+  184:         next_node.prev = previous_node
+--------------------------------------------------------------------------------
+[0.16621 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_add_remove_nodes
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce083d840>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce083c550>
+
+    def test_add_remove_nodes(self, lru_cache):
+        node = ListNode(1, 'test_val')
+        lru_cache._add(node)
+        assert lru_cache.head.next == node
+        assert lru_cache.tail.prev == node
+        lru_cache._remove(node)
+>       assert lru_cache.head.next == lru_cache.tail
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_243.py:51: AssertionError
+   - [#  57] SDL lru_cache: 
+--------------------------------------------------------------------------------
+  180:         
+  181:         previous_node.next = next_node
+  182:         
+  183:         
+- 184:         next_node.prev = previous_node
++ 184:         pass
+--------------------------------------------------------------------------------
+[0.14802 s] survived
+   - [#  58] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   19: 
+   20:         :param key: the lookup key value
+   21:         :param val: the value corresponding to the key
+   22:         '''
+-  23:         self.key = key
++  23:         key = key
+   24:         self.val = val
+   25:         self.next = None
+   26:         self.prev = None
+   27: 
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  59] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   20:         :param key: the lookup key value
+   21:         :param val: the value corresponding to the key
+   22:         '''
+   23:         self.key = key
+-  24:         self.val = val
++  24:         val = val
+   25:         self.next = None
+   26:         self.prev = None
+   27: 
+   28: 
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  60] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   21:         :param val: the value corresponding to the key
+   22:         '''
+   23:         self.key = key
+   24:         self.val = val
+-  25:         self.next = None
++  25:         next = None
+   26:         self.prev = None
+   27: 
+   28: 
+   29: class LruCache:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  61] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   22:         '''
+   23:         self.key = key
+   24:         self.val = val
+   25:         self.next = None
+-  26:         self.prev = None
++  26:         prev = None
+   27: 
+   28: 
+   29: class LruCache:
+   30:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  62] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   61:         if capacity <= 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  65:         head = ListNode(self.terminal_value, self.terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  63] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   61:         if capacity <= 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  65:         self.head = ListNode(terminal_value, self.terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+--------------------------------------------------------------------------------
+[0.17287 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07dfd00>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07dfa30>, capacity = 3
+
+>   ???
+E   NameError: name 'terminal_value' is not defined
+
+lru_cache:65: NameError
+   - [#  64] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   61:         if capacity <= 1:
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+-  65:         self.head = ListNode(self.terminal_value, self.terminal_value)
++  65:         self.head = ListNode(self.terminal_value, terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+--------------------------------------------------------------------------------
+[0.17584 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0790430>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0790520>, capacity = 3
+
+>   ???
+E   NameError: name 'terminal_value' is not defined
+
+lru_cache:65: NameError
+   - [#  65] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
++  66:         tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  66] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
++  66:         self.tail = ListNode(terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+--------------------------------------------------------------------------------
+[0.16656 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce086d450>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce086cf10>, capacity = 3
+
+>   ???
+E   NameError: name 'terminal_value' is not defined
+
+lru_cache:66: NameError
+   - [#  67] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   62:             raise ValueError('Capacity must be >= 1')
+   63:         
+   64:         
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+-  66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
++  66:         self.tail = ListNode(self.terminal_value, terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+--------------------------------------------------------------------------------
+[0.17249 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce086c550>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce086d570>, capacity = 3
+
+>   ???
+E   NameError: name 'terminal_value' is not defined
+
+lru_cache:66: NameError
+   - [#  68] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+-  69:         self.head.next = self.tail
++  69:         head.next = self.tail
+   70:         self.tail.prev = self.head
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+--------------------------------------------------------------------------------
+[0.17438 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07df130>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07de800>, capacity = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+lru_cache:69: NameError
+   - [#  69] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   65:         self.head = ListNode(self.terminal_value, self.terminal_value)
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+-  69:         self.head.next = self.tail
++  69:         self.head.next = tail
+   70:         self.tail.prev = self.head
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+--------------------------------------------------------------------------------
+[0.16258 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0808760>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0808790>, capacity = 3
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+lru_cache:69: NameError
+   - [#  70] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+-  70:         self.tail.prev = self.head
++  70:         tail.prev = self.head
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+   74:         
+--------------------------------------------------------------------------------
+[0.17395 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07e1a50>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07e1a80>, capacity = 3
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+lru_cache:70: NameError
+   - [#  71] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   66:         self.tail = ListNode(self.terminal_value, self.terminal_value)
+   67:         
+   68:         
+   69:         self.head.next = self.tail
+-  70:         self.tail.prev = self.head
++  70:         self.tail.prev = head
+   71:         
+   72:         
+   73:         self.lookup_map = {}
+   74:         
+--------------------------------------------------------------------------------
+[0.17598 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce089c1c0>
+
+    @pytest.fixture
+    def lru_cache(self):
+>       return LruCache(3)
+
+ts-3-5/test_3-5_0-8_243.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce089c220>, capacity = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+lru_cache:70: NameError
+   - [#  72] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   69:         self.head.next = self.tail
+   70:         self.tail.prev = self.head
+   71:         
+   72:         
+-  73:         self.lookup_map = {}
++  73:         lookup_map = {}
+   74:         
+   75:         
+   76:         self.capacity = capacity
+   77:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  73] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   72:         
+   73:         self.lookup_map = {}
+   74:         
+   75:         
+-  76:         self.capacity = capacity
++  76:         capacity = capacity
+   77:     
+   78:     def put(self, key, value):
+   79:         '''
+   80:         Add a value to the cache.
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  74] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   86:         :param value: the value stored on key
+   87:         :return: None
+   88:         '''
+   89:         
+-  90:         if key in self.lookup_map:
++  90:         if key in lookup_map:
+   91:             
+   92:             node = self.lookup_map.pop(key)
+   93:             self._remove(node)
+   94:         
+--------------------------------------------------------------------------------
+[0.18684 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0a318d0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0a33e80>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0a33e80>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:90: NameError
+   - [#  75] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   88:         '''
+   89:         
+   90:         if key in self.lookup_map:
+   91:             
+-  92:             node = self.lookup_map.pop(key)
++  92:             node = lookup_map.pop(key)
+   93:             self._remove(node)
+   94:         
+   95:         
+   96:         node = ListNode(key, value)
+--------------------------------------------------------------------------------
+[0.16780 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_replace_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce083d780>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce083f430>
+
+    def test_put_get_replace_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       lru_cache.put(1, 'new_a')
+
+ts-3-5/test_3-5_0-8_243.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce083f430>, key = 1, value = 'new_a'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:92: NameError
+   - [#  76] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   89:         
+   90:         if key in self.lookup_map:
+   91:             
+   92:             node = self.lookup_map.pop(key)
+-  93:             self._remove(node)
++  93:             _remove(node)
+   94:         
+   95:         
+   96:         node = ListNode(key, value)
+   97:         
+--------------------------------------------------------------------------------
+[0.17065 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_replace_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069f550>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069f9a0>
+
+    def test_put_get_replace_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       lru_cache.put(1, 'new_a')
+
+ts-3-5/test_3-5_0-8_243.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069f9a0>, key = 1, value = 'new_a'
+
+>   ???
+E   NameError: name '_remove' is not defined
+
+lru_cache:93: NameError
+   - [#  77] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   95:         
+   96:         node = ListNode(key, value)
+   97:         
+   98:         
+-  99:         self._add(node)
++  99:         _add(node)
+  100:         
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+--------------------------------------------------------------------------------
+[0.15961 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069cd90>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069d030>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069d030>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name '_add' is not defined
+
+lru_cache:99: NameError
+   - [#  78] SVD lru_cache: 
+--------------------------------------------------------------------------------
+   98:         
+   99:         self._add(node)
+  100:         
+  101:         
+- 102:         self.lookup_map[key] = node
++ 102:         lookup_map[key] = node
+  103:         
+  104:         
+  105:         if len(self.lookup_map) > self.capacity:
+  106:             
+--------------------------------------------------------------------------------
+[0.19575 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069d8a0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce069ca00>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce069ca00>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:102: NameError
+   - [#  79] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
++ 105:         if len(lookup_map) > self.capacity:
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+--------------------------------------------------------------------------------
+[0.16885 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0afb610>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0af9b70>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0af9b70>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:105: NameError
+   - [#  80] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  101:         
+  102:         self.lookup_map[key] = node
+  103:         
+  104:         
+- 105:         if len(self.lookup_map) > self.capacity:
++ 105:         if len(self.lookup_map) > capacity:
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+--------------------------------------------------------------------------------
+[0.15861 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0815e70>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0817d00>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0817d00>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name 'capacity' is not defined
+
+lru_cache:105: NameError
+   - [#  81] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  103:         
+  104:         
+  105:         if len(self.lookup_map) > self.capacity:
+  106:             
+- 107:             least_recently_used_node = self.head.next
++ 107:             least_recently_used_node = head.next
+  108:             
+  109:             
+  110:             self._remove(least_recently_used_node)
+  111:             
+--------------------------------------------------------------------------------
+[0.17375 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce08142b0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce08174f0>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce08174f0>, key = 4, value = 'd'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+lru_cache:107: NameError
+   - [#  82] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  106:             
+  107:             least_recently_used_node = self.head.next
+  108:             
+  109:             
+- 110:             self._remove(least_recently_used_node)
++ 110:             _remove(least_recently_used_node)
+  111:             
+  112:             
+  113:             del self.lookup_map[least_recently_used_node.key]
+  114:     
+--------------------------------------------------------------------------------
+[0.17388 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0817f10>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0815810>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0815810>, key = 4, value = 'd'
+
+>   ???
+E   NameError: name '_remove' is not defined
+
+lru_cache:110: NameError
+   - [#  83] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  109:             
+  110:             self._remove(least_recently_used_node)
+  111:             
+  112:             
+- 113:             del self.lookup_map[least_recently_used_node.key]
++ 113:             del lookup_map[least_recently_used_node.key]
+  114:     
+  115:     def get(self, key):
+  116:         '''
+  117:         Get a value from the cache.
+--------------------------------------------------------------------------------
+[0.17323 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_capacity_exceeded
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07df580>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce07dc190>
+
+    def test_put_capacity_exceeded(self, lru_cache):
+        lru_cache.put(1, 'a')
+        lru_cache.put(2, 'b')
+        lru_cache.put(3, 'c')
+        # Adding the 4th element should remove the least recently used (1, 'a')
+>       lru_cache.put(4, 'd')
+
+ts-3-5/test_3-5_0-8_243.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07dc190>, key = 4, value = 'd'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:113: NameError
+   - [#  84] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  121:         :param key: the key to lookup
+  122:         :return: the value of the key or -1 if the key is not found
+  123:         '''
+  124:         
+- 125:         if key in self.lookup_map:
++ 125:         if key in lookup_map:
+  126:             
+  127:             node = self.lookup_map[key]
+  128:             
+  129:             
+--------------------------------------------------------------------------------
+[0.17506 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce075c490>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce075c4c0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce075c4c0>, key = 1
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:125: NameError
+   - [#  85] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  123:         '''
+  124:         
+  125:         if key in self.lookup_map:
+  126:             
+- 127:             node = self.lookup_map[key]
++ 127:             node = lookup_map[key]
+  128:             
+  129:             
+  130:             self._remove(node)
+  131:             
+--------------------------------------------------------------------------------
+[0.16149 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce08084c0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce08084f0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce08084f0>, key = 1
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:127: NameError
+   - [#  86] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  126:             
+  127:             node = self.lookup_map[key]
+  128:             
+  129:             
+- 130:             self._remove(node)
++ 130:             _remove(node)
+  131:             
+  132:             
+  133:             self._add(node)
+  134:             
+--------------------------------------------------------------------------------
+[0.16413 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07902e0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0814820>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0814820>, key = 1
+
+>   ???
+E   NameError: name '_remove' is not defined
+
+lru_cache:130: NameError
+   - [#  87] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  129:             
+  130:             self._remove(node)
+  131:             
+  132:             
+- 133:             self._add(node)
++ 133:             _add(node)
+  134:             
+  135:             return node.val
+  136:         else:
+  137:             return -1
+--------------------------------------------------------------------------------
+[0.18031 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce069c5b0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce08703d0>
+
+    def test_put_get_single_element(self, lru_cache):
+        lru_cache.put(1, 'a')
+>       assert lru_cache.get(1) == 'a'
+
+ts-3-5/test_3-5_0-8_243.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce08703d0>, key = 1
+
+>   ???
+E   NameError: name '_add' is not defined
+
+lru_cache:133: NameError
+   - [#  88] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  146: 
+  147:         :param node:m the node to add to the list
+  148:         :return: None
+  149:         '''
+- 150:         old_last_node = self.tail.prev
++ 150:         old_last_node = tail.prev
+  151:         
+  152:         
+  153:         node.prev = old_last_node
+  154:         
+--------------------------------------------------------------------------------
+[0.16905 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce06b8610>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce06b8640>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce06b8640>
+node = <lru_cache.ListNode object at 0x7f5ce06b8730>
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+lru_cache:150: NameError
+   - [#  89] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  152:         
+  153:         node.prev = old_last_node
+  154:         
+  155:         
+- 156:         node.next = self.tail
++ 156:         node.next = tail
+  157:         
+  158:         
+  159:         old_last_node.next = node
+  160:         
+--------------------------------------------------------------------------------
+[0.18623 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce07ecac0>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce07ecb50>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce07ecb50>
+node = <lru_cache.ListNode object at 0x7f5ce07ec760>
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+lru_cache:156: NameError
+   - [#  90] SVD lru_cache: 
+--------------------------------------------------------------------------------
+  158:         
+  159:         old_last_node.next = node
+  160:         
+  161:         
+- 162:         self.tail.prev = node
++ 162:         tail.prev = node
+  163:     
+  164:     def _remove(self, node):
+  165:         '''
+  166:         Internal function.  Remove a node from the list.
+--------------------------------------------------------------------------------
+[0.17109 s] killed by ts-3-5/test_3-5_0-8_243.py::TestLruCache::test_put_get_single_element
+
+self = <test_3-5_0-8_243.TestLruCache object at 0x7f5ce0bf0e80>
+lru_cache = <lru_cache.LruCache object at 0x7f5ce0bf3a00>
+
+    def test_put_get_single_element(self, lru_cache):
+>       lru_cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-8_243.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lru_cache:99: in put
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x7f5ce0bf3a00>
+node = <lru_cache.ListNode object at 0x7f5ce0bf3460>
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+lru_cache:162: NameError
+[*] Mutation score [17.54030 s]: 84.2%
+   - all: 90
+   - killed: 64 (71.1%)
+   - survived: 12 (13.3%)
+   - incompetent: 14 (15.6%)
+   - timeout: 0 (0.0%)

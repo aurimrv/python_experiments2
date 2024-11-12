@@ -1,0 +1,3842 @@
+[*] Start mutation process:
+   - targets: dll.py
+   - tests: ts-3-5/test_3-5_1-0_304.py
+[*] 9 tests passed:
+   - test_3-5_1-0_304 [0.18903 s]
+[*] Start mutants generation and execution:
+   - [#   1] ASR dll: 
+--------------------------------------------------------------------------------
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+-  50:         self._length += 1
++  50:         self._length -= 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+--------------------------------------------------------------------------------
+[0.20821 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeba99000>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+        assert dll.head.data == 4
+        assert dll.tail.data == 1
+>       assert dll._length == 4
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:29: AssertionError
+   - [#   2] ASR dll: 
+--------------------------------------------------------------------------------
+   58:         new_head = self.head.next
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+-  62:         self._length -= 1
++  62:         self._length += 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+--------------------------------------------------------------------------------
+[0.20271 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aebb0bb50>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+        assert result == 5
+        assert dll.head is None
+>       assert dll.tail is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:43: AssertionError
+   - [#   3] ASR dll: 
+--------------------------------------------------------------------------------
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+-  75:         self._length += 1
++  75:         self._length -= 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+--------------------------------------------------------------------------------
+[0.18212 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb734dc0>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+        dll.append(77)
+        assert dll.head.data == 77
+        assert dll.tail.data == 77
+>       assert dll._length == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:51: AssertionError
+   - [#   4] ASR dll: 
+--------------------------------------------------------------------------------
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+-  87:         self._length -= 1
++  87:         self._length += 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+--------------------------------------------------------------------------------
+[0.20110 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5892a0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+        assert result == 1
+        assert dll.head.data == 3
+        assert dll.tail.data == 2
+>       assert dll._length == 2
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:59: AssertionError
+   - [#   5] ASR dll: 
+--------------------------------------------------------------------------------
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+- 105:                 self._length -= 1
++ 105:                 self._length += 1
+  106:                 return
+  107:             curr = curr.next
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+--------------------------------------------------------------------------------
+[0.20172 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb565cc0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+        dll.remove(3)
+        assert dll.head.data == 5
+        assert dll.tail.data == 1
+>       assert dll._length == 4
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:66: AssertionError
+   - [#   6] BCR dll: 
+--------------------------------------------------------------------------------
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+- 119:                 break
++ 119:                 continue
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17351 s] survived
+   - [#   7] CDI dll: 
+--------------------------------------------------------------------------------
+    3: 
+    4: class Node(object):
+    5:     '''Node class for data storage.'''
+    6:     
+-   7:     def __init__(self, data=None, next_node=None, prev=None):
+-   8:         '''Initialize Node.'''
+-   9:         self.data = data
+-  10:         self.next = next_node
+-  11:         self.prev = prev
+-  12:     
++   7:     @classmethod
++   8:     def __init__(self, data=None, next_node=None, prev=None):
++   9:         '''Initialize Node.'''
++  10:         self.data = data
++  11:         self.next = next_node
++  12:         self.prev = prev
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+   15:         return 'Value: {}'.format(self.data)
+   16: 
+--------------------------------------------------------------------------------
+[0.19736 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5651e0>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+        assert dll.head.data == 4
+>       assert dll.tail.data == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:28: AssertionError
+   - [#   8] CDI dll: 
+--------------------------------------------------------------------------------
+    9:         self.data = data
+   10:         self.next = next_node
+   11:         self.prev = prev
+   12:     
+-  13:     def __repr__(self):
+-  14:         '''String representation.'''
+-  15:         return 'Value: {}'.format(self.data)
+-  16: 
++  13:     @classmethod
++  14:     def __repr__(self):
++  15:         '''String representation.'''
++  16:         return 'Value: {}'.format(self.data)
+   17: 
+   18: class DoubleLinkedList(object):
+   19:     '''Double linked list impplementation.
+   20: 
+--------------------------------------------------------------------------------
+[0.18390 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_representation
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb67b5e0>
+
+    def test_node_representation(self):
+        node = Node(10)
+>       assert repr(node) == "Value: 10"
+
+ts-3-5/test_3-5_1-0_304.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.Node'>
+
+>   ???
+E   AttributeError: type object 'Node' has no attribute 'data'
+
+dll:16: AttributeError
+   - [#   9] CDI dll: 
+--------------------------------------------------------------------------------
+   26:     remove(val) - will remove the first instance of (val) found in the list,
+   27:     starting from the head.
+   28:     '''
+   29:     
+-  30:     def __init__(self, data=None):
+-  31:         '''Initialize list.'''
+-  32:         self.head = None
+-  33:         self.tail = None
+-  34:         self._length = 0
+-  35:         try:
+-  36:             for val in data:
+-  37:                 self.push(val)
+-  38:         except TypeError:
+-  39:             if data:
+-  40:                 self.push(data)
+-  41:     
++  30:     @classmethod
++  31:     def __init__(self, data=None):
++  32:         '''Initialize list.'''
++  33:         self.head = None
++  34:         self.tail = None
++  35:         self._length = 0
++  36:         try:
++  37:             for val in data:
++  38:                 self.push(val)
++  39:         except TypeError:
++  40:             if data:
++  41:                 self.push(data)
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+--------------------------------------------------------------------------------
+[0.19676 s] incompetent
+
+TypeError: dll:41: TypeError: DoubleLinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  10] CDI dll: 
+--------------------------------------------------------------------------------
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+-  42:     def push(self, val):
+-  43:         '''Add val to the head of the list.'''
+-  44:         old_head = self.head
+-  45:         self.head = Node(val, next_node=old_head)
+-  46:         if old_head:
+-  47:             old_head.prev = self.head
+-  48:         if not (self.tail):
+-  49:             self.tail = self.head
+-  50:         self._length += 1
+-  51:     
++  42:     @classmethod
++  43:     def push(self, val):
++  44:         '''Add val to the head of the list.'''
++  45:         old_head = self.head
++  46:         self.head = Node(val, next_node=old_head)
++  47:         if old_head:
++  48:             old_head.prev = self.head
++  49:         if not (self.tail):
++  50:             self.tail = self.head
++  51:         self._length += 1
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+   55:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.19485 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb69a890>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.DoubleLinkedList'>, val = 1
+
+>   ???
+E   AttributeError: type object 'DoubleLinkedList' has no attribute 'head'
+
+dll:45: AttributeError
+   - [#  11] CDI dll: 
+--------------------------------------------------------------------------------
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+-  52:     def pop(self):
+-  53:         '''Remove the val from the head of the list.'''
+-  54:         to_return = self.head
+-  55:         if self._length < 1:
+-  56:             raise IndexError('Cannot pop from an empty list.')
+-  57:         
+-  58:         new_head = self.head.next
+-  59:         if new_head:
+-  60:             new_head.prev = None
+-  61:         self.head = new_head
+-  62:         self._length -= 1
+-  63:         if self._length < 1:
+-  64:             self.tail = None
+-  65:         return to_return.data
+-  66:     
++  52:     @classmethod
++  53:     def pop(self):
++  54:         '''Remove the val from the head of the list.'''
++  55:         to_return = self.head
++  56:         if self._length < 1:
++  57:             raise IndexError('Cannot pop from an empty list.')
++  58:         
++  59:         new_head = self.head.next
++  60:         if new_head:
++  61:             new_head.prev = None
++  62:         self.head = new_head
++  63:         self._length -= 1
++  64:         if self._length < 1:
++  65:             self.tail = None
++  66:         return to_return.data
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+--------------------------------------------------------------------------------
+[0.19747 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb979db0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.DoubleLinkedList'>
+
+>   ???
+E   AttributeError: type object 'DoubleLinkedList' has no attribute 'head'
+
+dll:55: AttributeError
+   - [#  12] CDI dll: 
+--------------------------------------------------------------------------------
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+-  67:     def append(self, val):
+-  68:         '''Add val to the tail of the list.'''
+-  69:         old_tail = self.tail
+-  70:         self.tail = Node(val, prev=old_tail)
+-  71:         if old_tail:
+-  72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
+-  74:             self.head = self.tail
+-  75:         self._length += 1
+-  76:     
++  67:     @classmethod
++  68:     def append(self, val):
++  69:         '''Add val to the tail of the list.'''
++  70:         old_tail = self.tail
++  71:         self.tail = Node(val, prev=old_tail)
++  72:         if old_tail:
++  73:             old_tail.next = self.tail
++  74:         if self._length < 1:
++  75:             self.head = self.tail
++  76:         self._length += 1
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+   80:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.18566 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4d81f0>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.DoubleLinkedList'>, val = 77
+
+>   ???
+E   AttributeError: type object 'DoubleLinkedList' has no attribute 'tail'
+
+dll:70: AttributeError
+   - [#  13] CDI dll: 
+--------------------------------------------------------------------------------
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+-  77:     def shift(self):
+-  78:         '''Remove the val from the tail of the list.'''
+-  79:         to_return = self.tail
+-  80:         if self._length < 1:
+-  81:             raise IndexError('Cannot shift from an empty list.')
+-  82:         
+-  83:         new_tail = self.tail.prev
+-  84:         if new_tail:
+-  85:             new_tail.next = None
+-  86:         self.tail = new_tail
+-  87:         self._length -= 1
+-  88:         if self._length < 1:
+-  89:             self.tail = None
+-  90:         return to_return.data
+-  91:     
++  77:     @classmethod
++  78:     def shift(self):
++  79:         '''Remove the val from the tail of the list.'''
++  80:         to_return = self.tail
++  81:         if self._length < 1:
++  82:             raise IndexError('Cannot shift from an empty list.')
++  83:         
++  84:         new_tail = self.tail.prev
++  85:         if new_tail:
++  86:             new_tail.next = None
++  87:         self.tail = new_tail
++  88:         self._length -= 1
++  89:         if self._length < 1:
++  90:             self.tail = None
++  91:         return to_return.data
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+--------------------------------------------------------------------------------
+[0.18430 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5927d0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.DoubleLinkedList'>
+
+>   ???
+E   AttributeError: type object 'DoubleLinkedList' has no attribute 'tail'
+
+dll:80: AttributeError
+   - [#  14] CDI dll: 
+--------------------------------------------------------------------------------
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+-  92:     def remove(self, val):
+-  93:         '''Remove first occurance of val from list.'''
+-  94:         curr = self.head
+-  95:         while curr:
+-  96:             if curr.data is val:
+-  97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
+- 100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+- 101:                 elif curr is self.head:
+- 102:                     (self.head, curr.next.prev) = (curr.next, None)
+- 103:                 elif curr is self.tail:
+- 104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+- 105:                 self._length -= 1
+- 106:                 return
+- 107:             curr = curr.next
+- 108:         
+- 109:         raise ValueError('{} is not in the list'.format(val))
+- 110:     
++  92:     @classmethod
++  93:     def remove(self, val):
++  94:         '''Remove first occurance of val from list.'''
++  95:         curr = self.head
++  96:         while curr:
++  97:             if curr.data is val:
++  98:                 if self._length == 1:
++  99:                     (self.head, self.tail) = (None, None)
++ 100:                 elif (curr is not self.head and curr is not self.tail):
++ 101:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
++ 102:                 elif curr is self.head:
++ 103:                     (self.head, curr.next.prev) = (curr.next, None)
++ 104:                 elif curr is self.tail:
++ 105:                     (self.tail, curr.prev.next) = (curr.prev, None)
++ 106:                 self._length -= 1
++ 107:                 return
++ 108:             curr = curr.next
++ 109:         
++ 110:         raise ValueError('{} is not in the list'.format(val))
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+  114:         while True:
+--------------------------------------------------------------------------------
+[0.20157 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb574940>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'dll.DoubleLinkedList'>, val = 3
+
+>   ???
+E   AttributeError: type object 'DoubleLinkedList' has no attribute 'head'
+
+dll:95: AttributeError
+   - [#  15] CDI dll: 
+--------------------------------------------------------------------------------
+  107:             curr = curr.next
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+- 111:     def _repr(self):
+- 112:         '''Return list representation of dll.'''
+- 113:         l = []
+- 114:         while True:
+- 115:             try:
+- 116:                 popped_data = self.pop()
+- 117:                 l.append(popped_data)
+- 118:             except IndexError:
+- 119:                 break
+- 120:         return l
++ 111:     @classmethod
++ 112:     def _repr(self):
++ 113:         '''Return list representation of dll.'''
++ 114:         l = []
++ 115:         while True:
++ 116:             try:
++ 117:                 popped_data = self.pop()
++ 118:                 l.append(popped_data)
++ 119:             except IndexError:
++ 120:                 break
++ 121:         return l
+--------------------------------------------------------------------------------
+[0.17467 s] survived
+   - [#  16] COD dll: 
+--------------------------------------------------------------------------------
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+-  48:         if not (self.tail):
++  48:         if self.tail:
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+--------------------------------------------------------------------------------
+[0.19727 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5bf700>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+        assert dll.head.data == 4
+>       assert dll.tail.data == 1
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:28: AttributeError
+   - [#  17] COI dll: 
+--------------------------------------------------------------------------------
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+-  39:             if data:
++  39:             if not data:
+   40:                 self.push(data)
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+--------------------------------------------------------------------------------
+[0.18666 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_push_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb3f4af0>
+
+    def test_push_method(self):
+        dll = DoubleLinkedList()
+        dll.push(99)
+        assert dll.head.data == 99
+>       assert dll.tail.data == 99
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:35: AssertionError
+   - [#  18] COI dll: 
+--------------------------------------------------------------------------------
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+-  46:         if old_head:
++  46:         if not old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+   50:         self._length += 1
+--------------------------------------------------------------------------------
+[0.18230 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeba98670>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeba98dc0>, val = 1
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'prev'
+
+dll:47: AttributeError
+   - [#  19] COI dll: 
+--------------------------------------------------------------------------------
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+-  48:         if not (self.tail):
++  48:         if not ((not (self.tail))):
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+--------------------------------------------------------------------------------
+[0.19824 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb979c60>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+        assert dll.head.data == 4
+>       assert dll.tail.data == 1
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:28: AttributeError
+   - [#  20] COI dll: 
+--------------------------------------------------------------------------------
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+-  55:         if self._length < 1:
++  55:         if not (self._length < 1):
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+--------------------------------------------------------------------------------
+[0.19671 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb68a110>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb689030>
+
+>   ???
+E   IndexError: Cannot pop from an empty list.
+
+dll:56: IndexError
+   - [#  21] COI dll: 
+--------------------------------------------------------------------------------
+   55:         if self._length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+-  59:         if new_head:
++  59:         if not new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.19380 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb699f30>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb699ae0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'prev'
+
+dll:60: AttributeError
+   - [#  22] COI dll: 
+--------------------------------------------------------------------------------
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+-  63:         if self._length < 1:
++  63:         if not (self._length < 1):
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+--------------------------------------------------------------------------------
+[0.19976 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5929e0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+        assert result == 5
+        assert dll.head is None
+>       assert dll.tail is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:43: AssertionError
+   - [#  23] COI dll: 
+--------------------------------------------------------------------------------
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+-  71:         if old_tail:
++  71:         if not old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+--------------------------------------------------------------------------------
+[0.18345 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb978790>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb979ba0>, val = 77
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+dll:72: AttributeError
+   - [#  24] COI dll: 
+--------------------------------------------------------------------------------
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
++  73:         if not (self._length < 1):
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+--------------------------------------------------------------------------------
+[0.19842 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4e3910>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+        dll.append(77)
+>       assert dll.head.data == 77
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:49: AttributeError
+   - [#  25] COI dll: 
+--------------------------------------------------------------------------------
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+-  80:         if self._length < 1:
++  80:         if not (self._length < 1):
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+--------------------------------------------------------------------------------
+[0.19390 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb54d480>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb54ce80>
+
+>   ???
+E   IndexError: Cannot shift from an empty list.
+
+dll:81: IndexError
+   - [#  26] COI dll: 
+--------------------------------------------------------------------------------
+   80:         if self._length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+-  84:         if new_tail:
++  84:         if not new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.19900 s] survived
+   - [#  27] COI dll: 
+--------------------------------------------------------------------------------
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+-  88:         if self._length < 1:
++  88:         if not (self._length < 1):
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.18823 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb9787f0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+        assert result == 1
+        assert dll.head.data == 3
+>       assert dll.tail.data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:58: AttributeError
+   - [#  28] COI dll: 
+--------------------------------------------------------------------------------
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+-  95:         while curr:
++  95:         while not curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+--------------------------------------------------------------------------------
+[0.18367 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6f5f90>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6f7c70>, val = 3
+
+>   ???
+E   ValueError: 3 is not in the list
+
+dll:109: ValueError
+   - [#  29] COI dll: 
+--------------------------------------------------------------------------------
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+-  96:             if curr.data is val:
++  96:             if not (curr.data is val):
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+--------------------------------------------------------------------------------
+[0.19846 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4cec50>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+        dll.remove(3)
+>       assert dll.head.data == 5
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:64: AssertionError
+   - [#  30] COI dll: 
+--------------------------------------------------------------------------------
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+-  97:                 if self._length == 1:
++  97:                 if not (self._length == 1):
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+--------------------------------------------------------------------------------
+[0.19864 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6f26e0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+        dll.remove(3)
+>       assert dll.head.data == 5
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:64: AttributeError
+   - [#  31] COI dll: 
+--------------------------------------------------------------------------------
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
++  99:                 elif not ((curr is not self.head and curr is not self.tail)):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+--------------------------------------------------------------------------------
+[0.17613 s] survived
+   - [#  32] COI dll: 
+--------------------------------------------------------------------------------
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+- 101:                 elif curr is self.head:
++ 101:                 elif not (curr is self.head):
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.17072 s] survived
+   - [#  33] COI dll: 
+--------------------------------------------------------------------------------
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+- 103:                 elif curr is self.tail:
++ 103:                 elif not (curr is self.tail):
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+  107:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.16261 s] survived
+   - [#  34] COI dll: 
+--------------------------------------------------------------------------------
+  110:     
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+- 114:         while True:
++ 114:         while not True:
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+--------------------------------------------------------------------------------
+[0.17596 s] survived
+   - [#  35] EHD dll: 
+--------------------------------------------------------------------------------
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+-  39:             if data:
+-  40:                 self.push(data)
++  39:             raise
++  40:     
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.19526 s] incompetent
+
+TypeError: dll:36: TypeError: 'NoneType' object is not iterable
+
+   - [#  36] EHD dll: 
+--------------------------------------------------------------------------------
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+- 119:                 break
++ 119:                 raise
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17644 s] survived
+   - [#  37] EXS dll: 
+--------------------------------------------------------------------------------
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+-  39:             if data:
+-  40:                 self.push(data)
++  39:             pass
++  40:     
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.17182 s] survived
+   - [#  38] EXS dll: 
+--------------------------------------------------------------------------------
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+- 119:                 break
++ 119:                 pass
+  120:         return l
+--------------------------------------------------------------------------------
+[0.16175 s] survived
+   - [#  39] LCR dll: 
+--------------------------------------------------------------------------------
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
++  99:                 elif (curr is not self.head or curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+--------------------------------------------------------------------------------
+[0.17856 s] survived
+   - [#  40] OIL dll: 
+--------------------------------------------------------------------------------
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+-  38:         except TypeError:
++  38:                 breakexcept TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+   42:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.19301 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb984c70>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+>       assert dll.head.data == 4
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:27: AssertionError
+   - [#  41] OIL dll: 
+--------------------------------------------------------------------------------
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+  107:             curr = curr.next
+- 108:         
++ 108:             break
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+--------------------------------------------------------------------------------
+[0.20349 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4ee0e0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb4ec430>, val = 3
+
+>   ???
+E   ValueError: 3 is not in the list
+
+dll:109: ValueError
+   - [#  42] OIL dll: 
+--------------------------------------------------------------------------------
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+- 119:                 break
++ 119:                 breakbreak
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17093 s] survived
+   - [#  43] RIL dll: 
+--------------------------------------------------------------------------------
+   32:         self.head = None
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+-  36:             for val in data:
++  36:             for val in reversed(data):
+   37:                 self.push(val)
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+--------------------------------------------------------------------------------
+[0.19712 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb699180>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+>       assert dll.head.data == 4
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:27: AssertionError
+   - [#  44] ROR dll: 
+--------------------------------------------------------------------------------
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+-  55:         if self._length < 1:
++  55:         if self._length > 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+--------------------------------------------------------------------------------
+[0.17535 s] survived
+   - [#  45] ROR dll: 
+--------------------------------------------------------------------------------
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+-  55:         if self._length < 1:
++  55:         if self._length <= 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+--------------------------------------------------------------------------------
+[0.19921 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6a34f0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeba45ab0>
+
+>   ???
+E   IndexError: Cannot pop from an empty list.
+
+dll:56: IndexError
+   - [#  46] ROR dll: 
+--------------------------------------------------------------------------------
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+-  63:         if self._length < 1:
++  63:         if self._length > 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+--------------------------------------------------------------------------------
+[0.19009 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb69aa70>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+        assert result == 5
+        assert dll.head is None
+>       assert dll.tail is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:43: AssertionError
+   - [#  47] ROR dll: 
+--------------------------------------------------------------------------------
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+-  63:         if self._length < 1:
++  63:         if self._length <= 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+--------------------------------------------------------------------------------
+[0.16009 s] survived
+   - [#  48] ROR dll: 
+--------------------------------------------------------------------------------
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
++  73:         if self._length > 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+--------------------------------------------------------------------------------
+[0.20064 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb90b160>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+        dll.append(77)
+>       assert dll.head.data == 77
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:49: AttributeError
+   - [#  49] ROR dll: 
+--------------------------------------------------------------------------------
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
++  73:         if self._length <= 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+--------------------------------------------------------------------------------
+[0.17929 s] survived
+   - [#  50] ROR dll: 
+--------------------------------------------------------------------------------
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+-  80:         if self._length < 1:
++  80:         if self._length > 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+--------------------------------------------------------------------------------
+[0.19913 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb5e2770>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb5e1fc0>
+
+>   ???
+E   IndexError: Cannot shift from an empty list.
+
+dll:81: IndexError
+   - [#  51] ROR dll: 
+--------------------------------------------------------------------------------
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+-  80:         if self._length < 1:
++  80:         if self._length <= 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+--------------------------------------------------------------------------------
+[0.17509 s] survived
+   - [#  52] ROR dll: 
+--------------------------------------------------------------------------------
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+-  88:         if self._length < 1:
++  88:         if self._length > 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.18558 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6f03d0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+        assert result == 1
+        assert dll.head.data == 3
+>       assert dll.tail.data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:58: AttributeError
+   - [#  53] ROR dll: 
+--------------------------------------------------------------------------------
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+-  88:         if self._length < 1:
++  88:         if self._length <= 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.17864 s] survived
+   - [#  54] ROR dll: 
+--------------------------------------------------------------------------------
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+-  97:                 if self._length == 1:
++  97:                 if self._length != 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+--------------------------------------------------------------------------------
+[0.19822 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb53e770>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+        dll.remove(3)
+>       assert dll.head.data == 5
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:64: AttributeError
+   - [#  55] SDI dll: 
+--------------------------------------------------------------------------------
+    3: 
+    4: class Node(object):
+    5:     '''Node class for data storage.'''
+    6:     
+-   7:     def __init__(self, data=None, next_node=None, prev=None):
+-   8:         '''Initialize Node.'''
+-   9:         self.data = data
+-  10:         self.next = next_node
+-  11:         self.prev = prev
+-  12:     
++   7:     @staticmethod
++   8:     def __init__(self, data=None, next_node=None, prev=None):
++   9:         '''Initialize Node.'''
++  10:         self.data = data
++  11:         self.next = next_node
++  12:         self.prev = prev
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+   15:         return 'Value: {}'.format(self.data)
+   16: 
+--------------------------------------------------------------------------------
+[0.19633 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_initialization
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb93ca60>
+
+    def test_node_initialization(self):
+>       node = Node(5)
+
+ts-3-5/test_3-5_1-0_304.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 5, data = None, next_node = None, prev = None
+
+>   ???
+E   AttributeError: 'int' object has no attribute 'data'
+
+dll:10: AttributeError
+   - [#  56] SDI dll: 
+--------------------------------------------------------------------------------
+    9:         self.data = data
+   10:         self.next = next_node
+   11:         self.prev = prev
+   12:     
+-  13:     def __repr__(self):
+-  14:         '''String representation.'''
+-  15:         return 'Value: {}'.format(self.data)
+-  16: 
++  13:     @staticmethod
++  14:     def __repr__(self):
++  15:         '''String representation.'''
++  16:         return 'Value: {}'.format(self.data)
+   17: 
+   18: class DoubleLinkedList(object):
+   19:     '''Double linked list impplementation.
+   20: 
+--------------------------------------------------------------------------------
+[0.18817 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:21: TypeError: Node.__repr__() missing 1 required positional argument: 'self'
+
+   - [#  57] SDI dll: 
+--------------------------------------------------------------------------------
+   26:     remove(val) - will remove the first instance of (val) found in the list,
+   27:     starting from the head.
+   28:     '''
+   29:     
+-  30:     def __init__(self, data=None):
+-  31:         '''Initialize list.'''
+-  32:         self.head = None
+-  33:         self.tail = None
+-  34:         self._length = 0
+-  35:         try:
+-  36:             for val in data:
+-  37:                 self.push(val)
+-  38:         except TypeError:
+-  39:             if data:
+-  40:                 self.push(data)
+-  41:     
++  30:     @staticmethod
++  31:     def __init__(self, data=None):
++  32:         '''Initialize list.'''
++  33:         self.head = None
++  34:         self.tail = None
++  35:         self._length = 0
++  36:         try:
++  37:             for val in data:
++  38:                 self.push(val)
++  39:         except TypeError:
++  40:             if data:
++  41:                 self.push(data)
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+--------------------------------------------------------------------------------
+[0.17916 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6a1510>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = [1, 2, 3, 4], data = None
+
+>   ???
+E   AttributeError: 'list' object has no attribute 'head'
+
+dll:33: AttributeError
+   - [#  58] SDI dll: 
+--------------------------------------------------------------------------------
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+-  42:     def push(self, val):
+-  43:         '''Add val to the head of the list.'''
+-  44:         old_head = self.head
+-  45:         self.head = Node(val, next_node=old_head)
+-  46:         if old_head:
+-  47:             old_head.prev = self.head
+-  48:         if not (self.tail):
+-  49:             self.tail = self.head
+-  50:         self._length += 1
+-  51:     
++  42:     @staticmethod
++  43:     def push(self, val):
++  44:         '''Add val to the head of the list.'''
++  45:         old_head = self.head
++  46:         self.head = Node(val, next_node=old_head)
++  47:         if old_head:
++  48:             old_head.prev = self.head
++  49:         if not (self.tail):
++  50:             self.tail = self.head
++  51:         self._length += 1
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+   55:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.20004 s] incompetent
+
+TypeError: dll:40: TypeError: DoubleLinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  59] SDI dll: 
+--------------------------------------------------------------------------------
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+-  52:     def pop(self):
+-  53:         '''Remove the val from the head of the list.'''
+-  54:         to_return = self.head
+-  55:         if self._length < 1:
+-  56:             raise IndexError('Cannot pop from an empty list.')
+-  57:         
+-  58:         new_head = self.head.next
+-  59:         if new_head:
+-  60:             new_head.prev = None
+-  61:         self.head = new_head
+-  62:         self._length -= 1
+-  63:         if self._length < 1:
+-  64:             self.tail = None
+-  65:         return to_return.data
+-  66:     
++  52:     @staticmethod
++  53:     def pop(self):
++  54:         '''Remove the val from the head of the list.'''
++  55:         to_return = self.head
++  56:         if self._length < 1:
++  57:             raise IndexError('Cannot pop from an empty list.')
++  58:         
++  59:         new_head = self.head.next
++  60:         if new_head:
++  61:             new_head.prev = None
++  62:         self.head = new_head
++  63:         self._length -= 1
++  64:         if self._length < 1:
++  65:             self.tail = None
++  66:         return to_return.data
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+--------------------------------------------------------------------------------
+[0.21534 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:40: TypeError: DoubleLinkedList.pop() missing 1 required positional argument: 'self'
+
+   - [#  60] SDI dll: 
+--------------------------------------------------------------------------------
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+-  67:     def append(self, val):
+-  68:         '''Add val to the tail of the list.'''
+-  69:         old_tail = self.tail
+-  70:         self.tail = Node(val, prev=old_tail)
+-  71:         if old_tail:
+-  72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
+-  74:             self.head = self.tail
+-  75:         self._length += 1
+-  76:     
++  67:     @staticmethod
++  68:     def append(self, val):
++  69:         '''Add val to the tail of the list.'''
++  70:         old_tail = self.tail
++  71:         self.tail = Node(val, prev=old_tail)
++  72:         if old_tail:
++  73:             old_tail.next = self.tail
++  74:         if self._length < 1:
++  75:             self.head = self.tail
++  76:         self._length += 1
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+   80:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.21976 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:48: TypeError: DoubleLinkedList.append() missing 1 required positional argument: 'val'
+
+   - [#  61] SDI dll: 
+--------------------------------------------------------------------------------
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+-  77:     def shift(self):
+-  78:         '''Remove the val from the tail of the list.'''
+-  79:         to_return = self.tail
+-  80:         if self._length < 1:
+-  81:             raise IndexError('Cannot shift from an empty list.')
+-  82:         
+-  83:         new_tail = self.tail.prev
+-  84:         if new_tail:
+-  85:             new_tail.next = None
+-  86:         self.tail = new_tail
+-  87:         self._length -= 1
+-  88:         if self._length < 1:
+-  89:             self.tail = None
+-  90:         return to_return.data
+-  91:     
++  77:     @staticmethod
++  78:     def shift(self):
++  79:         '''Remove the val from the tail of the list.'''
++  80:         to_return = self.tail
++  81:         if self._length < 1:
++  82:             raise IndexError('Cannot shift from an empty list.')
++  83:         
++  84:         new_tail = self.tail.prev
++  85:         if new_tail:
++  86:             new_tail.next = None
++  87:         self.tail = new_tail
++  88:         self._length -= 1
++  89:         if self._length < 1:
++  90:             self.tail = None
++  91:         return to_return.data
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+--------------------------------------------------------------------------------
+[0.19867 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:55: TypeError: DoubleLinkedList.shift() missing 1 required positional argument: 'self'
+
+   - [#  62] SDI dll: 
+--------------------------------------------------------------------------------
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+-  92:     def remove(self, val):
+-  93:         '''Remove first occurance of val from list.'''
+-  94:         curr = self.head
+-  95:         while curr:
+-  96:             if curr.data is val:
+-  97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
+- 100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+- 101:                 elif curr is self.head:
+- 102:                     (self.head, curr.next.prev) = (curr.next, None)
+- 103:                 elif curr is self.tail:
+- 104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+- 105:                 self._length -= 1
+- 106:                 return
+- 107:             curr = curr.next
+- 108:         
+- 109:         raise ValueError('{} is not in the list'.format(val))
+- 110:     
++  92:     @staticmethod
++  93:     def remove(self, val):
++  94:         '''Remove first occurance of val from list.'''
++  95:         curr = self.head
++  96:         while curr:
++  97:             if curr.data is val:
++  98:                 if self._length == 1:
++  99:                     (self.head, self.tail) = (None, None)
++ 100:                 elif (curr is not self.head and curr is not self.tail):
++ 101:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
++ 102:                 elif curr is self.head:
++ 103:                     (self.head, curr.next.prev) = (curr.next, None)
++ 104:                 elif curr is self.tail:
++ 105:                     (self.tail, curr.prev.next) = (curr.prev, None)
++ 106:                 self._length -= 1
++ 107:                 return
++ 108:             curr = curr.next
++ 109:         
++ 110:         raise ValueError('{} is not in the list'.format(val))
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+  114:         while True:
+--------------------------------------------------------------------------------
+[0.20072 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:63: TypeError: DoubleLinkedList.remove() missing 1 required positional argument: 'val'
+
+   - [#  63] SDI dll: 
+--------------------------------------------------------------------------------
+  107:             curr = curr.next
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+- 111:     def _repr(self):
+- 112:         '''Return list representation of dll.'''
+- 113:         l = []
+- 114:         while True:
+- 115:             try:
+- 116:                 popped_data = self.pop()
+- 117:                 l.append(popped_data)
+- 118:             except IndexError:
+- 119:                 break
+- 120:         return l
++ 111:     @staticmethod
++ 112:     def _repr(self):
++ 113:         '''Return list representation of dll.'''
++ 114:         l = []
++ 115:         while True:
++ 116:             try:
++ 117:                 popped_data = self.pop()
++ 118:                 l.append(popped_data)
++ 119:             except IndexError:
++ 120:                 break
++ 121:         return l
+--------------------------------------------------------------------------------
+[0.17691 s] survived
+   - [#  64] SDL dll: 
+--------------------------------------------------------------------------------
+    5:     '''Node class for data storage.'''
+    6:     
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+-   9:         self.data = data
++   9:         pass
+   10:         self.next = next_node
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+--------------------------------------------------------------------------------
+[0.19596 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_initialization
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb7090c0>
+
+    def test_node_initialization(self):
+        node = Node(5)
+>       assert node.data == 5
+E       AttributeError: 'Node' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:15: AttributeError
+   - [#  65] SDL dll: 
+--------------------------------------------------------------------------------
+    6:     
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+    9:         self.data = data
+-  10:         self.next = next_node
++  10:         pass
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+--------------------------------------------------------------------------------
+[0.18561 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_initialization
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb5faad0>
+
+    def test_node_initialization(self):
+        node = Node(5)
+        assert node.data == 5
+>       assert node.next is None
+E       AttributeError: 'Node' object has no attribute 'next'
+
+ts-3-5/test_3-5_1-0_304.py:16: AttributeError
+   - [#  66] SDL dll: 
+--------------------------------------------------------------------------------
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+    9:         self.data = data
+   10:         self.next = next_node
+-  11:         self.prev = prev
++  11:         pass
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+   15:         return 'Value: {}'.format(self.data)
+--------------------------------------------------------------------------------
+[0.18172 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_initialization
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb93efe0>
+
+    def test_node_initialization(self):
+        node = Node(5)
+        assert node.data == 5
+        assert node.next is None
+>       assert node.prev is None
+E       AttributeError: 'Node' object has no attribute 'prev'
+
+ts-3-5/test_3-5_1-0_304.py:17: AttributeError
+   - [#  67] SDL dll: 
+--------------------------------------------------------------------------------
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+-  15:         return 'Value: {}'.format(self.data)
++  15:         pass
+   16: 
+   17: 
+   18: class DoubleLinkedList(object):
+   19:     '''Double linked list impplementation.
+--------------------------------------------------------------------------------
+[0.22200 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/dll/ts-3-5/test_3-5_1-0_304.py:21: TypeError: __repr__ returned non-string (type NoneType)
+
+   - [#  68] SDL dll: 
+--------------------------------------------------------------------------------
+   28:     '''
+   29:     
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+-  32:         self.head = None
++  32:         pass
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+--------------------------------------------------------------------------------
+[0.19566 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb97b3a0>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb978c40>, val = 1
+
+>   ???
+E   AttributeError: 'DoubleLinkedList' object has no attribute 'head'
+
+dll:44: AttributeError
+   - [#  69] SDL dll: 
+--------------------------------------------------------------------------------
+   29:     
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+   32:         self.head = None
+-  33:         self.tail = None
++  33:         pass
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.19687 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6f3e80>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6f17e0>, val = 1
+
+>   ???
+E   AttributeError: 'DoubleLinkedList' object has no attribute 'tail'
+
+dll:48: AttributeError
+   - [#  70] SDL dll: 
+--------------------------------------------------------------------------------
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+   32:         self.head = None
+   33:         self.tail = None
+-  34:         self._length = 0
++  34:         pass
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+--------------------------------------------------------------------------------
+[0.18684 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6a1f30>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6a1e10>, val = 1
+
+>   ???
+E   AttributeError: 'DoubleLinkedList' object has no attribute '_length'
+
+dll:50: AttributeError
+   - [#  71] SDL dll: 
+--------------------------------------------------------------------------------
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+-  37:                 self.push(val)
++  37:                 pass
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+--------------------------------------------------------------------------------
+[0.18902 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb93dd50>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+>       assert dll.head.data == 4
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:27: AttributeError
+   - [#  72] SDL dll: 
+--------------------------------------------------------------------------------
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+   39:             if data:
+-  40:                 self.push(data)
++  40:                 pass
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.18026 s] survived
+   - [#  73] SDL dll: 
+--------------------------------------------------------------------------------
+   40:                 self.push(data)
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+-  44:         old_head = self.head
++  44:         pass
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+--------------------------------------------------------------------------------
+[0.19642 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb580ca0>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb580af0>, val = 1
+
+>   ???
+E   NameError: name 'old_head' is not defined
+
+dll:45: NameError
+   - [#  74] SDL dll: 
+--------------------------------------------------------------------------------
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+-  45:         self.head = Node(val, next_node=old_head)
++  45:         pass
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+--------------------------------------------------------------------------------
+[0.19474 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4bbeb0>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+>       assert dll.head.data == 4
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:27: AttributeError
+   - [#  75] SDL dll: 
+--------------------------------------------------------------------------------
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+-  47:             old_head.prev = self.head
++  47:             pass
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+--------------------------------------------------------------------------------
+[0.19752 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb623520>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+        assert result == 1
+        assert dll.head.data == 3
+>       assert dll.tail.data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:58: AttributeError
+   - [#  76] SDL dll: 
+--------------------------------------------------------------------------------
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+-  49:             self.tail = self.head
++  49:             pass
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+--------------------------------------------------------------------------------
+[0.19906 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeba98af0>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+        assert dll.head.data == 4
+>       assert dll.tail.data == 1
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:28: AttributeError
+   - [#  77] SDL dll: 
+--------------------------------------------------------------------------------
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+-  54:         to_return = self.head
++  54:         pass
+   55:         if self._length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+--------------------------------------------------------------------------------
+[0.19816 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeba9a3b0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeba9ab00>
+
+>   ???
+E   NameError: name 'to_return' is not defined
+
+dll:65: NameError
+   - [#  78] SDL dll: 
+--------------------------------------------------------------------------------
+   54:         to_return = self.head
+   55:         if self._length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+-  58:         new_head = self.head.next
++  58:         pass
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.19504 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb90a2c0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb90a350>
+
+>   ???
+E   NameError: name 'new_head' is not defined
+
+dll:59: NameError
+   - [#  79] SDL dll: 
+--------------------------------------------------------------------------------
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+-  60:             new_head.prev = None
++  60:             pass
+   61:         self.head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+--------------------------------------------------------------------------------
+[0.18854 s] survived
+   - [#  80] SDL dll: 
+--------------------------------------------------------------------------------
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+   60:             new_head.prev = None
+-  61:         self.head = new_head
++  61:         pass
+   62:         self._length -= 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+--------------------------------------------------------------------------------
+[0.19912 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb942b00>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+        assert result == 5
+>       assert dll.head is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:42: AssertionError
+   - [#  81] SDL dll: 
+--------------------------------------------------------------------------------
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+-  64:             self.tail = None
++  64:             pass
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+--------------------------------------------------------------------------------
+[0.18860 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeba45cf0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+        assert result == 5
+        assert dll.head is None
+>       assert dll.tail is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:43: AssertionError
+   - [#  82] SDL dll: 
+--------------------------------------------------------------------------------
+   61:         self.head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+-  65:         return to_return.data
++  65:         pass
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+--------------------------------------------------------------------------------
+[0.19853 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb96aad0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+        result = dll.pop()
+>       assert result == 5
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:41: AssertionError
+   - [#  83] SDL dll: 
+--------------------------------------------------------------------------------
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+-  69:         old_tail = self.tail
++  69:         pass
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.19860 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb949090>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb948ca0>, val = 77
+
+>   ???
+E   NameError: name 'old_tail' is not defined
+
+dll:70: NameError
+   - [#  84] SDL dll: 
+--------------------------------------------------------------------------------
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+-  70:         self.tail = Node(val, prev=old_tail)
++  70:         pass
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+--------------------------------------------------------------------------------
+[0.19823 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb63dba0>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+        dll.append(77)
+>       assert dll.head.data == 77
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:49: AttributeError
+   - [#  85] SDL dll: 
+--------------------------------------------------------------------------------
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+-  72:             old_tail.next = self.tail
++  72:             pass
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+--------------------------------------------------------------------------------
+[0.19099 s] survived
+   - [#  86] SDL dll: 
+--------------------------------------------------------------------------------
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+-  74:             self.head = self.tail
++  74:             pass
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+--------------------------------------------------------------------------------
+[0.18020 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aebb5b790>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+        dll.append(77)
+>       assert dll.head.data == 77
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:49: AttributeError
+   - [#  87] SDL dll: 
+--------------------------------------------------------------------------------
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+-  79:         to_return = self.tail
++  79:         pass
+   80:         if self._length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+--------------------------------------------------------------------------------
+[0.20102 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb93fc70>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb93c190>
+
+>   ???
+E   NameError: name 'to_return' is not defined
+
+dll:90: NameError
+   - [#  88] SDL dll: 
+--------------------------------------------------------------------------------
+   79:         to_return = self.tail
+   80:         if self._length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+-  83:         new_tail = self.tail.prev
++  83:         pass
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.19899 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb699f30>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb698100>
+
+>   ???
+E   NameError: name 'new_tail' is not defined
+
+dll:84: NameError
+   - [#  89] SDL dll: 
+--------------------------------------------------------------------------------
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+-  85:             new_tail.next = None
++  85:             pass
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+--------------------------------------------------------------------------------
+[0.17694 s] survived
+   - [#  90] SDL dll: 
+--------------------------------------------------------------------------------
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+   85:             new_tail.next = None
+-  86:         self.tail = new_tail
++  86:         pass
+   87:         self._length -= 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+--------------------------------------------------------------------------------
+[0.19781 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb715f60>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+        assert result == 1
+        assert dll.head.data == 3
+>       assert dll.tail.data == 2
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:58: AssertionError
+   - [#  91] SDL dll: 
+--------------------------------------------------------------------------------
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+-  89:             self.tail = None
++  89:             pass
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+--------------------------------------------------------------------------------
+[0.16291 s] survived
+   - [#  92] SDL dll: 
+--------------------------------------------------------------------------------
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+-  90:         return to_return.data
++  90:         pass
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+--------------------------------------------------------------------------------
+[0.20162 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4862c0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+        result = dll.shift()
+>       assert result == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_304.py:56: AssertionError
+   - [#  93] SDL dll: 
+--------------------------------------------------------------------------------
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+-  94:         curr = self.head
++  94:         pass
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+--------------------------------------------------------------------------------
+[0.20046 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb60e3b0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb60d7e0>, val = 3
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+dll:95: UnboundLocalError
+   - [#  94] SDL dll: 
+--------------------------------------------------------------------------------
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
++  98:                     pass
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+--------------------------------------------------------------------------------
+[0.17568 s] survived
+   - [#  95] SDL dll: 
+--------------------------------------------------------------------------------
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+- 100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
++ 100:                     pass
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+--------------------------------------------------------------------------------
+[0.17396 s] survived
+   - [#  96] SDL dll: 
+--------------------------------------------------------------------------------
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+- 102:                     (self.head, curr.next.prev) = (curr.next, None)
++ 102:                     pass
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+--------------------------------------------------------------------------------
+[0.16321 s] survived
+   - [#  97] SDL dll: 
+--------------------------------------------------------------------------------
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+- 104:                     (self.tail, curr.prev.next) = (curr.prev, None)
++ 104:                     pass
+  105:                 self._length -= 1
+  106:                 return
+  107:             curr = curr.next
+  108:         
+--------------------------------------------------------------------------------
+[0.17910 s] survived
+   - [#  98] SDL dll: 
+--------------------------------------------------------------------------------
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+- 106:                 return
++ 106:                 pass
+  107:             curr = curr.next
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+--------------------------------------------------------------------------------
+[0.20050 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb93f820>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb93c370>, val = 3
+
+>   ???
+E   ValueError: 3 is not in the list
+
+dll:109: ValueError
+   - [#  99] SDL dll: 
+--------------------------------------------------------------------------------
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+- 107:             curr = curr.next
++ 107:             pass
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+  111:     def _repr(self):
+--------------------------------------------------------------------------------
+[5.00704 s] timeout
+   - [# 100] SDL dll: 
+--------------------------------------------------------------------------------
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+- 113:         l = []
++ 113:         pass
+  114:         while True:
+  115:             try:
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+--------------------------------------------------------------------------------
+[0.17949 s] survived
+   - [# 101] SDL dll: 
+--------------------------------------------------------------------------------
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+  114:         while True:
+  115:             try:
+- 116:                 popped_data = self.pop()
++ 116:                 pass
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+  119:                 break
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17958 s] survived
+   - [# 102] SDL dll: 
+--------------------------------------------------------------------------------
+  113:         l = []
+  114:         while True:
+  115:             try:
+  116:                 popped_data = self.pop()
+- 117:                 l.append(popped_data)
++ 117:                 pass
+  118:             except IndexError:
+  119:                 break
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17591 s] survived
+   - [# 103] SDL dll: 
+--------------------------------------------------------------------------------
+  116:                 popped_data = self.pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+  119:                 break
+- 120:         return l
++ 120:         pass
+--------------------------------------------------------------------------------
+[0.17512 s] survived
+   - [# 104] SVD dll: 
+--------------------------------------------------------------------------------
+    5:     '''Node class for data storage.'''
+    6:     
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+-   9:         self.data = data
++   9:         data = data
+   10:         self.next = next_node
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 105] SVD dll: 
+--------------------------------------------------------------------------------
+    6:     
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+    9:         self.data = data
+-  10:         self.next = next_node
++  10:         next = next_node
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 106] SVD dll: 
+--------------------------------------------------------------------------------
+    7:     def __init__(self, data=None, next_node=None, prev=None):
+    8:         '''Initialize Node.'''
+    9:         self.data = data
+   10:         self.next = next_node
+-  11:         self.prev = prev
++  11:         prev = prev
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+   15:         return 'Value: {}'.format(self.data)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 107] SVD dll: 
+--------------------------------------------------------------------------------
+   11:         self.prev = prev
+   12:     
+   13:     def __repr__(self):
+   14:         '''String representation.'''
+-  15:         return 'Value: {}'.format(self.data)
++  15:         return 'Value: {}'.format(data)
+   16: 
+   17: 
+   18: class DoubleLinkedList(object):
+   19:     '''Double linked list impplementation.
+--------------------------------------------------------------------------------
+[0.18912 s] killed by ts-3-5/test_3-5_1-0_304.py::TestNode::test_node_representation
+
+self = <test_3-5_1-0_304.TestNode object at 0x713aeb484040>
+
+    def test_node_representation(self):
+        node = Node(10)
+>       assert repr(node) == "Value: 10"
+
+ts-3-5/test_3-5_1-0_304.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[NameError("name 'data' is not defined") raised in repr()] Node object at 0x713aeb484850>
+
+>   ???
+E   NameError: name 'data' is not defined
+
+dll:15: NameError
+   - [# 108] SVD dll: 
+--------------------------------------------------------------------------------
+   28:     '''
+   29:     
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+-  32:         self.head = None
++  32:         head = None
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 109] SVD dll: 
+--------------------------------------------------------------------------------
+   29:     
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+   32:         self.head = None
+-  33:         self.tail = None
++  33:         tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 110] SVD dll: 
+--------------------------------------------------------------------------------
+   30:     def __init__(self, data=None):
+   31:         '''Initialize list.'''
+   32:         self.head = None
+   33:         self.tail = None
+-  34:         self._length = 0
++  34:         _length = 0
+   35:         try:
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 111] SVD dll: 
+--------------------------------------------------------------------------------
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+-  37:                 self.push(val)
++  37:                 push(val)
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+--------------------------------------------------------------------------------
+[0.19574 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb49fe80>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb49ecb0>, data = [1, 2, 3, 4]
+
+>   ???
+E   NameError: name 'push' is not defined
+
+dll:37: NameError
+   - [# 112] SVD dll: 
+--------------------------------------------------------------------------------
+   36:             for val in data:
+   37:                 self.push(val)
+   38:         except TypeError:
+   39:             if data:
+-  40:                 self.push(data)
++  40:                 push(data)
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.17570 s] survived
+   - [# 113] SVD dll: 
+--------------------------------------------------------------------------------
+   40:                 self.push(data)
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+-  44:         old_head = self.head
++  44:         old_head = head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+--------------------------------------------------------------------------------
+[0.20451 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6a0cd0>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6a0dc0>, val = 1
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:44: NameError
+   - [# 114] SVD dll: 
+--------------------------------------------------------------------------------
+   41:     
+   42:     def push(self, val):
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+-  45:         self.head = Node(val, next_node=old_head)
++  45:         head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 115] SVD dll: 
+--------------------------------------------------------------------------------
+   43:         '''Add val to the head of the list.'''
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+-  47:             old_head.prev = self.head
++  47:             old_head.prev = head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+--------------------------------------------------------------------------------
+[0.18549 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4eb8b0>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb4eba90>, val = 2
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:47: NameError
+   - [# 116] SVD dll: 
+--------------------------------------------------------------------------------
+   44:         old_head = self.head
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+-  48:         if not (self.tail):
++  48:         if not tail:
+   49:             self.tail = self.head
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+--------------------------------------------------------------------------------
+[0.19903 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb67a770>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb67b070>, val = 1
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:48: NameError
+   - [# 117] SVD dll: 
+--------------------------------------------------------------------------------
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+-  49:             self.tail = self.head
++  49:             tail = self.head
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 118] SVD dll: 
+--------------------------------------------------------------------------------
+   45:         self.head = Node(val, next_node=old_head)
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+-  49:             self.tail = self.head
++  49:             self.tail = head
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+--------------------------------------------------------------------------------
+[0.19498 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb666dd0>
+
+    def test_list_initialization(self):
+>       dll = DoubleLinkedList([1, 2, 3, 4])
+
+ts-3-5/test_3-5_1-0_304.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+dll:37: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb666c20>, val = 1
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:49: NameError
+   - [# 119] SVD dll: 
+--------------------------------------------------------------------------------
+   46:         if old_head:
+   47:             old_head.prev = self.head
+   48:         if not (self.tail):
+   49:             self.tail = self.head
+-  50:         self._length += 1
++  50:         _length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 120] SVD dll: 
+--------------------------------------------------------------------------------
+   50:         self._length += 1
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+-  54:         to_return = self.head
++  54:         to_return = head
+   55:         if self._length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+--------------------------------------------------------------------------------
+[0.21906 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb96a440>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb906050>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:54: NameError
+   - [# 121] SVD dll: 
+--------------------------------------------------------------------------------
+   51:     
+   52:     def pop(self):
+   53:         '''Remove the val from the head of the list.'''
+   54:         to_return = self.head
+-  55:         if self._length < 1:
++  55:         if _length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+--------------------------------------------------------------------------------
+[0.18451 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb993490>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb992ef0>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:55: NameError
+   - [# 122] SVD dll: 
+--------------------------------------------------------------------------------
+   54:         to_return = self.head
+   55:         if self._length < 1:
+   56:             raise IndexError('Cannot pop from an empty list.')
+   57:         
+-  58:         new_head = self.head.next
++  58:         new_head = head.next
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.20062 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb9925c0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb993580>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:58: NameError
+   - [# 123] SVD dll: 
+--------------------------------------------------------------------------------
+   57:         
+   58:         new_head = self.head.next
+   59:         if new_head:
+   60:             new_head.prev = None
+-  61:         self.head = new_head
++  61:         head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 124] SVD dll: 
+--------------------------------------------------------------------------------
+   58:         new_head = self.head.next
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+-  62:         self._length -= 1
++  62:         _length -= 1
+   63:         if self._length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 125] SVD dll: 
+--------------------------------------------------------------------------------
+   59:         if new_head:
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+-  63:         if self._length < 1:
++  63:         if _length < 1:
+   64:             self.tail = None
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+--------------------------------------------------------------------------------
+[0.19638 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_pop_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6a17e0>
+
+    def test_pop_method(self):
+        dll = DoubleLinkedList([5])
+>       result = dll.pop()
+
+ts-3-5/test_3-5_1-0_304.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6a1ff0>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:63: NameError
+   - [# 126] SVD dll: 
+--------------------------------------------------------------------------------
+   60:             new_head.prev = None
+   61:         self.head = new_head
+   62:         self._length -= 1
+   63:         if self._length < 1:
+-  64:             self.tail = None
++  64:             tail = None
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 127] SVD dll: 
+--------------------------------------------------------------------------------
+   65:         return to_return.data
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+-  69:         old_tail = self.tail
++  69:         old_tail = tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+--------------------------------------------------------------------------------
+[0.20004 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb614eb0>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb614880>, val = 77
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:69: NameError
+   - [# 128] SVD dll: 
+--------------------------------------------------------------------------------
+   66:     
+   67:     def append(self, val):
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+-  70:         self.tail = Node(val, prev=old_tail)
++  70:         tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 129] SVD dll: 
+--------------------------------------------------------------------------------
+   68:         '''Add val to the tail of the list.'''
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+-  72:             old_tail.next = self.tail
++  72:             old_tail.next = tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+--------------------------------------------------------------------------------
+[0.18764 s] survived
+   - [# 130] SVD dll: 
+--------------------------------------------------------------------------------
+   69:         old_tail = self.tail
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+-  73:         if self._length < 1:
++  73:         if _length < 1:
+   74:             self.head = self.tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+--------------------------------------------------------------------------------
+[0.21778 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb68bc10>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb68a440>, val = 77
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:73: NameError
+   - [# 131] SVD dll: 
+--------------------------------------------------------------------------------
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+-  74:             self.head = self.tail
++  74:             head = self.tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 132] SVD dll: 
+--------------------------------------------------------------------------------
+   70:         self.tail = Node(val, prev=old_tail)
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+-  74:             self.head = self.tail
++  74:             self.head = tail
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+--------------------------------------------------------------------------------
+[0.19505 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_append_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb73dd50>
+
+    def test_append_method(self):
+        dll = DoubleLinkedList()
+>       dll.append(77)
+
+ts-3-5/test_3-5_1-0_304.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb73ec20>, val = 77
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:74: NameError
+   - [# 133] SVD dll: 
+--------------------------------------------------------------------------------
+   71:         if old_tail:
+   72:             old_tail.next = self.tail
+   73:         if self._length < 1:
+   74:             self.head = self.tail
+-  75:         self._length += 1
++  75:         _length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 134] SVD dll: 
+--------------------------------------------------------------------------------
+   75:         self._length += 1
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+-  79:         to_return = self.tail
++  79:         to_return = tail
+   80:         if self._length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+--------------------------------------------------------------------------------
+[0.19986 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb93fe80>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb93e6e0>
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:79: NameError
+   - [# 135] SVD dll: 
+--------------------------------------------------------------------------------
+   76:     
+   77:     def shift(self):
+   78:         '''Remove the val from the tail of the list.'''
+   79:         to_return = self.tail
+-  80:         if self._length < 1:
++  80:         if _length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+--------------------------------------------------------------------------------
+[0.18403 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb981600>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb981a20>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:80: NameError
+   - [# 136] SVD dll: 
+--------------------------------------------------------------------------------
+   79:         to_return = self.tail
+   80:         if self._length < 1:
+   81:             raise IndexError('Cannot shift from an empty list.')
+   82:         
+-  83:         new_tail = self.tail.prev
++  83:         new_tail = tail.prev
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.19980 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4e1ed0>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb4e0700>
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:83: NameError
+   - [# 137] SVD dll: 
+--------------------------------------------------------------------------------
+   82:         
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+   85:             new_tail.next = None
+-  86:         self.tail = new_tail
++  86:         tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 138] SVD dll: 
+--------------------------------------------------------------------------------
+   83:         new_tail = self.tail.prev
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+-  87:         self._length -= 1
++  87:         _length -= 1
+   88:         if self._length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 139] SVD dll: 
+--------------------------------------------------------------------------------
+   84:         if new_tail:
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+-  88:         if self._length < 1:
++  88:         if _length < 1:
+   89:             self.tail = None
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.19459 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_shift_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb905120>
+
+    def test_shift_method(self):
+        dll = DoubleLinkedList([1, 2, 3])
+>       result = dll.shift()
+
+ts-3-5/test_3-5_1-0_304.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb905750>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:88: NameError
+   - [# 140] SVD dll: 
+--------------------------------------------------------------------------------
+   85:             new_tail.next = None
+   86:         self.tail = new_tail
+   87:         self._length -= 1
+   88:         if self._length < 1:
+-  89:             self.tail = None
++  89:             tail = None
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 141] SVD dll: 
+--------------------------------------------------------------------------------
+   90:         return to_return.data
+   91:     
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+-  94:         curr = self.head
++  94:         curr = head
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+--------------------------------------------------------------------------------
+[0.20207 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb6f3d30>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb6f1cc0>, val = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:94: NameError
+   - [# 142] SVD dll: 
+--------------------------------------------------------------------------------
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+-  97:                 if self._length == 1:
++  97:                 if _length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+--------------------------------------------------------------------------------
+[0.18471 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb4e0dc0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb4e2020>, val = 3
+
+>   ???
+E   NameError: name '_length' is not defined
+
+dll:97: NameError
+   - [# 143] SVD dll: 
+--------------------------------------------------------------------------------
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
++  98:                     (head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 144] SVD dll: 
+--------------------------------------------------------------------------------
+   94:         curr = self.head
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
++  98:                     (self.head, tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 145] SVD dll: 
+--------------------------------------------------------------------------------
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
++  99:                 elif (curr is not head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+--------------------------------------------------------------------------------
+[0.20317 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb93d510>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb93cb80>, val = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+dll:99: NameError
+   - [# 146] SVD dll: 
+--------------------------------------------------------------------------------
+   95:         while curr:
+   96:             if curr.data is val:
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
++  99:                 elif (curr is not self.head and curr is not tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+--------------------------------------------------------------------------------
+[0.19825 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb942e00>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb942320>, val = 3
+
+>   ???
+E   NameError: name 'tail' is not defined
+
+dll:99: NameError
+   - [# 147] SVD dll: 
+--------------------------------------------------------------------------------
+   97:                 if self._length == 1:
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+- 101:                 elif curr is self.head:
++ 101:                 elif curr is head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.20106 s] survived
+   - [# 148] SVD dll: 
+--------------------------------------------------------------------------------
+   98:                     (self.head, self.tail) = (None, None)
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+- 102:                     (self.head, curr.next.prev) = (curr.next, None)
++ 102:                     (head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 149] SVD dll: 
+--------------------------------------------------------------------------------
+   99:                 elif (curr is not self.head and curr is not self.tail):
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+- 103:                 elif curr is self.tail:
++ 103:                 elif curr is tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+  107:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.16714 s] survived
+   - [# 150] SVD dll: 
+--------------------------------------------------------------------------------
+  100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+- 104:                     (self.tail, curr.prev.next) = (curr.prev, None)
++ 104:                     (tail, curr.prev.next) = (curr.prev, None)
+  105:                 self._length -= 1
+  106:                 return
+  107:             curr = curr.next
+  108:         
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 151] SVD dll: 
+--------------------------------------------------------------------------------
+  101:                 elif curr is self.head:
+  102:                     (self.head, curr.next.prev) = (curr.next, None)
+  103:                 elif curr is self.tail:
+  104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+- 105:                 self._length -= 1
++ 105:                 _length -= 1
+  106:                 return
+  107:             curr = curr.next
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 152] SVD dll: 
+--------------------------------------------------------------------------------
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+  114:         while True:
+  115:             try:
+- 116:                 popped_data = self.pop()
++ 116:                 popped_data = pop()
+  117:                 l.append(popped_data)
+  118:             except IndexError:
+  119:                 break
+  120:         return l
+--------------------------------------------------------------------------------
+[0.17762 s] survived
+   - [# 153] ZIL dll: 
+--------------------------------------------------------------------------------
+   33:         self.tail = None
+   34:         self._length = 0
+   35:         try:
+   36:             for val in data:
+-  37:                 self.push(val)
++  37:                 break
+   38:         except TypeError:
+   39:             if data:
+   40:                 self.push(data)
+   41:     
+--------------------------------------------------------------------------------
+[0.19390 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_list_initialization
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb466f80>
+
+    def test_list_initialization(self):
+        dll = DoubleLinkedList([1, 2, 3, 4])
+>       assert dll.head.data == 4
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_1-0_304.py:27: AttributeError
+   - [# 154] ZIL dll: 
+--------------------------------------------------------------------------------
+   92:     def remove(self, val):
+   93:         '''Remove first occurance of val from list.'''
+   94:         curr = self.head
+   95:         while curr:
+-  96:             if curr.data is val:
+-  97:                 if self._length == 1:
+-  98:                     (self.head, self.tail) = (None, None)
+-  99:                 elif (curr is not self.head and curr is not self.tail):
+- 100:                     (curr.next.prev, curr.prev.next) = (curr.prev, curr.next)
+- 101:                 elif curr is self.head:
+- 102:                     (self.head, curr.next.prev) = (curr.next, None)
+- 103:                 elif curr is self.tail:
+- 104:                     (self.tail, curr.prev.next) = (curr.prev, None)
+- 105:                 self._length -= 1
+- 106:                 return
+- 107:             curr = curr.next
++  96:             break
++  97:         
++  98:         
++  99:         
++ 100:         
++ 101:         
++ 102:         
++ 103:         
++ 104:         
++ 105:         
++ 106:         
++ 107:         
+  108:         
+  109:         raise ValueError('{} is not in the list'.format(val))
+  110:     
+  111:     def _repr(self):
+--------------------------------------------------------------------------------
+[0.20561 s] killed by ts-3-5/test_3-5_1-0_304.py::TestDoubleLinkedList::test_remove_method
+
+self = <test_3-5_1-0_304.TestDoubleLinkedList object at 0x713aeb411ae0>
+
+    def test_remove_method(self):
+        dll = DoubleLinkedList([1, 2, 3, 4, 5])
+>       dll.remove(3)
+
+ts-3-5/test_3-5_1-0_304.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <dll.DoubleLinkedList object at 0x713aeb410f10>, val = 3
+
+>   ???
+E   ValueError: 3 is not in the list
+
+dll:109: ValueError
+   - [# 155] ZIL dll: 
+--------------------------------------------------------------------------------
+  111:     def _repr(self):
+  112:         '''Return list representation of dll.'''
+  113:         l = []
+  114:         while True:
+- 115:             try:
+- 116:                 popped_data = self.pop()
+- 117:                 l.append(popped_data)
+- 118:             except IndexError:
+- 119:                 break
++ 115:             break
++ 116:         
++ 117:         
++ 118:         
++ 119:         
+  120:         return l
+--------------------------------------------------------------------------------
+[0.16116 s] survived
+[*] Mutation score [40.37666 s]: 69.9%
+   - all: 155
+   - killed: 85 (54.8%)
+   - survived: 37 (23.9%)
+   - incompetent: 32 (20.6%)
+   - timeout: 1 (0.6%)

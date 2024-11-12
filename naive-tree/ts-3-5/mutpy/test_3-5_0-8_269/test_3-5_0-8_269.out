@@ -1,0 +1,1607 @@
+[*] Start mutation process:
+   - targets: naive_tree.py
+   - tests: ts-3-5/test_3-5_0-8_269.py
+[*] 4 tests passed:
+   - test_3-5_0-8_269 [0.18671 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR naive_tree: 
+--------------------------------------------------------------------------------
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+  12:         output = self.pre_order_traversal()
+- 13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
++ 13:         str_output = ('[' - ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+  17:         output = []
+--------------------------------------------------------------------------------
+[0.18109 s] survived
+   - [#   2] AOR naive_tree: 
+--------------------------------------------------------------------------------
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+  12:         output = self.pre_order_traversal()
+- 13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
++ 13:         str_output = ('[' + ', '.join(map(str, output))) - ']'
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+  17:         output = []
+--------------------------------------------------------------------------------
+[0.19105 s] survived
+   - [#   3] CDI naive_tree: 
+--------------------------------------------------------------------------------
+   1: from collections import deque
+   2: 
+   3: class NaiveBinaryTree:
+   4:     
+-  5:     def __init__(self):
+-  6:         self.head = None
+-  7:     
++  5:     @classmethod
++  6:     def __init__(self):
++  7:         self.head = None
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+--------------------------------------------------------------------------------
+[0.17873 s] survived
+   - [#   4] CDI naive_tree: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+-  8:     def __str__(self):
+-  9:         '''
+- 10:         Print a pre order traversal.
+- 11:         '''
+- 12:         output = self.pre_order_traversal()
+- 13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+- 14:         return str_output
+- 15:     
++  8:     @classmethod
++  9:     def __str__(self):
++ 10:         '''
++ 11:         Print a pre order traversal.
++ 12:         '''
++ 13:         output = self.pre_order_traversal()
++ 14:         str_output = ('[' + ', '.join(map(str, output))) + ']'
++ 15:         return str_output
+  16:     def pre_order_traversal(self):
+  17:         output = []
+  18:         def recur(node):
+  19:             if node:
+--------------------------------------------------------------------------------
+[0.18118 s] survived
+   - [#   5] CDI naive_tree: 
+--------------------------------------------------------------------------------
+  12:         output = self.pre_order_traversal()
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+- 16:     def pre_order_traversal(self):
+- 17:         output = []
+- 18:         def recur(node):
+- 19:             if node:
+- 20:                 output.append(node.value)
+- 21:                 recur(node.left)
+- 22:                 recur(node.right)
+- 23:         recur(self.head)
+- 24:         return output
+- 25:     
++ 16:     @classmethod
++ 17:     def pre_order_traversal(self):
++ 18:         output = []
++ 19:         def recur(node):
++ 20:             if node:
++ 21:                 output.append(node.value)
++ 22:                 recur(node.left)
++ 23:                 recur(node.right)
++ 24:         recur(self.head)
++ 25:         return output
+  26:     def in_order_traversal(self):
+  27:         output = []
+  28:         def recur(node):
+  29:             if node:
+--------------------------------------------------------------------------------
+[0.20597 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf30d480>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'naive_tree.NaiveBinaryTree'>
+
+>   ???
+E   AttributeError: type object 'NaiveBinaryTree' has no attribute 'head'
+
+naive_tree:24: AttributeError
+   - [#   6] CDI naive_tree: 
+--------------------------------------------------------------------------------
+  22:                 recur(node.right)
+  23:         recur(self.head)
+  24:         return output
+  25:     
+- 26:     def in_order_traversal(self):
+- 27:         output = []
+- 28:         def recur(node):
+- 29:             if node:
+- 30:                 recur(node.left)
+- 31:                 output.append(node.value)
+- 32:                 recur(node.right)
+- 33:         recur(self.head)
+- 34:         return output
+- 35:     
++ 26:     @classmethod
++ 27:     def in_order_traversal(self):
++ 28:         output = []
++ 29:         def recur(node):
++ 30:             if node:
++ 31:                 recur(node.left)
++ 32:                 output.append(node.value)
++ 33:                 recur(node.right)
++ 34:         recur(self.head)
++ 35:         return output
+  36:     def post_order_traversal(self):
+  37:         output = []
+  38:         def recur(node):
+  39:             if node:
+--------------------------------------------------------------------------------
+[0.21259 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf121270>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+
+ts-3-5/test_3-5_0-8_269.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'naive_tree.NaiveBinaryTree'>
+
+>   ???
+E   AttributeError: type object 'NaiveBinaryTree' has no attribute 'head'
+
+naive_tree:34: AttributeError
+   - [#   7] CDI naive_tree: 
+--------------------------------------------------------------------------------
+  32:                 recur(node.right)
+  33:         recur(self.head)
+  34:         return output
+  35:     
+- 36:     def post_order_traversal(self):
+- 37:         output = []
+- 38:         def recur(node):
+- 39:             if node:
+- 40:                 recur(node.left)
+- 41:                 recur(node.right)
+- 42:                 output.append(node.value)
+- 43:         recur(self.head)
+- 44:         return output
+- 45:     
++ 36:     @classmethod
++ 37:     def post_order_traversal(self):
++ 38:         output = []
++ 39:         def recur(node):
++ 40:             if node:
++ 41:                 recur(node.left)
++ 42:                 recur(node.right)
++ 43:                 output.append(node.value)
++ 44:         recur(self.head)
++ 45:         return output
+  46:     def level_order_traversal(self):
+  47:         output = []
+  48:         queue = deque([self.head])
+  49:         
+--------------------------------------------------------------------------------
+[0.19931 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1e2d10>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+
+ts-3-5/test_3-5_0-8_269.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'naive_tree.NaiveBinaryTree'>
+
+>   ???
+E   AttributeError: type object 'NaiveBinaryTree' has no attribute 'head'
+
+naive_tree:44: AttributeError
+   - [#   8] CDI naive_tree: 
+--------------------------------------------------------------------------------
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+  44:         return output
+  45:     
+- 46:     def level_order_traversal(self):
+- 47:         output = []
+- 48:         queue = deque([self.head])
+- 49:         
+- 50:         while queue:
+- 51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+- 52:             next_level = deque()
+- 53:             while queue:
+- 54:                 current = queue.popleft()
+- 55:                 if current.left:
+- 56:                     next_level.append(current.left)
+- 57:                 if current.right:
+- 58:                     next_level.append(current.right)
+- 59:             queue = next_level
+- 60:         return output
++ 46:     @classmethod
++ 47:     def level_order_traversal(self):
++ 48:         output = []
++ 49:         queue = deque([self.head])
++ 50:         
++ 51:         while queue:
++ 52:             output.extend(list(map((lambda n: (n.value)), list(queue))))
++ 53:             next_level = deque()
++ 54:             while queue:
++ 55:                 current = queue.popleft()
++ 56:                 if current.left:
++ 57:                     next_level.append(current.left)
++ 58:                 if current.right:
++ 59:                     next_level.append(current.right)
++ 60:             queue = next_level
++ 61:         return output
+--------------------------------------------------------------------------------
+[0.20742 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf120790>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'naive_tree.NaiveBinaryTree'>
+
+>   ???
+E   AttributeError: type object 'NaiveBinaryTree' has no attribute 'head'
+
+naive_tree:49: AttributeError
+   - [#   9] COI naive_tree: 
+--------------------------------------------------------------------------------
+  15:     
+  16:     def pre_order_traversal(self):
+  17:         output = []
+  18:         def recur(node):
+- 19:             if node:
++ 19:             if not node:
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+  22:                 recur(node.right)
+  23:         recur(self.head)
+--------------------------------------------------------------------------------
+[0.20665 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee4d150>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  10] COI naive_tree: 
+--------------------------------------------------------------------------------
+  25:     
+  26:     def in_order_traversal(self):
+  27:         output = []
+  28:         def recur(node):
+- 29:             if node:
++ 29:             if not node:
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+  32:                 recur(node.right)
+  33:         recur(self.head)
+--------------------------------------------------------------------------------
+[0.20645 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ceef3ca0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  11] COI naive_tree: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     def post_order_traversal(self):
+  37:         output = []
+  38:         def recur(node):
+- 39:             if node:
++ 39:             if not node:
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+--------------------------------------------------------------------------------
+[0.20455 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf195900>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  12] COI naive_tree: 
+--------------------------------------------------------------------------------
+  46:     def level_order_traversal(self):
+  47:         output = []
+  48:         queue = deque([self.head])
+  49:         
+- 50:         while queue:
++ 50:         while not queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+  53:             while queue:
+  54:                 current = queue.popleft()
+--------------------------------------------------------------------------------
+[0.21510 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ceeb5540>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  13] COI naive_tree: 
+--------------------------------------------------------------------------------
+  49:         
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+- 53:             while queue:
++ 53:             while not queue:
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+--------------------------------------------------------------------------------
+[0.21086 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced4d450>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  14] COI naive_tree: 
+--------------------------------------------------------------------------------
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+  53:             while queue:
+  54:                 current = queue.popleft()
+- 55:                 if current.left:
++ 55:                 if not (current.left):
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+  59:             queue = next_level
+--------------------------------------------------------------------------------
+[0.21155 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf30e6b0>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+naive_tree:51: in level_order_traversal
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+n = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+naive_tree:51: AttributeError
+   - [#  15] COI naive_tree: 
+--------------------------------------------------------------------------------
+  53:             while queue:
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+- 57:                 if current.right:
++ 57:                 if not (current.right):
+  58:                     next_level.append(current.right)
+  59:             queue = next_level
+  60:         return output
+--------------------------------------------------------------------------------
+[0.21010 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced21510>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+naive_tree:51: in level_order_traversal
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+n = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'value'
+
+naive_tree:51: AttributeError
+   - [#  16] OIL naive_tree: 
+--------------------------------------------------------------------------------
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+  59:             queue = next_level
+- 60:         return output
++ 60:             break
++ 61:         return output
+--------------------------------------------------------------------------------
+[0.21176 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf088fa0>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  17] OIL naive_tree: 
+--------------------------------------------------------------------------------
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+- 59:             queue = next_level
+- 60:         return output
++ 59:                 break
++ 60:             queue = next_level
++ 61:         return output
+--------------------------------------------------------------------------------
+[0.22456 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ceda0610>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  18] SDI naive_tree: 
+--------------------------------------------------------------------------------
+   1: from collections import deque
+   2: 
+   3: class NaiveBinaryTree:
+   4:     
+-  5:     def __init__(self):
+-  6:         self.head = None
+-  7:     
++  5:     @staticmethod
++  6:     def __init__(self):
++  7:         self.head = None
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+--------------------------------------------------------------------------------
+[0.20287 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/naive-tree/ts-3-5/test_3-5_0-8_269.py:14: TypeError: NaiveBinaryTree.__init__() missing 1 required positional argument: 'self'
+
+   - [#  19] SDI naive_tree: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self):
+   6:         self.head = None
+   7:     
+-  8:     def __str__(self):
+-  9:         '''
+- 10:         Print a pre order traversal.
+- 11:         '''
+- 12:         output = self.pre_order_traversal()
+- 13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+- 14:         return str_output
+- 15:     
++  8:     @staticmethod
++  9:     def __str__(self):
++ 10:         '''
++ 11:         Print a pre order traversal.
++ 12:         '''
++ 13:         output = self.pre_order_traversal()
++ 14:         str_output = ('[' + ', '.join(map(str, output))) + ']'
++ 15:         return str_output
+  16:     def pre_order_traversal(self):
+  17:         output = []
+  18:         def recur(node):
+  19:             if node:
+--------------------------------------------------------------------------------
+[0.18509 s] survived
+   - [#  20] SDI naive_tree: 
+--------------------------------------------------------------------------------
+  12:         output = self.pre_order_traversal()
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+- 16:     def pre_order_traversal(self):
+- 17:         output = []
+- 18:         def recur(node):
+- 19:             if node:
+- 20:                 output.append(node.value)
+- 21:                 recur(node.left)
+- 22:                 recur(node.right)
+- 23:         recur(self.head)
+- 24:         return output
+- 25:     
++ 16:     @staticmethod
++ 17:     def pre_order_traversal(self):
++ 18:         output = []
++ 19:         def recur(node):
++ 20:             if node:
++ 21:                 output.append(node.value)
++ 22:                 recur(node.left)
++ 23:                 recur(node.right)
++ 24:         recur(self.head)
++ 25:         return output
+  26:     def in_order_traversal(self):
+  27:         output = []
+  28:         def recur(node):
+  29:             if node:
+--------------------------------------------------------------------------------
+[0.20974 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/naive-tree/ts-3-5/test_3-5_0-8_269.py:32: TypeError: NaiveBinaryTree.pre_order_traversal() missing 1 required positional argument: 'self'
+
+   - [#  21] SDI naive_tree: 
+--------------------------------------------------------------------------------
+  22:                 recur(node.right)
+  23:         recur(self.head)
+  24:         return output
+  25:     
+- 26:     def in_order_traversal(self):
+- 27:         output = []
+- 28:         def recur(node):
+- 29:             if node:
+- 30:                 recur(node.left)
+- 31:                 output.append(node.value)
+- 32:                 recur(node.right)
+- 33:         recur(self.head)
+- 34:         return output
+- 35:     
++ 26:     @staticmethod
++ 27:     def in_order_traversal(self):
++ 28:         output = []
++ 29:         def recur(node):
++ 30:             if node:
++ 31:                 recur(node.left)
++ 32:                 output.append(node.value)
++ 33:                 recur(node.right)
++ 34:         recur(self.head)
++ 35:         return output
+  36:     def post_order_traversal(self):
+  37:         output = []
+  38:         def recur(node):
+  39:             if node:
+--------------------------------------------------------------------------------
+[0.21111 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/naive-tree/ts-3-5/test_3-5_0-8_269.py:37: TypeError: NaiveBinaryTree.in_order_traversal() missing 1 required positional argument: 'self'
+
+   - [#  22] SDI naive_tree: 
+--------------------------------------------------------------------------------
+  32:                 recur(node.right)
+  33:         recur(self.head)
+  34:         return output
+  35:     
+- 36:     def post_order_traversal(self):
+- 37:         output = []
+- 38:         def recur(node):
+- 39:             if node:
+- 40:                 recur(node.left)
+- 41:                 recur(node.right)
+- 42:                 output.append(node.value)
+- 43:         recur(self.head)
+- 44:         return output
+- 45:     
++ 36:     @staticmethod
++ 37:     def post_order_traversal(self):
++ 38:         output = []
++ 39:         def recur(node):
++ 40:             if node:
++ 41:                 recur(node.left)
++ 42:                 recur(node.right)
++ 43:                 output.append(node.value)
++ 44:         recur(self.head)
++ 45:         return output
+  46:     def level_order_traversal(self):
+  47:         output = []
+  48:         queue = deque([self.head])
+  49:         
+--------------------------------------------------------------------------------
+[0.21034 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/naive-tree/ts-3-5/test_3-5_0-8_269.py:42: TypeError: NaiveBinaryTree.post_order_traversal() missing 1 required positional argument: 'self'
+
+   - [#  23] SDI naive_tree: 
+--------------------------------------------------------------------------------
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+  44:         return output
+  45:     
+- 46:     def level_order_traversal(self):
+- 47:         output = []
+- 48:         queue = deque([self.head])
+- 49:         
+- 50:         while queue:
+- 51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+- 52:             next_level = deque()
+- 53:             while queue:
+- 54:                 current = queue.popleft()
+- 55:                 if current.left:
+- 56:                     next_level.append(current.left)
+- 57:                 if current.right:
+- 58:                     next_level.append(current.right)
+- 59:             queue = next_level
+- 60:         return output
++ 46:     @staticmethod
++ 47:     def level_order_traversal(self):
++ 48:         output = []
++ 49:         queue = deque([self.head])
++ 50:         
++ 51:         while queue:
++ 52:             output.extend(list(map((lambda n: (n.value)), list(queue))))
++ 53:             next_level = deque()
++ 54:             while queue:
++ 55:                 current = queue.popleft()
++ 56:                 if current.left:
++ 57:                     next_level.append(current.left)
++ 58:                 if current.right:
++ 59:                     next_level.append(current.right)
++ 60:             queue = next_level
++ 61:         return output
+--------------------------------------------------------------------------------
+[0.20865 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/naive-tree/ts-3-5/test_3-5_0-8_269.py:47: TypeError: NaiveBinaryTree.level_order_traversal() missing 1 required positional argument: 'self'
+
+   - [#  24] SDL naive_tree: 
+--------------------------------------------------------------------------------
+   2: 
+   3: class NaiveBinaryTree:
+   4:     
+   5:     def __init__(self):
+-  6:         self.head = None
++  6:         pass
+   7:     
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+--------------------------------------------------------------------------------
+[0.17945 s] survived
+   - [#  25] SDL naive_tree: 
+--------------------------------------------------------------------------------
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+- 12:         output = self.pre_order_traversal()
++ 12:         pass
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.18236 s] survived
+   - [#  26] SDL naive_tree: 
+--------------------------------------------------------------------------------
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+  12:         output = self.pre_order_traversal()
+- 13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
++ 13:         pass
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+  17:         output = []
+--------------------------------------------------------------------------------
+[0.18178 s] survived
+   - [#  27] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  10:         Print a pre order traversal.
+  11:         '''
+  12:         output = self.pre_order_traversal()
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+- 14:         return str_output
++ 14:         pass
+  15:     
+  16:     def pre_order_traversal(self):
+  17:         output = []
+  18:         def recur(node):
+--------------------------------------------------------------------------------
+[0.17892 s] survived
+   - [#  28] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+- 17:         output = []
++ 17:         pass
+  18:         def recur(node):
+  19:             if node:
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+--------------------------------------------------------------------------------
+[0.20604 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1568c0>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+naive_tree:23: in pre_order_traversal
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <test_3-5_0-8_269.sample_binary_tree.<locals>.Node object at 0x7106cf154520>
+
+>   ???
+E   NameError: name 'output' is not defined
+
+naive_tree:20: NameError
+   - [#  29] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  16:     def pre_order_traversal(self):
+  17:         output = []
+  18:         def recur(node):
+  19:             if node:
+- 20:                 output.append(node.value)
++ 20:                 pass
+  21:                 recur(node.left)
+  22:                 recur(node.right)
+  23:         recur(self.head)
+  24:         return output
+--------------------------------------------------------------------------------
+[0.20634 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ceec7cd0>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  30] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  17:         output = []
+  18:         def recur(node):
+  19:             if node:
+  20:                 output.append(node.value)
+- 21:                 recur(node.left)
++ 21:                 pass
+  22:                 recur(node.right)
+  23:         recur(self.head)
+  24:         return output
+  25:     
+--------------------------------------------------------------------------------
+[0.21102 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee5df30>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  31] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  18:         def recur(node):
+  19:             if node:
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+- 22:                 recur(node.right)
++ 22:                 pass
+  23:         recur(self.head)
+  24:         return output
+  25:     
+  26:     def in_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.19996 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1574c0>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  32] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  19:             if node:
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+  22:                 recur(node.right)
+- 23:         recur(self.head)
++ 23:         pass
+  24:         return output
+  25:     
+  26:     def in_order_traversal(self):
+  27:         output = []
+--------------------------------------------------------------------------------
+[0.19398 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee5e590>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  33] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+  22:                 recur(node.right)
+  23:         recur(self.head)
+- 24:         return output
++ 24:         pass
+  25:     
+  26:     def in_order_traversal(self):
+  27:         output = []
+  28:         def recur(node):
+--------------------------------------------------------------------------------
+[0.20395 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf0dae90>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:32: AssertionError
+   - [#  34] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  23:         recur(self.head)
+  24:         return output
+  25:     
+  26:     def in_order_traversal(self):
+- 27:         output = []
++ 27:         pass
+  28:         def recur(node):
+  29:             if node:
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+--------------------------------------------------------------------------------
+[0.20927 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee5f5e0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+
+ts-3-5/test_3-5_0-8_269.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+naive_tree:33: in in_order_traversal
+    ???
+naive_tree:30: in recur
+    ???
+naive_tree:30: in recur
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <test_3-5_0-8_269.sample_binary_tree.<locals>.Node object at 0x7106cee5e320>
+
+>   ???
+E   NameError: name 'output' is not defined
+
+naive_tree:31: NameError
+   - [#  35] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  26:     def in_order_traversal(self):
+  27:         output = []
+  28:         def recur(node):
+  29:             if node:
+- 30:                 recur(node.left)
++ 30:                 pass
+  31:                 output.append(node.value)
+  32:                 recur(node.right)
+  33:         recur(self.head)
+  34:         return output
+--------------------------------------------------------------------------------
+[0.22288 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced22c20>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  36] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  27:         output = []
+  28:         def recur(node):
+  29:             if node:
+  30:                 recur(node.left)
+- 31:                 output.append(node.value)
++ 31:                 pass
+  32:                 recur(node.right)
+  33:         recur(self.head)
+  34:         return output
+  35:     
+--------------------------------------------------------------------------------
+[0.20356 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ceda2fe0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  37] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  28:         def recur(node):
+  29:             if node:
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+- 32:                 recur(node.right)
++ 32:                 pass
+  33:         recur(self.head)
+  34:         return output
+  35:     
+  36:     def post_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.20373 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced234f0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  38] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  29:             if node:
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+  32:                 recur(node.right)
+- 33:         recur(self.head)
++ 33:         pass
+  34:         return output
+  35:     
+  36:     def post_order_traversal(self):
+  37:         output = []
+--------------------------------------------------------------------------------
+[0.20736 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf0b8310>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  39] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+  32:                 recur(node.right)
+  33:         recur(self.head)
+- 34:         return output
++ 34:         pass
+  35:     
+  36:     def post_order_traversal(self):
+  37:         output = []
+  38:         def recur(node):
+--------------------------------------------------------------------------------
+[0.20696 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1555d0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:37: AssertionError
+   - [#  40] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  33:         recur(self.head)
+  34:         return output
+  35:     
+  36:     def post_order_traversal(self):
+- 37:         output = []
++ 37:         pass
+  38:         def recur(node):
+  39:             if node:
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+--------------------------------------------------------------------------------
+[0.19960 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced30580>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+
+ts-3-5/test_3-5_0-8_269.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+naive_tree:43: in post_order_traversal
+    ???
+naive_tree:40: in recur
+    ???
+naive_tree:40: in recur
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <test_3-5_0-8_269.sample_binary_tree.<locals>.Node object at 0x7106ced33160>
+
+>   ???
+E   NameError: name 'output' is not defined
+
+naive_tree:42: NameError
+   - [#  41] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  36:     def post_order_traversal(self):
+  37:         output = []
+  38:         def recur(node):
+  39:             if node:
+- 40:                 recur(node.left)
++ 40:                 pass
+  41:                 recur(node.right)
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+  44:         return output
+--------------------------------------------------------------------------------
+[0.20922 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee5d450>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  42] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  37:         output = []
+  38:         def recur(node):
+  39:             if node:
+  40:                 recur(node.left)
+- 41:                 recur(node.right)
++ 41:                 pass
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+  44:         return output
+  45:     
+--------------------------------------------------------------------------------
+[0.20968 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced30a90>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  43] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  38:         def recur(node):
+  39:             if node:
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+- 42:                 output.append(node.value)
++ 42:                 pass
+  43:         recur(self.head)
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.20403 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf0896c0>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  44] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  39:             if node:
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+  42:                 output.append(node.value)
+- 43:         recur(self.head)
++ 43:         pass
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+  47:         output = []
+--------------------------------------------------------------------------------
+[0.20499 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf23c9d0>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  45] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+  42:                 output.append(node.value)
+  43:         recur(self.head)
+- 44:         return output
++ 44:         pass
+  45:     
+  46:     def level_order_traversal(self):
+  47:         output = []
+  48:         queue = deque([self.head])
+--------------------------------------------------------------------------------
+[0.20622 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cee9dc90>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:42: AssertionError
+   - [#  46] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  43:         recur(self.head)
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+- 47:         output = []
++ 47:         pass
+  48:         queue = deque([self.head])
+  49:         
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+--------------------------------------------------------------------------------
+[0.20963 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf23ce50>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cf23ce50>
+
+>   ???
+E   NameError: name 'output' is not defined
+
+naive_tree:51: NameError
+   - [#  47] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+  47:         output = []
+- 48:         queue = deque([self.head])
++ 48:         pass
+  49:         
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+--------------------------------------------------------------------------------
+[0.22817 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1e2380>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cf1e2380>
+
+>   ???
+E   UnboundLocalError: local variable 'queue' referenced before assignment
+
+naive_tree:50: UnboundLocalError
+   - [#  48] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  47:         output = []
+  48:         queue = deque([self.head])
+  49:         
+  50:         while queue:
+- 51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
++ 51:             pass
+  52:             next_level = deque()
+  53:             while queue:
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+--------------------------------------------------------------------------------
+[0.19852 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cef08ac0>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  49] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  48:         queue = deque([self.head])
+  49:         
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+- 52:             next_level = deque()
++ 52:             pass
+  53:             while queue:
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+--------------------------------------------------------------------------------
+[0.20559 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf1e19f0>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cf1e19f0>
+
+>   ???
+E   NameError: name 'next_level' is not defined
+
+naive_tree:56: NameError
+   - [#  50] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+  53:             while queue:
+- 54:                 current = queue.popleft()
++ 54:                 pass
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+--------------------------------------------------------------------------------
+[0.20902 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced23b80>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106ced23b80>
+
+>   ???
+E   NameError: name 'current' is not defined
+
+naive_tree:55: NameError
+   - [#  51] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  52:             next_level = deque()
+  53:             while queue:
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+- 56:                     next_level.append(current.left)
++ 56:                     pass
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+  59:             queue = next_level
+  60:         return output
+--------------------------------------------------------------------------------
+[0.20134 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf23ec50>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  52] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  54:                 current = queue.popleft()
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+- 58:                     next_level.append(current.right)
++ 58:                     pass
+  59:             queue = next_level
+  60:         return output
+--------------------------------------------------------------------------------
+[0.20980 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf0dbd60>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  53] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  55:                 if current.left:
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+- 59:             queue = next_level
++ 59:             pass
+  60:         return output
+--------------------------------------------------------------------------------
+[0.21008 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf23d840>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  54] SDL naive_tree: 
+--------------------------------------------------------------------------------
+  56:                     next_level.append(current.left)
+  57:                 if current.right:
+  58:                     next_level.append(current.right)
+  59:             queue = next_level
+- 60:         return output
++ 60:         pass
+--------------------------------------------------------------------------------
+[0.21774 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf30c760>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  55] SVD naive_tree: 
+--------------------------------------------------------------------------------
+   2: 
+   3: class NaiveBinaryTree:
+   4:     
+   5:     def __init__(self):
+-  6:         self.head = None
++  6:         head = None
+   7:     
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  56] SVD naive_tree: 
+--------------------------------------------------------------------------------
+   8:     def __str__(self):
+   9:         '''
+  10:         Print a pre order traversal.
+  11:         '''
+- 12:         output = self.pre_order_traversal()
++ 12:         output = pre_order_traversal()
+  13:         str_output = ('[' + ', '.join(map(str, output))) + ']'
+  14:         return str_output
+  15:     
+  16:     def pre_order_traversal(self):
+--------------------------------------------------------------------------------
+[0.18477 s] survived
+   - [#  57] SVD naive_tree: 
+--------------------------------------------------------------------------------
+  19:             if node:
+  20:                 output.append(node.value)
+  21:                 recur(node.left)
+  22:                 recur(node.right)
+- 23:         recur(self.head)
++ 23:         recur(head)
+  24:         return output
+  25:     
+  26:     def in_order_traversal(self):
+  27:         output = []
+--------------------------------------------------------------------------------
+[0.19490 s] killed by ts-3-5/test_3-5_0-8_269.py::test_pre_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cef0ab60>
+
+    def test_pre_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.pre_order_traversal() == [1, 2, 4, 5, 3, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cef0ab60>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+naive_tree:23: NameError
+   - [#  58] SVD naive_tree: 
+--------------------------------------------------------------------------------
+  29:             if node:
+  30:                 recur(node.left)
+  31:                 output.append(node.value)
+  32:                 recur(node.right)
+- 33:         recur(self.head)
++ 33:         recur(head)
+  34:         return output
+  35:     
+  36:     def post_order_traversal(self):
+  37:         output = []
+--------------------------------------------------------------------------------
+[0.20410 s] killed by ts-3-5/test_3-5_0-8_269.py::test_in_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cef086d0>
+
+    def test_in_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.in_order_traversal() == [4, 2, 5, 1, 6, 3, 7]
+
+ts-3-5/test_3-5_0-8_269.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cef086d0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+naive_tree:33: NameError
+   - [#  59] SVD naive_tree: 
+--------------------------------------------------------------------------------
+  39:             if node:
+  40:                 recur(node.left)
+  41:                 recur(node.right)
+  42:                 output.append(node.value)
+- 43:         recur(self.head)
++ 43:         recur(head)
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+  47:         output = []
+--------------------------------------------------------------------------------
+[0.20770 s] killed by ts-3-5/test_3-5_0-8_269.py::test_post_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf195780>
+
+    def test_post_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.post_order_traversal() == [4, 5, 2, 6, 7, 3, 1]
+
+ts-3-5/test_3-5_0-8_269.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106cf195780>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+naive_tree:43: NameError
+   - [#  60] SVD naive_tree: 
+--------------------------------------------------------------------------------
+  44:         return output
+  45:     
+  46:     def level_order_traversal(self):
+  47:         output = []
+- 48:         queue = deque([self.head])
++ 48:         queue = deque([head])
+  49:         
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+--------------------------------------------------------------------------------
+[0.20660 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106ced214b0>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+
+ts-3-5/test_3-5_0-8_269.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <naive_tree.NaiveBinaryTree object at 0x7106ced214b0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+naive_tree:48: NameError
+   - [#  61] ZIL naive_tree: 
+--------------------------------------------------------------------------------
+  47:         output = []
+  48:         queue = deque([self.head])
+  49:         
+  50:         while queue:
+- 51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+- 52:             next_level = deque()
+- 53:             while queue:
+- 54:                 current = queue.popleft()
+- 55:                 if current.left:
+- 56:                     next_level.append(current.left)
+- 57:                 if current.right:
+- 58:                     next_level.append(current.right)
+- 59:             queue = next_level
++ 51:             break
++ 52:         
++ 53:         
++ 54:         
++ 55:         
++ 56:         
++ 57:         
++ 58:         
++ 59:         
+  60:         return output
+--------------------------------------------------------------------------------
+[0.20485 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf23ec20>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+   - [#  62] ZIL naive_tree: 
+--------------------------------------------------------------------------------
+  50:         while queue:
+  51:             output.extend(list(map((lambda n: (n.value)), list(queue))))
+  52:             next_level = deque()
+  53:             while queue:
+- 54:                 current = queue.popleft()
+- 55:                 if current.left:
+- 56:                     next_level.append(current.left)
+- 57:                 if current.right:
+- 58:                     next_level.append(current.right)
++ 54:                 break
++ 55:             
++ 56:             
++ 57:             
++ 58:             
+  59:             queue = next_level
+  60:         return output
+--------------------------------------------------------------------------------
+[0.20809 s] killed by ts-3-5/test_3-5_0-8_269.py::test_level_order_traversal
+
+sample_binary_tree = <naive_tree.NaiveBinaryTree object at 0x7106cf156c20>
+
+    def test_level_order_traversal(sample_binary_tree):
+>       assert sample_binary_tree.level_order_traversal() == [1, 2, 3, 4, 5, 6, 7]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_269.py:47: AssertionError
+[*] Mutation score [14.64736 s]: 82.1%
+   - all: 62
+   - killed: 46 (74.2%)
+   - survived: 10 (16.1%)
+   - incompetent: 6 (9.7%)
+   - timeout: 0 (0.0%)

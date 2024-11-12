@@ -1,0 +1,33 @@
+#Pyguin test cases converted from /home/lucca/teste/python_experiments2/edit-distance/MOSA/seed_1706/test_edit_distance.py
+import pytest
+import edit_distance as module_0
+import builtins as module_1
+
+def test_case_0():
+    str_0 = '&'
+    var_0 = module_0.calculate_edit_distance(str_0, str_0)
+
+def test_case_1():
+    str_0 = ''
+    var_0 = module_0.calculate_edit_distance(str_0, str_0)
+
+def test_case_2():
+    str_0 = 'PE?+Ez(*V+;;9)4/>'
+    var_0 = module_0.calculate_edit_distance(str_0, str_0)
+
+def test_case_3():
+    bool_0 = True
+
+def test_case_4():
+    str_0 = '`[K428s&o<da!'
+    var_0 = module_0.calculate_edit_distance(str_0, str_0)
+    str_1 = '?49LG]^Ae'
+    var_1 = module_0.calculate_edit_distance(str_0, str_1)
+
+def test_case_5():
+    str_0 = 'R-N*Iq'
+    var_0 = module_0.calculate_edit_distance(str_0, str_0)
+    str_1 = '?49LG]^Ae'
+    var_1 = module_0.calculate_edit_distance(str_0, str_1)
+    var_2 = module_1.object()
+    var_3 = module_0.calculate_edit_distance(str_1, str_0)

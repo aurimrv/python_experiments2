@@ -1,6 +1,5 @@
 import os
 import sys
-import pytest
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
@@ -8,71 +7,56 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class WeightedGraph:
-    def __init__(self):
-        self.vertices = {}
+def test_dijkstras():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
 
-class Vertex:
-    def __init__(self, name):
-        self.name = name
-        self.adjacent = {}
+    src = 'A'
+    dst = 'D'
 
-def test_dijkstras_single_path():
-    weighted_graph = WeightedGraph()
-    
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-    d = Vertex('D')
-    
-    a.adjacent = {b: 1, c: 4}
-    b.adjacent = {c: 2, d: 5}
-    c.adjacent = {d: 1}
-    
-    weighted_graph.vertices = {'A': a, 'B': b, 'C': c, 'D': d}
-    
-    result = dijkstras(weighted_graph, 'A', 'D')
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_shortest_path():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+
+    src = 'A'
+    dst = 'D'
+
+    result = dijkstras(weighted_graph, src, dst)
     assert result == ['A', 'B', 'C', 'D']
 
 def test_dijkstras_no_path():
-    weighted_graph = WeightedGraph()
-    
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-    
-    a.adjacent = {b: 1}
-    b.adjacent = {c: 2}
-    
-    weighted_graph.vertices = {'A': a, 'B': b, 'C': c}
-    
-    result = dijkstras(weighted_graph, 'A', 'C')
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1},
+        'C': {'D': 1},
+        'D': {'C': 1}
+    }
+
+    src = 'A'
+    dst = 'D'
+
+    result = dijkstras(weighted_graph, src, dst)
     assert result == []
 
-def test_dijkstras_same_source_destination():
-    weighted_graph = WeightedGraph()
-    
-    a = Vertex('A')
-    b = Vertex('B')
-    
-    a.adjacent = {b: 3}
-    
-    weighted_graph.vertices = {'A': a, 'B': b}
-    
-    result = dijkstras(weighted_graph, 'A', 'A')
-    assert result == ['A']
+def test_dijkstras_same_source_dest():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
 
-def test_dijkstras_shortest_path():
-    weighted_graph = WeightedGraph()
-    
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-    
-    a.adjacent = {b: 1, c: 2}
-    b.adjacent = {c: 1}
-    
-    weighted_graph.vertices = {'A': a, 'B': b, 'C': c}
-    
-    result = dijkstras(weighted_graph, 'A', 'C')
-    assert result == ['A', 'C']
+    src = 'A'
+    dst = 'A'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A']

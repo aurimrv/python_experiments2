@@ -6,38 +6,31 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    weighted_graph.add_vertex(Vertex('B'))
-    weighted_graph.add_edge('A', 'B', 5)
-    assert dijkstras(weighted_graph, 'A', 'B') == ['A', 'B']
+class TestDijkstras:
+    def test_dijkstras_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'B', 'D']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_no_path():
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    weighted_graph.add_vertex(Vertex('B'))
-    weighted_graph.add_vertex(Vertex('C'))
-    weighted_graph.add_edge('A', 'B', 3)
-    weighted_graph.add_edge('B', 'C', 4)
-    assert dijkstras(weighted_graph, 'A', 'C') == []
+    def test_dijkstras_same_source_dest(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'A'
+        expected_path = ['A']
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_same_node():
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+    def test_dijkstras_unreachable_dest(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'E'
+        expected_path = []
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-class WeightedGraph:
-    def __init__(self):
-        self.vertices = {}
-
-    def add_vertex(self, vertex):
-        self.vertices[vertex.name] = vertex
-
-    def add_edge(self, start, end, weight):
-        self.vertices[start].adjacent[end] = weight
-
-class Vertex:
-    def __init__(self, name):
-        self.name = name
-        self.adjacent = {}
+    def test_dijkstras_no_edges(self):
+        weighted_graph = WeightedGraph()
+        src = 'A'
+        dst = 'B'
+        expected_path = []
+        assert dijkstras(weighted_graph, src, dst) == expected_path

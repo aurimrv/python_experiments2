@@ -1,0 +1,45 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, Vertex, WeightedGraph
+
+@pytest.fixture
+def simple_weighted_graph():
+    vertex_a = Vertex('A')
+    vertex_b = Vertex('B')
+    vertex_c = Vertex('C')
+    vertex_d = Vertex('D')
+    
+    vertex_a.add_adjacent(vertex_b, 1)
+    vertex_a.add_adjacent(vertex_c, 5)
+    vertex_b.add_adjacent(vertex_d, 3)
+    vertex_c.add_adjacent(vertex_d, 1)
+    
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex(vertex_a)
+    weighted_graph.add_vertex(vertex_b)
+    weighted_graph.add_vertex(vertex_c)
+    weighted_graph.add_vertex(vertex_d)
+    
+    return weighted_graph
+
+def test_dijkstras_simple_path(simple_weighted_graph):
+    src = 'A'
+    dst = 'D'
+    
+    path = dijkstras(simple_weighted_graph, src, dst)
+    
+    assert path == ['A', 'B', 'D']
+
+def test_dijkstras_no_path(simple_weighted_graph):
+    src = 'A'
+    dst = 'C'
+    
+    path = dijkstras(simple_weighted_graph, src, dst)
+    
+    assert path == [] 

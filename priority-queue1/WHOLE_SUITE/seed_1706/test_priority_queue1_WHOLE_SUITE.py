@@ -1,0 +1,64 @@
+#Pyguin test cases converted from /home/lucca/teste/python_experiments2/priority-queue1/WHOLE_SUITE/seed_1706/test_priority_queue1.py
+import pytest
+import priority_queue1 as module_0
+
+def test_case_0():
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    int_0 = 1132
+    priority_queue_1 = module_0.PriorityQueue()
+    priority_queue_2 = module_0.PriorityQueue()
+    var_0 = priority_queue_2.add_task(int_0)
+
+def test_case_1():
+    bool_0 = False
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.set_priority(bool_0)
+
+def test_case_2():
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.pop_task()
+    var_1 = priority_queue_0.add_task(var_0)
+    var_0.set_priority(var_0)
+    var_2 = priority_queue_0.add_task(priority_queue_0)
+    var_3 = priority_queue_0.set_priority(priority_queue_0)
+    var_4 = priority_queue_0.set_priority(var_0)
+
+def test_case_3():
+    bool_0 = True
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.add_task(bool_0)
+    priority_queue_1 = module_0.PriorityQueue()
+    var_1 = priority_queue_1.add_task(priority_queue_0)
+    var_2 = priority_queue_0.remove_task(bool_0)
+    none_type_0 = None
+    var_3 = priority_queue_1.set_priority(none_type_0)
+    priority_queue_2 = module_0.PriorityQueue()
+    var_4 = priority_queue_0.add_task(priority_queue_1)
+    var_5 = priority_queue_0.set_priority(priority_queue_1, none_type_0)
+    priority_queue_3 = module_0.PriorityQueue()
+    var_6 = priority_queue_1.add_task(priority_queue_1)
+    var_7 = priority_queue_0.remove_task(priority_queue_1)
+
+def test_case_4():
+    bool_0 = False
+    set_0 = {bool_0}
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.set_priority(bool_0)
+
+def test_case_5():
+    priority_queue_0 = module_0.PriorityQueue()
+    assert len(module_0.PriorityQueue.pq) == 10409
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.pop_task()
+
+def test_case_6():
+    str_0 = ']'
+    priority_queue_0 = module_0.PriorityQueue()
+    assert module_0.PriorityQueue.REMOVED == '__removed-task__'
+    var_0 = priority_queue_0.add_task(str_0)
+    priority_queue_0.set_priority(str_0, str_0)

@@ -1,0 +1,828 @@
+[*] Start mutation process:
+   - targets: convert_base.py
+   - tests: ts-3-5/test_3-5_0-3_114.py
+[*] 2 tests passed:
+   - test_3-5_0-3_114 [0.18926 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+   2:     if (base < 0 or (base > 10 and base != 16)):
+-  3:         return -1
++  3:         return 1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+--------------------------------------------------------------------------------
+[0.16775 s] survived
+   - [#   2] AOD convert_base: 
+--------------------------------------------------------------------------------
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+-  8:             return -1
++  8:             return 1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+--------------------------------------------------------------------------------
+[0.22017 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#   3] AOD convert_base: 
+--------------------------------------------------------------------------------
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+- 16:         return -1
++ 16:         return 1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.20108 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#   4] AOR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+   2:     if (base < 0 or (base > 10 and base != 16)):
+-  3:         return -1
++  3:         return +1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+--------------------------------------------------------------------------------
+[0.18723 s] survived
+   - [#   5] AOR convert_base: 
+--------------------------------------------------------------------------------
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+-  8:             return -1
++  8:             return +1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+--------------------------------------------------------------------------------
+[0.21585 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#   6] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val / (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.18727 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#   7] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val // (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.19965 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#   8] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val ** (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.20020 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#   9] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val * (base * ((len(val) - i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.19747 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  10] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val * (base ** ((len(val) + i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.20429 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  11] AOR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value += digit_val * (base ** ((len(val) - i) + 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.19115 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  12] AOR convert_base: 
+--------------------------------------------------------------------------------
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+- 16:         return -1
++ 16:         return +1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19798 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#  13] ASR convert_base: 
+--------------------------------------------------------------------------------
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++ 10:         value -= digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.19237 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  14] COI convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if not ((base < 0 or (base > 10 and base != 16))):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.18835 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  15] COI convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if not ((digit_val < 0 or digit_val > base)):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.19442 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  16] COI convert_base: 
+--------------------------------------------------------------------------------
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+- 15:     if (len(char) != 1 or ord(char) > ord('f')):
++ 15:     if not ((len(char) != 1 or ord(char) > ord('f'))):
+  16:         return -1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19273 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  17] LCR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base < 0 and (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.17042 s] survived
+   - [#  18] LCR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base < 0 or (base > 10 or base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.19251 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  19] LCR convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if (digit_val < 0 and digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.19203 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#  20] LCR convert_base: 
+--------------------------------------------------------------------------------
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+- 15:     if (len(char) != 1 or ord(char) > ord('f')):
++ 15:     if (len(char) != 1 and ord(char) > ord('f')):
+  16:         return -1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19640 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+
+ts-3-5/test_3-5_0-3_114.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+convert_base:6: in convert_base
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+char = 'x'
+
+>   ???
+E   ValueError: invalid literal for int() with base 16: 'x'
+
+convert_base:17: ValueError
+   - [#  21] OIL convert_base: 
+--------------------------------------------------------------------------------
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+- 11:     return value
+- 12: 
++ 11:         break
++ 12:     return value
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+  16:         return -1
+--------------------------------------------------------------------------------
+[0.19122 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  22] RIL convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+   2:     if (base < 0 or (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+-  5:     for (i, digit) in enumerate(val):
++  5:     for (i, digit) in reversed(enumerate(val)):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+--------------------------------------------------------------------------------
+[0.20420 s] incompetent
+
+TypeError: convert_base:5: TypeError: 'enumerate' object is not reversible
+
+   - [#  23] ROR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base > 0 or (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.19078 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  24] ROR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base <= 0 or (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.17125 s] survived
+   - [#  25] ROR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base < 0 or (base < 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.19334 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  26] ROR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base < 0 or (base >= 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.17226 s] survived
+   - [#  27] ROR convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+-  2:     if (base < 0 or (base > 10 and base != 16)):
++  2:     if (base < 0 or (base > 10 and base == 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+--------------------------------------------------------------------------------
+[0.19321 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+>       assert convert_base('ff', 16) == 255
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:13: AssertionError
+   - [#  28] ROR convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if (digit_val > 0 or digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.19276 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  29] ROR convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if (digit_val <= 0 or digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.19136 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  30] ROR convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if (digit_val < 0 or digit_val < base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.19449 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  31] ROR convert_base: 
+--------------------------------------------------------------------------------
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
++  7:         if (digit_val < 0 or digit_val >= base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+--------------------------------------------------------------------------------
+[0.17729 s] survived
+   - [#  32] ROR convert_base: 
+--------------------------------------------------------------------------------
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+- 15:     if (len(char) != 1 or ord(char) > ord('f')):
++ 15:     if (len(char) == 1 or ord(char) > ord('f')):
+  16:         return -1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19227 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  33] ROR convert_base: 
+--------------------------------------------------------------------------------
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+- 15:     if (len(char) != 1 or ord(char) > ord('f')):
++ 15:     if (len(char) != 1 or ord(char) < ord('f')):
+  16:         return -1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19441 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  34] ROR convert_base: 
+--------------------------------------------------------------------------------
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+- 15:     if (len(char) != 1 or ord(char) > ord('f')):
++ 15:     if (len(char) != 1 or ord(char) >= ord('f')):
+  16:         return -1
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19258 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+>       assert convert_base('ff', 16) == 255
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:13: AssertionError
+   - [#  35] SDL convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+   2:     if (base < 0 or (base > 10 and base != 16)):
+-  3:         return -1
++  3:         pass
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+--------------------------------------------------------------------------------
+[0.17326 s] survived
+   - [#  36] SDL convert_base: 
+--------------------------------------------------------------------------------
+   1: def convert_base(val: str, base: int):
+   2:     if (base < 0 or (base > 10 and base != 16)):
+   3:         return -1
+-  4:     value = 0
++  4:     pass
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+--------------------------------------------------------------------------------
+[0.19638 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+
+ts-3-5/test_3-5_0-3_114.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+val = '1010', base = 2
+
+>   ???
+E   UnboundLocalError: local variable 'value' referenced before assignment
+
+convert_base:10: UnboundLocalError
+   - [#  37] SDL convert_base: 
+--------------------------------------------------------------------------------
+   2:     if (base < 0 or (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+-  6:         digit_val = convert_digit_to_int(digit)
++  6:         pass
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+--------------------------------------------------------------------------------
+[0.19413 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+
+ts-3-5/test_3-5_0-3_114.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+val = '1010', base = 2
+
+>   ???
+E   NameError: name 'digit_val' is not defined
+
+convert_base:7: NameError
+   - [#  38] SDL convert_base: 
+--------------------------------------------------------------------------------
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+   6:         digit_val = convert_digit_to_int(digit)
+   7:         if (digit_val < 0 or digit_val > base):
+-  8:             return -1
++  8:             pass
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+  11:     return value
+  12: 
+--------------------------------------------------------------------------------
+[0.19427 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:16: AssertionError
+   - [#  39] SDL convert_base: 
+--------------------------------------------------------------------------------
+   7:         if (digit_val < 0 or digit_val > base):
+   8:             return -1
+   9:         
+  10:         value += digit_val * (base ** ((len(val) - i) - 1))
+- 11:     return value
++ 11:     pass
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+--------------------------------------------------------------------------------
+[0.19138 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+   - [#  40] SDL convert_base: 
+--------------------------------------------------------------------------------
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+- 16:         return -1
++ 16:         pass
+  17:     return int(char, 16)
+--------------------------------------------------------------------------------
+[0.19470 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+        assert convert_base('1010', 2) == 10
+        assert convert_base('ff', 16) == 255
+        assert convert_base('123', 8) == 83
+        assert convert_base('abc', 16) == 2748
+>       assert convert_base('xyz', 16) == -1
+
+ts-3-5/test_3-5_0-3_114.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+convert_base:6: in convert_base
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+char = 'x'
+
+>   ???
+E   ValueError: invalid literal for int() with base 16: 'x'
+
+convert_base:17: ValueError
+   - [#  41] SDL convert_base: 
+--------------------------------------------------------------------------------
+  13: 
+  14: def convert_digit_to_int(char: str):
+  15:     if (len(char) != 1 or ord(char) > ord('f')):
+  16:         return -1
+- 17:     return int(char, 16)
++ 17:     pass
+--------------------------------------------------------------------------------
+[0.19775 s] incompetent
+
+TypeError: convert_base:7: TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+   - [#  42] ZIL convert_base: 
+--------------------------------------------------------------------------------
+   2:     if (base < 0 or (base > 10 and base != 16)):
+   3:         return -1
+   4:     value = 0
+   5:     for (i, digit) in enumerate(val):
+-  6:         digit_val = convert_digit_to_int(digit)
+-  7:         if (digit_val < 0 or digit_val > base):
+-  8:             return -1
+-  9:         
+- 10:         value += digit_val * (base ** ((len(val) - i) - 1))
++  6:         break
++  7:     
++  8:     
++  9:     
++ 10:     
+  11:     return value
+  12: 
+  13: 
+  14: def convert_digit_to_int(char: str):
+--------------------------------------------------------------------------------
+[0.19752 s] killed by ts-3-5/test_3-5_0-3_114.py::test_convert_base
+
+def test_convert_base():
+>       assert convert_base('1010', 2) == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-3_114.py:12: AssertionError
+[*] Mutation score [8.96065 s]: 82.5%
+   - all: 42
+   - killed: 33 (78.6%)
+   - survived: 7 (16.7%)
+   - incompetent: 2 (4.8%)
+   - timeout: 0 (0.0%)

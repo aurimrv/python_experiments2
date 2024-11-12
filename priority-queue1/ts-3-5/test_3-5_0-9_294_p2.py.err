@@ -1,0 +1,39 @@
+import os
+import sys
+import pytest
+import itertools
+from heapq import heappush, heappop
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+
+@pytest.fixture
+def priority_queue():
+    return PriorityQueue()
+
+def test_add_task(priority_queue):
+    priority_queue.add_task('Task1', 2)
+    assert 'Task1' in priority_queue.mapper
+
+def test_remove_task(priority_queue):
+    priority_queue.add_task('Task2', 3)
+    priority_queue.remove_task('Task2')
+    assert 'Task2' not in priority_queue.mapper
+
+def test_set_priority(priority_queue):
+    priority_queue.add_task('Task3', 1)
+    priority_queue.set_priority('Task3', 5)
+    assert priority_queue.mapper['Task3'][0] == 5
+
+def test_pop_task(priority_queue):
+    priority_queue.add_task('Task4', 4)
+    task = priority_queue.pop_task()
+    assert task == 'Task4'
+
+def test_pop_task_empty_queue():
+    with pytest.raises(KeyError):
+        empty_queue = PriorityQueue()
+        empty_queue.pop_task()

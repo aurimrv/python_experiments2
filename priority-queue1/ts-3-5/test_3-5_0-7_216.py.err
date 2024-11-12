@@ -1,6 +1,8 @@
+import pytest
 import os
 import sys
 import itertools
+from heapq import heappush, heappop
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
@@ -8,32 +10,43 @@ sys.path.append(project_dir)
 
 from priority_queue1 import PriorityQueue
 
-import pytest
-
 @pytest.fixture
 def priority_queue():
     return PriorityQueue()
 
 def test_add_task(priority_queue):
-    priority_queue.add_task("task1", 1)
-    assert len(priority_queue.pq) == 1
-    assert priority_queue.mapper["task1"] == [1, 0, "task1"]
+    priority_queue.add_task('task1', 10)
+    assert priority_queue.pq == [[10, 0, 'task1']]
+    assert priority_queue.mapper == {'task1': [10, 0, 'task1']}
+
+    priority_queue.add_task('task2', 5)
+    assert priority_queue.pq == [[5, 0, 'task2'], [10, 0, 'task1']]
+    assert priority_queue.mapper == {'task1': [10, 0, 'task1'], 'task2': [5, 0, 'task2']}
 
 def test_remove_task(priority_queue):
-    priority_queue.add_task("task2", 2)
-    priority_queue.remove_task("task2")
-    assert priority_queue.mapper.get("task2") == None
+    priority_queue.add_task('task1', 10)
+    priority_queue.remove_task('task1')
+    assert priority_queue.mapper == {}
+    assert priority_queue.pq == []
 
 def test_set_priority(priority_queue):
-    priority_queue.add_task("task3", 3)
-    priority_queue.set_priority("task3", 5)
-    assert priority_queue.mapper["task3"] == [5, 1, "task3"]
+    priority_queue.add_task('task1', 10)
+    priority_queue.set_priority('task1', 5)
+    assert priority_queue.mapper == {'task1': [5, 1, 'task1']}
+    assert priority_queue.pq == [[5, 1, 'task1']]
 
 def test_pop_task(priority_queue):
-    priority_queue.add_task("task4", 4)
+    priority_queue.add_task('task1', 10)
+    priority_queue.add_task('task2', 5)
     task = priority_queue.pop_task()
-    assert task == "task4"
-    assert priority_queue.mapper.get("task4") == None
+    assert task == 'task2'
+    assert priority_queue.mapper == {'task1': [10, 0, 'task1']}
+    assert priority_queue.pq == [[10, 0, 'task1']]
+
+    task = priority_queue.pop_task()
+    assert task == 'task1'
+    assert priority_queue.mapper == {}
+    assert priority_queue.pq == []
 
 def test_pop_task_empty_queue(priority_queue):
     with pytest.raises(KeyError):

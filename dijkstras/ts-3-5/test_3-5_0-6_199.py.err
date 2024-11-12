@@ -25,12 +25,12 @@ def test_dijkstras_no_path():
         'C': {'D': 2},
         'D': {'C': 2}
     }
-    src = 'C'
-    dst = 'A'
+    src = 'A'
+    dst = 'C'
     expected_path = []
     assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_same_src_dst():
+def test_dijkstras_same_source_destination():
     weighted_graph = {
         'A': {'B': 1},
         'B': {'A': 1}
@@ -40,14 +40,14 @@ def test_dijkstras_same_src_dst():
     expected_path = ['A']
     assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_complex_graph():
+def test_dijkstras_multiple_paths():
     weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'A': 2, 'C': 1, 'D': 7},
-        'C': {'A': 4, 'B': 1, 'D': 3},
-        'D': {'B': 7, 'C': 3}
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
     }
     src = 'A'
     dst = 'D'
-    expected_path = ['A', 'B', 'C', 'D']
+    expected_path = ['A', 'C', 'D']
     assert dijkstras(weighted_graph, src, dst) == expected_path

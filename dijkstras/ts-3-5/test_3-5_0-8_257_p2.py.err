@@ -7,54 +7,86 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    weighted_graph = {
-        'A': {'B': 7, 'C': 4},
-        'B': {'A': 7, 'C': 2, 'D': 3},
-        'C': {'A': 4, 'B': 2, 'D': 5},
-        'D': {'B': 3, 'C': 5}
-    }
+def test_dijkstras_basic():
+    class Vertex:
+        def __init__(self, name):
+            self.name = name
+            self.adjacent = {}
 
-    src = 'A'
-    dst = 'D'
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A', 'C', 'D']
+    graph = WeightedGraph()
 
-def test_dijkstras_multiple_paths():
-    weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'A': 2, 'C': 1, 'D': 2},
-        'C': {'A': 4, 'B': 1, 'D': 3},
-        'D': {'B': 2, 'C': 3}
-    }
+    A = Vertex('A')
+    B = Vertex('B')
+    C = Vertex('C')
+    D = Vertex('D')
 
-    src = 'A'
-    dst = 'D'
+    A.adjacent[B] = 1
+    A.adjacent[C] = 4
+    B.adjacent[C] = 2
+    B.adjacent[D] = 5
+    C.adjacent[D] = 1
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A', 'B', 'D']
+    graph.vertices = {'A': A, 'B': B, 'C': C, 'D': D}
 
-def test_dijkstras_no_path():
-    weighted_graph = {
-        'A': {'B': 2},
-        'B': {'A': 2, 'C': 1},
-        'C': {'B': 1}
-    }
+    assert dijkstras(graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+    assert dijkstras(graph, 'A', 'B') == ['A', 'B']
+    assert dijkstras(graph, 'A', 'C') == ['A', 'C']
 
-    src = 'A'
-    dst = 'C'
+def test_dijkstras_empty_graph():
+    class Vertex:
+        def __init__(self, name):
+            self.name = name
+            self.adjacent = {}
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == []
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
 
-def test_dijkstras_same_source_and_destination():
-    weighted_graph = {
-        'A': {'B': 2}
-    }
+    graph = WeightedGraph()
 
-    src = 'A'
-    dst = 'A'
+    assert dijkstras(graph, 'A', 'B') == []
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A']
+def test_dijkstras_unreachable_destination():
+    class Vertex:
+        def __init__(self, name):
+            self.name = name
+            self.adjacent = {}
+
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
+
+    graph = WeightedGraph()
+
+    A = Vertex('A')
+    B = Vertex('B')
+    C = Vertex('C')
+
+    A.adjacent[B] = 1
+    B.adjacent[C] = 2
+
+    graph.vertices = {'A': A, 'B': B, 'C': C}
+
+    assert dijkstras(graph, 'A', 'C') == []
+
+def test_dijkstras_same_source_destination():
+    class Vertex:
+        def __init__(self, name):
+            self.name = name
+            self.adjacent = {}
+
+    class WeightedGraph:
+        def __init__(self):
+            self.vertices = {}
+
+    graph = WeightedGraph()
+
+    A = Vertex('A')
+
+    graph.vertices = {'A': A}
+
+    assert dijkstras(graph, 'A', 'A') == ['A']

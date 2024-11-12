@@ -1,0 +1,667 @@
+[*] Start mutation process:
+   - targets: radixsort.py
+   - tests: ./ALL-SMART
+[*] 15 tests passed:
+   - test_radixsort_MOSA [0.06220 s]
+   - test_radixsort_WHOLE_SUITE [0.04413 s]
+   - test_radixsort_MIO [0.04136 s]
+   - test_radixsort_DYNAMOSA [0.04147 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num / (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.07622 s] incompetent
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+   - [#   2] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num * (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.06264 s] survived
+   - [#   3] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num // (base * iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.07756 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+iteration = 0
+
+>   ???
+E   ZeroDivisionError: integer division or modulo by zero
+
+radixsort:8: ZeroDivisionError
+   - [#   4] AOR radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             digit = (num // (base ** iteration)) * base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.07651 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+iteration = 0
+
+>   ???
+E   IndexError: list index out of range
+
+radixsort:9: IndexError
+   - [#   5] AOR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base * iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.06255 s] survived
+   - [#   6] ASR radixsort: 
+--------------------------------------------------------------------------------
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+- 26:         iteration += 1
++ 26:         iteration -= 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.07307 s] incompetent
+
+TypeError: radixsort:9: TypeError: list indices must be integers or slices, not float
+
+   - [#   7] COI radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while not (base ** iteration <= max_value):
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.07724 s] incompetent
+
+TypeError: radixsort:5: TypeError: 'float' object cannot be interpreted as an integer
+
+   - [#   8] OIL radixsort: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+- 10:         
++ 10:             break
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+--------------------------------------------------------------------------------
+[0.06040 s] survived
+   - [#   9] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
+- 19:     
++ 18:             break
++ 19:         return nums
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.06116 s] survived
+   - [#  10] OIL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
+- 19:     
++ 18:                 break
++ 19:         return nums
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+--------------------------------------------------------------------------------
+[0.06210 s] survived
+   - [#  11] OIL radixsort: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+- 27:     
++ 27:         break
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.06243 s] survived
+   - [#  12] RIL radixsort: 
+--------------------------------------------------------------------------------
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+-  7:         for num in ar:
++  7:         for num in reversed(ar):
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+--------------------------------------------------------------------------------
+[0.06456 s] survived
+   - [#  13] RIL radixsort: 
+--------------------------------------------------------------------------------
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+- 15:         for bucket in buckets:
++ 15:         for bucket in reversed(buckets):
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+--------------------------------------------------------------------------------
+[0.06645 s] survived
+   - [#  14] RIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+- 16:             for num in bucket:
++ 16:             for num in reversed(bucket):
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+--------------------------------------------------------------------------------
+[0.06079 s] survived
+   - [#  15] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base ** iteration >= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.07708 s] incompetent
+
+TypeError: radixsort:5: TypeError: 'float' object cannot be interpreted as an integer
+
+   - [#  16] ROR radixsort: 
+--------------------------------------------------------------------------------
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+  23:     
+- 24:     while base ** iteration <= max_value:
++ 24:     while base ** iteration < max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.06196 s] survived
+   - [#  17] SDL radixsort: 
+--------------------------------------------------------------------------------
+   1: def radixsort(ar: list, base=10):
+   2:     '''
+   3:     '''
+   4:     def create_buckets(ar, iteration):
+-  5:         buckets = [[] for x in range(0, base)]
++  5:         pass
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+--------------------------------------------------------------------------------
+[0.07533 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+iteration = 0
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+radixsort:9: NameError
+   - [#  18] SDL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
++  8:             pass
+   9:             buckets[digit].append(num)
+  10:         
+  11:         return buckets
+  12:     
+--------------------------------------------------------------------------------
+[0.07744 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+iteration = 0
+
+>   ???
+E   NameError: name 'digit' is not defined
+
+radixsort:9: NameError
+   - [#  19] SDL radixsort: 
+--------------------------------------------------------------------------------
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+-  9:             buckets[digit].append(num)
++  9:             pass
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.08617 s] killed by ALL-SMART/test_radixsort_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+        var_0 = module_0.radixsort(bytes_0)
+        tuple_0 = ()
+>       var_1 = module_0.radixsort(var_0)
+
+ALL-SMART/test_radixsort_DYNAMOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [], base = 10
+
+>   ???
+E   ValueError: max() arg is an empty sequence
+
+radixsort:20: ValueError
+   - [#  20] SDL radixsort: 
+--------------------------------------------------------------------------------
+   7:         for num in ar:
+   8:             digit = (num // (base ** iteration)) % base
+   9:             buckets[digit].append(num)
+  10:         
+- 11:         return buckets
++ 11:         pass
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+--------------------------------------------------------------------------------
+[0.07893 s] incompetent
+
+TypeError: radixsort:15: TypeError: 'NoneType' object is not iterable
+
+   - [#  21] SDL radixsort: 
+--------------------------------------------------------------------------------
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+- 14:         nums = []
++ 14:         pass
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+--------------------------------------------------------------------------------
+[0.07694 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+radixsort:25: in radixsort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+buckets = [[180, 0, 170], [], [12], [93, 143], [134, 24, 74, 104], [95, 25], ...]
+
+>   ???
+E   NameError: name 'nums' is not defined
+
+radixsort:17: NameError
+   - [#  22] SDL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+- 17:                 nums.append(num)
++ 17:                 pass
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.08685 s] killed by ALL-SMART/test_radixsort_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+        var_0 = module_0.radixsort(bytes_0)
+        tuple_0 = ()
+>       var_1 = module_0.radixsort(var_0)
+
+ALL-SMART/test_radixsort_DYNAMOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [], base = 10
+
+>   ???
+E   ValueError: max() arg is an empty sequence
+
+radixsort:20: ValueError
+   - [#  23] SDL radixsort: 
+--------------------------------------------------------------------------------
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+  17:                 nums.append(num)
+- 18:         return nums
++ 18:         pass
+  19:     
+  20:     max_value = max(ar)
+  21:     
+  22:     iteration = 0
+--------------------------------------------------------------------------------
+[0.07900 s] incompetent
+
+TypeError: radixsort:7: TypeError: 'NoneType' object is not iterable
+
+   - [#  24] SDL radixsort: 
+--------------------------------------------------------------------------------
+  16:             for num in bucket:
+  17:                 nums.append(num)
+  18:         return nums
+  19:     
+- 20:     max_value = max(ar)
++ 20:     pass
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+--------------------------------------------------------------------------------
+[0.07815 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+base = 10
+
+>   ???
+E   NameError: name 'max_value' is not defined
+
+radixsort:24: NameError
+   - [#  25] SDL radixsort: 
+--------------------------------------------------------------------------------
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+- 22:     iteration = 0
++ 22:     pass
+  23:     
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+--------------------------------------------------------------------------------
+[0.07676 s] killed by ALL-SMART/test_radixsort_MOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+>       var_0 = module_0.radixsort(bytes_0)
+
+ALL-SMART/test_radixsort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+base = 10
+
+>   ???
+E   UnboundLocalError: local variable 'iteration' referenced before assignment
+
+radixsort:24: UnboundLocalError
+   - [#  26] SDL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+- 25:         ar = create_list(create_buckets(ar, iteration))
++ 25:         pass
+  26:         iteration += 1
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.06402 s] survived
+   - [#  27] SDL radixsort: 
+--------------------------------------------------------------------------------
+  24:     while base ** iteration <= max_value:
+  25:         ar = create_list(create_buckets(ar, iteration))
+  26:         iteration += 1
+  27:     
+- 28:     return ar
++ 28:     pass
+--------------------------------------------------------------------------------
+[0.08777 s] incompetent
+
+TypeError: radixsort:20: TypeError: 'NoneType' object is not iterable
+
+   - [#  28] ZIL radixsort: 
+--------------------------------------------------------------------------------
+   4:     def create_buckets(ar, iteration):
+   5:         buckets = [[] for x in range(0, base)]
+   6:         
+   7:         for num in ar:
+-  8:             digit = (num // (base ** iteration)) % base
+-  9:             buckets[digit].append(num)
++  8:             break
++  9:         
+  10:         
+  11:         return buckets
+  12:     
+  13:     def create_list(buckets):
+--------------------------------------------------------------------------------
+[0.08653 s] killed by ALL-SMART/test_radixsort_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+        var_0 = module_0.radixsort(bytes_0)
+        tuple_0 = ()
+>       var_1 = module_0.radixsort(var_0)
+
+ALL-SMART/test_radixsort_DYNAMOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [], base = 10
+
+>   ???
+E   ValueError: max() arg is an empty sequence
+
+radixsort:20: ValueError
+   - [#  29] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+- 16:             for num in bucket:
+- 17:                 nums.append(num)
++ 16:             break
++ 17:         
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.08459 s] killed by ALL-SMART/test_radixsort_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+        var_0 = module_0.radixsort(bytes_0)
+        tuple_0 = ()
+>       var_1 = module_0.radixsort(var_0)
+
+ALL-SMART/test_radixsort_DYNAMOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [], base = 10
+
+>   ???
+E   ValueError: max() arg is an empty sequence
+
+radixsort:20: ValueError
+   - [#  30] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  13:     def create_list(buckets):
+  14:         nums = []
+  15:         for bucket in buckets:
+  16:             for num in bucket:
+- 17:                 nums.append(num)
++ 17:                 break
+  18:         return nums
+  19:     
+  20:     max_value = max(ar)
+  21:     
+--------------------------------------------------------------------------------
+[0.08640 s] killed by ALL-SMART/test_radixsort_DYNAMOSA.py::test_case_0
+
+def test_case_0():
+        bytes_0 = b'_\x86j\x18\xbd\xd1]J\xd0\x0c\xb4\x00\xc6h\xaaj\x19\x8f\xc7\xd0'
+        var_0 = module_0.radixsort(bytes_0)
+        tuple_0 = ()
+>       var_1 = module_0.radixsort(var_0)
+
+ALL-SMART/test_radixsort_DYNAMOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [], base = 10
+
+>   ???
+E   ValueError: max() arg is an empty sequence
+
+radixsort:20: ValueError
+   - [#  31] ZIL radixsort: 
+--------------------------------------------------------------------------------
+  21:     
+  22:     iteration = 0
+  23:     
+  24:     while base ** iteration <= max_value:
+- 25:         ar = create_list(create_buckets(ar, iteration))
+- 26:         iteration += 1
++ 25:         break
++ 26:     
+  27:     
+  28:     return ar
+--------------------------------------------------------------------------------
+[0.06476 s] survived
+[*] Mutation score [2.99823 s]: 50.0%
+   - all: 31
+   - killed: 12 (38.7%)
+   - survived: 12 (38.7%)
+   - incompetent: 7 (22.6%)
+   - timeout: 0 (0.0%)

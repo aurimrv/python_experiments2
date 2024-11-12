@@ -1,0 +1,2304 @@
+[*] Start mutation process:
+   - targets: linked_list2.py
+   - tests: ts-3-5/test_3-5_0-9_300.py
+[*] 7 tests passed:
+   - test_3-5_0-9_300 [0.17063 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:2] + ')'
+--------------------------------------------------------------------------------
+[0.19638 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#   2] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
++ 85:             display += str(curr.data) - ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.17306 s] incompetent
+
+TypeError: linked_list2:85: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   3] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:+2] + ')'
+--------------------------------------------------------------------------------
+[0.20143 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#   4] AOR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:-2] - ')'
+--------------------------------------------------------------------------------
+[0.18232 s] incompetent
+
+TypeError: linked_list2:87: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   5] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
++ 45:         self._length -= 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+--------------------------------------------------------------------------------
+[0.17430 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+>       assert ll.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:19: AssertionError
+   - [#   6] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+- 53:         self._length -= 1
++ 53:         self._length += 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+--------------------------------------------------------------------------------
+[0.17831 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+        popped_value = ll.pop()
+        assert popped_value == 3
+>       assert ll.size() == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:26: AssertionError
+   - [#   7] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+- 73:             self._length -= 1
++ 73:             self._length += 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.16141 s] survived
+   - [#   8] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
++ 77:                 self._length += 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+--------------------------------------------------------------------------------
+[0.18534 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#   9] ASR linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
++ 85:             display -= str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.18466 s] incompetent
+
+TypeError: linked_list2:85: TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+   - [#  10] CDI linked_list2: 
+--------------------------------------------------------------------------------
+   6: 
+   7:     Data attribute for data storage and Next for pointer to next node.
+   8:     '''
+   9:     
+- 10:     def __init__(self, data, next_node=None):
+- 11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
+- 13:         self.next = next_node
+- 14: 
++ 10:     @classmethod
++ 11:     def __init__(self, data, next_node=None):
++ 12:         '''Attribute data and next_node.'''
++ 13:         self.data = data
++ 14:         self.next = next_node
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+  18: 
+--------------------------------------------------------------------------------
+[5.00680 s] timeout
+   - [#  11] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  26:     display() - will return a unicode string representing the list as
+  27:     if it were a Python tuple literal: "(12, \'sam\', 37, \'tango\')"
+  28:     '''
+  29:     
+- 30:     def __init__(self, data=None):
+- 31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
+- 33:         self.head = None
+- 34:         try:
+- 35:             for val in data:
+- 36:                 self.push(val)
+- 37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
+- 40:     
++ 30:     @classmethod
++ 31:     def __init__(self, data=None):
++ 32:         '''Linked list initialized with head.'''
++ 33:         self._length = 0
++ 34:         self.head = None
++ 35:         try:
++ 36:             for val in data:
++ 37:                 self.push(val)
++ 38:         except TypeError:
++ 39:             if data:
++ 40:                 self.push(data)
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+--------------------------------------------------------------------------------
+[0.17116 s] incompetent
+
+TypeError: linked_list2:40: TypeError: LinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  12] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+- 41:     def push(self, val):
+- 42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
+- 46:     
++ 41:     @classmethod
++ 42:     def push(self, val):
++ 43:         '''Insert a value at the head of the list.'''
++ 44:         old_head = self.head
++ 45:         self.head = Node(val, old_head)
++ 46:         self._length += 1
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+--------------------------------------------------------------------------------
+[0.17790 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+>       ll.push(10)
+
+ts-3-5/test_3-5_0-9_300.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>, val = 10
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:44: AttributeError
+   - [#  13] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+- 47:     def pop(self):
+- 48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
+- 50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
+- 52:         self.head = self.head.next
+- 53:         self._length -= 1
+- 54:         return to_return.data
+- 55:     
++ 47:     @classmethod
++ 48:     def pop(self):
++ 49:         '''Remove the first value and return it.'''
++ 50:         if not (self.head):
++ 51:             raise IndexError('Cannot pop from an empty list')
++ 52:         to_return = self.head
++ 53:         self.head = self.head.next
++ 54:         self._length -= 1
++ 55:         return to_return.data
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+--------------------------------------------------------------------------------
+[0.17820 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:50: AttributeError
+   - [#  14] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the length of the list.'''
+- 58:         return self._length
+- 59:     
++ 56:     @classmethod
++ 57:     def size(self):
++ 58:         '''Return the length of the list.'''
++ 59:         return self._length
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+--------------------------------------------------------------------------------
+[0.17862 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+>       assert ll.size() == 1
+
+ts-3-5/test_3-5_0-9_300.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute '_length'
+
+linked_list2:59: AttributeError
+   - [#  15] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+- 60:     def search(self, val):
+- 61:         '''Return the node containing val.'''
+- 62:         curr = self.head
+- 63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
+- 67:     
++ 60:     @classmethod
++ 61:     def search(self, val):
++ 62:         '''Return the node containing val.'''
++ 63:         curr = self.head
++ 64:         while curr:
++ 65:             if curr.data == val:
++ 66:                 return curr
++ 67:             curr = curr.next
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.17717 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+
+ts-3-5/test_3-5_0-9_300.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>, val = 2
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:63: AttributeError
+   - [#  16] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+- 68:     def remove(self, val):
+- 69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
+- 73:             self._length -= 1
+- 74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
+- 79:     
++ 68:     @classmethod
++ 69:     def remove(self, val):
++ 70:         '''Remove node from list if exists.'''
++ 71:         curr = self.head
++ 72:         if (curr and val is self.head.data):
++ 73:             self.head = self.head.next
++ 74:             self._length -= 1
++ 75:         while curr:
++ 76:             if (curr.next and curr.next.data == val):
++ 77:                 curr.next = curr.next.next
++ 78:                 self._length -= 1
++ 79:             curr = curr.next
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.18248 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>, val = 3
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:71: AttributeError
+   - [#  17] CDI linked_list2: 
+--------------------------------------------------------------------------------
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+- 80:     def display(self):
+- 81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
+- 83:         display = '('
+- 84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 80:     @classmethod
++ 81:     def display(self):
++ 82:         '''Display list as a tuple.'''
++ 83:         curr = self.head
++ 84:         display = '('
++ 85:         while curr:
++ 86:             display += str(curr.data) + ', '
++ 87:             curr = curr.next
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.20408 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+
+ts-3-5/test_3-5_0-9_300.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list2.LinkedList'>
+
+>   ???
+E   AttributeError: type object 'LinkedList' has no attribute 'head'
+
+linked_list2:83: AttributeError
+   - [#  18] COD linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if self.head:
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.17443 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf69c60>
+
+>   ???
+E   IndexError: Cannot pop from an empty list
+
+linked_list2:50: IndexError
+   - [#  19] COI linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
++ 38:             if not data:
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+--------------------------------------------------------------------------------
+[0.17067 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+>       assert ll.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:19: AssertionError
+   - [#  20] COI linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if not ((not (self.head))):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.17778 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf6a620>
+
+>   ???
+E   IndexError: Cannot pop from an empty list
+
+linked_list2:50: IndexError
+   - [#  21] COI linked_list2: 
+--------------------------------------------------------------------------------
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+- 63:         while curr:
++ 63:         while not curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+--------------------------------------------------------------------------------
+[0.17827 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:34: AttributeError
+   - [#  22] COI linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
++ 64:             if not (curr.data == val):
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.17625 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:34: AssertionError
+   - [#  23] COI linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if not ((curr and val is self.head.data)):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.18011 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  24] COI linked_list2: 
+--------------------------------------------------------------------------------
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+- 74:         while curr:
++ 74:         while not curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.18061 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  25] COI linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if not ((curr.next and curr.next.data == val)):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.18270 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c23f130>, val = 3
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list2:76: AttributeError
+   - [#  26] COI linked_list2: 
+--------------------------------------------------------------------------------
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+- 84:         while curr:
++ 84:         while not curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.17606 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#  27] EHD linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
++ 38:             raise
++ 39:     
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.17070 s] incompetent
+
+TypeError: linked_list2:35: TypeError: 'NoneType' object is not iterable
+
+   - [#  28] EXS linked_list2: 
+--------------------------------------------------------------------------------
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
++ 38:             pass
++ 39:     
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.16045 s] survived
+   - [#  29] LCR linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if (curr or val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.18049 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  30] LCR linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if (curr.next or curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.18114 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c260f10>, val = 3
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+linked_list2:75: AttributeError
+   - [#  31] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+- 37:         except TypeError:
++ 37:                 breakexcept TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+--------------------------------------------------------------------------------
+[0.17769 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+        popped_value = ll.pop()
+>       assert popped_value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:25: AssertionError
+   - [#  32] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+- 67:     
++ 67:             break
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.17708 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:34: AttributeError
+   - [#  33] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+- 79:     
++ 79:             break
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.20120 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  34] OIL linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:             break
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.17989 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#  35] RIL linked_list2: 
+--------------------------------------------------------------------------------
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+- 35:             for val in data:
++ 35:             for val in reversed(data):
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+--------------------------------------------------------------------------------
+[0.17774 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+        popped_value = ll.pop()
+>       assert popped_value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:25: AssertionError
+   - [#  36] ROR linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
++ 64:             if curr.data != val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+--------------------------------------------------------------------------------
+[0.17775 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:34: AssertionError
+   - [#  37] ROR linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
++ 75:             if (curr.next and curr.next.data != val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+--------------------------------------------------------------------------------
+[0.17957 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  38] SDI linked_list2: 
+--------------------------------------------------------------------------------
+   6: 
+   7:     Data attribute for data storage and Next for pointer to next node.
+   8:     '''
+   9:     
+- 10:     def __init__(self, data, next_node=None):
+- 11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
+- 13:         self.next = next_node
+- 14: 
++ 10:     @staticmethod
++ 11:     def __init__(self, data, next_node=None):
++ 12:         '''Attribute data and next_node.'''
++ 13:         self.data = data
++ 14:         self.next = next_node
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+  18: 
+--------------------------------------------------------------------------------
+[0.17588 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:12: TypeError: Node.__init__() missing 1 required positional argument: 'data'
+
+   - [#  39] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  26:     display() - will return a unicode string representing the list as
+  27:     if it were a Python tuple literal: "(12, \'sam\', 37, \'tango\')"
+  28:     '''
+  29:     
+- 30:     def __init__(self, data=None):
+- 31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
+- 33:         self.head = None
+- 34:         try:
+- 35:             for val in data:
+- 36:                 self.push(val)
+- 37:         except TypeError:
+- 38:             if data:
+- 39:                 self.push(data)
+- 40:     
++ 30:     @staticmethod
++ 31:     def __init__(self, data=None):
++ 32:         '''Linked list initialized with head.'''
++ 33:         self._length = 0
++ 34:         self.head = None
++ 35:         try:
++ 36:             for val in data:
++ 37:                 self.push(val)
++ 38:         except TypeError:
++ 39:             if data:
++ 40:                 self.push(data)
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+--------------------------------------------------------------------------------
+[0.17829 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:17: TypeError: LinkedList.__init__() missing 1 required positional argument: 'self'
+
+   - [#  40] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+- 41:     def push(self, val):
+- 42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
+- 46:     
++ 41:     @staticmethod
++ 42:     def push(self, val):
++ 43:         '''Insert a value at the head of the list.'''
++ 44:         old_head = self.head
++ 45:         self.head = Node(val, old_head)
++ 46:         self._length += 1
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+--------------------------------------------------------------------------------
+[0.18311 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:18: TypeError: LinkedList.push() missing 1 required positional argument: 'val'
+
+   - [#  41] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+- 47:     def pop(self):
+- 48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
+- 50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
+- 52:         self.head = self.head.next
+- 53:         self._length -= 1
+- 54:         return to_return.data
+- 55:     
++ 47:     @staticmethod
++ 48:     def pop(self):
++ 49:         '''Remove the first value and return it.'''
++ 50:         if not (self.head):
++ 51:             raise IndexError('Cannot pop from an empty list')
++ 52:         to_return = self.head
++ 53:         self.head = self.head.next
++ 54:         self._length -= 1
++ 55:         return to_return.data
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+--------------------------------------------------------------------------------
+[0.17566 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:24: TypeError: LinkedList.pop() missing 1 required positional argument: 'self'
+
+   - [#  42] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the length of the list.'''
+- 58:         return self._length
+- 59:     
++ 56:     @staticmethod
++ 57:     def size(self):
++ 58:         '''Return the length of the list.'''
++ 59:         return self._length
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+--------------------------------------------------------------------------------
+[0.17717 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:19: TypeError: LinkedList.size() missing 1 required positional argument: 'self'
+
+   - [#  43] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+  59:     
+- 60:     def search(self, val):
+- 61:         '''Return the node containing val.'''
+- 62:         curr = self.head
+- 63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
+- 67:     
++ 60:     @staticmethod
++ 61:     def search(self, val):
++ 62:         '''Return the node containing val.'''
++ 63:         curr = self.head
++ 64:         while curr:
++ 65:             if curr.data == val:
++ 66:                 return curr
++ 67:             curr = curr.next
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+--------------------------------------------------------------------------------
+[0.18127 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:34: TypeError: LinkedList.search() missing 1 required positional argument: 'val'
+
+   - [#  44] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+  67:     
+- 68:     def remove(self, val):
+- 69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
+- 73:             self._length -= 1
+- 74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
+- 79:     
++ 68:     @staticmethod
++ 69:     def remove(self, val):
++ 70:         '''Remove node from list if exists.'''
++ 71:         curr = self.head
++ 72:         if (curr and val is self.head.data):
++ 73:             self.head = self.head.next
++ 74:             self._length -= 1
++ 75:         while curr:
++ 76:             if (curr.next and curr.next.data == val):
++ 77:                 curr.next = curr.next.next
++ 78:                 self._length -= 1
++ 79:             curr = curr.next
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+--------------------------------------------------------------------------------
+[0.18335 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:39: TypeError: LinkedList.remove() missing 1 required positional argument: 'val'
+
+   - [#  45] SDI linked_list2: 
+--------------------------------------------------------------------------------
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+- 80:     def display(self):
+- 81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
+- 83:         display = '('
+- 84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 80:     @staticmethod
++ 81:     def display(self):
++ 82:         '''Display list as a tuple.'''
++ 83:         curr = self.head
++ 84:         display = '('
++ 85:         while curr:
++ 86:             display += str(curr.data) + ', '
++ 87:             curr = curr.next
++ 88:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.18719 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list2/ts-3-5/test_3-5_0-9_300.py:41: TypeError: LinkedList.display() missing 1 required positional argument: 'self'
+
+   - [#  46] SDL linked_list2: 
+--------------------------------------------------------------------------------
+   8:     '''
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
++ 12:         pass
+  13:         self.next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+--------------------------------------------------------------------------------
+[0.18228 s] killed by ts-3-5/test_3-5_0-9_300.py::test_node_creation
+
+def test_node_creation():
+        node = Node(10)
+>       assert node.data == 10
+E       AttributeError: 'Node' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:13: AttributeError
+   - [#  47] SDL linked_list2: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+  12:         self.data = data
+- 13:         self.next = next_node
++ 13:         pass
+  14: 
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+--------------------------------------------------------------------------------
+[0.20194 s] killed by ts-3-5/test_3-5_0-9_300.py::test_node_creation
+
+def test_node_creation():
+        node = Node(10)
+        assert node.data == 10
+>       assert node.next is None
+E       AttributeError: 'Node' object has no attribute 'next'
+
+ts-3-5/test_3-5_0-9_300.py:14: AttributeError
+   - [#  48] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  28:     '''
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
++ 32:         pass
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.20051 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+>       ll.push(10)
+
+ts-3-5/test_3-5_0-9_300.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c486080>, val = 10
+
+>   ???
+E   AttributeError: 'LinkedList' object has no attribute '_length'
+
+linked_list2:45: AttributeError
+   - [#  49] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+- 33:         self.head = None
++ 33:         pass
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+--------------------------------------------------------------------------------
+[0.17618 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+>       ll.push(10)
+
+ts-3-5/test_3-5_0-9_300.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bd683a0>, val = 10
+
+>   ???
+E   AttributeError: 'LinkedList' object has no attribute 'head'
+
+linked_list2:43: AttributeError
+   - [#  50] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 pass
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.17820 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c358f40>
+
+>   ???
+E   IndexError: Cannot pop from an empty list
+
+linked_list2:50: IndexError
+   - [#  51] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+- 39:                 self.push(data)
++ 39:                 pass
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.16089 s] survived
+   - [#  52] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
++ 43:         pass
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+--------------------------------------------------------------------------------
+[0.17676 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+>       ll.push(10)
+
+ts-3-5/test_3-5_0-9_300.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c263640>, val = 10
+
+>   ???
+E   NameError: name 'old_head' is not defined
+
+linked_list2:44: NameError
+   - [#  53] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
++ 44:         pass
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+--------------------------------------------------------------------------------
+[0.18175 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+        assert ll.size() == 1
+>       assert ll.head.data == 10
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:20: AttributeError
+   - [#  54] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
++ 51:         pass
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+--------------------------------------------------------------------------------
+[0.18554 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c2544c0>
+
+>   ???
+E   NameError: name 'to_return' is not defined
+
+linked_list2:54: NameError
+   - [#  55] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         pass
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.15846 s] survived
+   - [#  56] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+- 54:         return to_return.data
++ 54:         pass
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+  58:         return self._length
+--------------------------------------------------------------------------------
+[0.16954 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+        popped_value = ll.pop()
+>       assert popped_value == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:25: AssertionError
+   - [#  57] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+- 58:         return self._length
++ 58:         pass
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+--------------------------------------------------------------------------------
+[0.18237 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+>       assert ll.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:19: AssertionError
+   - [#  58] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  58:         return self._length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+- 62:         curr = self.head
++ 62:         pass
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.20511 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+
+ts-3-5/test_3-5_0-9_300.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9be62680>, val = 2
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:63: UnboundLocalError
+   - [#  59] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+  64:             if curr.data == val:
+- 65:                 return curr
++ 65:                 pass
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+--------------------------------------------------------------------------------
+[0.18063 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:34: AttributeError
+   - [#  60] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  62:         curr = self.head
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+- 66:             curr = curr.next
++ 66:             pass
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+--------------------------------------------------------------------------------
+[5.00671 s] timeout
+   - [#  61] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
++ 70:         pass
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+--------------------------------------------------------------------------------
+[0.17317 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf2e680>, val = 3
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:71: UnboundLocalError
+   - [#  62] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             pass
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.15900 s] survived
+   - [#  63] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
++ 76:                 pass
+  77:                 self._length -= 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+--------------------------------------------------------------------------------
+[0.18336 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#  64] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+- 78:             curr = curr.next
++ 78:             pass
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+--------------------------------------------------------------------------------
+[5.00682 s] timeout
+   - [#  65] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
++ 82:         pass
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.17828 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+
+ts-3-5/test_3-5_0-9_300.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c260490>
+
+>   ???
+E   UnboundLocalError: local variable 'curr' referenced before assignment
+
+linked_list2:84: UnboundLocalError
+   - [#  66] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+- 83:         display = '('
++ 83:         pass
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.18118 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+
+ts-3-5/test_3-5_0-9_300.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c26b6d0>
+
+>   ???
+E   UnboundLocalError: local variable 'display' referenced before assignment
+
+linked_list2:85: UnboundLocalError
+   - [#  67] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
++ 86:             pass
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[5.00674 s] timeout
+   - [#  68] SDL linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         pass
+--------------------------------------------------------------------------------
+[0.17789 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#  69] SIR linked_list2: 
+--------------------------------------------------------------------------------
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+- 87:         return display[:-2] + ')'
++ 87:         return display[:] + ')'
+--------------------------------------------------------------------------------
+[0.18257 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+   - [#  70] SVD linked_list2: 
+--------------------------------------------------------------------------------
+   8:     '''
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+- 12:         self.data = data
++ 12:         data = data
+  13:         self.next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  71] SVD linked_list2: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def __init__(self, data, next_node=None):
+  11:         '''Attribute data and next_node.'''
+  12:         self.data = data
+- 13:         self.next = next_node
++ 13:         next = next_node
+  14: 
+  15: 
+  16: class LinkedList(object):
+  17:     '''Method for linked list.
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  72] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  28:     '''
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+- 32:         self._length = 0
++ 32:         _length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  73] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  29:     
+  30:     def __init__(self, data=None):
+  31:         '''Linked list initialized with head.'''
+  32:         self._length = 0
+- 33:         self.head = None
++ 33:         head = None
+  34:         try:
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  74] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 push(val)
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.17960 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+>       ll = LinkedList([1, 2, 3])
+
+ts-3-5/test_3-5_0-9_300.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c262200>, data = [1, 2, 3]
+
+>   ???
+E   NameError: name 'push' is not defined
+
+linked_list2:36: NameError
+   - [#  75] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  35:             for val in data:
+  36:                 self.push(val)
+  37:         except TypeError:
+  38:             if data:
+- 39:                 self.push(data)
++ 39:                 push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+--------------------------------------------------------------------------------
+[0.16166 s] survived
+   - [#  76] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  39:                 self.push(data)
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+- 43:         old_head = self.head
++ 43:         old_head = head
+  44:         self.head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+--------------------------------------------------------------------------------
+[0.17724 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+>       ll.push(10)
+
+ts-3-5/test_3-5_0-9_300.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf2f430>, val = 10
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:43: NameError
+   - [#  77] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+- 44:         self.head = Node(val, old_head)
++ 44:         head = Node(val, old_head)
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  78] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  41:     def push(self, val):
+  42:         '''Insert a value at the head of the list.'''
+  43:         old_head = self.head
+  44:         self.head = Node(val, old_head)
+- 45:         self._length += 1
++ 45:         _length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  79] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  45:         self._length += 1
+  46:     
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+- 49:         if not (self.head):
++ 49:         if not head:
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+--------------------------------------------------------------------------------
+[0.18152 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9be61720>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:49: NameError
+   - [#  80] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  47:     def pop(self):
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+- 51:         to_return = self.head
++ 51:         to_return = head
+  52:         self.head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+--------------------------------------------------------------------------------
+[0.18028 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c261660>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:51: NameError
+   - [#  81] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         head = self.head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  82] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  48:         '''Remove the first value and return it.'''
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+- 52:         self.head = self.head.next
++ 52:         self.head = head.next
+  53:         self._length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.17597 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c3151b0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:52: NameError
+   - [#  83] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  49:         if not (self.head):
+  50:             raise IndexError('Cannot pop from an empty list')
+  51:         to_return = self.head
+  52:         self.head = self.head.next
+- 53:         self._length -= 1
++ 53:         _length -= 1
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  84] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  54:         return to_return.data
+  55:     
+  56:     def size(self):
+  57:         '''Return the length of the list.'''
+- 58:         return self._length
++ 58:         return _length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+--------------------------------------------------------------------------------
+[0.17807 s] killed by ts-3-5/test_3-5_0-9_300.py::test_push
+
+def test_push():
+        ll = LinkedList()
+        ll.push(10)
+>       assert ll.size() == 1
+
+ts-3-5/test_3-5_0-9_300.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c3f4a60>
+
+>   ???
+E   NameError: name '_length' is not defined
+
+linked_list2:58: NameError
+   - [#  85] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  58:         return self._length
+  59:     
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+- 62:         curr = self.head
++ 62:         curr = head
+  63:         while curr:
+  64:             if curr.data == val:
+  65:                 return curr
+  66:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.18188 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+
+ts-3-5/test_3-5_0-9_300.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c261630>, val = 2
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:62: NameError
+   - [#  86] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  66:             curr = curr.next
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+- 70:         curr = self.head
++ 70:         curr = head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+--------------------------------------------------------------------------------
+[0.17937 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9c1dbc40>, val = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:70: NameError
+   - [#  87] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+- 71:         if (curr and val is self.head.data):
++ 71:         if (curr and val is head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+--------------------------------------------------------------------------------
+[0.18021 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+>       ll.remove(3)
+
+ts-3-5/test_3-5_0-9_300.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf62b60>, val = 3
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:71: NameError
+   - [#  88] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  89] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+- 72:             self.head = self.head.next
++ 72:             self.head = head.next
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+--------------------------------------------------------------------------------
+[0.15928 s] survived
+   - [#  90] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+- 73:             self._length -= 1
++ 73:             _length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+  77:                 self._length -= 1
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  91] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  73:             self._length -= 1
+  74:         while curr:
+  75:             if (curr.next and curr.next.data == val):
+  76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
++ 77:                 _length -= 1
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  92] SVD linked_list2: 
+--------------------------------------------------------------------------------
+  78:             curr = curr.next
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+- 82:         curr = self.head
++ 82:         curr = head
+  83:         display = '('
+  84:         while curr:
+  85:             display += str(curr.data) + ', '
+  86:             curr = curr.next
+--------------------------------------------------------------------------------
+[0.18567 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+
+ts-3-5/test_3-5_0-9_300.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bd869b0>
+
+>   ???
+E   NameError: name 'head' is not defined
+
+linked_list2:82: NameError
+   - [#  93] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  32:         self._length = 0
+  33:         self.head = None
+  34:         try:
+  35:             for val in data:
+- 36:                 self.push(val)
++ 36:                 break
+  37:         except TypeError:
+  38:             if data:
+  39:                 self.push(data)
+  40:     
+--------------------------------------------------------------------------------
+[0.17435 s] killed by ts-3-5/test_3-5_0-9_300.py::test_pop
+
+def test_pop():
+        ll = LinkedList([1, 2, 3])
+>       popped_value = ll.pop()
+
+ts-3-5/test_3-5_0-9_300.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list2.LinkedList object at 0x722f9bf2d330>
+
+>   ???
+E   IndexError: Cannot pop from an empty list
+
+linked_list2:50: IndexError
+   - [#  94] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  60:     def search(self, val):
+  61:         '''Return the node containing val.'''
+  62:         curr = self.head
+  63:         while curr:
+- 64:             if curr.data == val:
+- 65:                 return curr
+- 66:             curr = curr.next
++ 64:             break
++ 65:     
++ 66:     
+  67:     
+  68:     def remove(self, val):
+  69:         '''Remove node from list if exists.'''
+  70:         curr = self.head
+--------------------------------------------------------------------------------
+[0.17910 s] killed by ts-3-5/test_3-5_0-9_300.py::test_search
+
+def test_search():
+        ll = LinkedList([1, 2, 3])
+>       assert ll.search(2).data == 2
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-9_300.py:34: AttributeError
+   - [#  95] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  71:         if (curr and val is self.head.data):
+  72:             self.head = self.head.next
+  73:             self._length -= 1
+  74:         while curr:
+- 75:             if (curr.next and curr.next.data == val):
+- 76:                 curr.next = curr.next.next
+- 77:                 self._length -= 1
+- 78:             curr = curr.next
++ 75:             break
++ 76:     
++ 77:     
++ 78:     
+  79:     
+  80:     def display(self):
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+--------------------------------------------------------------------------------
+[0.18225 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+>       assert ll.size() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:40: AssertionError
+   - [#  96] ZIL linked_list2: 
+--------------------------------------------------------------------------------
+  81:         '''Display list as a tuple.'''
+  82:         curr = self.head
+  83:         display = '('
+  84:         while curr:
+- 85:             display += str(curr.data) + ', '
+- 86:             curr = curr.next
++ 85:             break
++ 86:         
+  87:         return display[:-2] + ')'
+--------------------------------------------------------------------------------
+[0.18077 s] killed by ts-3-5/test_3-5_0-9_300.py::test_remove
+
+def test_remove():
+        ll = LinkedList([1, 2, 3, 4, 5])
+        ll.remove(3)
+        assert ll.size() == 4
+>       assert ll.display() == "(5, 4, 2, 1)"
+E       AssertionError
+
+ts-3-5/test_3-5_0-9_300.py:41: AssertionError
+[*] Mutation score [38.06304 s]: 90.3%
+   - all: 96
+   - killed: 61 (63.5%)
+   - survived: 7 (7.3%)
+   - incompetent: 24 (25.0%)
+   - timeout: 4 (4.2%)

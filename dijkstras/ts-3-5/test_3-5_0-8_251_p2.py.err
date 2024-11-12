@@ -6,73 +6,43 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_shortest_path():
-    class Vertex:
-        def __init__(self, name):
-            self.name = name
-            self.adjacent = {}
+class TestDijkstras:
+    def test_shortest_path_case1(self):
+        weighted_graph = {
+            'A': {'B': 2, 'C': 1},
+            'B': {'A': 2, 'C': 5},
+            'C': {'A': 1, 'B': 5}
+        }
+        src = 'A'
+        dst = 'B'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
 
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-
-    graph = WeightedGraph()
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-    d = Vertex('D')
-    e = Vertex('E')
-
-    a.adjacent = {b: 1, c: 4}
-    b.adjacent = {a: 1, c: 2, d: 5}
-    c.adjacent = {a: 4, b: 2, d: 1}
-    d.adjacent = {b: 5, c: 1, e: 3}
-    e.adjacent = {d: 3}
-
-    graph.vertices = {'A': a, 'B': b, 'C': c, 'D': d, 'E': e}
-
-    assert dijkstras(graph, 'A', 'E') == ['A', 'C', 'D', 'E']
-
-def test_dijkstras_no_path():
-    class Vertex:
-        def __init__(self, name):
-            self.name = name
-            self.adjacent = {}
-
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-
-    graph = WeightedGraph()
-    a = Vertex('A')
-    b = Vertex('B')
-    c = Vertex('C')
-
-    a.adjacent = {b: 1}
-    b.adjacent = {a: 1}
-    c.adjacent = {}
-
-    graph.vertices = {'A': a, 'B': b, 'C': c}
-
-    assert dijkstras(graph, 'A', 'C') == []  # There is no path from A to C
-
-def test_dijkstras_same_source_and_destination():
-    class Vertex:
-        def __init__(self, name):
-            self.name = name
-            self.adjacent = {}
-
-    class WeightedGraph:
-        def __init__(self):
-            self.vertices = {}
-
-    graph = WeightedGraph()
-    a = Vertex('A')
-    b = Vertex('B')
-
-    a.adjacent = {b: 1}
-    b.adjacent = {a: 1}
-
-    graph.vertices = {'A': a, 'B': b}
-
-    assert dijkstras(graph, 'A', 'A') == ['A']  # Source and destination are the same
+    def test_shortest_path_case2(self):
+        weighted_graph = {
+            'A': {'B': 3, 'C': 5},
+            'B': {'A': 3, 'C': 2},
+            'C': {'A': 5, 'B': 2}
+        }
+        src = 'A'
+        dst = 'C'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+    
+    def test_shortest_path_case3(self):
+        weighted_graph = {
+            'A': {'B': 10},
+            'B': {'A': 10, 'C': 20},
+            'C': {'B': 20}
+        }
+        src = 'A'
+        dst = 'C'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    
+    def test_shortest_path_case4(self):
+        weighted_graph = {
+            'A': {'B': 1, 'C': 5},
+            'B': {'A': 1, 'C': 3},
+            'C': {'A': 5, 'B': 3}
+        }
+        src = 'C'
+        dst = 'A'
+        assert dijkstras(weighted_graph, src, dst) == ['C', 'A']

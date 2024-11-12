@@ -1,0 +1,1331 @@
+[*] Start mutation process:
+   - targets: graph2.py
+   - tests: ts-3-5/test_3-5_0-6_202.py
+[*] 7 tests passed:
+   - test_3-5_0-6_202 [0.19172 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI graph2: 
+--------------------------------------------------------------------------------
+  22:     adjacent(n1, n2): returns True if there is an edge connecting n1 and n2,
+  23:     False if not, raises an error if either of the supplied nodes are not in g.
+  24:     """
+  25:     
+- 26:     def __init__(self, data=None):
+- 27:         '''Initialize graph.'''
+- 28:         self.graph = {}
+- 29:         if data:
+- 30:             for i in data:
+- 31:                 self.add_node(i)
+- 32:     
++ 26:     @classmethod
++ 27:     def __init__(self, data=None):
++ 28:         '''Initialize graph.'''
++ 29:         self.graph = {}
++ 30:         if data:
++ 31:             for i in data:
++ 32:                 self.add_node(i)
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.16669 s] survived
+   - [#   2] CDI graph2: 
+--------------------------------------------------------------------------------
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+- 33:     def nodes(self):
+- 34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
+- 36:     
++ 33:     @classmethod
++ 34:     def nodes(self):
++ 35:         '''Return a list of all nodes in the graph.'''
++ 36:         return list(self.graph.keys())
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+--------------------------------------------------------------------------------
+[0.19268 s] survived
+   - [#   3] CDI graph2: 
+--------------------------------------------------------------------------------
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+- 37:     def edges(self):
+- 38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
+- 40:     
++ 37:     @classmethod
++ 38:     def edges(self):
++ 39:         '''Return a list of all edges in the graph.'''
++ 40:         return [edge for edges in self.graph.values() for edge in edges]
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+--------------------------------------------------------------------------------
+[0.18591 s] survived
+   - [#   4] CDI graph2: 
+--------------------------------------------------------------------------------
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+- 41:     def add_node(self, n):
+- 42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
+- 44:     
++ 41:     @classmethod
++ 42:     def add_node(self, n):
++ 43:         '''Add a new node to the graph.'''
++ 44:         self.graph.setdefault(n, set())
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+--------------------------------------------------------------------------------
+[0.20314 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7d20d210>
+
+    def test_add_node(graph):
+>       graph.add_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = 1
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:44: AttributeError
+   - [#   5] CDI graph2: 
+--------------------------------------------------------------------------------
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+- 45:     def add_edge(self, n1, n2):
+- 46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
+- 50:     
++ 45:     @classmethod
++ 46:     def add_edge(self, n1, n2):
++ 47:         '''Add new edge to the graph.'''
++ 48:         self.graph.setdefault(n1, set([n2]))
++ 49:         self.graph.setdefault(n2, set())
++ 50:         self.graph[n1].add(n2)
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+--------------------------------------------------------------------------------
+[0.20395 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d26c400>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+>       graph.add_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n1 = 1, n2 = 2
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:48: AttributeError
+   - [#   6] CDI graph2: 
+--------------------------------------------------------------------------------
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+- 51:     def del_node(self, n):
+- 52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
+- 54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
+- 56:     
++ 51:     @classmethod
++ 52:     def del_node(self, n):
++ 53:         """Delete the node 'n' from the graph."""
++ 54:         del self.graph[n]
++ 55:         for k in self.graph:
++ 56:             self.graph[k].discard(n)
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.20861 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_node
+
+graph = <graph2.Graph object at 0x795e7d20eb00>
+
+    def test_del_node(graph):
+        graph.add_node(1)
+>       graph.del_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = 1
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:54: AttributeError
+   - [#   7] CDI graph2: 
+--------------------------------------------------------------------------------
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+- 57:     def del_edge(self, n1, n2):
+- 58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
+- 60:     
++ 57:     @classmethod
++ 58:     def del_edge(self, n1, n2):
++ 59:         '''Delete the edge connecting n1 and n2.'''
++ 60:         self.graph[n1].remove(n2)
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+--------------------------------------------------------------------------------
+[0.19946 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_edge
+
+graph = <graph2.Graph object at 0x795e7d37c430>
+
+    def test_del_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       graph.del_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n1 = 1, n2 = 2
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:60: AttributeError
+   - [#   8] CDI graph2: 
+--------------------------------------------------------------------------------
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+- 61:     def has_node(self, n):
+- 62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
+- 64:     
++ 61:     @classmethod
++ 62:     def has_node(self, n):
++ 63:         """Return boolean if 'n' is in the graph."""
++ 64:         return n in self.graph
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+--------------------------------------------------------------------------------
+[0.19086 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7d1b94b0>
+
+    def test_add_node(graph):
+        graph.add_node(1)
+>       assert graph.has_node(1) == True
+
+ts-3-5/test_3-5_0-6_202.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = 1
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:64: AttributeError
+   - [#   9] CDI graph2: 
+--------------------------------------------------------------------------------
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+- 65:     def neighbors(self, n):
+- 66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
+- 68:     
++ 65:     @classmethod
++ 66:     def neighbors(self, n):
++ 67:         '''Return the list of all nodes connected to n by edges.'''
++ 68:         return self.graph[n]
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21713 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d3f1120>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+
+ts-3-5/test_3-5_0-6_202.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+graph2:71: in adjacent
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = 1
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:68: AttributeError
+   - [#  10] CDI graph2: 
+--------------------------------------------------------------------------------
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+- 69:     def adjacent(self, n1, n2):
+- 70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 69:     @classmethod
++ 70:     def adjacent(self, n1, n2):
++ 71:         '''Return boolean if there is an edge connecting n1 and n2.'''
++ 72:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21893 s] incompetent
+
+TypeError: graph2:72: TypeError: Graph.neighbors() missing 1 required positional argument: 'n'
+
+   - [#  11] COI graph2: 
+--------------------------------------------------------------------------------
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+- 29:         if data:
++ 29:         if not data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+--------------------------------------------------------------------------------
+[0.21004 s] incompetent
+
+TypeError: graph2:30: TypeError: 'NoneType' object is not iterable
+
+   - [#  12] COI graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         return n not in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.21700 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7d015f90>
+
+    def test_add_node(graph):
+        graph.add_node(1)
+>       assert graph.has_node(1) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:17: AssertionError
+   - [#  13] COI graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         return n2 not in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.24205 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d209270>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:23: AssertionError
+   - [#  14] OIL graph2: 
+--------------------------------------------------------------------------------
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+- 32:     
++ 32:                 break
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.18977 s] survived
+   - [#  15] OIL graph2: 
+--------------------------------------------------------------------------------
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+- 56:     
++ 56:             break
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.19094 s] survived
+   - [#  16] RIL graph2: 
+--------------------------------------------------------------------------------
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+- 30:             for i in data:
++ 30:             for i in reversed(data):
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+--------------------------------------------------------------------------------
+[0.19525 s] survived
+   - [#  17] RIL graph2: 
+--------------------------------------------------------------------------------
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+- 54:         for k in self.graph:
++ 54:         for k in reversed(self.graph):
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+--------------------------------------------------------------------------------
+[0.19181 s] survived
+   - [#  18] SDI graph2: 
+--------------------------------------------------------------------------------
+  22:     adjacent(n1, n2): returns True if there is an edge connecting n1 and n2,
+  23:     False if not, raises an error if either of the supplied nodes are not in g.
+  24:     """
+  25:     
+- 26:     def __init__(self, data=None):
+- 27:         '''Initialize graph.'''
+- 28:         self.graph = {}
+- 29:         if data:
+- 30:             for i in data:
+- 31:                 self.add_node(i)
+- 32:     
++ 26:     @staticmethod
++ 27:     def __init__(self, data=None):
++ 28:         '''Initialize graph.'''
++ 29:         self.graph = {}
++ 30:         if data:
++ 31:             for i in data:
++ 32:                 self.add_node(i)
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.21766 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:13: TypeError: Graph.__init__() missing 1 required positional argument: 'self'
+
+   - [#  19] SDI graph2: 
+--------------------------------------------------------------------------------
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+- 33:     def nodes(self):
+- 34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
+- 36:     
++ 33:     @staticmethod
++ 34:     def nodes(self):
++ 35:         '''Return a list of all nodes in the graph.'''
++ 36:         return list(self.graph.keys())
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+--------------------------------------------------------------------------------
+[0.19919 s] survived
+   - [#  20] SDI graph2: 
+--------------------------------------------------------------------------------
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+- 37:     def edges(self):
+- 38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
+- 40:     
++ 37:     @staticmethod
++ 38:     def edges(self):
++ 39:         '''Return a list of all edges in the graph.'''
++ 40:         return [edge for edges in self.graph.values() for edge in edges]
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+--------------------------------------------------------------------------------
+[0.17279 s] survived
+   - [#  21] SDI graph2: 
+--------------------------------------------------------------------------------
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+- 41:     def add_node(self, n):
+- 42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
+- 44:     
++ 41:     @staticmethod
++ 42:     def add_node(self, n):
++ 43:         '''Add a new node to the graph.'''
++ 44:         self.graph.setdefault(n, set())
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+--------------------------------------------------------------------------------
+[0.21344 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:16: TypeError: Graph.add_node() missing 1 required positional argument: 'n'
+
+   - [#  22] SDI graph2: 
+--------------------------------------------------------------------------------
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+- 45:     def add_edge(self, n1, n2):
+- 46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
+- 50:     
++ 45:     @staticmethod
++ 46:     def add_edge(self, n1, n2):
++ 47:         '''Add new edge to the graph.'''
++ 48:         self.graph.setdefault(n1, set([n2]))
++ 49:         self.graph.setdefault(n2, set())
++ 50:         self.graph[n1].add(n2)
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+--------------------------------------------------------------------------------
+[0.22796 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:22: TypeError: Graph.add_edge() missing 1 required positional argument: 'n2'
+
+   - [#  23] SDI graph2: 
+--------------------------------------------------------------------------------
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+- 51:     def del_node(self, n):
+- 52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
+- 54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
+- 56:     
++ 51:     @staticmethod
++ 52:     def del_node(self, n):
++ 53:         """Delete the node 'n' from the graph."""
++ 54:         del self.graph[n]
++ 55:         for k in self.graph:
++ 56:             self.graph[k].discard(n)
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.21429 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:27: TypeError: Graph.del_node() missing 1 required positional argument: 'n'
+
+   - [#  24] SDI graph2: 
+--------------------------------------------------------------------------------
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+- 57:     def del_edge(self, n1, n2):
+- 58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
+- 60:     
++ 57:     @staticmethod
++ 58:     def del_edge(self, n1, n2):
++ 59:         '''Delete the edge connecting n1 and n2.'''
++ 60:         self.graph[n1].remove(n2)
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+--------------------------------------------------------------------------------
+[0.21795 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:34: TypeError: Graph.del_edge() missing 1 required positional argument: 'n2'
+
+   - [#  25] SDI graph2: 
+--------------------------------------------------------------------------------
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+- 61:     def has_node(self, n):
+- 62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
+- 64:     
++ 61:     @staticmethod
++ 62:     def has_node(self, n):
++ 63:         """Return boolean if 'n' is in the graph."""
++ 64:         return n in self.graph
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+--------------------------------------------------------------------------------
+[0.22495 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:17: TypeError: Graph.has_node() missing 1 required positional argument: 'n'
+
+   - [#  26] SDI graph2: 
+--------------------------------------------------------------------------------
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+- 65:     def neighbors(self, n):
+- 66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
+- 68:     
++ 65:     @staticmethod
++ 66:     def neighbors(self, n):
++ 67:         '''Return the list of all nodes connected to n by edges.'''
++ 68:         return self.graph[n]
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21241 s] incompetent
+
+TypeError: graph2:71: TypeError: Graph.neighbors() missing 1 required positional argument: 'n'
+
+   - [#  27] SDI graph2: 
+--------------------------------------------------------------------------------
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+- 69:     def adjacent(self, n1, n2):
+- 70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 69:     @staticmethod
++ 70:     def adjacent(self, n1, n2):
++ 71:         '''Return boolean if there is an edge connecting n1 and n2.'''
++ 72:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21853 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ts-3-5/test_3-5_0-6_202.py:23: TypeError: Graph.adjacent() missing 1 required positional argument: 'n2'
+
+   - [#  28] SDL graph2: 
+--------------------------------------------------------------------------------
+  24:     """
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+- 28:         self.graph = {}
++ 28:         pass
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+--------------------------------------------------------------------------------
+[0.21227 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7d37cf70>
+
+    def test_add_node(graph):
+>       graph.add_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d37cf70>, n = 1
+
+>   ???
+E   AttributeError: 'Graph' object has no attribute 'graph'
+
+graph2:43: AttributeError
+   - [#  29] SDL graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 pass
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.19620 s] survived
+   - [#  30] SDL graph2: 
+--------------------------------------------------------------------------------
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
++ 35:         pass
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+--------------------------------------------------------------------------------
+[0.19246 s] survived
+   - [#  31] SDL graph2: 
+--------------------------------------------------------------------------------
+  35:         return list(self.graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
++ 39:         pass
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+--------------------------------------------------------------------------------
+[0.19977 s] survived
+   - [#  32] SDL graph2: 
+--------------------------------------------------------------------------------
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
++ 43:         pass
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+--------------------------------------------------------------------------------
+[0.21256 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7d22a590>
+
+    def test_add_node(graph):
+        graph.add_node(1)
+>       assert graph.has_node(1) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:17: AssertionError
+   - [#  33] SDL graph2: 
+--------------------------------------------------------------------------------
+  43:         self.graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
++ 47:         pass
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+--------------------------------------------------------------------------------
+[0.18975 s] survived
+   - [#  34] SDL graph2: 
+--------------------------------------------------------------------------------
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
++ 48:         pass
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+--------------------------------------------------------------------------------
+[0.21200 s] survived
+   - [#  35] SDL graph2: 
+--------------------------------------------------------------------------------
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
++ 49:         pass
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+--------------------------------------------------------------------------------
+[0.21677 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7cfa4550>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:23: AssertionError
+   - [#  36] SDL graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             pass
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.19658 s] survived
+   - [#  37] SDL graph2: 
+--------------------------------------------------------------------------------
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
++ 59:         pass
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+--------------------------------------------------------------------------------
+[0.21357 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_edge
+
+graph = <graph2.Graph object at 0x795e7d209e70>
+
+    def test_del_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+        graph.del_edge(1, 2)
+>       assert graph.adjacent(1, 2) == False
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:35: AssertionError
+   - [#  38] SDL graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         pass
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.22048 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7cfb6e90>
+
+    def test_add_node(graph):
+        graph.add_node(1)
+>       assert graph.has_node(1) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:17: AssertionError
+   - [#  39] SDL graph2: 
+--------------------------------------------------------------------------------
+  63:         return n in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
++ 67:         pass
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.20931 s] incompetent
+
+TypeError: graph2:71: TypeError: argument of type 'NoneType' is not iterable
+
+   - [#  40] SDL graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         pass
+--------------------------------------------------------------------------------
+[0.21831 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d228fa0>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_202.py:23: AssertionError
+   - [#  41] SVD graph2: 
+--------------------------------------------------------------------------------
+  24:     """
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+- 28:         self.graph = {}
++ 28:         graph = {}
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  42] SVD graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.19431 s] survived
+   - [#  43] SVD graph2: 
+--------------------------------------------------------------------------------
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
++ 35:         return list(graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+--------------------------------------------------------------------------------
+[0.20565 s] survived
+   - [#  44] SVD graph2: 
+--------------------------------------------------------------------------------
+  35:         return list(self.graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
++ 39:         return [edge for edges in graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+--------------------------------------------------------------------------------
+[0.19316 s] survived
+   - [#  45] SVD graph2: 
+--------------------------------------------------------------------------------
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
++ 43:         graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+--------------------------------------------------------------------------------
+[0.22363 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7cfa6410>
+
+    def test_add_node(graph):
+>       graph.add_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7cfa6410>, n = 1
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:43: NameError
+   - [#  46] SVD graph2: 
+--------------------------------------------------------------------------------
+  43:         self.graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
++ 47:         graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+--------------------------------------------------------------------------------
+[0.21211 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d1bb970>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+>       graph.add_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d1bb970>, n1 = 1, n2 = 2
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:47: NameError
+   - [#  47] SVD graph2: 
+--------------------------------------------------------------------------------
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
++ 48:         graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+--------------------------------------------------------------------------------
+[0.21377 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d1b8400>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+>       graph.add_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d1b8400>, n1 = 1, n2 = 2
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:48: NameError
+   - [#  48] SVD graph2: 
+--------------------------------------------------------------------------------
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
++ 49:         graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+--------------------------------------------------------------------------------
+[0.21107 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d26ffd0>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+>       graph.add_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d26ffd0>, n1 = 1, n2 = 2
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:49: NameError
+   - [#  49] SVD graph2: 
+--------------------------------------------------------------------------------
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
++ 53:         del graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+--------------------------------------------------------------------------------
+[0.21580 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_node
+
+graph = <graph2.Graph object at 0x795e7cfa5810>
+
+    def test_del_node(graph):
+        graph.add_node(1)
+>       graph.del_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7cfa5810>, n = 1
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:53: NameError
+   - [#  50] SVD graph2: 
+--------------------------------------------------------------------------------
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+- 54:         for k in self.graph:
++ 54:         for k in graph:
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+--------------------------------------------------------------------------------
+[0.21507 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_node
+
+graph = <graph2.Graph object at 0x795e7d1b89a0>
+
+    def test_del_node(graph):
+        graph.add_node(1)
+>       graph.del_node(1)
+
+ts-3-5/test_3-5_0-6_202.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d1b89a0>, n = 1
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:54: NameError
+   - [#  51] SVD graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.20041 s] survived
+   - [#  52] SVD graph2: 
+--------------------------------------------------------------------------------
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
++ 59:         graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+--------------------------------------------------------------------------------
+[0.21495 s] killed by ts-3-5/test_3-5_0-6_202.py::test_del_edge
+
+graph = <graph2.Graph object at 0x795e7cfa6c50>
+
+    def test_del_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       graph.del_edge(1, 2)
+
+ts-3-5/test_3-5_0-6_202.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7cfa6c50>, n1 = 1, n2 = 2
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:59: NameError
+   - [#  53] SVD graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         return n in graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.21935 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_node
+
+graph = <graph2.Graph object at 0x795e7cfa6d70>
+
+    def test_add_node(graph):
+        graph.add_node(1)
+>       assert graph.has_node(1) == True
+
+ts-3-5/test_3-5_0-6_202.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7cfa6d70>, n = 1
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:63: NameError
+   - [#  54] SVD graph2: 
+--------------------------------------------------------------------------------
+  63:         return n in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
++ 67:         return graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21315 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d1bb160>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+
+ts-3-5/test_3-5_0-6_202.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+graph2:71: in adjacent
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d1bb160>, n = 1
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:67: NameError
+   - [#  55] SVD graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         return n2 in neighbors(n1)
+--------------------------------------------------------------------------------
+[0.21755 s] killed by ts-3-5/test_3-5_0-6_202.py::test_add_edge
+
+graph = <graph2.Graph object at 0x795e7d0358a0>
+
+    def test_add_edge(graph):
+        graph.add_node(1)
+        graph.add_node(2)
+        graph.add_edge(1, 2)
+>       assert graph.adjacent(1, 2) == True
+
+ts-3-5/test_3-5_0-6_202.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x795e7d0358a0>, n1 = 1, n2 = 2
+
+>   ???
+E   NameError: name 'neighbors' is not defined
+
+graph2:71: NameError
+   - [#  56] ZIL graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 break
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.20688 s] survived
+   - [#  57] ZIL graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             break
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.20113 s] survived
+[*] Mutation score [13.52405 s]: 53.3%
+   - all: 57
+   - killed: 24 (42.1%)
+   - survived: 21 (36.8%)
+   - incompetent: 12 (21.1%)
+   - timeout: 0 (0.0%)

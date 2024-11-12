@@ -1,0 +1,55 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+def test_dijkstras_basic_case():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'C', 'D']
+
+def test_dijkstras_same_source_and_destination():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'A'
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A']
+
+def test_dijkstras_unreachable_destination():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'E'
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == []
+
+def test_dijkstras_negative_weights():
+    weighted_graph = {
+        'A': {'B': 1, 'C': -2},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': -2, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'C', 'D']

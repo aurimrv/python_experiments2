@@ -1,5 +1,7 @@
 import os
 import sys
+import pytest
+
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
@@ -7,43 +9,66 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 class TestDijkstras:
-
-    def test_shortest_path(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': 4},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': 4, 'B': 1}
-        }
-        src = 'A'
-        dst = 'C'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
-
-    def test_shortest_path_same_node(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': 4},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': 4, 'B': 1}
-        }
-        src = 'A'
-        dst = 'A'
-        assert dijkstras(weighted_graph, src, dst) == ['A']
-
-    def test_shortest_path_unreachable(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': 4},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': 4, 'B': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        assert dijkstras(weighted_graph, src, dst) == []
-
-    def test_shortest_path_with_negative_weights(self):
-        weighted_graph = {
-            'A': {'B': 2, 'C': -1},
-            'B': {'A': 2, 'C': 1},
-            'C': {'A': -1, 'B': 1}
-        }
-        src = 'A'
-        dst = 'C'
-        assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+    
+    def test_dijkstras_basic_scenario(self):
+        class Vertex:
+            def __init__(self, name):
+                self.name = name
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        graph = WeightedGraph()
+        a = Vertex("A")
+        b = Vertex("B")
+        c = Vertex("C")
+        d = Vertex("D")
+        
+        a.adjacent[b] = 1
+        a.adjacent[c] = 2
+        b.adjacent[c] = 1
+        b.adjacent[d] = 2
+        c.adjacent[d] = 1
+        
+        graph.vertices = {"A": a, "B": b, "C": c, "D": d}
+        
+        assert dijkstras(graph, "A", "D") == ["A", "B", "D"]
+    
+    def test_dijkstras_same_source_and_destination(self):
+        class Vertex:
+            def __init__(self, name):
+                self.name = name
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        graph = WeightedGraph()
+        a = Vertex("A")
+        
+        graph.vertices = {"A": a}
+        
+        assert dijkstras(graph, "A", "A") == ["A"]
+    
+    def test_dijkstras_unreachable_destination(self):
+        class Vertex:
+            def __init__(self, name):
+                self.name = name
+                self.adjacent = {}
+        
+        class WeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+        
+        graph = WeightedGraph()
+        a = Vertex("A")
+        b = Vertex("B")
+        
+        a.adjacent[b] = 1
+        
+        graph.vertices = {"A": a, "B": b}
+        
+        assert dijkstras(graph, "A", "B") == ["A"]

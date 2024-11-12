@@ -8,37 +8,33 @@ sys.path.append(project_dir)
 
 from priority_queue1 import PriorityQueue
 
-def test_add_task():
-    pq = PriorityQueue()
-    pq.add_task("Task1", 2)
-    assert len(pq.pq) == 1
-    assert pq.mapper["Task1"] == [2, 0, "Task1"]
+@pytest.fixture
+def priority_queue():
+    return PriorityQueue()
 
-    pq.add_task("Task2", 1)
-    assert len(pq.pq) == 2
-    assert pq.mapper["Task2"] == [1, 1, "Task2"]
+def test_add_task(priority_queue):
+    priority_queue.add_task("task1", 1)
+    assert priority_queue.pop_task() == "task1"
 
-def test_remove_task():
-    pq = PriorityQueue()
-    pq.add_task("Task1", 2)
-    pq.remove_task("Task1")
-    assert len(pq.pq) == 0
-    assert "Task1" not in pq.mapper
-
-def test_set_priority():
-    pq = PriorityQueue()
-    pq.add_task("Task1", 2)
-    pq.set_priority("Task1", 1)
-    assert pq.mapper["Task1"] == [1, 0, "Task1"]
-
-def test_pop_task():
-    pq = PriorityQueue()
-    pq.add_task("Task1", 2)
-    pq.add_task("Task2", 1)
-    assert pq.pop_task() == "Task2"
-    assert pq.pop_task() == "Task1"
-
-def test_pop_task_empty_queue():
-    pq = PriorityQueue()
+def test_remove_task(priority_queue):
+    priority_queue.add_task("task2", 2)
+    priority_queue.remove_task("task2")
     with pytest.raises(KeyError):
-        pq.pop_task()
+        priority_queue.pop_task()
+
+def test_set_priority(priority_queue):
+    priority_queue.add_task("task3", 3)
+    priority_queue.set_priority("task3", 1)
+    assert priority_queue.pop_task() == "task3"
+
+def test_pop_task_empty_queue(priority_queue):
+    with pytest.raises(KeyError):
+        priority_queue.pop_task()
+
+def test_multiple_tasks(priority_queue):
+    priority_queue.add_task("task4", 4)
+    priority_queue.add_task("task5", 3)
+    priority_queue.add_task("task6", 5)
+    assert priority_queue.pop_task() == "task6"
+    assert priority_queue.pop_task() == "task4"
+    assert priority_queue.pop_task() == "task5"

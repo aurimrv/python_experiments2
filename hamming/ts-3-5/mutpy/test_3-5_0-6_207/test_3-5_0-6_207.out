@@ -1,0 +1,327 @@
+[*] Start mutation process:
+   - targets: hamming_ops.py
+   - tests: ts-3-5/test_3-5_0-6_207.py
+[*] 2 tests passed:
+   - test_3-5_0-6_207 [0.14844 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR hamming_ops: 
+--------------------------------------------------------------------------------
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+- 37:         x &= x - 1
++ 37:         x &= x + 1
+  38:         count += 1
+  39:     return count
+--------------------------------------------------------------------------------
+[0.16474 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_weight
+
+def test_hamming_weight():
+        assert hamming_weight(0) == 0
+        assert hamming_weight(-1) == 2
+>       assert hamming_weight(255) == 8
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:19: AssertionError
+   - [#   2] ASR hamming_ops: 
+--------------------------------------------------------------------------------
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+  37:         x &= x - 1
+- 38:         count += 1
++ 38:         count -= 1
+  39:     return count
+--------------------------------------------------------------------------------
+[0.18060 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+        assert hamming_distance(0, 0) == 0
+        assert hamming_distance(15, 15) == 0
+>       assert hamming_distance(2, 3) == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:14: AssertionError
+   - [#   3] COI hamming_ops: 
+--------------------------------------------------------------------------------
+  28:         Integer representing the number of bits
+  29:         that are on (1).
+  30:     '''
+  31:     count = 0
+- 32:     if x < 0:
++ 32:     if not (x < 0):
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+--------------------------------------------------------------------------------
+[0.17554 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:12: AssertionError
+   - [#   4] COI hamming_ops: 
+--------------------------------------------------------------------------------
+  32:     if x < 0:
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+- 36:     while x:
++ 36:     while not x:
+  37:         x &= x - 1
+  38:         count += 1
+  39:     return count
+--------------------------------------------------------------------------------
+[5.00670 s] timeout
+   - [#   5] LOR hamming_ops: 
+--------------------------------------------------------------------------------
+  10:         An integer representing the number of bits that are different
+  11:         in the two args.
+  12:     '''
+  13:     
+- 14:     xor = x ^ y
++ 14:     xor = x & y
+  15:     
+  16:     
+  17:     return hamming_weight(xor)
+  18: 
+--------------------------------------------------------------------------------
+[0.16875 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+        assert hamming_distance(0, 0) == 0
+>       assert hamming_distance(15, 15) == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:13: AssertionError
+   - [#   6] LOR hamming_ops: 
+--------------------------------------------------------------------------------
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+- 37:         x &= x - 1
++ 37:         x |= x - 1
+  38:         count += 1
+  39:     return count
+--------------------------------------------------------------------------------
+[5.00654 s] timeout
+   - [#   7] OIL hamming_ops: 
+--------------------------------------------------------------------------------
+  35:         count = 1
+  36:     while x:
+  37:         x &= x - 1
+  38:         count += 1
+- 39:     return count
++ 39:         break
++ 40:     return count
+--------------------------------------------------------------------------------
+[0.17063 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_weight
+
+def test_hamming_weight():
+        assert hamming_weight(0) == 0
+        assert hamming_weight(-1) == 2
+>       assert hamming_weight(255) == 8
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:19: AssertionError
+   - [#   8] ROR hamming_ops: 
+--------------------------------------------------------------------------------
+  28:         Integer representing the number of bits
+  29:         that are on (1).
+  30:     '''
+  31:     count = 0
+- 32:     if x < 0:
++ 32:     if x > 0:
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+--------------------------------------------------------------------------------
+[0.16726 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+        assert hamming_distance(0, 0) == 0
+        assert hamming_distance(15, 15) == 0
+>       assert hamming_distance(2, 3) == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:14: AssertionError
+   - [#   9] ROR hamming_ops: 
+--------------------------------------------------------------------------------
+  28:         Integer representing the number of bits
+  29:         that are on (1).
+  30:     '''
+  31:     count = 0
+- 32:     if x < 0:
++ 32:     if x <= 0:
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+--------------------------------------------------------------------------------
+[0.16542 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:12: AssertionError
+   - [#  10] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  10:         An integer representing the number of bits that are different
+  11:         in the two args.
+  12:     '''
+  13:     
+- 14:     xor = x ^ y
++ 14:     pass
+  15:     
+  16:     
+  17:     return hamming_weight(xor)
+  18: 
+--------------------------------------------------------------------------------
+[0.16579 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+
+ts-3-5/test_3-5_0-6_207.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+x = 0, y = 0
+
+>   ???
+E   NameError: name 'xor' is not defined
+
+hamming_ops:17: NameError
+   - [#  11] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  13:     
+  14:     xor = x ^ y
+  15:     
+  16:     
+- 17:     return hamming_weight(xor)
++ 17:     pass
+  18: 
+  19: 
+  20: def hamming_weight(x: int):
+  21:     '''
+--------------------------------------------------------------------------------
+[0.16465 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:12: AssertionError
+   - [#  12] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  27:     Returns:
+  28:         Integer representing the number of bits
+  29:         that are on (1).
+  30:     '''
+- 31:     count = 0
++ 31:     pass
+  32:     if x < 0:
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+--------------------------------------------------------------------------------
+[0.16682 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+
+ts-3-5/test_3-5_0-6_207.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+hamming_ops:17: in hamming_distance
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+x = 0
+
+>   ???
+E   UnboundLocalError: local variable 'count' referenced before assignment
+
+hamming_ops:39: UnboundLocalError
+   - [#  13] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  30:     '''
+  31:     count = 0
+  32:     if x < 0:
+  33:         
+- 34:         x = abs(x)
++ 34:         pass
+  35:         count = 1
+  36:     while x:
+  37:         x &= x - 1
+  38:         count += 1
+--------------------------------------------------------------------------------
+[5.00656 s] timeout
+   - [#  14] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  31:     count = 0
+  32:     if x < 0:
+  33:         
+  34:         x = abs(x)
+- 35:         count = 1
++ 35:         pass
+  36:     while x:
+  37:         x &= x - 1
+  38:         count += 1
+  39:     return count
+--------------------------------------------------------------------------------
+[0.16151 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_weight
+
+def test_hamming_weight():
+        assert hamming_weight(0) == 0
+>       assert hamming_weight(-1) == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:18: AssertionError
+   - [#  15] SDL hamming_ops: 
+--------------------------------------------------------------------------------
+  35:         count = 1
+  36:     while x:
+  37:         x &= x - 1
+  38:         count += 1
+- 39:     return count
++ 39:     pass
+--------------------------------------------------------------------------------
+[0.16309 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+>       assert hamming_distance(0, 0) == 0
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:12: AssertionError
+   - [#  16] ZIL hamming_ops: 
+--------------------------------------------------------------------------------
+  33:         
+  34:         x = abs(x)
+  35:         count = 1
+  36:     while x:
+- 37:         x &= x - 1
+- 38:         count += 1
++ 37:         break
++ 38:     
+  39:     return count
+--------------------------------------------------------------------------------
+[0.16654 s] killed by ts-3-5/test_3-5_0-6_207.py::test_hamming_distance
+
+def test_hamming_distance():
+        assert hamming_distance(0, 0) == 0
+        assert hamming_distance(15, 15) == 0
+>       assert hamming_distance(2, 3) == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-6_207.py:14: AssertionError
+[*] Mutation score [17.56028 s]: 100.0%
+   - all: 16
+   - killed: 13 (81.2%)
+   - survived: 0 (0.0%)
+   - incompetent: 0 (0.0%)
+   - timeout: 3 (18.8%)

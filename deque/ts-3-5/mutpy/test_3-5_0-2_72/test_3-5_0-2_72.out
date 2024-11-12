@@ -1,0 +1,1017 @@
+[*] Start mutation process:
+   - targets: deque.py
+   - tests: ts-3-5/test_3-5_0-2_72.py
+[*] 14 tests passed:
+   - test_3-5_0-2_72 [0.20918 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI deque: 
+--------------------------------------------------------------------------------
+  20:     size(): returns the count of items in the queue (returns 0 if the queue
+  21:     is empty).
+  22:     '''
+  23:     
+- 24:     def __init__(self, data=None):
+- 25:         '''Initialize deque.'''
+- 26:         self._container = DoubleLinkedList(data)
+- 27:     
++ 24:     @classmethod
++ 25:     def __init__(self, data=None):
++ 26:         '''Initialize deque.'''
++ 27:         self._container = DoubleLinkedList(data)
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+  31:     
+--------------------------------------------------------------------------------
+[0.17783 s] survived
+   - [#   2] CDI deque: 
+--------------------------------------------------------------------------------
+  24:     def __init__(self, data=None):
+  25:         '''Initialize deque.'''
+  26:         self._container = DoubleLinkedList(data)
+  27:     
+- 28:     def append(self, val):
+- 29:         '''Add value to the end of the deque.'''
+- 30:         self._container.append(val)
+- 31:     
++ 28:     @classmethod
++ 29:     def append(self, val):
++ 30:         '''Add value to the end of the deque.'''
++ 31:         self._container.append(val)
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+  35:     
+--------------------------------------------------------------------------------
+[0.19954 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e2490c550>
+
+    def test_append(deque):
+>       deque.append(1)
+
+ts-3-5/test_3-5_0-2_72.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>, val = 1
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:31: AttributeError
+   - [#   3] CDI deque: 
+--------------------------------------------------------------------------------
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+  31:     
+- 32:     def appendleft(self, val):
+- 33:         '''Add a value to the front of the deque.'''
+- 34:         self._container.push(val)
+- 35:     
++ 32:     @classmethod
++ 33:     def appendleft(self, val):
++ 34:         '''Add a value to the front of the deque.'''
++ 35:         self._container.push(val)
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+  39:     
+--------------------------------------------------------------------------------
+[0.20126 s] killed by ts-3-5/test_3-5_0-2_72.py::test_appendleft
+
+deque = <deque.Deque object at 0x762e24ad0b50>
+
+    def test_appendleft(deque):
+>       deque.appendleft(1)
+
+ts-3-5/test_3-5_0-2_72.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>, val = 1
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:35: AttributeError
+   - [#   4] CDI deque: 
+--------------------------------------------------------------------------------
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+  35:     
+- 36:     def pop(self):
+- 37:         '''Remove a value from the end of the deque and returns it.'''
+- 38:         return self._container.shift()
+- 39:     
++ 36:     @classmethod
++ 37:     def pop(self):
++ 38:         '''Remove a value from the end of the deque and returns it.'''
++ 39:         return self._container.shift()
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+  43:     
+--------------------------------------------------------------------------------
+[0.21311 s] killed by ts-3-5/test_3-5_0-2_72.py::test_pop
+
+deque = <deque.Deque object at 0x762e24ae5540>
+
+    def test_pop(deque):
+        deque.append(1)
+>       assert deque.pop() == 1
+
+ts-3-5/test_3-5_0-2_72.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:39: AttributeError
+   - [#   5] CDI deque: 
+--------------------------------------------------------------------------------
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+  39:     
+- 40:     def popleft(self):
+- 41:         '''Remove a value from the front of the deque and returns it.'''
+- 42:         return self._container.pop()
+- 43:     
++ 40:     @classmethod
++ 41:     def popleft(self):
++ 42:         '''Remove a value from the front of the deque and returns it.'''
++ 43:         return self._container.pop()
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+  47:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.22304 s] killed by ts-3-5/test_3-5_0-2_72.py::test_popleft
+
+deque = <deque.Deque object at 0x762e248625c0>
+
+    def test_popleft(deque):
+        deque.append(1)
+>       assert deque.popleft() == 1
+
+ts-3-5/test_3-5_0-2_72.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:43: AttributeError
+   - [#   6] CDI deque: 
+--------------------------------------------------------------------------------
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+  43:     
+- 44:     def peek(self):
+- 45:         '''Return the next value that would be returned by pop.'''
+- 46:         if self._container.head:
+- 47:             return self._container.head.data
+- 48:         return None
+- 49:     
++ 44:     @classmethod
++ 45:     def peek(self):
++ 46:         '''Return the next value that would be returned by pop.'''
++ 47:         if self._container.head:
++ 48:             return self._container.head.data
++ 49:         return None
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+  53:             return self._container.tail.data
+--------------------------------------------------------------------------------
+[0.21100 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peek_empty_deque
+
+deque = <deque.Deque object at 0x762e24878d90>
+
+    def test_peek_empty_deque(deque):
+>       assert deque.peek() is None
+
+ts-3-5/test_3-5_0-2_72.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:47: AttributeError
+   - [#   7] CDI deque: 
+--------------------------------------------------------------------------------
+  46:         if self._container.head:
+  47:             return self._container.head.data
+  48:         return None
+  49:     
+- 50:     def peekleft(self):
+- 51:         '''Return the next value from the front of the deque.'''
+- 52:         if self._container.tail:
+- 53:             return self._container.tail.data
+- 54:         return None
+- 55:     
++ 50:     @classmethod
++ 51:     def peekleft(self):
++ 52:         '''Return the next value from the front of the deque.'''
++ 53:         if self._container.tail:
++ 54:             return self._container.tail.data
++ 55:         return None
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+  58:         return self._container._length
+--------------------------------------------------------------------------------
+[0.22478 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peekleft_empty_deque
+
+deque = <deque.Deque object at 0x762e24969810>
+
+    def test_peekleft_empty_deque(deque):
+>       assert deque.peekleft() is None
+
+ts-3-5/test_3-5_0-2_72.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:53: AttributeError
+   - [#   8] CDI deque: 
+--------------------------------------------------------------------------------
+  52:         if self._container.tail:
+  53:             return self._container.tail.data
+  54:         return None
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the count of items in the queue.'''
+- 58:         return self._container._length
++ 56:     @classmethod
++ 57:     def size(self):
++ 58:         '''Return the count of items in the queue.'''
++ 59:         return self._container._length
+--------------------------------------------------------------------------------
+[0.21248 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e24aeada0>
+
+    def test_append(deque):
+        deque.append(1)
+>       assert deque.size() == 1
+
+ts-3-5/test_3-5_0-2_72.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'deque.Deque'>
+
+>   ???
+E   AttributeError: type object 'Deque' has no attribute '_container'
+
+deque:59: AttributeError
+   - [#   9] COI deque: 
+--------------------------------------------------------------------------------
+  42:         return self._container.pop()
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+- 46:         if self._container.head:
++ 46:         if not (self._container.head):
+  47:             return self._container.head.data
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+--------------------------------------------------------------------------------
+[0.21883 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peek_empty_deque
+
+deque = <deque.Deque object at 0x762e249bd090>
+
+    def test_peek_empty_deque(deque):
+>       assert deque.peek() is None
+
+ts-3-5/test_3-5_0-2_72.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e249bd090>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+deque:47: AttributeError
+   - [#  10] COI deque: 
+--------------------------------------------------------------------------------
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+- 52:         if self._container.tail:
++ 52:         if not (self._container.tail):
+  53:             return self._container.tail.data
+  54:         return None
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.22457 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peekleft_empty_deque
+
+deque = <deque.Deque object at 0x762e24969ba0>
+
+    def test_peekleft_empty_deque(deque):
+>       assert deque.peekleft() is None
+
+ts-3-5/test_3-5_0-2_72.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24969ba0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'data'
+
+deque:53: AttributeError
+   - [#  11] SDI deque: 
+--------------------------------------------------------------------------------
+  20:     size(): returns the count of items in the queue (returns 0 if the queue
+  21:     is empty).
+  22:     '''
+  23:     
+- 24:     def __init__(self, data=None):
+- 25:         '''Initialize deque.'''
+- 26:         self._container = DoubleLinkedList(data)
+- 27:     
++ 24:     @staticmethod
++ 25:     def __init__(self, data=None):
++ 26:         '''Initialize deque.'''
++ 27:         self._container = DoubleLinkedList(data)
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+  31:     
+--------------------------------------------------------------------------------
+[0.21436 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:13: TypeError: Deque.__init__() missing 1 required positional argument: 'self'
+
+   - [#  12] SDI deque: 
+--------------------------------------------------------------------------------
+  24:     def __init__(self, data=None):
+  25:         '''Initialize deque.'''
+  26:         self._container = DoubleLinkedList(data)
+  27:     
+- 28:     def append(self, val):
+- 29:         '''Add value to the end of the deque.'''
+- 30:         self._container.append(val)
+- 31:     
++ 28:     @staticmethod
++ 29:     def append(self, val):
++ 30:         '''Add value to the end of the deque.'''
++ 31:         self._container.append(val)
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+  35:     
+--------------------------------------------------------------------------------
+[0.21018 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:16: TypeError: Deque.append() missing 1 required positional argument: 'val'
+
+   - [#  13] SDI deque: 
+--------------------------------------------------------------------------------
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+  31:     
+- 32:     def appendleft(self, val):
+- 33:         '''Add a value to the front of the deque.'''
+- 34:         self._container.push(val)
+- 35:     
++ 32:     @staticmethod
++ 33:     def appendleft(self, val):
++ 34:         '''Add a value to the front of the deque.'''
++ 35:         self._container.push(val)
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+  39:     
+--------------------------------------------------------------------------------
+[0.20205 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:25: TypeError: Deque.appendleft() missing 1 required positional argument: 'val'
+
+   - [#  14] SDI deque: 
+--------------------------------------------------------------------------------
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+  35:     
+- 36:     def pop(self):
+- 37:         '''Remove a value from the end of the deque and returns it.'''
+- 38:         return self._container.shift()
+- 39:     
++ 36:     @staticmethod
++ 37:     def pop(self):
++ 38:         '''Remove a value from the end of the deque and returns it.'''
++ 39:         return self._container.shift()
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+  43:     
+--------------------------------------------------------------------------------
+[0.21709 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:39: TypeError: Deque.pop() missing 1 required positional argument: 'self'
+
+   - [#  15] SDI deque: 
+--------------------------------------------------------------------------------
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+  39:     
+- 40:     def popleft(self):
+- 41:         '''Remove a value from the front of the deque and returns it.'''
+- 42:         return self._container.pop()
+- 43:     
++ 40:     @staticmethod
++ 41:     def popleft(self):
++ 42:         '''Remove a value from the front of the deque and returns it.'''
++ 43:         return self._container.pop()
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+  47:             return self._container.head.data
+--------------------------------------------------------------------------------
+[0.22211 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:47: TypeError: Deque.popleft() missing 1 required positional argument: 'self'
+
+   - [#  16] SDI deque: 
+--------------------------------------------------------------------------------
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+  43:     
+- 44:     def peek(self):
+- 45:         '''Return the next value that would be returned by pop.'''
+- 46:         if self._container.head:
+- 47:             return self._container.head.data
+- 48:         return None
+- 49:     
++ 44:     @staticmethod
++ 45:     def peek(self):
++ 46:         '''Return the next value that would be returned by pop.'''
++ 47:         if self._container.head:
++ 48:             return self._container.head.data
++ 49:         return None
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+  53:             return self._container.tail.data
+--------------------------------------------------------------------------------
+[0.21690 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:50: TypeError: Deque.peek() missing 1 required positional argument: 'self'
+
+   - [#  17] SDI deque: 
+--------------------------------------------------------------------------------
+  46:         if self._container.head:
+  47:             return self._container.head.data
+  48:         return None
+  49:     
+- 50:     def peekleft(self):
+- 51:         '''Return the next value from the front of the deque.'''
+- 52:         if self._container.tail:
+- 53:             return self._container.tail.data
+- 54:         return None
+- 55:     
++ 50:     @staticmethod
++ 51:     def peekleft(self):
++ 52:         '''Return the next value from the front of the deque.'''
++ 53:         if self._container.tail:
++ 54:             return self._container.tail.data
++ 55:         return None
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+  58:         return self._container._length
+--------------------------------------------------------------------------------
+[0.22768 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:57: TypeError: Deque.peekleft() missing 1 required positional argument: 'self'
+
+   - [#  18] SDI deque: 
+--------------------------------------------------------------------------------
+  52:         if self._container.tail:
+  53:             return self._container.tail.data
+  54:         return None
+  55:     
+- 56:     def size(self):
+- 57:         '''Return the count of items in the queue.'''
+- 58:         return self._container._length
++ 56:     @staticmethod
++ 57:     def size(self):
++ 58:         '''Return the count of items in the queue.'''
++ 59:         return self._container._length
+--------------------------------------------------------------------------------
+[0.20352 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/deque/ts-3-5/test_3-5_0-2_72.py:17: TypeError: Deque.size() missing 1 required positional argument: 'self'
+
+   - [#  19] SDL deque: 
+--------------------------------------------------------------------------------
+  22:     '''
+  23:     
+  24:     def __init__(self, data=None):
+  25:         '''Initialize deque.'''
+- 26:         self._container = DoubleLinkedList(data)
++ 26:         pass
+  27:     
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.21312 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e24836680>
+
+    def test_append(deque):
+>       deque.append(1)
+
+ts-3-5/test_3-5_0-2_72.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24836680>, val = 1
+
+>   ???
+E   AttributeError: 'Deque' object has no attribute '_container'
+
+deque:30: AttributeError
+   - [#  20] SDL deque: 
+--------------------------------------------------------------------------------
+  26:         self._container = DoubleLinkedList(data)
+  27:     
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+- 30:         self._container.append(val)
++ 30:         pass
+  31:     
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+--------------------------------------------------------------------------------
+[0.21537 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e248ab400>
+
+    def test_append(deque):
+        deque.append(1)
+>       assert deque.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_72.py:17: AssertionError
+   - [#  21] SDL deque: 
+--------------------------------------------------------------------------------
+  30:         self._container.append(val)
+  31:     
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+- 34:         self._container.push(val)
++ 34:         pass
+  35:     
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+--------------------------------------------------------------------------------
+[0.21667 s] killed by ts-3-5/test_3-5_0-2_72.py::test_appendleft
+
+deque = <deque.Deque object at 0x762e24836c20>
+
+    def test_appendleft(deque):
+        deque.appendleft(1)
+>       assert deque.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_72.py:26: AssertionError
+   - [#  22] SDL deque: 
+--------------------------------------------------------------------------------
+  34:         self._container.push(val)
+  35:     
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+- 38:         return self._container.shift()
++ 38:         pass
+  39:     
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.22683 s] killed by ts-3-5/test_3-5_0-2_72.py::test_pop_empty_deque
+
+deque = <deque.Deque object at 0x762e24969480>
+
+    def test_pop_empty_deque(deque):
+>       with pytest.raises(Exception):
+E       Failed: DID NOT RAISE <class 'Exception'>
+
+ts-3-5/test_3-5_0-2_72.py:34: Failed
+   - [#  23] SDL deque: 
+--------------------------------------------------------------------------------
+  38:         return self._container.shift()
+  39:     
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+- 42:         return self._container.pop()
++ 42:         pass
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+--------------------------------------------------------------------------------
+[0.19994 s] killed by ts-3-5/test_3-5_0-2_72.py::test_popleft_empty_deque
+
+deque = <deque.Deque object at 0x762e24ae41f0>
+
+    def test_popleft_empty_deque(deque):
+>       with pytest.raises(Exception):
+E       Failed: DID NOT RAISE <class 'Exception'>
+
+ts-3-5/test_3-5_0-2_72.py:42: Failed
+   - [#  24] SDL deque: 
+--------------------------------------------------------------------------------
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+- 47:             return self._container.head.data
++ 47:             pass
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+--------------------------------------------------------------------------------
+[0.22230 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peek
+
+deque = <deque.Deque object at 0x762e2487b370>
+
+    def test_peek(deque):
+        deque.append(1)
+>       assert deque.peek() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_72.py:54: AssertionError
+   - [#  25] SDL deque: 
+--------------------------------------------------------------------------------
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+  47:             return self._container.head.data
+- 48:         return None
++ 48:         pass
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+--------------------------------------------------------------------------------
+[0.19845 s] survived
+   - [#  26] SDL deque: 
+--------------------------------------------------------------------------------
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+- 53:             return self._container.tail.data
++ 53:             pass
+  54:         return None
+  55:     
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+--------------------------------------------------------------------------------
+[0.24440 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peekleft
+
+deque = <deque.Deque object at 0x762e24831fc0>
+
+    def test_peekleft(deque):
+        deque.append(1)
+>       assert deque.peekleft() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_72.py:61: AssertionError
+   - [#  27] SDL deque: 
+--------------------------------------------------------------------------------
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+  53:             return self._container.tail.data
+- 54:         return None
++ 54:         pass
+  55:     
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+  58:         return self._container._length
+--------------------------------------------------------------------------------
+[0.20472 s] survived
+   - [#  28] SDL deque: 
+--------------------------------------------------------------------------------
+  54:         return None
+  55:     
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+- 58:         return self._container._length
++ 58:         pass
+--------------------------------------------------------------------------------
+[0.19252 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e24832bf0>
+
+    def test_append(deque):
+        deque.append(1)
+>       assert deque.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-2_72.py:17: AssertionError
+   - [#  29] SVD deque: 
+--------------------------------------------------------------------------------
+  22:     '''
+  23:     
+  24:     def __init__(self, data=None):
+  25:         '''Initialize deque.'''
+- 26:         self._container = DoubleLinkedList(data)
++ 26:         _container = DoubleLinkedList(data)
+  27:     
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+  30:         self._container.append(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  30] SVD deque: 
+--------------------------------------------------------------------------------
+  26:         self._container = DoubleLinkedList(data)
+  27:     
+  28:     def append(self, val):
+  29:         '''Add value to the end of the deque.'''
+- 30:         self._container.append(val)
++ 30:         _container.append(val)
+  31:     
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+  34:         self._container.push(val)
+--------------------------------------------------------------------------------
+[0.21010 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e24879ae0>
+
+    def test_append(deque):
+>       deque.append(1)
+
+ts-3-5/test_3-5_0-2_72.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24879ae0>, val = 1
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:30: NameError
+   - [#  31] SVD deque: 
+--------------------------------------------------------------------------------
+  30:         self._container.append(val)
+  31:     
+  32:     def appendleft(self, val):
+  33:         '''Add a value to the front of the deque.'''
+- 34:         self._container.push(val)
++ 34:         _container.push(val)
+  35:     
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+  38:         return self._container.shift()
+--------------------------------------------------------------------------------
+[0.21195 s] killed by ts-3-5/test_3-5_0-2_72.py::test_appendleft
+
+deque = <deque.Deque object at 0x762e246130d0>
+
+    def test_appendleft(deque):
+>       deque.appendleft(1)
+
+ts-3-5/test_3-5_0-2_72.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e246130d0>, val = 1
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:34: NameError
+   - [#  32] SVD deque: 
+--------------------------------------------------------------------------------
+  34:         self._container.push(val)
+  35:     
+  36:     def pop(self):
+  37:         '''Remove a value from the end of the deque and returns it.'''
+- 38:         return self._container.shift()
++ 38:         return _container.shift()
+  39:     
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+  42:         return self._container.pop()
+--------------------------------------------------------------------------------
+[0.21597 s] killed by ts-3-5/test_3-5_0-2_72.py::test_pop
+
+deque = <deque.Deque object at 0x762e2487ab30>
+
+    def test_pop(deque):
+        deque.append(1)
+>       assert deque.pop() == 1
+
+ts-3-5/test_3-5_0-2_72.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e2487ab30>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:38: NameError
+   - [#  33] SVD deque: 
+--------------------------------------------------------------------------------
+  38:         return self._container.shift()
+  39:     
+  40:     def popleft(self):
+  41:         '''Remove a value from the front of the deque and returns it.'''
+- 42:         return self._container.pop()
++ 42:         return _container.pop()
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+--------------------------------------------------------------------------------
+[0.22347 s] killed by ts-3-5/test_3-5_0-2_72.py::test_popleft
+
+deque = <deque.Deque object at 0x762e24968cd0>
+
+    def test_popleft(deque):
+        deque.append(1)
+>       assert deque.popleft() == 1
+
+ts-3-5/test_3-5_0-2_72.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24968cd0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:42: NameError
+   - [#  34] SVD deque: 
+--------------------------------------------------------------------------------
+  42:         return self._container.pop()
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+- 46:         if self._container.head:
++ 46:         if _container.head:
+  47:             return self._container.head.data
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+--------------------------------------------------------------------------------
+[0.20790 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peek_empty_deque
+
+deque = <deque.Deque object at 0x762e24837a90>
+
+    def test_peek_empty_deque(deque):
+>       assert deque.peek() is None
+
+ts-3-5/test_3-5_0-2_72.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24837a90>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:46: NameError
+   - [#  35] SVD deque: 
+--------------------------------------------------------------------------------
+  43:     
+  44:     def peek(self):
+  45:         '''Return the next value that would be returned by pop.'''
+  46:         if self._container.head:
+- 47:             return self._container.head.data
++ 47:             return _container.head.data
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+--------------------------------------------------------------------------------
+[0.22101 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peek
+
+deque = <deque.Deque object at 0x762e2468afe0>
+
+    def test_peek(deque):
+        deque.append(1)
+>       assert deque.peek() == 1
+
+ts-3-5/test_3-5_0-2_72.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e2468afe0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:47: NameError
+   - [#  36] SVD deque: 
+--------------------------------------------------------------------------------
+  48:         return None
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+- 52:         if self._container.tail:
++ 52:         if _container.tail:
+  53:             return self._container.tail.data
+  54:         return None
+  55:     
+  56:     def size(self):
+--------------------------------------------------------------------------------
+[0.22370 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peekleft_empty_deque
+
+deque = <deque.Deque object at 0x762e249bebf0>
+
+    def test_peekleft_empty_deque(deque):
+>       assert deque.peekleft() is None
+
+ts-3-5/test_3-5_0-2_72.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e249bebf0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:52: NameError
+   - [#  37] SVD deque: 
+--------------------------------------------------------------------------------
+  49:     
+  50:     def peekleft(self):
+  51:         '''Return the next value from the front of the deque.'''
+  52:         if self._container.tail:
+- 53:             return self._container.tail.data
++ 53:             return _container.tail.data
+  54:         return None
+  55:     
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+--------------------------------------------------------------------------------
+[0.22378 s] killed by ts-3-5/test_3-5_0-2_72.py::test_peekleft
+
+deque = <deque.Deque object at 0x762e2487b3d0>
+
+    def test_peekleft(deque):
+        deque.append(1)
+>       assert deque.peekleft() == 1
+
+ts-3-5/test_3-5_0-2_72.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e2487b3d0>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:53: NameError
+   - [#  38] SVD deque: 
+--------------------------------------------------------------------------------
+  54:         return None
+  55:     
+  56:     def size(self):
+  57:         '''Return the count of items in the queue.'''
+- 58:         return self._container._length
++ 58:         return _container._length
+--------------------------------------------------------------------------------
+[0.22364 s] killed by ts-3-5/test_3-5_0-2_72.py::test_append
+
+deque = <deque.Deque object at 0x762e24660580>
+
+    def test_append(deque):
+        deque.append(1)
+>       assert deque.size() == 1
+
+ts-3-5/test_3-5_0-2_72.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <deque.Deque object at 0x762e24660580>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+deque:58: NameError
+[*] Mutation score [8.88568 s]: 89.7%
+   - all: 38
+   - killed: 26 (68.4%)
+   - survived: 3 (7.9%)
+   - incompetent: 9 (23.7%)
+   - timeout: 0 (0.0%)

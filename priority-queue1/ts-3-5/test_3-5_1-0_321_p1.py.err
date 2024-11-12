@@ -1,0 +1,38 @@
+import os
+import sys
+import itertools
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+import pytest
+
+@pytest.fixture
+def priority_queue():
+    return PriorityQueue()
+
+def test_add_task(priority_queue):
+    priority_queue.add_task(1, 5)
+    assert len(priority_queue.pq) == 1
+
+def test_remove_task(priority_queue):
+    priority_queue.add_task(2, 3)
+    priority_queue.remove_task(2)
+    assert len(priority_queue.pq) == 0
+
+def test_set_priority(priority_queue):
+    priority_queue.add_task(3, 7)
+    priority_queue.set_priority(3, 2)
+    assert priority_queue.pq[0][0] == 2
+
+def test_set_priority_no_priority_arg(priority_queue):
+    priority_queue.add_task(4, 4)
+    priority_queue.set_priority(4)
+    assert priority_queue.pq[0][0] == 3
+
+def test_pop_task(priority_queue):
+    priority_queue.add_task(5, 1)
+    task = priority_queue.pop_task()
+    assert task == 5

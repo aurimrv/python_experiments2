@@ -6,72 +6,94 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_basic_case():
-    class WeightedGraph:
-        vertices = {
-            'A': Adjacent({'B': 2, 'C': 4}),
-            'B': Adjacent({'A': 2, 'C': 1}),
-            'C': Adjacent({'A': 4, 'B': 1})
-        }
-    
-    class Adjacent:
-        def __init__(self, adjacent):
-            self.adjacent = adjacent
+class MockVertex:
+    def __init__(self):
+        self.adjacent = {}
+        
+def test_dijkstras_basic():
+    weighted_graph = MockVertex()
+    weighted_graph.vertices = {
+        'A': MockVertex(),
+        'B': MockVertex(),
+        'C': MockVertex()
+    }
+    weighted_graph.vertices['A'].adjacent = {'B': 1, 'C': 3}
+    weighted_graph.vertices['B'].adjacent = {'A': 1, 'C': 2}
+    weighted_graph.vertices['C'].adjacent = {'A': 3, 'B': 2}
     
     src = 'A'
     dst = 'C'
     
-    assert dijkstras(WeightedGraph, src, dst) == ['A', 'C']
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
 
-def test_dijkstras_multiple_paths_case():
-    class WeightedGraph:
-        vertices = {
-            'A': Adjacent({'B': 2, 'C': 4}),
-            'B': Adjacent({'A': 2, 'C': 1, 'D': 3}),
-            'C': Adjacent({'A': 4, 'B': 1, 'D': 2}),
-            'D': Adjacent({'B': 3, 'C': 2})
-        }
+def test_dijkstras_same_node():
+    weighted_graph = MockVertex()
+    weighted_graph.vertices = {
+        'A': MockVertex(),
+        'B': MockVertex(),
+        'C': MockVertex()
+    }
+    weighted_graph.vertices['A'].adjacent = {'B': 1, 'C': 3}
+    weighted_graph.vertices['B'].adjacent = {'A': 1, 'C': 2}
+    weighted_graph.vertices['C'].adjacent = {'A': 3, 'B': 2}
     
-    class Adjacent:
-        def __init__(self, adjacent):
-            self.adjacent = adjacent
-            
-    src = 'A'
-    dst = 'D'
-    
-    assert dijkstras(WeightedGraph, src, dst) == ['A', 'C', 'D']
-
-def test_dijkstras_unreachable_case():
-    class WeightedGraph:
-        vertices = {
-            'A': Adjacent({'B': 2, 'C': 4}),
-            'B': Adjacent({'A': 2, 'C': 1}),
-            'C': Adjacent({'A': 4, 'B': 1})
-        }
-    
-    class Adjacent:
-        def __init__(self, adjacent):
-            self.adjacent = adjacent
-            
-    src = 'A'
-    dst = 'D'
-    
-    assert dijkstras(WeightedGraph, src, dst) == ['A']  # No path exists
-
-def test_dijkstras_same_source_destination():
-    class WeightedGraph:
-        vertices = {
-            'A': Adjacent({'B': 2, 'C': 4}),
-            'B': Adjacent({'A': 2, 'C': 1}),
-            'C': Adjacent({'A': 4, 'B': 1})
-        }
-    
-    class Adjacent:
-        def __init__(self, adjacent):
-            self.adjacent = adjacent
-            
     src = 'A'
     dst = 'A'
     
-    assert dijkstras(WeightedGraph, src, dst) == ['A']  # Same source and destination
+    assert dijkstras(weighted_graph, src, dst) == ['A']
+
+def test_dijkstras_unreachable():
+    weighted_graph = MockVertex()
+    weighted_graph.vertices = {
+        'A': MockVertex(),
+        'B': MockVertex(),
+        'C': MockVertex()
+    }
+    weighted_graph.vertices['A'].adjacent = {'B': 1}
+    weighted_graph.vertices['B'].adjacent = {'A': 1}
     
+    src = 'A'
+    dst = 'C'
+    
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_dijkstras_large_graph():
+    weighted_graph = MockVertex()
+    vertices = {}
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for i, letter in enumerate(letters):
+        vertices[letter] = MockVertex()
+    
+    vertices['A'].adjacent = {'B': 1, 'C': 3, 'D': 5}
+    vertices['B'].adjacent = {'A': 1, 'C': 2, 'E': 4}
+    vertices['C'].adjacent = {'A': 3, 'B': 2, 'F': 6}
+    vertices['D'].adjacent = {'A': 5, 'E': 7, 'G': 9}
+    vertices['E'].adjacent = {'B': 4, 'D': 7, 'H': 11}
+    vertices['F'].adjacent = {'C': 6, 'G': 8, 'I': 13}
+    vertices['G'].adjacent = {'D': 9, 'F': 8, 'J': 15}
+    vertices['H'].adjacent = {'E': 11, 'I': 12, 'K': 17}
+    vertices['I'].adjacent = {'F': 13, 'H': 12, 'L': 19}
+    vertices['J'].adjacent = {'G': 15, 'K': 16, 'M': 21}
+    vertices['K'].adjacent = {'H': 17, 'J': 16, 'N': 23}
+    vertices['L'].adjacent = {'I': 19, 'M': 20, 'O': 25}
+    vertices['M'].adjacent = {'J': 21, 'L': 20, 'P': 27}
+    vertices['N'].adjacent = {'K': 23, 'O': 24, 'Q': 29}
+    vertices['O'].adjacent = {'L': 25, 'N': 24, 'R': 31}
+    vertices['P'].adjacent = {'M': 27, 'Q': 28, 'S': 33}
+    vertices['Q'].adjacent = {'N': 29, 'P': 28, 'T': 35}
+    vertices['R'].adjacent = {'O': 31, 'S': 32, 'U': 37}
+    vertices['S'].adjacent = {'P': 33, 'R': 32, 'V': 39}
+    vertices['T'].adjacent = {'Q': 35, 'U': 36, 'W': 41}
+    vertices['U'].adjacent = {'R': 37, 'T': 36, 'X': 45}
+    vertices['V'].adjacent = {'S': 39, 'W': 40, 'Y': 49}
+    vertices['W'].adjacent = {'T': 41, 'V': 40, 'Z': 53}
+    vertices['X'].adjacent = {'U': 45, 'Y': 48}
+    vertices['Y'].adjacent = {'V': 49, 'X': 48}
+    vertices['Z'].adjacent = {'W': 53}
+    
+    weighted_graph.vertices = vertices
+    
+    src = 'A'
+    dst = 'Z'
+    
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'D', 'G', 'J', 'M', 'P', 'S', 'V', 'Y', 'Z']

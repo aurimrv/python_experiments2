@@ -1,0 +1,34 @@
+#Pyguin test cases converted from /home/lucca/teste/python_experiments2/hamming/MIO/seed_1706/test_hamming_ops.py
+import pytest
+import hamming_ops as module_0
+
+def test_case_0():
+    int_0 = -2003
+    var_0 = module_0.hamming_distance(int_0, int_0)
+    assert var_0 == 0
+    var_1 = module_0.hamming_distance(int_0, int_0)
+    assert var_1 == 0
+    var_2 = module_0.hamming_distance(var_1, var_1)
+    assert var_2 == 0
+    bool_0 = False
+    int_1 = 128
+    var_3 = module_0.hamming_distance(bool_0, int_1)
+    assert var_3 == 1
+    int_2 = -1319
+    var_4 = module_0.hamming_distance(int_2, int_0)
+    assert var_4 == 6
+
+def test_case_1():
+    str_0 = "G:@x'\x0cI"
+
+def test_case_2():
+    bool_0 = False
+    var_0 = module_0.hamming_distance(bool_0, bool_0)
+    assert var_0 == 0
+    var_1 = module_0.hamming_weight(bool_0)
+    assert var_1 == 0
+    bool_1 = False
+    var_2 = module_0.hamming_distance(bool_1, bool_1)
+    assert var_2 == 0
+    var_3 = module_0.hamming_distance(var_2, bool_1)
+    assert var_3 == 0

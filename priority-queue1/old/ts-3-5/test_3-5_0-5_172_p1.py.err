@@ -1,0 +1,41 @@
+import os
+import sys
+from priority_queue1 import PriorityQueue
+
+def test_priority_queue_add_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    assert 'task1' in pq.mapper
+    assert pq.pq[0][2] == 'task1'
+
+    pq.add_task('task2', 2)
+    assert 'task2' in pq.mapper
+    assert pq.pq[0][2] == 'task1'
+
+def test_priority_queue_remove_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.remove_task('task1')
+    assert 'task1' not in pq.mapper
+    assert len(pq.pq) == 0
+
+def test_priority_queue_set_priority():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.set_priority('task1', 2)
+    assert pq.pq[0][0] == 2
+
+    pq.set_priority('task1', 0)
+    assert pq.pq[0][0] == 0
+
+def test_priority_queue_pop_task():
+    pq = PriorityQueue()
+    pq.add_task('task1', 1)
+    pq.add_task('task2', 2)
+    assert pq.pop_task() == 'task2'
+    assert pq.pop_task() == 'task1'
+
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

@@ -1,0 +1,1392 @@
+[*] Start mutation process:
+   - targets: graph2.py
+   - tests: ./ALL-SMART
+[*] 40 tests passed:
+   - test_graph2_DYNAMOSA [0.06266 s]
+   - test_graph2_MOSA [0.04861 s]
+   - test_graph2_WHOLE_SUITE [0.04670 s]
+   - test_graph2_MIO [0.05801 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI graph2: 
+--------------------------------------------------------------------------------
+  22:     adjacent(n1, n2): returns True if there is an edge connecting n1 and n2,
+  23:     False if not, raises an error if either of the supplied nodes are not in g.
+  24:     """
+  25:     
+- 26:     def __init__(self, data=None):
+- 27:         '''Initialize graph.'''
+- 28:         self.graph = {}
+- 29:         if data:
+- 30:             for i in data:
+- 31:                 self.add_node(i)
+- 32:     
++ 26:     @classmethod
++ 27:     def __init__(self, data=None):
++ 28:         '''Initialize graph.'''
++ 29:         self.graph = {}
++ 30:         if data:
++ 31:             for i in data:
++ 32:                 self.add_node(i)
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.08264 s] incompetent
+
+TypeError: graph2:32: TypeError: Graph.add_node() missing 1 required positional argument: 'n'
+
+   - [#   2] CDI graph2: 
+--------------------------------------------------------------------------------
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+- 33:     def nodes(self):
+- 34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
+- 36:     
++ 33:     @classmethod
++ 34:     def nodes(self):
++ 35:         '''Return a list of all nodes in the graph.'''
++ 36:         return list(self.graph.keys())
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+--------------------------------------------------------------------------------
+[0.09074 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b'R?'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+>       var_0 = graph_0.nodes()
+
+ALL-SMART/test_graph2_MIO.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:36: AttributeError
+   - [#   3] CDI graph2: 
+--------------------------------------------------------------------------------
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+- 37:     def edges(self):
+- 38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
+- 40:     
++ 37:     @classmethod
++ 38:     def edges(self):
++ 39:         '''Return a list of all edges in the graph.'''
++ 40:         return [edge for edges in self.graph.values() for edge in edges]
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+--------------------------------------------------------------------------------
+[0.08691 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_3
+
+def test_case_3():
+        str_0 = 'O*?s,\nTBbo$jY-'
+        graph_0 = module_0.Graph(str_0)
+        assert graph_0.graph == {'O': {*()}, '*': {*()}, '?': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, '$': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+>       var_0 = graph_0.edges()
+
+ALL-SMART/test_graph2_MIO.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:40: AttributeError
+   - [#   4] CDI graph2: 
+--------------------------------------------------------------------------------
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+- 41:     def add_node(self, n):
+- 42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
+- 44:     
++ 41:     @classmethod
++ 42:     def add_node(self, n):
++ 43:         '''Add a new node to the graph.'''
++ 44:         self.graph.setdefault(n, set())
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+--------------------------------------------------------------------------------
+[0.08272 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+>       graph_0 = module_0.Graph(str_0)
+
+ALL-SMART/test_graph2_MIO.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+graph2:31: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = 'O'
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:44: AttributeError
+   - [#   5] CDI graph2: 
+--------------------------------------------------------------------------------
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+- 45:     def add_edge(self, n1, n2):
+- 46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
+- 50:     
++ 45:     @classmethod
++ 46:     def add_edge(self, n1, n2):
++ 47:         '''Add new edge to the graph.'''
++ 48:         self.graph.setdefault(n1, set([n2]))
++ 49:         self.graph.setdefault(n2, set())
++ 50:         self.graph[n1].add(n2)
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+--------------------------------------------------------------------------------
+[0.08674 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xe8\xc9\xe5'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_node(graph_0)
+>       var_1 = graph_0.add_edge(graph_0, graph_0)
+
+ALL-SMART/test_graph2_MIO.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n1 = <graph2.Graph object at 0x7470494c1330>
+n2 = <graph2.Graph object at 0x7470494c1330>
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:48: AttributeError
+   - [#   6] CDI graph2: 
+--------------------------------------------------------------------------------
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+- 51:     def del_node(self, n):
+- 52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
+- 54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
+- 56:     
++ 51:     @classmethod
++ 52:     def del_node(self, n):
++ 53:         """Delete the node 'n' from the graph."""
++ 54:         del self.graph[n]
++ 55:         for k in self.graph:
++ 56:             self.graph[k].discard(n)
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.08908 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_6
+
+def test_case_6():
+        bytes_0 = b'R?'
+        none_type_0 = None
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_edge(none_type_0, none_type_0)
+        var_1 = graph_0.add_edge(bytes_0, bytes_0)
+>       var_2 = graph_0.del_node(bytes_0)
+
+ALL-SMART/test_graph2_MIO.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = b'R?'
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:54: AttributeError
+   - [#   7] CDI graph2: 
+--------------------------------------------------------------------------------
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+- 57:     def del_edge(self, n1, n2):
+- 58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
+- 60:     
++ 57:     @classmethod
++ 58:     def del_edge(self, n1, n2):
++ 59:         '''Delete the edge connecting n1 and n2.'''
++ 60:         self.graph[n1].remove(n2)
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+--------------------------------------------------------------------------------
+[0.08542 s] survived
+   - [#   8] CDI graph2: 
+--------------------------------------------------------------------------------
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+- 61:     def has_node(self, n):
+- 62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
+- 64:     
++ 61:     @classmethod
++ 62:     def has_node(self, n):
++ 63:         """Return boolean if 'n' is in the graph."""
++ 64:         return n in self.graph
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+--------------------------------------------------------------------------------
+[0.09073 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_10
+
+def test_case_10():
+        int_0 = -857
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+>       var_0 = graph_0.has_node(int_0)
+
+ALL-SMART/test_graph2_MIO.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'graph2.Graph'>, n = -857
+
+>   ???
+E   AttributeError: type object 'Graph' has no attribute 'graph'
+
+graph2:64: AttributeError
+   - [#   9] CDI graph2: 
+--------------------------------------------------------------------------------
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+- 65:     def neighbors(self, n):
+- 66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
+- 68:     
++ 65:     @classmethod
++ 66:     def neighbors(self, n):
++ 67:         '''Return the list of all nodes connected to n by edges.'''
++ 68:         return self.graph[n]
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08214 s] survived
+   - [#  10] CDI graph2: 
+--------------------------------------------------------------------------------
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+- 69:     def adjacent(self, n1, n2):
+- 70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 69:     @classmethod
++ 70:     def adjacent(self, n1, n2):
++ 71:         '''Return boolean if there is an edge connecting n1 and n2.'''
++ 72:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08055 s] survived
+   - [#  11] COI graph2: 
+--------------------------------------------------------------------------------
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+- 29:         if data:
++ 29:         if not data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+--------------------------------------------------------------------------------
+[0.08479 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+        graph_0 = module_0.Graph(str_0)
+>       assert graph_0.graph == {'O': {*()}, '*': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:8: AssertionError
+   - [#  12] COI graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         return n not in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.09133 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_10
+
+def test_case_10():
+        int_0 = -857
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.has_node(int_0)
+>       assert var_0 is False
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:76: AssertionError
+   - [#  13] COI graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         return n2 not in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08093 s] survived
+   - [#  14] OIL graph2: 
+--------------------------------------------------------------------------------
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+- 32:     
++ 32:                 break
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.08553 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+        graph_0 = module_0.Graph(str_0)
+>       assert graph_0.graph == {'O': {*()}, '*': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:8: AssertionError
+   - [#  15] OIL graph2: 
+--------------------------------------------------------------------------------
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+- 56:     
++ 56:             break
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.08338 s] survived
+   - [#  16] RIL graph2: 
+--------------------------------------------------------------------------------
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+- 30:             for i in data:
++ 30:             for i in reversed(data):
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+--------------------------------------------------------------------------------
+[0.08150 s] survived
+   - [#  17] RIL graph2: 
+--------------------------------------------------------------------------------
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+- 54:         for k in self.graph:
++ 54:         for k in reversed(self.graph):
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+--------------------------------------------------------------------------------
+[0.08392 s] survived
+   - [#  18] SDI graph2: 
+--------------------------------------------------------------------------------
+  22:     adjacent(n1, n2): returns True if there is an edge connecting n1 and n2,
+  23:     False if not, raises an error if either of the supplied nodes are not in g.
+  24:     """
+  25:     
+- 26:     def __init__(self, data=None):
+- 27:         '''Initialize graph.'''
+- 28:         self.graph = {}
+- 29:         if data:
+- 30:             for i in data:
+- 31:                 self.add_node(i)
+- 32:     
++ 26:     @staticmethod
++ 27:     def __init__(self, data=None):
++ 28:         '''Initialize graph.'''
++ 29:         self.graph = {}
++ 30:         if data:
++ 31:             for i in data:
++ 32:                 self.add_node(i)
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+--------------------------------------------------------------------------------
+[0.09741 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+>       graph_0 = module_0.Graph(str_0)
+
+ALL-SMART/test_graph2_MIO.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 'O*s,\nTBbojY-', data = None
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'graph'
+
+graph2:29: AttributeError
+   - [#  19] SDI graph2: 
+--------------------------------------------------------------------------------
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+- 33:     def nodes(self):
+- 34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
+- 36:     
++ 33:     @staticmethod
++ 34:     def nodes(self):
++ 35:         '''Return a list of all nodes in the graph.'''
++ 36:         return list(self.graph.keys())
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+--------------------------------------------------------------------------------
+[0.10317 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ALL-SMART/test_graph2_MIO.py:63: TypeError: Graph.nodes() missing 1 required positional argument: 'self'
+
+   - [#  20] SDI graph2: 
+--------------------------------------------------------------------------------
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+  36:     
+- 37:     def edges(self):
+- 38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
+- 40:     
++ 37:     @staticmethod
++ 38:     def edges(self):
++ 39:         '''Return a list of all edges in the graph.'''
++ 40:         return [edge for edges in self.graph.values() for edge in edges]
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+--------------------------------------------------------------------------------
+[0.08639 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ALL-SMART/test_graph2_MIO.py:22: TypeError: Graph.edges() missing 1 required positional argument: 'self'
+
+   - [#  21] SDI graph2: 
+--------------------------------------------------------------------------------
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+- 41:     def add_node(self, n):
+- 42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
+- 44:     
++ 41:     @staticmethod
++ 42:     def add_node(self, n):
++ 43:         '''Add a new node to the graph.'''
++ 44:         self.graph.setdefault(n, set())
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+--------------------------------------------------------------------------------
+[0.08031 s] incompetent
+
+TypeError: graph2:31: TypeError: Graph.add_node() missing 1 required positional argument: 'n'
+
+   - [#  22] SDI graph2: 
+--------------------------------------------------------------------------------
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+  44:     
+- 45:     def add_edge(self, n1, n2):
+- 46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
+- 50:     
++ 45:     @staticmethod
++ 46:     def add_edge(self, n1, n2):
++ 47:         '''Add new edge to the graph.'''
++ 48:         self.graph.setdefault(n1, set([n2]))
++ 49:         self.graph.setdefault(n2, set())
++ 50:         self.graph[n1].add(n2)
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+--------------------------------------------------------------------------------
+[0.08541 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ALL-SMART/test_graph2_MIO.py:36: TypeError: Graph.add_edge() missing 1 required positional argument: 'n2'
+
+   - [#  23] SDI graph2: 
+--------------------------------------------------------------------------------
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+- 51:     def del_node(self, n):
+- 52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
+- 54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
+- 56:     
++ 51:     @staticmethod
++ 52:     def del_node(self, n):
++ 53:         """Delete the node 'n' from the graph."""
++ 54:         del self.graph[n]
++ 55:         for k in self.graph:
++ 56:             self.graph[k].discard(n)
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+--------------------------------------------------------------------------------
+[0.08882 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ALL-SMART/test_graph2_MIO.py:48: TypeError: Graph.del_node() missing 1 required positional argument: 'n'
+
+   - [#  24] SDI graph2: 
+--------------------------------------------------------------------------------
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+- 57:     def del_edge(self, n1, n2):
+- 58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
+- 60:     
++ 57:     @staticmethod
++ 58:     def del_edge(self, n1, n2):
++ 59:         '''Delete the edge connecting n1 and n2.'''
++ 60:         self.graph[n1].remove(n2)
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+--------------------------------------------------------------------------------
+[0.08830 s] survived
+   - [#  25] SDI graph2: 
+--------------------------------------------------------------------------------
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+  60:     
+- 61:     def has_node(self, n):
+- 62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
+- 64:     
++ 61:     @staticmethod
++ 62:     def has_node(self, n):
++ 63:         """Return boolean if 'n' is in the graph."""
++ 64:         return n in self.graph
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+--------------------------------------------------------------------------------
+[0.09058 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/graph2/ALL-SMART/test_graph2_MIO.py:75: TypeError: Graph.has_node() missing 1 required positional argument: 'n'
+
+   - [#  26] SDI graph2: 
+--------------------------------------------------------------------------------
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+  64:     
+- 65:     def neighbors(self, n):
+- 66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
+- 68:     
++ 65:     @staticmethod
++ 66:     def neighbors(self, n):
++ 67:         '''Return the list of all nodes connected to n by edges.'''
++ 68:         return self.graph[n]
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08347 s] survived
+   - [#  27] SDI graph2: 
+--------------------------------------------------------------------------------
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+  68:     
+- 69:     def adjacent(self, n1, n2):
+- 70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 69:     @staticmethod
++ 70:     def adjacent(self, n1, n2):
++ 71:         '''Return boolean if there is an edge connecting n1 and n2.'''
++ 72:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08096 s] survived
+   - [#  28] SDL graph2: 
+--------------------------------------------------------------------------------
+  24:     """
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+- 28:         self.graph = {}
++ 28:         pass
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+--------------------------------------------------------------------------------
+[0.08637 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+>       graph_0 = module_0.Graph(str_0)
+
+ALL-SMART/test_graph2_MIO.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+graph2:31: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704951b6a0>, n = 'O'
+
+>   ???
+E   AttributeError: 'Graph' object has no attribute 'graph'
+
+graph2:43: AttributeError
+   - [#  29] SDL graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 pass
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.08764 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+        graph_0 = module_0.Graph(str_0)
+>       assert graph_0.graph == {'O': {*()}, '*': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:8: AssertionError
+   - [#  30] SDL graph2: 
+--------------------------------------------------------------------------------
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
++ 35:         pass
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+--------------------------------------------------------------------------------
+[0.08545 s] survived
+   - [#  31] SDL graph2: 
+--------------------------------------------------------------------------------
+  35:         return list(self.graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
++ 39:         pass
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+--------------------------------------------------------------------------------
+[0.08146 s] survived
+   - [#  32] SDL graph2: 
+--------------------------------------------------------------------------------
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
++ 43:         pass
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+--------------------------------------------------------------------------------
+[0.08561 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+        graph_0 = module_0.Graph(str_0)
+>       assert graph_0.graph == {'O': {*()}, '*': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:8: AssertionError
+   - [#  33] SDL graph2: 
+--------------------------------------------------------------------------------
+  43:         self.graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
++ 47:         pass
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+--------------------------------------------------------------------------------
+[0.09506 s] killed by ALL-SMART/test_graph2_WHOLE_SUITE.py::test_case_6
+
+def test_case_6():
+        str_0 = '\nl7vR-\tt>fm1d,uq('
+        complex_0 = 4055 - 1344j
+        str_1 = '=@@\x0cQ$U'
+        graph_0 = module_0.Graph(str_1)
+        assert graph_0.graph == {'=': {*()}, '@': {*()}, '\x0c': {*()}, 'Q': {*()}, '$': {*()}, 'U': {*()}}
+>       var_0 = graph_0.add_edge(complex_0, str_0)
+
+ALL-SMART/test_graph2_WHOLE_SUITE.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704951a6b0>, n1 = (4055-1344j)
+n2 = '\nl7vR-\tt>fm1d,uq('
+
+>   ???
+E   KeyError: (4055-1344j)
+
+graph2:49: KeyError
+   - [#  34] SDL graph2: 
+--------------------------------------------------------------------------------
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
++ 48:         pass
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+--------------------------------------------------------------------------------
+[0.09594 s] killed by ALL-SMART/test_graph2_WHOLE_SUITE.py::test_case_6
+
+def test_case_6():
+        str_0 = '\nl7vR-\tt>fm1d,uq('
+        complex_0 = 4055 - 1344j
+        str_1 = '=@@\x0cQ$U'
+        graph_0 = module_0.Graph(str_1)
+        assert graph_0.graph == {'=': {*()}, '@': {*()}, '\x0c': {*()}, 'Q': {*()}, '$': {*()}, 'U': {*()}}
+        var_0 = graph_0.add_edge(complex_0, str_0)
+>       assert graph_0.graph == {'=': {*()}, '@': {*()}, '\x0c': {*()}, 'Q': {*()}, '$': {*()}, 'U': {*()}, 4055 - 1344j: {'\nl7vR-\tt>fm1d,uq('}, '\nl7vR-\tt>fm1d,uq(': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_WHOLE_SUITE.py:58: AssertionError
+   - [#  35] SDL graph2: 
+--------------------------------------------------------------------------------
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
++ 49:         pass
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+--------------------------------------------------------------------------------
+[0.08112 s] survived
+   - [#  36] SDL graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             pass
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.08332 s] survived
+   - [#  37] SDL graph2: 
+--------------------------------------------------------------------------------
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
++ 59:         pass
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+--------------------------------------------------------------------------------
+[0.08057 s] survived
+   - [#  38] SDL graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         pass
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.09184 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_10
+
+def test_case_10():
+        int_0 = -857
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.has_node(int_0)
+>       assert var_0 is False
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:76: AssertionError
+   - [#  39] SDL graph2: 
+--------------------------------------------------------------------------------
+  63:         return n in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
++ 67:         pass
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08175 s] survived
+   - [#  40] SDL graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         pass
+--------------------------------------------------------------------------------
+[0.08359 s] survived
+   - [#  41] SVD graph2: 
+--------------------------------------------------------------------------------
+  24:     """
+  25:     
+  26:     def __init__(self, data=None):
+  27:         '''Initialize graph.'''
+- 28:         self.graph = {}
++ 28:         graph = {}
+  29:         if data:
+  30:             for i in data:
+  31:                 self.add_node(i)
+  32:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  42] SVD graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.09681 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+>       graph_0 = module_0.Graph(str_0)
+
+ALL-SMART/test_graph2_MIO.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x747049427640>, data = 'O*s,\nTBbojY-'
+
+>   ???
+E   NameError: name 'add_node' is not defined
+
+graph2:31: NameError
+   - [#  43] SVD graph2: 
+--------------------------------------------------------------------------------
+  31:                 self.add_node(i)
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+- 35:         return list(self.graph.keys())
++ 35:         return list(graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+--------------------------------------------------------------------------------
+[0.10564 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_8
+
+def test_case_8():
+        bytes_0 = b'R?'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+>       var_0 = graph_0.nodes()
+
+ALL-SMART/test_graph2_MIO.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704946dc30>
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:35: NameError
+   - [#  44] SVD graph2: 
+--------------------------------------------------------------------------------
+  35:         return list(self.graph.keys())
+  36:     
+  37:     def edges(self):
+  38:         '''Return a list of all edges in the graph.'''
+- 39:         return [edge for edges in self.graph.values() for edge in edges]
++ 39:         return [edge for edges in graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+  43:         self.graph.setdefault(n, set())
+--------------------------------------------------------------------------------
+[0.10050 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_3
+
+def test_case_3():
+        str_0 = 'O*?s,\nTBbo$jY-'
+        graph_0 = module_0.Graph(str_0)
+        assert graph_0.graph == {'O': {*()}, '*': {*()}, '?': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, '$': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+>       var_0 = graph_0.edges()
+
+ALL-SMART/test_graph2_MIO.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x7470496d4460>
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:39: NameError
+   - [#  45] SVD graph2: 
+--------------------------------------------------------------------------------
+  39:         return [edge for edges in self.graph.values() for edge in edges]
+  40:     
+  41:     def add_node(self, n):
+  42:         '''Add a new node to the graph.'''
+- 43:         self.graph.setdefault(n, set())
++ 43:         graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+--------------------------------------------------------------------------------
+[0.08223 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+>       graph_0 = module_0.Graph(str_0)
+
+ALL-SMART/test_graph2_MIO.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+graph2:31: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x7470495afd00>, n = 'O'
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:43: NameError
+   - [#  46] SVD graph2: 
+--------------------------------------------------------------------------------
+  43:         self.graph.setdefault(n, set())
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+- 47:         self.graph.setdefault(n1, set([n2]))
++ 47:         graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+--------------------------------------------------------------------------------
+[0.08410 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xe8\xc9\xe5'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_node(graph_0)
+>       var_1 = graph_0.add_edge(graph_0, graph_0)
+
+ALL-SMART/test_graph2_MIO.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704950ded0>
+n1 = <graph2.Graph object at 0x74704950ded0>
+n2 = <graph2.Graph object at 0x74704950ded0>
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:47: NameError
+   - [#  47] SVD graph2: 
+--------------------------------------------------------------------------------
+  44:     
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+- 48:         self.graph.setdefault(n2, set())
++ 48:         graph.setdefault(n2, set())
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+--------------------------------------------------------------------------------
+[0.08230 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xe8\xc9\xe5'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_node(graph_0)
+>       var_1 = graph_0.add_edge(graph_0, graph_0)
+
+ALL-SMART/test_graph2_MIO.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x747049426470>
+n1 = <graph2.Graph object at 0x747049426470>
+n2 = <graph2.Graph object at 0x747049426470>
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:48: NameError
+   - [#  48] SVD graph2: 
+--------------------------------------------------------------------------------
+  45:     def add_edge(self, n1, n2):
+  46:         '''Add new edge to the graph.'''
+  47:         self.graph.setdefault(n1, set([n2]))
+  48:         self.graph.setdefault(n2, set())
+- 49:         self.graph[n1].add(n2)
++ 49:         graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+--------------------------------------------------------------------------------
+[0.08472 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_5
+
+def test_case_5():
+        bytes_0 = b'\xe8\xc9\xe5'
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_node(graph_0)
+>       var_1 = graph_0.add_edge(graph_0, graph_0)
+
+ALL-SMART/test_graph2_MIO.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x7470495f8520>
+n1 = <graph2.Graph object at 0x7470495f8520>
+n2 = <graph2.Graph object at 0x7470495f8520>
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:49: NameError
+   - [#  49] SVD graph2: 
+--------------------------------------------------------------------------------
+  49:         self.graph[n1].add(n2)
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+- 53:         del self.graph[n]
++ 53:         del graph[n]
+  54:         for k in self.graph:
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+--------------------------------------------------------------------------------
+[0.08898 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_6
+
+def test_case_6():
+        bytes_0 = b'R?'
+        none_type_0 = None
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_edge(none_type_0, none_type_0)
+        var_1 = graph_0.add_edge(bytes_0, bytes_0)
+>       var_2 = graph_0.del_node(bytes_0)
+
+ALL-SMART/test_graph2_MIO.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704946eb00>, n = b'R?'
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:53: NameError
+   - [#  50] SVD graph2: 
+--------------------------------------------------------------------------------
+  50:     
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+- 54:         for k in self.graph:
++ 54:         for k in graph:
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+--------------------------------------------------------------------------------
+[0.08829 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_6
+
+def test_case_6():
+        bytes_0 = b'R?'
+        none_type_0 = None
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_edge(none_type_0, none_type_0)
+        var_1 = graph_0.add_edge(bytes_0, bytes_0)
+>       var_2 = graph_0.del_node(bytes_0)
+
+ALL-SMART/test_graph2_MIO.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x7470495ad210>, n = b'R?'
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:54: NameError
+   - [#  51] SVD graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.08896 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_6
+
+def test_case_6():
+        bytes_0 = b'R?'
+        none_type_0 = None
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+        var_0 = graph_0.add_edge(none_type_0, none_type_0)
+        var_1 = graph_0.add_edge(bytes_0, bytes_0)
+>       var_2 = graph_0.del_node(bytes_0)
+
+ALL-SMART/test_graph2_MIO.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x7470495fbd30>, n = b'R?'
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:55: NameError
+   - [#  52] SVD graph2: 
+--------------------------------------------------------------------------------
+  55:             self.graph[k].discard(n)
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+- 59:         self.graph[n1].remove(n2)
++ 59:         graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+  63:         return n in self.graph
+--------------------------------------------------------------------------------
+[0.08382 s] survived
+   - [#  53] SVD graph2: 
+--------------------------------------------------------------------------------
+  59:         self.graph[n1].remove(n2)
+  60:     
+  61:     def has_node(self, n):
+  62:         """Return boolean if 'n' is in the graph."""
+- 63:         return n in self.graph
++ 63:         return n in graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+  67:         return self.graph[n]
+--------------------------------------------------------------------------------
+[0.08891 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_10
+
+def test_case_10():
+        int_0 = -857
+        graph_0 = module_0.Graph()
+        assert f'{type(graph_0).__module__}.{type(graph_0).__qualname__}' == 'graph2.Graph'
+        assert graph_0.graph == {}
+>       var_0 = graph_0.has_node(int_0)
+
+ALL-SMART/test_graph2_MIO.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <graph2.Graph object at 0x74704951a230>, n = -857
+
+>   ???
+E   NameError: name 'graph' is not defined
+
+graph2:63: NameError
+   - [#  54] SVD graph2: 
+--------------------------------------------------------------------------------
+  63:         return n in self.graph
+  64:     
+  65:     def neighbors(self, n):
+  66:         '''Return the list of all nodes connected to n by edges.'''
+- 67:         return self.graph[n]
++ 67:         return graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+  71:         return n2 in self.neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08397 s] survived
+   - [#  55] SVD graph2: 
+--------------------------------------------------------------------------------
+  67:         return self.graph[n]
+  68:     
+  69:     def adjacent(self, n1, n2):
+  70:         '''Return boolean if there is an edge connecting n1 and n2.'''
+- 71:         return n2 in self.neighbors(n1)
++ 71:         return n2 in neighbors(n1)
+--------------------------------------------------------------------------------
+[0.08711 s] survived
+   - [#  56] ZIL graph2: 
+--------------------------------------------------------------------------------
+  27:         '''Initialize graph.'''
+  28:         self.graph = {}
+  29:         if data:
+  30:             for i in data:
+- 31:                 self.add_node(i)
++ 31:                 break
+  32:     
+  33:     def nodes(self):
+  34:         '''Return a list of all nodes in the graph.'''
+  35:         return list(self.graph.keys())
+--------------------------------------------------------------------------------
+[0.08564 s] killed by ALL-SMART/test_graph2_MIO.py::test_case_0
+
+def test_case_0():
+        str_0 = 'O*s,\nTBbojY-'
+        graph_0 = module_0.Graph(str_0)
+>       assert graph_0.graph == {'O': {*()}, '*': {*()}, 's': {*()}, ',': {*()}, '\n': {*()}, 'T': {*()}, 'B': {*()}, 'b': {*()}, 'o': {*()}, 'j': {*()}, 'Y': {*()}, '-': {*()}}
+E       AssertionError
+
+ALL-SMART/test_graph2_MIO.py:8: AssertionError
+   - [#  57] ZIL graph2: 
+--------------------------------------------------------------------------------
+  51:     def del_node(self, n):
+  52:         """Delete the node 'n' from the graph."""
+  53:         del self.graph[n]
+  54:         for k in self.graph:
+- 55:             self.graph[k].discard(n)
++ 55:             break
+  56:     
+  57:     def del_edge(self, n1, n2):
+  58:         '''Delete the edge connecting n1 and n2.'''
+  59:         self.graph[n1].remove(n2)
+--------------------------------------------------------------------------------
+[0.08182 s] survived
+[*] Mutation score [6.75989 s]: 57.1%
+   - all: 57
+   - killed: 28 (49.1%)
+   - survived: 21 (36.8%)
+   - incompetent: 8 (14.0%)
+   - timeout: 0 (0.0%)

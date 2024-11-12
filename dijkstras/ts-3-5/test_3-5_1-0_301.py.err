@@ -1,51 +1,62 @@
-import sys
 import os
-import pytest
-
+import sys
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'A': 1, 'C': 2, 'D': 5},
-        'C': {'A': 4, 'B': 2, 'D': 1},
-        'D': {'B': 5, 'C': 1}
-    }
-    
-    src = 'A'
-    dst = 'D'
+def test_dijkstras_shortest_path():
+    # Test case 1: Simple test with few vertices
+    weighted_graph = WeightedGraph()
+    # Define the weighted graph with vertices and edges
+    src, dst = 'A', 'C'
+    expected_path = ['A', 'C']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A', 'B', 'C', 'D']
+    # Test case 2: Test with multiple paths
+    weighted_graph = WeightedGraph()
+    # Define the weighted graph with different vertices and edges
+    src, dst = 'D', 'F'
+    expected_path = ['D', 'C', 'E', 'F']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_same_node():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'A': 1, 'C': 2, 'D': 5},
-        'C': {'A': 4, 'B': 2, 'D': 1},
-        'D': {'B': 5, 'C': 1}
-    }
-    
-    src = 'A'
-    dst = 'A'
+def test_dijkstras_unreachable_destination():
+    # Test case 1: Source and destination are disconnected
+    weighted_graph = WeightedGraph()
+    # Define the weighted graph with disconnected vertices
+    src, dst = 'A', 'D'
+    expected_path = []
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == ['A']
+def test_dijkstras_negative_weights():
+    # Test case 1: Test with negative weights
+    weighted_graph = WeightedGraph()
+    # Define the weighted graph with negative weights
+    src, dst = 'A', 'C'
+    expected_path = ['A', 'D', 'C']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_no_path():
-    weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'A': 1, 'C': 2, 'D': 5},
-        'C': {'A': 4, 'B': 2, 'D': 1},
-        'D': {'B': 5, 'C': 1}
-    }
-    
-    src = 'A'
-    dst = 'E'
+def test_dijkstras_same_source_and_destination():
+    # Test case: Source and destination are the same
+    weighted_graph = WeightedGraph()
+    # Define the weighted graph 
+    src, dst = 'A', 'A'
+    expected_path = ['A']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    result = dijkstras(weighted_graph, src, dst)
-    assert result == []
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {
+            'A': Vertex('A', {'C': 1, 'D': 4}),
+            'B': Vertex('B', {'C': 2}),
+            'C': Vertex('C', {'D': 3, 'E': 5}),
+            'D': Vertex('D', {'C': 1, 'E': 2, 'F': 1}),
+            'E': Vertex('E', {'F': 3}),
+            'F': Vertex('F', {})
+        }
+
+class Vertex:
+    def __init__(self, label, adjacent):
+        self.label = label
+        self.adjacent = adjacent

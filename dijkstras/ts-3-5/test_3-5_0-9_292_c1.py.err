@@ -1,3 +1,4 @@
+import pytest
 import os
 import sys
 
@@ -5,13 +6,41 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import weighted_graph, dijkstras
+from dijkstras import dijkstras, WeightedGraph, Vertex
 
-def test_dijkstras():
-    assert dijkstras(weighted_graph, 'A', 'B') == ['A', 'B']
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'C', 'D']
-    assert dijkstras(weighted_graph, 'A', 'E') == ['A', 'C', 'D', 'E']
-    assert dijkstras(weighted_graph, 'A', 'F') == ['A', 'F']
-    assert dijkstras(weighted_graph, 'B', 'B') == ['B']
-    assert dijkstras(weighted_graph, 'A', 'H') == []
-    assert dijkstras(weighted_graph, 'A', 'G') == ['A', 'C', 'D', 'F', 'G']
+@pytest.fixture
+def weighted_graph():
+    graph = WeightedGraph()
+    
+    # Add vertices
+    v0 = Vertex('A')
+    v1 = Vertex('B')
+    v2 = Vertex('C')
+    graph.add_vertex(v0)
+    graph.add_vertex(v1)
+    graph.add_vertex(v2)
+    
+    # Add edges with weights
+    graph.add_edge(v0, v1, 1)
+    graph.add_edge(v0, v2, 3)
+    graph.add_edge(v1, v2, 1)
+    
+    return graph
+
+def test_dijkstras_shortest_path(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+
+def test_dijkstras_start_end_same_vertex(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+def test_dijkstras_no_path(weighted_graph):
+    assert dijkstras(weighted_graph, 'B', 'A') == []
+
+def test_dijkstras_single_vertex(weighted_graph):
+    graph = WeightedGraph()
+    v = Vertex('A')
+    graph.add_vertex(v)
+    assert dijkstras(graph, 'A', 'A') == ['A']
+
+def test_dijkstras_unreachable_vertex(weighted_graph):
+    assert dijkstras(weighted_graph, 'C', 'A') == []

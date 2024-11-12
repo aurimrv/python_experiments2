@@ -1,0 +1,155 @@
+[*] Start mutation process:
+   - targets: factorial.py
+   - tests: ts-3-5/test_3-5_1-0_324.py
+[*] 6 tests passed:
+   - test_3-5_1-0_324 [0.12318 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x / y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14742 s] killed by ts-3-5/test_3-5_1-0_324.py::test_factorial_positive
+
+def test_factorial_positive():
+>       assert factorial(5) == 120
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_324.py:16: AssertionError
+   - [#   2] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x // y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.15215 s] killed by ts-3-5/test_3-5_1-0_324.py::test_factorial_positive
+
+def test_factorial_positive():
+>       assert factorial(5) == 120
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_324.py:16: AssertionError
+   - [#   3] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x ** y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.15316 s] killed by ts-3-5/test_3-5_1-0_324.py::test_factorial_positive
+
+def test_factorial_positive():
+>       assert factorial(5) == 120
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_324.py:16: AssertionError
+   - [#   4] AOR factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     return reduce((lambda x, y: (x * y)), range(1, n - 1))
+--------------------------------------------------------------------------------
+[0.14151 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   5] COI factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if not (n <= 0):
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14674 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   6] ROR factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if n >= 0:
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.15088 s] killed by ts-3-5/test_3-5_1-0_324.py::test_factorial_one
+
+def test_factorial_one():
+>       assert factorial(1) == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_324.py:13: AssertionError
+   - [#   7] ROR factorial: 
+--------------------------------------------------------------------------------
+  11:         The factorial number for n (n!).  Input
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+- 15:     if n <= 0:
++ 15:     if n < 0:
+  16:         return 0
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14744 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   8] SDL factorial: 
+--------------------------------------------------------------------------------
+  12:         of 0 or less will output 0.
+  13:     '''
+  14:     
+  15:     if n <= 0:
+- 16:         return 0
++ 16:         pass
+  17:     
+  18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
+--------------------------------------------------------------------------------
+[0.14686 s] incompetent
+
+TypeError: factorial:18: TypeError: reduce() of empty iterable with no initial value
+
+   - [#   9] SDL factorial: 
+--------------------------------------------------------------------------------
+  14:     
+  15:     if n <= 0:
+  16:         return 0
+  17:     
+- 18:     return reduce((lambda x, y: (x * y)), range(1, n + 1))
++ 18:     pass
+--------------------------------------------------------------------------------
+[0.15359 s] killed by ts-3-5/test_3-5_1-0_324.py::test_factorial_one
+
+def test_factorial_one():
+>       assert factorial(1) == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_324.py:13: AssertionError
+[*] Mutation score [1.56422 s]: 100.0%
+   - all: 9
+   - killed: 5 (55.6%)
+   - survived: 0 (0.0%)
+   - incompetent: 4 (44.4%)
+   - timeout: 0 (0.0%)

@@ -6,51 +6,37 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    # Test case 1: Shortest path between two directly connected nodes
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    weighted_graph.add_vertex(Vertex('B'))
-    weighted_graph.add_edge('A', 'B', 5)
-    assert dijkstras(weighted_graph, 'A', 'B') == ['A', 'B']
+class TestDijkstras:
+    def test_dijkstras_shortest_path(self):
+        weighted_graph = WeightedGraph()
+        # Add vertices and edges to the graph for testing
+        src = 'A'
+        dst = 'D'
+        expected_path = ['A', 'B', 'D']  # Expected shortest path from A to D
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-    # Test case 2: Shortest path between two nodes with intermediate node
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    weighted_graph.add_vertex(Vertex('B'))
-    weighted_graph.add_vertex(Vertex('C'))
-    weighted_graph.add_edge('A', 'B', 3)
-    weighted_graph.add_edge('B', 'C', 4)
-    weighted_graph.add_edge('A', 'C', 7)
-    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+    def test_dijkstras_same_source_dest(self):
+        weighted_graph = WeightedGraph()
+        # Add vertices and edges to the graph for testing
+        src = 'A'
+        dst = 'A'
+        expected_path = ['A']  # Expected shortest path from A to A (same source and destination)
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_no_path():
-    # Test case 3: No path between two nodes
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    weighted_graph.add_vertex(Vertex('B'))
-    weighted_graph.add_vertex(Vertex('C'))
-    weighted_graph.add_edge('A', 'B', 3)
-    weighted_graph.add_edge('B', 'C', 4)
-    assert dijkstras(weighted_graph, 'A', 'C') == []
+    def test_dijkstras_unreachable_dest(self):
+        weighted_graph = WeightedGraph()
+        # Add vertices and edges to the graph for testing
+        src = 'A'
+        dst = 'E'  # Destination that is not reachable from source A
+        expected_path = []  # Expected empty path when destination is unreachable
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_same_node():
-    # Test case 4: Source and destination nodes are the same
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex(Vertex('A'))
-    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+    def test_dijkstras_no_edges(self):
+        weighted_graph = WeightedGraph()
+        # Add vertices without any edges for testing
+        src = 'A'
+        dst = 'B'
+        expected_path = []  # Expected empty path when there are no edges in the graph
+        assert dijkstras(weighted_graph, src, dst) == expected_path
 
-class WeightedGraph:
-    def __init__(self):
-        self.vertices = {}
-
-    def add_vertex(self, vertex):
-        self.vertices[vertex.name] = vertex
-
-    def add_edge(self, start, end, weight):
-        self.vertices[start].adjacent[end] = weight
-
-class Vertex:
-    def __init__(self, name):
-        self.name = name
-        self.adjacent = {}
+    # Add more test cases for other scenarios and edge cases as needed

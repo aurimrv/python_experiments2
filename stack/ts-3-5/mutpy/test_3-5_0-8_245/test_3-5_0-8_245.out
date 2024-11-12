@@ -1,0 +1,300 @@
+[*] Start mutation process:
+   - targets: stack.py
+   - tests: ts-3-5/test_3-5_0-8_245.py
+[*] 6 tests passed:
+   - test_3-5_0-8_245 [0.19921 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI stack: 
+--------------------------------------------------------------------------------
+  14:     If the stack is empty, attempts to call pop should raise an exception.
+  15: 
+  16:     '''
+  17:     
+- 18:     def __init__(self, data=None):
+- 19:         '''Initialization.'''
+- 20:         self._stack = LinkedList(data)
+- 21:     
++ 18:     @classmethod
++ 19:     def __init__(self, data=None):
++ 20:         '''Initialization.'''
++ 21:         self._stack = LinkedList(data)
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+  25:     
+--------------------------------------------------------------------------------
+[0.17973 s] survived
+   - [#   2] CDI stack: 
+--------------------------------------------------------------------------------
+  18:     def __init__(self, data=None):
+  19:         '''Initialization.'''
+  20:         self._stack = LinkedList(data)
+  21:     
+- 22:     def push(self, val):
+- 23:         '''Add val to the stack.'''
+- 24:         self._stack.push(val)
+- 25:     
++ 22:     @classmethod
++ 23:     def push(self, val):
++ 24:         '''Add val to the stack.'''
++ 25:         self._stack.push(val)
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+  28:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.20493 s] killed by ts-3-5/test_3-5_0-8_245.py::test_push
+
+stack = <stack.Stack object at 0x72e00cd012a0>
+
+    def test_push(stack):
+>       stack.push(5)
+
+ts-3-5/test_3-5_0-8_245.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'stack.Stack'>, val = 5
+
+>   ???
+E   AttributeError: type object 'Stack' has no attribute '_stack'
+
+stack:25: AttributeError
+   - [#   3] CDI stack: 
+--------------------------------------------------------------------------------
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+  25:     
+- 26:     def pop(self):
+- 27:         '''Remove item off the stack.'''
+- 28:         self._stack.pop()
++ 26:     @classmethod
++ 27:     def pop(self):
++ 28:         '''Remove item off the stack.'''
++ 29:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.20187 s] killed by ts-3-5/test_3-5_0-8_245.py::test_pop
+
+stack = <stack.Stack object at 0x72e00cd03fd0>
+
+    def test_pop(stack):
+        stack.push(10)
+        stack.push(20)
+>       stack.pop()
+
+ts-3-5/test_3-5_0-8_245.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'stack.Stack'>
+
+>   ???
+E   AttributeError: type object 'Stack' has no attribute '_stack'
+
+stack:29: AttributeError
+   - [#   4] SDI stack: 
+--------------------------------------------------------------------------------
+  14:     If the stack is empty, attempts to call pop should raise an exception.
+  15: 
+  16:     '''
+  17:     
+- 18:     def __init__(self, data=None):
+- 19:         '''Initialization.'''
+- 20:         self._stack = LinkedList(data)
+- 21:     
++ 18:     @staticmethod
++ 19:     def __init__(self, data=None):
++ 20:         '''Initialization.'''
++ 21:         self._stack = LinkedList(data)
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+  25:     
+--------------------------------------------------------------------------------
+[0.18744 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/stack/ts-3-5/test_3-5_0-8_245.py:13: TypeError: Stack.__init__() missing 1 required positional argument: 'self'
+
+   - [#   5] SDI stack: 
+--------------------------------------------------------------------------------
+  18:     def __init__(self, data=None):
+  19:         '''Initialization.'''
+  20:         self._stack = LinkedList(data)
+  21:     
+- 22:     def push(self, val):
+- 23:         '''Add val to the stack.'''
+- 24:         self._stack.push(val)
+- 25:     
++ 22:     @staticmethod
++ 23:     def push(self, val):
++ 24:         '''Add val to the stack.'''
++ 25:         self._stack.push(val)
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+  28:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.20389 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/stack/ts-3-5/test_3-5_0-8_245.py:20: TypeError: Stack.push() missing 1 required positional argument: 'val'
+
+   - [#   6] SDI stack: 
+--------------------------------------------------------------------------------
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+  25:     
+- 26:     def pop(self):
+- 27:         '''Remove item off the stack.'''
+- 28:         self._stack.pop()
++ 26:     @staticmethod
++ 27:     def pop(self):
++ 28:         '''Remove item off the stack.'''
++ 29:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.20571 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/stack/ts-3-5/test_3-5_0-8_245.py:26: TypeError: Stack.pop() missing 1 required positional argument: 'self'
+
+   - [#   7] SDL stack: 
+--------------------------------------------------------------------------------
+  16:     '''
+  17:     
+  18:     def __init__(self, data=None):
+  19:         '''Initialization.'''
+- 20:         self._stack = LinkedList(data)
++ 20:         pass
+  21:     
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+--------------------------------------------------------------------------------
+[0.21738 s] killed by ts-3-5/test_3-5_0-8_245.py::test_init
+
+stack = <stack.Stack object at 0x72e00cf79780>
+
+    def test_init(stack):
+>       assert stack._stack.head is None
+E       AttributeError: 'Stack' object has no attribute '_stack'
+
+ts-3-5/test_3-5_0-8_245.py:17: AttributeError
+   - [#   8] SDL stack: 
+--------------------------------------------------------------------------------
+  20:         self._stack = LinkedList(data)
+  21:     
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+- 24:         self._stack.push(val)
++ 24:         pass
+  25:     
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+  28:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.21839 s] killed by ts-3-5/test_3-5_0-8_245.py::test_push
+
+stack = <stack.Stack object at 0x72e00cd2ee00>
+
+    def test_push(stack):
+        stack.push(5)
+>       assert stack._stack.head.data == 5
+E       AttributeError: 'NoneType' object has no attribute 'data'
+
+ts-3-5/test_3-5_0-8_245.py:21: AttributeError
+   - [#   9] SDL stack: 
+--------------------------------------------------------------------------------
+  24:         self._stack.push(val)
+  25:     
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+- 28:         self._stack.pop()
++ 28:         pass
+--------------------------------------------------------------------------------
+[0.21794 s] killed by ts-3-5/test_3-5_0-8_245.py::test_pop
+
+stack = <stack.Stack object at 0x72e00cf6c1f0>
+
+    def test_pop(stack):
+        stack.push(10)
+        stack.push(20)
+        stack.pop()
+>       assert stack._stack.head.data == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_245.py:27: AssertionError
+   - [#  10] SVD stack: 
+--------------------------------------------------------------------------------
+  16:     '''
+  17:     
+  18:     def __init__(self, data=None):
+  19:         '''Initialization.'''
+- 20:         self._stack = LinkedList(data)
++ 20:         _stack = LinkedList(data)
+  21:     
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+  24:         self._stack.push(val)
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  11] SVD stack: 
+--------------------------------------------------------------------------------
+  20:         self._stack = LinkedList(data)
+  21:     
+  22:     def push(self, val):
+  23:         '''Add val to the stack.'''
+- 24:         self._stack.push(val)
++ 24:         _stack.push(val)
+  25:     
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+  28:         self._stack.pop()
+--------------------------------------------------------------------------------
+[0.19929 s] killed by ts-3-5/test_3-5_0-8_245.py::test_push
+
+stack = <stack.Stack object at 0x72e00cf6ca90>
+
+    def test_push(stack):
+>       stack.push(5)
+
+ts-3-5/test_3-5_0-8_245.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <stack.Stack object at 0x72e00cf6ca90>, val = 5
+
+>   ???
+E   NameError: name '_stack' is not defined
+
+stack:24: NameError
+   - [#  12] SVD stack: 
+--------------------------------------------------------------------------------
+  24:         self._stack.push(val)
+  25:     
+  26:     def pop(self):
+  27:         '''Remove item off the stack.'''
+- 28:         self._stack.pop()
++ 28:         _stack.pop()
+--------------------------------------------------------------------------------
+[0.20632 s] killed by ts-3-5/test_3-5_0-8_245.py::test_pop
+
+stack = <stack.Stack object at 0x72e00ce0f700>
+
+    def test_pop(stack):
+        stack.push(10)
+        stack.push(20)
+>       stack.pop()
+
+ts-3-5/test_3-5_0-8_245.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <stack.Stack object at 0x72e00ce0f700>
+
+>   ???
+E   NameError: name '_stack' is not defined
+
+stack:28: NameError
+[*] Mutation score [2.59911 s]: 87.5%
+   - all: 12
+   - killed: 7 (58.3%)
+   - survived: 1 (8.3%)
+   - incompetent: 4 (33.3%)
+   - timeout: 0 (0.0%)

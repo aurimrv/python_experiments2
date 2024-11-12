@@ -1,0 +1,1532 @@
+[*] Start mutation process:
+   - targets: trie.py
+   - tests: ./ALL-SMART
+[*] 28 tests passed:
+   - test_trie_DYNAMOSA [0.05626 s]
+   - test_trie_MOSA [0.04293 s]
+   - test_trie_WHOLE_SUITE [0.04371 s]
+   - test_trie_MIO [0.04702 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 words.extend(getWords(val, prefix - key))
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.07324 s] survived
+   - [#   2] ASR trie: 
+--------------------------------------------------------------------------------
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+- 27:             idx += 1
++ 27:             idx -= 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.07353 s] survived
+   - [#   3] CDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+-  5:     def __init__(self, words):
+-  6:         self.head = {}
+-  7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++  5:     @classmethod
++  6:     def __init__(self, words):
++  7:         self.head = {}
++  8:         for word in words:
++  9:             current = self.head
++ 10:             for letter in word:
++ 11:                 current = current.setdefault(letter, {})
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.07219 s] survived
+   - [#   4] CDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+- 13:     def add(self, word):
+- 14:         current = self.head
+- 15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 13:     @classmethod
++ 14:     def add(self, word):
++ 15:         current = self.head
++ 16:         for letter in word:
++ 17:             current = current.setdefault(letter, {})
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.08174 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.add(str_0)
+
+ALL-SMART/test_trie_MOSA.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'trie.Trie'>, word = ";8k')N1"
+
+>   ???
+E   AttributeError: type object 'Trie' has no attribute 'head'
+
+trie:15: AttributeError
+   - [#   5] CDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+- 19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
+- 21:         node = self.head
+- 22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
+- 28:         
+- 29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
+- 31:                 return [prefix]
+- 32:             words = []
+- 33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
+- 37:         return getWords(node, prefix)
++ 19:     @classmethod
++ 20:     def get_all_common_prefix(self, prefix):
++ 21:         idx = 0
++ 22:         node = self.head
++ 23:         while idx < len(prefix):
++ 24:             letter = prefix[idx]
++ 25:             if letter not in node:
++ 26:                 return []
++ 27:             node = node[letter]
++ 28:             idx += 1
++ 29:         
++ 30:         def getWords(node, prefix):
++ 31:             if self.eof in node:
++ 32:                 return [prefix]
++ 33:             words = []
++ 34:             for (key, val) in node.items():
++ 35:                 words.extend(getWords(val, prefix + key))
++ 36:             return words
++ 37:         
++ 38:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.08120 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'trie.Trie'>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   AttributeError: type object 'Trie' has no attribute 'head'
+
+trie:22: AttributeError
+   - [#   6] COD trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+- 24:             if letter not in node:
++ 24:             if letter in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.08599 s] killed by ALL-SMART/test_trie_WHOLE_SUITE.py::test_case_4
+
+def test_case_4():
+        list_0 = []
+        bool_0 = True
+        bytes_0 = b'\xd32\xc6\x8d\x05x}\xfaja\xa1\xd3\xab\xe3\xceP\xd9'
+        trie_0 = module_0.Trie(list_0)
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(list_0)
+>       var_1 = trie_0.get_all_common_prefix(bytes_0)
+
+ALL-SMART/test_trie_WHOLE_SUITE.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f58bdf0>
+prefix = b'\xd32\xc6\x8d\x05x}\xfaja\xa1\xd3\xab\xe3\xceP\xd9'
+
+>   ???
+E   KeyError: 211
+
+trie:26: KeyError
+   - [#   7] COI trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while not (idx < len(prefix)):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.08095 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(str_0)
+        trie_1 = module_0.Trie(var_0)
+>       assert trie_1.head == {}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:12: AssertionError
+   - [#   8] COI trie: 
+--------------------------------------------------------------------------------
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+- 24:             if letter not in node:
++ 24:             if not (letter not in node):
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+--------------------------------------------------------------------------------
+[0.08749 s] killed by ALL-SMART/test_trie_WHOLE_SUITE.py::test_case_4
+
+def test_case_4():
+        list_0 = []
+        bool_0 = True
+        bytes_0 = b'\xd32\xc6\x8d\x05x}\xfaja\xa1\xd3\xab\xe3\xceP\xd9'
+        trie_0 = module_0.Trie(list_0)
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(list_0)
+>       var_1 = trie_0.get_all_common_prefix(bytes_0)
+
+ALL-SMART/test_trie_WHOLE_SUITE.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f31fa30>
+prefix = b'\xd32\xc6\x8d\x05x}\xfaja\xa1\xd3\xab\xe3\xceP\xd9'
+
+>   ???
+E   KeyError: 211
+
+trie:26: KeyError
+   - [#   9] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if not (self.eof in node):
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.08055 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+        assert len(trie_0.head) == 7
+>       var_1 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+trie:34: in getWords
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = '__eof__', prefix = ";8k')N1__eof__"
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'items'
+
+trie:33: AttributeError
+   - [#  10] COI trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if self.eof not in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.08161 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+        assert len(trie_0.head) == 7
+>       var_1 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+trie:34: in getWords
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = '__eof__', prefix = ";8k')N1__eof__"
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'items'
+
+trie:33: AttributeError
+   - [#  11] OIL trie: 
+--------------------------------------------------------------------------------
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+- 12:     
++ 12:             break
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.07416 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+>       assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:8: AssertionError
+   - [#  12] OIL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++ 11:                 break
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.06973 s] survived
+   - [#  13] OIL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 17:             break
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.07007 s] survived
+   - [#  14] OIL trie: 
+--------------------------------------------------------------------------------
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+- 28:         
++ 28:             break
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+--------------------------------------------------------------------------------
+[0.08121 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(str_0)
+        trie_1 = module_0.Trie(var_0)
+>       assert trie_1.head == {}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:12: AssertionError
+   - [#  15] OIL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
++ 35:                 break
++ 36:             return words
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.07206 s] survived
+   - [#  16] RIL trie: 
+--------------------------------------------------------------------------------
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+-  7:         for word in words:
++  7:         for word in reversed(words):
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+--------------------------------------------------------------------------------
+[0.08650 s] incompetent
+
+TypeError: trie:7: TypeError: 'set' object is not reversible
+
+   - [#  17] RIL trie: 
+--------------------------------------------------------------------------------
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+-  9:             for letter in word:
++  9:             for letter in reversed(word):
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+--------------------------------------------------------------------------------
+[0.07244 s] survived
+   - [#  18] RIL trie: 
+--------------------------------------------------------------------------------
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+- 15:         for letter in word:
++ 15:         for letter in reversed(word):
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+--------------------------------------------------------------------------------
+[0.08856 s] incompetent
+
+TypeError: trie:15: TypeError: 'set' object is not reversible
+
+   - [#  19] RIL trie: 
+--------------------------------------------------------------------------------
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+- 33:             for (key, val) in node.items():
++ 33:             for (key, val) in reversed(node.items()):
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.07280 s] survived
+   - [#  20] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while idx > len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.08100 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(str_0)
+        trie_1 = module_0.Trie(var_0)
+>       assert trie_1.head == {}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:12: AssertionError
+   - [#  21] ROR trie: 
+--------------------------------------------------------------------------------
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+- 22:         while idx < len(prefix):
++ 22:         while idx <= len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+--------------------------------------------------------------------------------
+[0.07922 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+        assert len(trie_0.head) == 7
+>       var_1 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f5ec370>, prefix = ";8k')N1"
+
+>   ???
+E   IndexError: string index out of range
+
+trie:23: IndexError
+   - [#  22] SDI trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+   3:     eof = '__eof__'
+   4:     
+-  5:     def __init__(self, words):
+-  6:         self.head = {}
+-  7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
+- 12:     
++  5:     @staticmethod
++  6:     def __init__(self, words):
++  7:         self.head = {}
++  8:         for word in words:
++  9:             current = self.head
++ 10:             for letter in word:
++ 11:                 current = current.setdefault(letter, {})
++ 12:             current[self.eof] = self.eof
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.07705 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ALL-SMART/test_trie_MOSA.py:7: TypeError: Trie.__init__() missing 1 required positional argument: 'words'
+
+   - [#  23] SDI trie: 
+--------------------------------------------------------------------------------
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+- 13:     def add(self, word):
+- 14:         current = self.head
+- 15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
+- 18:     
++ 13:     @staticmethod
++ 14:     def add(self, word):
++ 15:         current = self.head
++ 16:         for letter in word:
++ 17:             current = current.setdefault(letter, {})
++ 18:         current[self.eof] = self.eof
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+--------------------------------------------------------------------------------
+[0.09194 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ALL-SMART/test_trie_MOSA.py:20: TypeError: Trie.add() missing 1 required positional argument: 'word'
+
+   - [#  24] SDI trie: 
+--------------------------------------------------------------------------------
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+- 19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
+- 21:         node = self.head
+- 22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
+- 28:         
+- 29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
+- 31:                 return [prefix]
+- 32:             words = []
+- 33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
+- 36:         
+- 37:         return getWords(node, prefix)
++ 19:     @staticmethod
++ 20:     def get_all_common_prefix(self, prefix):
++ 21:         idx = 0
++ 22:         node = self.head
++ 23:         while idx < len(prefix):
++ 24:             letter = prefix[idx]
++ 25:             if letter not in node:
++ 26:                 return []
++ 27:             node = node[letter]
++ 28:             idx += 1
++ 29:         
++ 30:         def getWords(node, prefix):
++ 31:             if self.eof in node:
++ 32:                 return [prefix]
++ 33:             words = []
++ 34:             for (key, val) in node.items():
++ 35:                 words.extend(getWords(val, prefix + key))
++ 36:             return words
++ 37:         
++ 38:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.08322 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/trie/ALL-SMART/test_trie_MOSA.py:10: TypeError: Trie.get_all_common_prefix() missing 1 required positional argument: 'prefix'
+
+   - [#  25] SDL trie: 
+--------------------------------------------------------------------------------
+   1: class Trie:
+   2:     
+-  3:     eof = '__eof__'
++  3:     pass
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+--------------------------------------------------------------------------------
+[0.08137 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f413430>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'eof'
+
+trie:11: AttributeError
+   - [#  26] SDL trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+-  6:         self.head = {}
++  6:         pass
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.07860 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f413790>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   AttributeError: 'Trie' object has no attribute 'head'
+
+trie:8: AttributeError
+   - [#  27] SDL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
++  8:             pass
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.08020 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f413d00>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:10: UnboundLocalError
+   - [#  28] SDL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
++ 10:                 pass
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.07807 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+>       assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:8: AssertionError
+   - [#  29] SDL trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             pass
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.07995 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+>       assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:8: AssertionError
+   - [#  30] SDL trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+- 14:         current = self.head
++ 14:         pass
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.08041 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.add(str_0)
+
+ALL-SMART/test_trie_MOSA.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f6c1180>, word = ";8k')N1"
+
+>   ???
+E   UnboundLocalError: local variable 'current' referenced before assignment
+
+trie:16: UnboundLocalError
+   - [#  31] SDL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
++ 16:             pass
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.07913 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+>       assert len(trie_0.head) == 7
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:21: AssertionError
+   - [#  32] SDL trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         pass
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.09153 s] killed by ALL-SMART/test_trie_MIO.py::test_case_4
+
+def test_case_4():
+        set_0 = set()
+        trie_0 = module_0.Trie(set_0)
+        assert f'{type(trie_0).__module__}.{type(trie_0).__qualname__}' == 'trie.Trie'
+        assert trie_0.head == {}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(set_0)
+>       assert trie_0.head == {'__eof__': '__eof__'}
+E       AssertionError
+
+ALL-SMART/test_trie_MIO.py:37: AssertionError
+   - [#  33] SDL trie: 
+--------------------------------------------------------------------------------
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+- 20:         idx = 0
++ 20:         pass
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+--------------------------------------------------------------------------------
+[0.07449 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f412b00>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   UnboundLocalError: local variable 'idx' referenced before assignment
+
+trie:22: UnboundLocalError
+   - [#  34] SDL trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+- 21:         node = self.head
++ 21:         pass
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.07894 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f6c5180>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   UnboundLocalError: local variable 'node' referenced before assignment
+
+trie:24: UnboundLocalError
+   - [#  35] SDL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
++ 23:             pass
+  24:             if letter not in node:
+  25:                 return []
+  26:             node = node[letter]
+  27:             idx += 1
+--------------------------------------------------------------------------------
+[0.08224 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f58a530>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   NameError: name 'letter' is not defined
+
+trie:24: NameError
+   - [#  36] SDL trie: 
+--------------------------------------------------------------------------------
+  21:         node = self.head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+- 25:                 return []
++ 25:                 pass
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+--------------------------------------------------------------------------------
+[0.07768 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f31d930>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   KeyError: 'j'
+
+trie:26: KeyError
+   - [#  37] SDL trie: 
+--------------------------------------------------------------------------------
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+- 26:             node = node[letter]
++ 26:             pass
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+--------------------------------------------------------------------------------
+[0.08160 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(str_0)
+        trie_1 = module_0.Trie(var_0)
+>       assert trie_1.head == {}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:12: AssertionError
+   - [#  38] SDL trie: 
+--------------------------------------------------------------------------------
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+- 31:                 return [prefix]
++ 31:                 pass
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+--------------------------------------------------------------------------------
+[0.08109 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+        assert len(trie_0.head) == 7
+>       var_1 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+trie:34: in getWords
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = '__eof__', prefix = ";8k')N1__eof__"
+
+>   ???
+E   AttributeError: 'str' object has no attribute 'items'
+
+trie:33: AttributeError
+   - [#  39] SDL trie: 
+--------------------------------------------------------------------------------
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+- 32:             words = []
++ 32:             pass
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+--------------------------------------------------------------------------------
+[0.08071 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_4
+
+def test_case_4():
+        list_0 = []
+        trie_0 = module_0.Trie(list_0)
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(list_0)
+
+ALL-SMART/test_trie_MOSA.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {}, prefix = []
+
+>   ???
+E   NameError: name 'words' is not defined
+
+trie:35: NameError
+   - [#  40] SDL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 pass
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.07119 s] survived
+   - [#  41] SDL trie: 
+--------------------------------------------------------------------------------
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+- 35:             return words
++ 35:             pass
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.08114 s] incompetent
+
+TypeError: trie:22: TypeError: object of type 'NoneType' has no len()
+
+   - [#  42] SDL trie: 
+--------------------------------------------------------------------------------
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+  35:             return words
+  36:         
+- 37:         return getWords(node, prefix)
++ 37:         pass
+--------------------------------------------------------------------------------
+[0.07996 s] incompetent
+
+TypeError: trie:22: TypeError: object of type 'NoneType' has no len()
+
+   - [#  43] SVD trie: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     eof = '__eof__'
+   4:     
+   5:     def __init__(self, words):
+-  6:         self.head = {}
++  6:         head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  44] SVD trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
++  8:             current = head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+--------------------------------------------------------------------------------
+[0.08255 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f3889a0>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:8: NameError
+   - [#  45] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             current[eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.08273 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f20fbe0>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+   - [#  46] SVD trie: 
+--------------------------------------------------------------------------------
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+  10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++ 11:             current[self.eof] = eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.07747 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+>       trie_0 = module_0.Trie(str_0)
+
+ALL-SMART/test_trie_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f4bf460>, words = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:11: NameError
+   - [#  47] SVD trie: 
+--------------------------------------------------------------------------------
+  10:                 current = current.setdefault(letter, {})
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+- 14:         current = self.head
++ 14:         current = head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+  17:         current[self.eof] = self.eof
+  18:     
+--------------------------------------------------------------------------------
+[0.08143 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.add(str_0)
+
+ALL-SMART/test_trie_MOSA.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f411000>, word = ";8k')N1"
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:14: NameError
+   - [#  48] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         current[eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.08418 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.add(str_0)
+
+ALL-SMART/test_trie_MOSA.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f3f3df0>, word = ";8k')N1"
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+   - [#  49] SVD trie: 
+--------------------------------------------------------------------------------
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+  16:             current = current.setdefault(letter, {})
+- 17:         current[self.eof] = self.eof
++ 17:         current[self.eof] = eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+--------------------------------------------------------------------------------
+[0.09754 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.add(str_0)
+
+ALL-SMART/test_trie_MOSA.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f3e5ba0>, word = ";8k')N1"
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:17: NameError
+   - [#  50] SVD trie: 
+--------------------------------------------------------------------------------
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+- 21:         node = self.head
++ 21:         node = head
+  22:         while idx < len(prefix):
+  23:             letter = prefix[idx]
+  24:             if letter not in node:
+  25:                 return []
+--------------------------------------------------------------------------------
+[0.08172 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+>       var_0 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <trie.Trie object at 0x7f846f493a00>, prefix = '/j\n&u(p_*Y6-%*"y5>Q'
+
+>   ???
+E   NameError: name 'head' is not defined
+
+trie:21: NameError
+   - [#  51] SVD trie: 
+--------------------------------------------------------------------------------
+  26:             node = node[letter]
+  27:             idx += 1
+  28:         
+  29:         def getWords(node, prefix):
+- 30:             if self.eof in node:
++ 30:             if eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+  34:                 words.extend(getWords(val, prefix + key))
+--------------------------------------------------------------------------------
+[0.08501 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+        assert len(trie_0.head) == 7
+>       var_1 = trie_0.get_all_common_prefix(str_0)
+
+ALL-SMART/test_trie_MOSA.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+trie:37: in get_all_common_prefix
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'__eof__': '__eof__'}, prefix = ";8k')N1"
+
+>   ???
+E   NameError: name 'eof' is not defined
+
+trie:30: NameError
+   - [#  52] ZIL trie: 
+--------------------------------------------------------------------------------
+   4:     
+   5:     def __init__(self, words):
+   6:         self.head = {}
+   7:         for word in words:
+-  8:             current = self.head
+-  9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
+- 11:             current[self.eof] = self.eof
++  8:             break
++  9:     
++ 10:     
++ 11:     
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+--------------------------------------------------------------------------------
+[0.08477 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+>       assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:8: AssertionError
+   - [#  53] ZIL trie: 
+--------------------------------------------------------------------------------
+   6:         self.head = {}
+   7:         for word in words:
+   8:             current = self.head
+   9:             for letter in word:
+- 10:                 current = current.setdefault(letter, {})
++ 10:                 break
+  11:             current[self.eof] = self.eof
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+--------------------------------------------------------------------------------
+[0.08199 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+>       assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:8: AssertionError
+   - [#  54] ZIL trie: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     def add(self, word):
+  14:         current = self.head
+  15:         for letter in word:
+- 16:             current = current.setdefault(letter, {})
++ 16:             break
+  17:         current[self.eof] = self.eof
+  18:     
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+--------------------------------------------------------------------------------
+[0.07963 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_1
+
+def test_case_1():
+        str_0 = ";8k')N1"
+        none_type_0 = None
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {';': {'__eof__': '__eof__'}, '8': {'__eof__': '__eof__'}, 'k': {'__eof__': '__eof__'}, "'": {'__eof__': '__eof__'}, ')': {'__eof__': '__eof__'}, 'N': {'__eof__': '__eof__'}, '1': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.add(str_0)
+>       assert len(trie_0.head) == 7
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:21: AssertionError
+   - [#  55] ZIL trie: 
+--------------------------------------------------------------------------------
+  19:     def get_all_common_prefix(self, prefix):
+  20:         idx = 0
+  21:         node = self.head
+  22:         while idx < len(prefix):
+- 23:             letter = prefix[idx]
+- 24:             if letter not in node:
+- 25:                 return []
+- 26:             node = node[letter]
+- 27:             idx += 1
++ 23:             break
++ 24:         
++ 25:         
++ 26:         
++ 27:         
+  28:         
+  29:         def getWords(node, prefix):
+  30:             if self.eof in node:
+  31:                 return [prefix]
+--------------------------------------------------------------------------------
+[0.08256 s] killed by ALL-SMART/test_trie_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '/j\n&u(p_*Y6-%*"y5>Q'
+        trie_0 = module_0.Trie(str_0)
+        assert trie_0.head == {'/': {'__eof__': '__eof__'}, 'j': {'__eof__': '__eof__'}, '\n': {'__eof__': '__eof__'}, '&': {'__eof__': '__eof__'}, 'u': {'__eof__': '__eof__'}, '(': {'__eof__': '__eof__'}, 'p': {'__eof__': '__eof__'}, '_': {'__eof__': '__eof__'}, '*': {'__eof__': '__eof__'}, 'Y': {'__eof__': '__eof__'}, '6': {'__eof__': '__eof__'}, '-': {'__eof__': '__eof__'}, '%': {'__eof__': '__eof__'}, '"': {'__eof__': '__eof__'}, 'y': {'__eof__': '__eof__'}, '5': {'__eof__': '__eof__'}, '>': {'__eof__': '__eof__'}, 'Q': {'__eof__': '__eof__'}}
+        assert module_0.Trie.eof == '__eof__'
+        var_0 = trie_0.get_all_common_prefix(str_0)
+        trie_1 = module_0.Trie(var_0)
+>       assert trie_1.head == {}
+E       AssertionError
+
+ALL-SMART/test_trie_MOSA.py:12: AssertionError
+   - [#  56] ZIL trie: 
+--------------------------------------------------------------------------------
+  30:             if self.eof in node:
+  31:                 return [prefix]
+  32:             words = []
+  33:             for (key, val) in node.items():
+- 34:                 words.extend(getWords(val, prefix + key))
++ 34:                 break
+  35:             return words
+  36:         
+  37:         return getWords(node, prefix)
+--------------------------------------------------------------------------------
+[0.07213 s] survived
+[*] Mutation score [5.88714 s]: 79.2%
+   - all: 56
+   - killed: 38 (67.9%)
+   - survived: 10 (17.9%)
+   - incompetent: 8 (14.3%)
+   - timeout: 0 (0.0%)

@@ -6,46 +6,51 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    # Test case 1: Shortest path between nodes in a simple graph
+def test_dijkstras_basic_case():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_no_path_case():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1},
+        'C': {'D': 2},
+        'D': {'C': 2}
+    }
+    src = 'A'
+    dst = 'C'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == []
+
+def test_dijkstras_same_source_dest_case():
     weighted_graph = {
         'A': {'B': 1, 'C': 4},
         'B': {'A': 1, 'C': 2},
         'C': {'A': 4, 'B': 2}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'A'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['A']
 
-    # Test case 2: Shortest path between nodes in a graph with multiple paths
+def test_dijkstras_large_graph_case():
     weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'A': 2, 'C': 1, 'D': 3},
-        'C': {'A': 4, 'B': 1, 'D': 2},
-        'D': {'B': 3, 'C': 2}
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1},
+        'E': {'F': 3},
+        'F': {'E': 3}
     }
     src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
-
-    # Test case 3: Shortest path between nodes where source and destination are the same
-    weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'A': 2, 'C': 1, 'D': 3},
-        'C': {'A': 4, 'B': 1, 'D': 2},
-        'D': {'B': 3, 'C': 2}
-    }
-    src = 'C'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['C']
-
-    # Test case 4: Shortest path between nodes with negative weights
-    weighted_graph = {
-        'A': {'B': -2, 'C': 4},
-        'B': {'A': -2, 'C': 1, 'D': 3},
-        'C': {'A': 4, 'B': 1, 'D': 2},
-        'D': {'B': 3, 'C': 2}
-    }
-    src = 'A'
-    dst = 'D'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D']
+    dst = 'F'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['A', 'B', 'C', 'D', 'F']

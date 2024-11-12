@@ -26,3 +26,4 @@ class Stack(object):
     def pop(self):
         """Remove item off the stack."""
         self._stack.pop()
+

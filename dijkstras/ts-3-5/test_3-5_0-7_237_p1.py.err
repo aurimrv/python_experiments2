@@ -8,38 +8,59 @@ from dijkstras import dijkstras
 
 class TestDijkstras:
     
-    def test_dijkstras_basic_case(self):
+    def test_dijkstras_shortest_path(self):
         weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
+            'A': {'B': 2, 'C': 4},
+            'B': {'A': 2, 'C': 1, 'D': 7},
+            'C': {'A': 4, 'B': 1, 'D': 3},
+            'D': {'B': 7, 'C': 3}
         }
         src = 'A'
         dst = 'D'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'B', 'C', 'D']
-    
-    def test_dijkstras_same_source_dest(self):
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
+
+    def test_dijkstras_duplicate_shortest_path(self):
         weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
+            'A': {'B': 2, 'C': 4},
+            'B': {'A': 2, 'C': 1, 'D': 7},
+            'C': {'A': 4, 'B': 1, 'D': 3},
+            'D': {'B': 7, 'C': 3}
+        }
+        src = 'A'
+        dst = 'C'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+
+    def test_dijkstras_no_path(self):
+        weighted_graph = {
+            'A': {'B': 2},
+            'B': {'A': 2, 'C': 1},
+            'C': {'B': 1}
+        }
+        src = 'A'
+        dst = 'C'
+        assert dijkstras(weighted_graph, src, dst) == []
+
+    def test_dijkstras_single_node_graph(self):
+        weighted_graph = {
+            'A': {}
         }
         src = 'A'
         dst = 'A'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A']
-    
-    def test_dijkstras_unreachable_dest(self):
+        assert dijkstras(weighted_graph, src, dst) == ['A']
+
+    def test_dijkstras_large_graph(self):
         weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
+            'A': {'B': 1},
+            'B': {'C': 2},
+            'C': {'D': 3},
+            'D': {'E': 4},
+            'E': {'F': 5},
+            'F': {'G': 6},
+            'G': {'H': 7},
+            'H': {'I': 8},
+            'I': {'J': 9},
+            'J': {'K': 10}
         }
         src = 'A'
-        dst = 'E'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == []
+        dst = 'K'
+        assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']

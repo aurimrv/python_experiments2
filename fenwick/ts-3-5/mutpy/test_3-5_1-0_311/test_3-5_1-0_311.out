@@ -1,0 +1,1537 @@
+[*] Start mutation process:
+   - targets: fenwick_tree.py
+   - tests: ts-3-5/test_3-5_1-0_311.py
+[*] 3 tests passed:
+   - test_3-5_1-0_311 [0.18734 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD fenwick_tree: 
+--------------------------------------------------------------------------------
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+- 16:             index += index & (-index)
++ 16:             index += index & index
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+--------------------------------------------------------------------------------
+[0.21776 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa9760f910>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#   2] AOD fenwick_tree: 
+--------------------------------------------------------------------------------
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+- 24:             index -= index & (-index)
++ 24:             index -= index & index
+  25:         
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+--------------------------------------------------------------------------------
+[0.21639 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974e6a70>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#   3] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         self.nums = [0] / (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.22784 s] incompetent
+
+TypeError: fenwick_tree:4: TypeError: unsupported operand type(s) for /: 'list' and 'int'
+
+   - [#   4] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         self.nums = [0] // (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.21489 s] incompetent
+
+TypeError: fenwick_tree:4: TypeError: unsupported operand type(s) for //: 'list' and 'int'
+
+   - [#   5] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         self.nums = [0] ** (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.21920 s] incompetent
+
+TypeError: fenwick_tree:4: TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
+
+   - [#   6] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         self.nums = [0] * (len(arr) - 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.22468 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97467dc0>, index = 4, value = 4
+
+>   ???
+E   IndexError: list index out of range
+
+fenwick_tree:12: IndexError
+   - [#   7] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         self.tree = [0] / (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.22248 s] incompetent
+
+TypeError: fenwick_tree:5: TypeError: unsupported operand type(s) for /: 'list' and 'int'
+
+   - [#   8] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         self.tree = [0] // (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.20731 s] incompetent
+
+TypeError: fenwick_tree:5: TypeError: unsupported operand type(s) for //: 'list' and 'int'
+
+   - [#   9] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         self.tree = [0] ** (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.22596 s] incompetent
+
+TypeError: fenwick_tree:5: TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
+
+   - [#  10] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         self.tree = [0] * (len(arr) - 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.22271 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97454f40>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  11] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+   8:             self.update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+- 12:         delta = value - self.nums[index]
++ 12:         delta = value + self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+--------------------------------------------------------------------------------
+[0.22546 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97467d90>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  12] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
++ 14:         while index <= len(self.tree) + 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+--------------------------------------------------------------------------------
+[0.22388 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974e4580>, index = 6, value = 5
+
+>   ???
+E   IndexError: list index out of range
+
+fenwick_tree:15: IndexError
+   - [#  13] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+- 16:             index += index & (-index)
++ 16:             index += index & (+index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+--------------------------------------------------------------------------------
+[0.22168 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97467070>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  14] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+- 24:             index -= index & (-index)
++ 24:             index -= index & (+index)
+  25:         
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+--------------------------------------------------------------------------------
+[0.22195 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97778f10>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  15] AOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 31:         return self.sum_of_n(end) + self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.22160 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_range
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa975bd780>
+
+    def test_sum_of_range(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_range(1, 3) == 9
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:25: AssertionError
+   - [#  16] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+- 11:         index += 1
++ 11:         index -= 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+--------------------------------------------------------------------------------
+[5.00653 s] timeout
+   - [#  17] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+- 15:             self.tree[index] += delta
++ 15:             self.tree[index] -= delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+--------------------------------------------------------------------------------
+[0.21951 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97216a40>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  18] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+- 16:             index += index & (-index)
++ 16:             index -= index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+--------------------------------------------------------------------------------
+[5.00673 s] timeout
+   - [#  19] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+- 20:         index += 1
++ 20:         index -= 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+--------------------------------------------------------------------------------
+[0.21573 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa975bed10>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  20] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  19:         s = 0
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+- 23:             s += self.tree[index]
++ 23:             s -= self.tree[index]
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+  27:     
+--------------------------------------------------------------------------------
+[0.22097 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa972588e0>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  21] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+- 24:             index -= index & (-index)
++ 24:             index += index & (-index)
+  25:         
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+--------------------------------------------------------------------------------
+[0.21954 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974641f0>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+
+ts-3-5/test_3-5_1-0_311.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974641f0>, index = 8
+
+>   ???
+E   IndexError: list index out of range
+
+fenwick_tree:23: IndexError
+   - [#  22] ASR fenwick_tree: 
+--------------------------------------------------------------------------------
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+- 30:         start -= 1
++ 30:         start += 1
+  31:         return self.sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.19210 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_range
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974e7190>
+
+    def test_sum_of_range(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_range(1, 3) == 9
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:25: AssertionError
+   - [#  23] CDI fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+-  3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
+-  6:         
+-  7:         for i in range(len(arr)):
+-  8:             self.update(i, arr[i])
+-  9:     
++  3:     @classmethod
++  4:     def __init__(self, arr):
++  5:         self.nums = [0] * (len(arr) + 1)
++  6:         self.tree = [0] * (len(arr) + 1)
++  7:         
++  8:         for i in range(len(arr)):
++  9:             self.update(i, arr[i])
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+--------------------------------------------------------------------------------
+[0.21986 s] incompetent
+
+TypeError: fenwick_tree:9: TypeError: FenwickTree.update() missing 1 required positional argument: 'value'
+
+   - [#  24] CDI fenwick_tree: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+- 10:     def update(self, index, value):
+- 11:         index += 1
+- 12:         delta = value - self.nums[index]
+- 13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
+- 15:             self.tree[index] += delta
+- 16:             index += index & (-index)
+- 17:     
++ 10:     @classmethod
++ 11:     def update(self, index, value):
++ 12:         index += 1
++ 13:         delta = value - self.nums[index]
++ 14:         self.nums[index] = value
++ 15:         while index <= len(self.tree) - 1:
++ 16:             self.tree[index] += delta
++ 17:             index += index & (-index)
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+--------------------------------------------------------------------------------
+[0.20158 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'fenwick_tree.FenwickTree'>, index = 1, value = 1
+
+>   ???
+E   AttributeError: type object 'FenwickTree' has no attribute 'nums'
+
+fenwick_tree:13: AttributeError
+   - [#  25] CDI fenwick_tree: 
+--------------------------------------------------------------------------------
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+- 18:     def sum_of_n(self, index):
+- 19:         s = 0
+- 20:         index += 1
+- 21:         
+- 22:         while index > 0:
+- 23:             s += self.tree[index]
+- 24:             index -= index & (-index)
+- 25:         
+- 26:         return s
+- 27:     
++ 18:     @classmethod
++ 19:     def sum_of_n(self, index):
++ 20:         s = 0
++ 21:         index += 1
++ 22:         
++ 23:         while index > 0:
++ 24:             s += self.tree[index]
++ 25:             index -= index & (-index)
++ 26:         
++ 27:         return s
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+  31:         return self.sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.20220 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa9777ab00>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+
+ts-3-5/test_3-5_1-0_311.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'fenwick_tree.FenwickTree'>, index = 3
+
+>   ???
+E   AttributeError: type object 'FenwickTree' has no attribute 'tree'
+
+fenwick_tree:24: AttributeError
+   - [#  26] CDI fenwick_tree: 
+--------------------------------------------------------------------------------
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+  27:     
+- 28:     def sum_of_range(self, start, end):
+- 29:         
+- 30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 28:     @classmethod
++ 29:     def sum_of_range(self, start, end):
++ 30:         
++ 31:         start -= 1
++ 32:         return self.sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.19680 s] incompetent
+
+TypeError: fenwick_tree:32: TypeError: FenwickTree.sum_of_n() missing 1 required positional argument: 'index'
+
+   - [#  27] COI fenwick_tree: 
+--------------------------------------------------------------------------------
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
++ 14:         while not (index <= len(self.tree) - 1):
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+--------------------------------------------------------------------------------
+[0.20098 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97432ad0>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  28] COI fenwick_tree: 
+--------------------------------------------------------------------------------
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+- 22:         while index > 0:
++ 22:         while not (index > 0):
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+--------------------------------------------------------------------------------
+[0.20087 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa975bf010>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  29] LOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+- 16:             index += index & (-index)
++ 16:             index += index | (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+--------------------------------------------------------------------------------
+[5.00695 s] timeout
+   - [#  30] LOR fenwick_tree: 
+--------------------------------------------------------------------------------
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+- 24:             index -= index & (-index)
++ 24:             index -= index | (-index)
+  25:         
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+--------------------------------------------------------------------------------
+[0.19180 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa976e9330>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+
+ts-3-5/test_3-5_1-0_311.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa976e9330>, index = 8
+
+>   ???
+E   IndexError: list index out of range
+
+fenwick_tree:23: IndexError
+   - [#  31] OIL fenwick_tree: 
+--------------------------------------------------------------------------------
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+-  9:     
++  9:             break
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+--------------------------------------------------------------------------------
+[0.19879 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97570b50>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  32] OIL fenwick_tree: 
+--------------------------------------------------------------------------------
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+- 17:     
++ 17:             break
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+--------------------------------------------------------------------------------
+[0.19966 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa972307c0>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  33] OIL fenwick_tree: 
+--------------------------------------------------------------------------------
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+- 25:         
++ 25:             break
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+--------------------------------------------------------------------------------
+[0.20179 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa972b1210>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  34] RIL fenwick_tree: 
+--------------------------------------------------------------------------------
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+-  7:         for i in range(len(arr)):
++  7:         for i in reversed(range(len(arr))):
+   8:             self.update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+--------------------------------------------------------------------------------
+[0.17856 s] survived
+   - [#  35] ROR fenwick_tree: 
+--------------------------------------------------------------------------------
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
++ 14:         while index >= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+--------------------------------------------------------------------------------
+[0.20483 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97456f80>, index = 6, value = 5
+
+>   ???
+E   IndexError: list index out of range
+
+fenwick_tree:15: IndexError
+   - [#  36] ROR fenwick_tree: 
+--------------------------------------------------------------------------------
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
++ 14:         while index < len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+--------------------------------------------------------------------------------
+[0.19420 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974548b0>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  37] ROR fenwick_tree: 
+--------------------------------------------------------------------------------
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+- 22:         while index > 0:
++ 22:         while index < 0:
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+--------------------------------------------------------------------------------
+[0.19916 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97259d50>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  38] ROR fenwick_tree: 
+--------------------------------------------------------------------------------
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+- 22:         while index > 0:
++ 22:         while index >= 0:
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+--------------------------------------------------------------------------------
+[5.00671 s] timeout
+   - [#  39] SDI fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+-  3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
+-  6:         
+-  7:         for i in range(len(arr)):
+-  8:             self.update(i, arr[i])
+-  9:     
++  3:     @staticmethod
++  4:     def __init__(self, arr):
++  5:         self.nums = [0] * (len(arr) + 1)
++  6:         self.tree = [0] * (len(arr) + 1)
++  7:         
++  8:         for i in range(len(arr)):
++  9:             self.update(i, arr[i])
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+--------------------------------------------------------------------------------
+[0.19325 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/fenwick/ts-3-5/test_3-5_1-0_311.py:15: TypeError: FenwickTree.__init__() missing 1 required positional argument: 'arr'
+
+   - [#  40] SDI fenwick_tree: 
+--------------------------------------------------------------------------------
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+- 10:     def update(self, index, value):
+- 11:         index += 1
+- 12:         delta = value - self.nums[index]
+- 13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
+- 15:             self.tree[index] += delta
+- 16:             index += index & (-index)
+- 17:     
++ 10:     @staticmethod
++ 11:     def update(self, index, value):
++ 12:         index += 1
++ 13:         delta = value - self.nums[index]
++ 14:         self.nums[index] = value
++ 15:         while index <= len(self.tree) - 1:
++ 16:             self.tree[index] += delta
++ 17:             index += index & (-index)
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+  21:         
+--------------------------------------------------------------------------------
+[0.19973 s] incompetent
+
+TypeError: fenwick_tree:8: TypeError: FenwickTree.update() missing 1 required positional argument: 'value'
+
+   - [#  41] SDI fenwick_tree: 
+--------------------------------------------------------------------------------
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+- 18:     def sum_of_n(self, index):
+- 19:         s = 0
+- 20:         index += 1
+- 21:         
+- 22:         while index > 0:
+- 23:             s += self.tree[index]
+- 24:             index -= index & (-index)
+- 25:         
+- 26:         return s
+- 27:     
++ 18:     @staticmethod
++ 19:     def sum_of_n(self, index):
++ 20:         s = 0
++ 21:         index += 1
++ 22:         
++ 23:         while index > 0:
++ 24:             s += self.tree[index]
++ 25:             index -= index & (-index)
++ 26:         
++ 27:         return s
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+  31:         return self.sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.19894 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/fenwick/ts-3-5/test_3-5_1-0_311.py:22: TypeError: FenwickTree.sum_of_n() missing 1 required positional argument: 'index'
+
+   - [#  42] SDI fenwick_tree: 
+--------------------------------------------------------------------------------
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+  27:     
+- 28:     def sum_of_range(self, start, end):
+- 29:         
+- 30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 28:     @staticmethod
++ 29:     def sum_of_range(self, start, end):
++ 30:         
++ 31:         start -= 1
++ 32:         return self.sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.19831 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/fenwick/ts-3-5/test_3-5_1-0_311.py:25: TypeError: FenwickTree.sum_of_range() missing 1 required positional argument: 'end'
+
+   - [#  43] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         pass
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.20404 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97457370>, index = 1, value = 1
+
+>   ???
+E   AttributeError: 'FenwickTree' object has no attribute 'nums'
+
+fenwick_tree:12: AttributeError
+   - [#  44] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         pass
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.20458 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97456080>, index = 1, value = 1
+
+>   ???
+E   AttributeError: 'FenwickTree' object has no attribute 'tree'
+
+fenwick_tree:14: AttributeError
+   - [#  45] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+   4:         self.nums = [0] * (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+-  8:             self.update(i, arr[i])
++  8:             pass
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+--------------------------------------------------------------------------------
+[0.20264 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97464370>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  46] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+   8:             self.update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+- 12:         delta = value - self.nums[index]
++ 12:         pass
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+--------------------------------------------------------------------------------
+[0.20150 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97455a20>, index = 1, value = 1
+
+>   ???
+E   NameError: name 'delta' is not defined
+
+fenwick_tree:15: NameError
+   - [#  47] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+- 13:         self.nums[index] = value
++ 13:         pass
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+--------------------------------------------------------------------------------
+[0.20273 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97207400>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  48] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+- 19:         s = 0
++ 19:         pass
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+  23:             s += self.tree[index]
+--------------------------------------------------------------------------------
+[0.20329 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa9725ae30>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+
+ts-3-5/test_3-5_1-0_311.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa9725ae30>, index = 3
+
+>   ???
+E   UnboundLocalError: local variable 's' referenced before assignment
+
+fenwick_tree:23: UnboundLocalError
+   - [#  49] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+  22:         while index > 0:
+  23:             s += self.tree[index]
+  24:             index -= index & (-index)
+  25:         
+- 26:         return s
++ 26:         pass
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+--------------------------------------------------------------------------------
+[0.20328 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97457070>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+   - [#  50] SDL fenwick_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 31:         pass
+--------------------------------------------------------------------------------
+[0.19566 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_range
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97232c20>
+
+    def test_sum_of_range(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_range(1, 3) == 9
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:25: AssertionError
+   - [#  51] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+-  4:         self.nums = [0] * (len(arr) + 1)
++  4:         nums = [0] * (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  52] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+   1: class FenwickTree:
+   2:     
+   3:     def __init__(self, arr):
+   4:         self.nums = [0] * (len(arr) + 1)
+-  5:         self.tree = [0] * (len(arr) + 1)
++  5:         tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+   8:             self.update(i, arr[i])
+   9:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  53] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+   4:         self.nums = [0] * (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+-  8:             self.update(i, arr[i])
++  8:             update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+--------------------------------------------------------------------------------
+[0.20197 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97258790>
+arr = [1, 2, 3, 4, 5]
+
+>   ???
+E   NameError: name 'update' is not defined
+
+fenwick_tree:8: NameError
+   - [#  54] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+   8:             self.update(i, arr[i])
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+- 12:         delta = value - self.nums[index]
++ 12:         delta = value - nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+--------------------------------------------------------------------------------
+[0.20146 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974555a0>, index = 1, value = 1
+
+>   ???
+E   NameError: name 'nums' is not defined
+
+fenwick_tree:12: NameError
+   - [#  55] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+- 13:         self.nums[index] = value
++ 13:         nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+--------------------------------------------------------------------------------
+[0.21608 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974c1840>, index = 1, value = 1
+
+>   ???
+E   NameError: name 'nums' is not defined
+
+fenwick_tree:13: NameError
+   - [#  56] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+- 14:         while index <= len(self.tree) - 1:
++ 14:         while index <= len(tree) - 1:
+  15:             self.tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+--------------------------------------------------------------------------------
+[0.21618 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97231c30>, index = 1, value = 1
+
+>   ???
+E   NameError: name 'tree' is not defined
+
+fenwick_tree:14: NameError
+   - [#  57] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+- 15:             self.tree[index] += delta
++ 15:             tree[index] += delta
+  16:             index += index & (-index)
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+--------------------------------------------------------------------------------
+[0.20380 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+@pytest.fixture
+    def sample_fenwick_tree():
+        arr = [1, 2, 3, 4, 5]
+>       return FenwickTree(arr)
+
+ts-3-5/test_3-5_1-0_311.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+fenwick_tree:8: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974c30a0>, index = 1, value = 1
+
+>   ???
+E   NameError: name 'tree' is not defined
+
+fenwick_tree:15: NameError
+   - [#  58] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+  19:         s = 0
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+- 23:             s += self.tree[index]
++ 23:             s += tree[index]
+  24:             index -= index & (-index)
+  25:         
+  26:         return s
+  27:     
+--------------------------------------------------------------------------------
+[0.20436 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974c2560>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+
+ts-3-5/test_3-5_1-0_311.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa974c2560>, index = 3
+
+>   ???
+E   NameError: name 'tree' is not defined
+
+fenwick_tree:23: NameError
+   - [#  59] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 31:         return sum_of_n(end) - self.sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.20052 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_range
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97230c10>
+
+    def test_sum_of_range(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_range(1, 3) == 9
+
+ts-3-5/test_3-5_1-0_311.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa97230c10>, start = 0, end = 3
+
+>   ???
+E   NameError: name 'sum_of_n' is not defined
+
+fenwick_tree:31: NameError
+   - [#  60] SVD fenwick_tree: 
+--------------------------------------------------------------------------------
+  27:     
+  28:     def sum_of_range(self, start, end):
+  29:         
+  30:         start -= 1
+- 31:         return self.sum_of_n(end) - self.sum_of_n(start)
++ 31:         return self.sum_of_n(end) - sum_of_n(start)
+--------------------------------------------------------------------------------
+[0.20182 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_range
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa972dafe0>
+
+    def test_sum_of_range(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_range(1, 3) == 9
+
+ts-3-5/test_3-5_1-0_311.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <fenwick_tree.FenwickTree object at 0x7bfa972dafe0>, start = 0, end = 3
+
+>   ???
+E   NameError: name 'sum_of_n' is not defined
+
+fenwick_tree:31: NameError
+   - [#  61] ZIL fenwick_tree: 
+--------------------------------------------------------------------------------
+   4:         self.nums = [0] * (len(arr) + 1)
+   5:         self.tree = [0] * (len(arr) + 1)
+   6:         
+   7:         for i in range(len(arr)):
+-  8:             self.update(i, arr[i])
++  8:             break
+   9:     
+  10:     def update(self, index, value):
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+--------------------------------------------------------------------------------
+[0.20300 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974659f0>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  62] ZIL fenwick_tree: 
+--------------------------------------------------------------------------------
+  11:         index += 1
+  12:         delta = value - self.nums[index]
+  13:         self.nums[index] = value
+  14:         while index <= len(self.tree) - 1:
+- 15:             self.tree[index] += delta
+- 16:             index += index & (-index)
++ 15:             break
++ 16:     
+  17:     
+  18:     def sum_of_n(self, index):
+  19:         s = 0
+  20:         index += 1
+--------------------------------------------------------------------------------
+[0.20747 s] killed by ts-3-5/test_3-5_1-0_311.py::test_update
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa97456500>
+
+    def test_update(sample_fenwick_tree):
+        sample_fenwick_tree.update(2, 6)
+>       assert sample_fenwick_tree.tree == [0, 1, 3, 6, 13, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:19: AssertionError
+   - [#  63] ZIL fenwick_tree: 
+--------------------------------------------------------------------------------
+  19:         s = 0
+  20:         index += 1
+  21:         
+  22:         while index > 0:
+- 23:             s += self.tree[index]
+- 24:             index -= index & (-index)
++ 23:             break
++ 24:         
+  25:         
+  26:         return s
+  27:     
+  28:     def sum_of_range(self, start, end):
+--------------------------------------------------------------------------------
+[0.19833 s] killed by ts-3-5/test_3-5_1-0_311.py::test_sum_of_n
+
+sample_fenwick_tree = <fenwick_tree.FenwickTree object at 0x7bfa974c17b0>
+
+    def test_sum_of_n(sample_fenwick_tree):
+>       assert sample_fenwick_tree.sum_of_n(2) == 6
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_311.py:22: AssertionError
+[*] Mutation score [33.42039 s]: 98.0%
+   - all: 63
+   - killed: 44 (69.8%)
+   - survived: 1 (1.6%)
+   - incompetent: 14 (22.2%)
+   - timeout: 4 (6.3%)

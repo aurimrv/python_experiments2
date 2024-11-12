@@ -36,6 +36,12 @@ def test_pop_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
     pq.add_task('task2', 2)
-    task = pq.pop_task()
-    assert task == 'task2'
-    assert len(pq.pq) == 1
+    assert pq.pop_task() == 'task2'
+    assert pq.pop_task() == 'task1'
+
+def test_pop_task_empty_queue():
+    pq = PriorityQueue()
+    try:
+        pq.pop_task()
+    except KeyError as e:
+        assert str(e) == 'Pop from empty priority queue.'

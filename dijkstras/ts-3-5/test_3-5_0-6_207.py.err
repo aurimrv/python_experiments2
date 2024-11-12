@@ -1,57 +1,68 @@
 import os
 import sys
+
+# Add project directory to sys path
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
-    
-    def test_dijkstras_basic_case(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A', 'B', 'C', 'D']
-    
-    def test_dijkstras_no_path(self):
-        weighted_graph = {
-            'A': {'B': 1},
-            'B': {'A': 1},
-            'C': {'D': 2},
-            'D': {'C': 2}
-        }
-        src = 'A'
-        dst = 'C'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == []
-    
-    def test_dijkstras_same_source_and_destination(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'A'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result == ['A']
-    
-    def test_dijkstras_multiple_paths(self):
-        weighted_graph = {
-            'A': {'B': 1, 'C': 4},
-            'B': {'A': 1, 'C': 2, 'D': 5},
-            'C': {'A': 4, 'B': 2, 'D': 1},
-            'D': {'B': 5, 'C': 1}
-        }
-        src = 'A'
-        dst = 'D'
-        result = dijkstras(weighted_graph, src, dst)
-        assert result in [['A', 'B', 'C', 'D'], ['A', 'C', 'D']]
+def test_dijkstras_shortest_path():
+    # Test case for finding shortest path between two nodes in a weighted graph
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('A', 'C', 4)
+    weighted_graph.add_edge('B', 'D', 2)
+    weighted_graph.add_edge('C', 'D', 3)
+
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'D']
+
+def test_dijkstras_invalid_source_destination():
+    # Test case for invalid source or destination nodes
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+
+    assert dijkstras(weighted_graph, 'A', 'C') == []  # Destination node does not exist
+
+def test_dijkstras_same_source_destination():
+    # Test case for the same source and destination nodes
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_edge('A', 'B', 2)
+
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+def test_dijkstras_no_path():
+    # Test case for no path between two nodes
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+
+    assert dijkstras(weighted_graph, 'A', 'C') == []  # No path exists between A and C
+
+class WeightedGraph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = Vertex(vertex)
+
+    def add_edge(self, src, dst, weight):
+        if src in self.vertices and dst in self.vertices:
+            self.vertices[src].adjacent[dst] = weight
+            self.vertices[dst].adjacent[src] = weight
+
+class Vertex:
+    def __init__(self, vertex):
+        self.vertex = vertex
+        self.adjacent = {}

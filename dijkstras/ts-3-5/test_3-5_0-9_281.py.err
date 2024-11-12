@@ -1,0 +1,80 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras
+
+class TestDijkstras:
+    def test_dijkstras_shortest_path1(self):
+        class TestVertex:
+            def __init__(self, val):
+                self.value = val
+                self.adjacent = {}
+
+        class TestWeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        graph = TestWeightedGraph()
+        v1 = TestVertex('A')
+        v2 = TestVertex('B')
+        v3 = TestVertex('C')
+        
+        v1.adjacent[v2] = 1
+        v2.adjacent[v3] = 2
+        v1.adjacent[v3] = 3
+
+        graph.vertices = {'A': v1, 'B': v2, 'C': v3}
+
+        assert dijkstras(graph, 'A', 'C') == ['A', 'C']
+
+    def test_dijkstras_shortest_path2(self):
+        class TestVertex:
+            def __init__(self, val):
+                self.value = val
+                self.adjacent = {}
+
+        class TestWeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        graph = TestWeightedGraph()
+        v1 = TestVertex('A')
+        v2 = TestVertex('B')
+        v3 = TestVertex('C')
+        v4 = TestVertex('D')
+        
+        v1.adjacent[v2] = 1
+        v2.adjacent[v3] = 2
+        v1.adjacent[v3] = 3
+        v3.adjacent[v4] = 1
+
+        graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+
+        assert dijkstras(graph, 'A', 'D') == ['A', 'C', 'D']
+
+    def test_dijkstras_no_path(self):
+        class TestVertex:
+            def __init__(self, val):
+                self.value = val
+                self.adjacent = {}
+
+        class TestWeightedGraph:
+            def __init__(self):
+                self.vertices = {}
+
+        graph = TestWeightedGraph()
+        v1 = TestVertex('A')
+        v2 = TestVertex('B')
+        v3 = TestVertex('C')
+        v4 = TestVertex('D')
+        
+        v1.adjacent[v2] = 1
+        v2.adjacent[v3] = 2
+        v1.adjacent[v3] = 3
+
+        graph.vertices = {'A': v1, 'B': v2, 'C': v3, 'D': v4}
+
+        assert dijkstras(graph, 'A', 'D') == []

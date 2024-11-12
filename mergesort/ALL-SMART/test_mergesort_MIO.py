@@ -1,0 +1,10 @@
+#Pyguin test cases converted from /home/lucca/teste/python_experiments2/mergesort/MIO/seed_1706/test_mergesort.py
+import mergesort as module_0
+
+def test_case_0():
+    bytes_0 = b"\x85\xbb\xed>\xb7\xd6\xb0\x03\xed&\x0b\xb6'\xa7\xfb}"
+    var_0 = module_0.mergesort(bytes_0)
+
+def test_case_1():
+    bytes_0 = b":\x83\x85\xbb\xed>\xb7\xd6\xb0\x03\xed&\xf3\x0b\xb6'\xa7\xfbl}"
+    var_0 = module_0.mergesort(bytes_0)

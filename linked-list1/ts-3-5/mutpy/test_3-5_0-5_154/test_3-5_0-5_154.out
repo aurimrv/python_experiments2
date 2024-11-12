@@ -1,0 +1,2250 @@
+[*] Start mutation process:
+   - targets: linked_list1.py
+   - tests: ts-3-5/test_3-5_0-5_154.py
+[*] 4 tests passed:
+   - test_3-5_0-5_154 [0.13475 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+-  3:     def __init__(self, val, next=None):
+-  4:         self.val = val
+-  5:         self.next = next
+-  6:     
++  3:     @classmethod
++  4:     def __init__(self, val, next=None):
++  5:         self.val = val
++  6:         self.next = next
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+  10:             return False
+--------------------------------------------------------------------------------
+[0.16406 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+        assert reversed_node.val == 3
+>       assert reversed_node.next.val == 2
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:49: AssertionError
+   - [#   2] CDI linked_list1: 
+--------------------------------------------------------------------------------
+   3:     def __init__(self, val, next=None):
+   4:         self.val = val
+   5:         self.next = next
+   6:     
+-  7:     def contains_cycle(self):
+-  8:         
+-  9:         if not (self.next):
+- 10:             return False
+- 11:         slow_pointer = self.next
+- 12:         fast_pointer = self.next.next
+- 13:         
+- 14:         while slow_pointer is not fast_pointer:
+- 15:             if slow_pointer:
+- 16:                 slow_pointer = slow_pointer.next
+- 17:             if (fast_pointer and fast_pointer.next):
+- 18:                 fast_pointer = fast_pointer.next.next
+- 19:         if slow_pointer is None:
+- 20:             return False
+- 21:         else:
+- 22:             return True
+- 23:     
++  7:     @classmethod
++  8:     def contains_cycle(self):
++  9:         
++ 10:         if not (self.next):
++ 11:             return False
++ 12:         slow_pointer = self.next
++ 13:         fast_pointer = self.next.next
++ 14:         
++ 15:         while slow_pointer is not fast_pointer:
++ 16:             if slow_pointer:
++ 17:                 slow_pointer = slow_pointer.next
++ 18:             if (fast_pointer and fast_pointer.next):
++ 19:                 fast_pointer = fast_pointer.next.next
++ 20:         if slow_pointer is None:
++ 21:             return False
++ 22:         else:
++ 23:             return True
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+  27:             return None
+--------------------------------------------------------------------------------
+[0.15464 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list1.ListNode'>
+
+>   ???
+E   AttributeError: type object 'ListNode' has no attribute 'next'
+
+linked_list1:10: AttributeError
+   - [#   3] CDI linked_list1: 
+--------------------------------------------------------------------------------
+  20:             return False
+  21:         else:
+  22:             return True
+  23:     
+- 24:     def get_beginning_of_cycle_if_exists(self):
+- 25:         
+- 26:         if not (self.next):
+- 27:             return None
+- 28:         slow_pointer = self.next
+- 29:         fast_pointer = self.next.next
+- 30:         
+- 31:         while slow_pointer is not fast_pointer:
+- 32:             if slow_pointer:
+- 33:                 slow_pointer = slow_pointer.next
+- 34:             if (fast_pointer and fast_pointer.next):
+- 35:                 fast_pointer = fast_pointer.next.next
+- 36:         if slow_pointer is None:
+- 37:             return None
+- 38:         
+- 39:         slow_pointer = self
+- 40:         
+- 41:         while slow_pointer is not fast_pointer:
+- 42:             
+- 43:             slow_pointer = slow_pointer.next
+- 44:             fast_pointer = fast_pointer.next
+- 45:         
+- 46:         return slow_pointer
+- 47:     
++ 24:     @classmethod
++ 25:     def get_beginning_of_cycle_if_exists(self):
++ 26:         
++ 27:         if not (self.next):
++ 28:             return None
++ 29:         slow_pointer = self.next
++ 30:         fast_pointer = self.next.next
++ 31:         
++ 32:         while slow_pointer is not fast_pointer:
++ 33:             if slow_pointer:
++ 34:                 slow_pointer = slow_pointer.next
++ 35:             if (fast_pointer and fast_pointer.next):
++ 36:                 fast_pointer = fast_pointer.next.next
++ 37:         if slow_pointer is None:
++ 38:             return None
++ 39:         
++ 40:         slow_pointer = self
++ 41:         
++ 42:         while slow_pointer is not fast_pointer:
++ 43:             
++ 44:             slow_pointer = slow_pointer.next
++ 45:             fast_pointer = fast_pointer.next
++ 46:         
++ 47:         return slow_pointer
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+  51:         while head.next:
+--------------------------------------------------------------------------------
+[0.15669 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert node1.get_beginning_of_cycle_if_exists() is None
+
+ts-3-5/test_3-5_0-5_154.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list1.ListNode'>
+
+>   ???
+E   AttributeError: type object 'ListNode' has no attribute 'next'
+
+linked_list1:27: AttributeError
+   - [#   4] CDI linked_list1: 
+--------------------------------------------------------------------------------
+  44:             fast_pointer = fast_pointer.next
+  45:         
+  46:         return slow_pointer
+  47:     
+- 48:     def reverse(self):
+- 49:         prev = None
+- 50:         head = self
+- 51:         while head.next:
+- 52:             next_node = head.next
+- 53:             head.next = prev
+- 54:             prev = head
+- 55:             head = next_node
+- 56:         head.next = prev
+- 57:         return head
+- 58:     
++ 48:     @classmethod
++ 49:     def reverse(self):
++ 50:         prev = None
++ 51:         head = self
++ 52:         while head.next:
++ 53:             next_node = head.next
++ 54:             head.next = prev
++ 55:             prev = head
++ 56:             head = next_node
++ 57:         head.next = prev
++ 58:         return head
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+  62:                 rev.head = node
+--------------------------------------------------------------------------------
+[0.16177 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse()
+
+ts-3-5/test_3-5_0-5_154.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'linked_list1.ListNode'>
+
+>   ???
+E   AttributeError: type object 'ListNode' has no attribute 'next'
+
+linked_list1:52: AttributeError
+   - [#   5] CDI linked_list1: 
+--------------------------------------------------------------------------------
+  55:             head = next_node
+  56:         head.next = prev
+  57:         return head
+  58:     
+- 59:     def reverse_recursive(self):
+- 60:         def rev(node):
+- 61:             if not (node.next):
+- 62:                 rev.head = node
+- 63:                 return
+- 64:             rev(node.next)
+- 65:             temp = node.next
+- 66:             temp.next = node
+- 67:             node.next = None
+- 68:         rev.head = self
+- 69:         rev(self)
+- 70:         
+- 71:         return rev.head
++ 59:     @classmethod
++ 60:     def reverse_recursive(self):
++ 61:         def rev(node):
++ 62:             if not (node.next):
++ 63:                 rev.head = node
++ 64:                 return
++ 65:             rev(node.next)
++ 66:             temp = node.next
++ 67:             temp.next = node
++ 68:             node.next = None
++ 69:         rev.head = self
++ 70:         rev(self)
++ 71:         
++ 72:         return rev.head
+--------------------------------------------------------------------------------
+[0.15144 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse_recursive()
+
+ts-3-5/test_3-5_0-5_154.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list1:70: in reverse_recursive
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <class 'linked_list1.ListNode'>
+
+>   ???
+E   AttributeError: type object 'ListNode' has no attribute 'next'
+
+linked_list1:62: AttributeError
+   - [#   6] COD linked_list1: 
+--------------------------------------------------------------------------------
+   5:         self.next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+-  9:         if not (self.next):
++  9:         if self.next:
+  10:             return False
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+--------------------------------------------------------------------------------
+[0.15669 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e44048fa0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:12: AttributeError
+   - [#   7] COD linked_list1: 
+--------------------------------------------------------------------------------
+  22:             return True
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+- 26:         if not (self.next):
++ 26:         if self.next:
+  27:             return None
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+--------------------------------------------------------------------------------
+[0.15738 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert node1.get_beginning_of_cycle_if_exists() is None
+
+ts-3-5/test_3-5_0-5_154.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43fea9b0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:29: AttributeError
+   - [#   8] COD linked_list1: 
+--------------------------------------------------------------------------------
+  57:         return head
+  58:     
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+- 61:             if not (node.next):
++ 61:             if node.next:
+  62:                 rev.head = node
+  63:                 return
+  64:             rev(node.next)
+  65:             temp = node.next
+--------------------------------------------------------------------------------
+[0.15363 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:61: AssertionError
+   - [#   9] COI linked_list1: 
+--------------------------------------------------------------------------------
+   5:         self.next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+-  9:         if not (self.next):
++  9:         if not ((not (self.next))):
+  10:             return False
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+--------------------------------------------------------------------------------
+[0.15791 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43ffc9a0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:12: AttributeError
+   - [#  10] COI linked_list1: 
+--------------------------------------------------------------------------------
+  10:             return False
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+- 14:         while slow_pointer is not fast_pointer:
++ 14:         while not (slow_pointer is not fast_pointer):
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+--------------------------------------------------------------------------------
+[0.13539 s] survived
+   - [#  11] COI linked_list1: 
+--------------------------------------------------------------------------------
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+- 15:             if slow_pointer:
++ 15:             if not slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+--------------------------------------------------------------------------------
+[0.13451 s] survived
+   - [#  12] COI linked_list1: 
+--------------------------------------------------------------------------------
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+- 17:             if (fast_pointer and fast_pointer.next):
++ 17:             if not ((fast_pointer and fast_pointer.next)):
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+  20:             return False
+  21:         else:
+--------------------------------------------------------------------------------
+[0.13607 s] survived
+   - [#  13] COI linked_list1: 
+--------------------------------------------------------------------------------
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+- 19:         if slow_pointer is None:
++ 19:         if not (slow_pointer is None):
+  20:             return False
+  21:         else:
+  22:             return True
+  23:     
+--------------------------------------------------------------------------------
+[0.15862 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:23: AssertionError
+   - [#  14] COI linked_list1: 
+--------------------------------------------------------------------------------
+  22:             return True
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+- 26:         if not (self.next):
++ 26:         if not ((not (self.next))):
+  27:             return None
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+--------------------------------------------------------------------------------
+[0.15417 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert node1.get_beginning_of_cycle_if_exists() is None
+
+ts-3-5/test_3-5_0-5_154.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e4406b700>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:29: AttributeError
+   - [#  15] COI linked_list1: 
+--------------------------------------------------------------------------------
+  27:             return None
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+- 31:         while slow_pointer is not fast_pointer:
++ 31:         while not (slow_pointer is not fast_pointer):
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+--------------------------------------------------------------------------------
+[5.00673 s] timeout
+   - [#  16] COI linked_list1: 
+--------------------------------------------------------------------------------
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+- 32:             if slow_pointer:
++ 32:             if not slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+--------------------------------------------------------------------------------
+[5.00663 s] timeout
+   - [#  17] COI linked_list1: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+- 34:             if (fast_pointer and fast_pointer.next):
++ 34:             if not ((fast_pointer and fast_pointer.next)):
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+  37:             return None
+  38:         
+--------------------------------------------------------------------------------
+[5.00659 s] timeout
+   - [#  18] COI linked_list1: 
+--------------------------------------------------------------------------------
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+- 36:         if slow_pointer is None:
++ 36:         if not (slow_pointer is None):
+  37:             return None
+  38:         
+  39:         slow_pointer = self
+  40:         
+--------------------------------------------------------------------------------
+[0.15650 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:37: AssertionError
+   - [#  19] COI linked_list1: 
+--------------------------------------------------------------------------------
+  37:             return None
+  38:         
+  39:         slow_pointer = self
+  40:         
+- 41:         while slow_pointer is not fast_pointer:
++ 41:         while not (slow_pointer is not fast_pointer):
+  42:             
+  43:             slow_pointer = slow_pointer.next
+  44:             fast_pointer = fast_pointer.next
+  45:         
+--------------------------------------------------------------------------------
+[5.00665 s] timeout
+   - [#  20] COI linked_list1: 
+--------------------------------------------------------------------------------
+  47:     
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+- 51:         while head.next:
++ 51:         while not (head.next):
+  52:             next_node = head.next
+  53:             head.next = prev
+  54:             prev = head
+  55:             head = next_node
+--------------------------------------------------------------------------------
+[0.15209 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:48: AssertionError
+   - [#  21] COI linked_list1: 
+--------------------------------------------------------------------------------
+  57:         return head
+  58:     
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+- 61:             if not (node.next):
++ 61:             if not ((not (node.next))):
+  62:                 rev.head = node
+  63:                 return
+  64:             rev(node.next)
+  65:             temp = node.next
+--------------------------------------------------------------------------------
+[0.15306 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:61: AssertionError
+   - [#  22] LCR linked_list1: 
+--------------------------------------------------------------------------------
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+- 17:             if (fast_pointer and fast_pointer.next):
++ 17:             if (fast_pointer or fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+  20:             return False
+  21:         else:
+--------------------------------------------------------------------------------
+[0.13313 s] survived
+   - [#  23] LCR linked_list1: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+- 34:             if (fast_pointer and fast_pointer.next):
++ 34:             if (fast_pointer or fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+  37:             return None
+  38:         
+--------------------------------------------------------------------------------
+[0.13165 s] survived
+   - [#  24] OIL linked_list1: 
+--------------------------------------------------------------------------------
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+- 19:         if slow_pointer is None:
+- 20:             return False
+- 21:         else:
+- 22:             return True
++ 19:             break
++ 20:         if slow_pointer is None:
++ 21:             return False
++ 22:         else:return True
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+--------------------------------------------------------------------------------
+[0.13043 s] survived
+   - [#  25] OIL linked_list1: 
+--------------------------------------------------------------------------------
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+- 36:         if slow_pointer is None:
+- 37:             return None
+- 38:         
++ 36:             break
++ 37:         if slow_pointer is None:
++ 38:             return None
+  39:         slow_pointer = self
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+--------------------------------------------------------------------------------
+[5.00688 s] timeout
+   - [#  26] OIL linked_list1: 
+--------------------------------------------------------------------------------
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+  43:             slow_pointer = slow_pointer.next
+  44:             fast_pointer = fast_pointer.next
+- 45:         
++ 45:             break
+  46:         return slow_pointer
+  47:     
+  48:     def reverse(self):
+  49:         prev = None
+--------------------------------------------------------------------------------
+[0.13080 s] survived
+   - [#  27] OIL linked_list1: 
+--------------------------------------------------------------------------------
+  52:             next_node = head.next
+  53:             head.next = prev
+  54:             prev = head
+  55:             head = next_node
+- 56:         head.next = prev
+- 57:         return head
+- 58:     
++ 56:             break
++ 57:         head.next = prev
++ 58:         return head
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+  62:                 rev.head = node
+--------------------------------------------------------------------------------
+[0.15497 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:48: AssertionError
+   - [#  28] SDI linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+-  3:     def __init__(self, val, next=None):
+-  4:         self.val = val
+-  5:         self.next = next
+-  6:     
++  3:     @staticmethod
++  4:     def __init__(self, val, next=None):
++  5:         self.val = val
++  6:         self.next = next
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+  10:             return False
+--------------------------------------------------------------------------------
+[0.15298 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list1/ts-3-5/test_3-5_0-5_154.py:13: TypeError: ListNode.__init__() missing 1 required positional argument: 'val'
+
+   - [#  29] SDI linked_list1: 
+--------------------------------------------------------------------------------
+   3:     def __init__(self, val, next=None):
+   4:         self.val = val
+   5:         self.next = next
+   6:     
+-  7:     def contains_cycle(self):
+-  8:         
+-  9:         if not (self.next):
+- 10:             return False
+- 11:         slow_pointer = self.next
+- 12:         fast_pointer = self.next.next
+- 13:         
+- 14:         while slow_pointer is not fast_pointer:
+- 15:             if slow_pointer:
+- 16:                 slow_pointer = slow_pointer.next
+- 17:             if (fast_pointer and fast_pointer.next):
+- 18:                 fast_pointer = fast_pointer.next.next
+- 19:         if slow_pointer is None:
+- 20:             return False
+- 21:         else:
+- 22:             return True
+- 23:     
++  7:     @staticmethod
++  8:     def contains_cycle(self):
++  9:         
++ 10:         if not (self.next):
++ 11:             return False
++ 12:         slow_pointer = self.next
++ 13:         fast_pointer = self.next.next
++ 14:         
++ 15:         while slow_pointer is not fast_pointer:
++ 16:             if slow_pointer:
++ 17:                 slow_pointer = slow_pointer.next
++ 18:             if (fast_pointer and fast_pointer.next):
++ 19:                 fast_pointer = fast_pointer.next.next
++ 20:         if slow_pointer is None:
++ 21:             return False
++ 22:         else:
++ 23:             return True
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+  27:             return None
+--------------------------------------------------------------------------------
+[0.15666 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list1/ts-3-5/test_3-5_0-5_154.py:14: TypeError: ListNode.contains_cycle() missing 1 required positional argument: 'self'
+
+   - [#  30] SDI linked_list1: 
+--------------------------------------------------------------------------------
+  20:             return False
+  21:         else:
+  22:             return True
+  23:     
+- 24:     def get_beginning_of_cycle_if_exists(self):
+- 25:         
+- 26:         if not (self.next):
+- 27:             return None
+- 28:         slow_pointer = self.next
+- 29:         fast_pointer = self.next.next
+- 30:         
+- 31:         while slow_pointer is not fast_pointer:
+- 32:             if slow_pointer:
+- 33:                 slow_pointer = slow_pointer.next
+- 34:             if (fast_pointer and fast_pointer.next):
+- 35:                 fast_pointer = fast_pointer.next.next
+- 36:         if slow_pointer is None:
+- 37:             return None
+- 38:         
+- 39:         slow_pointer = self
+- 40:         
+- 41:         while slow_pointer is not fast_pointer:
+- 42:             
+- 43:             slow_pointer = slow_pointer.next
+- 44:             fast_pointer = fast_pointer.next
+- 45:         
+- 46:         return slow_pointer
+- 47:     
++ 24:     @staticmethod
++ 25:     def get_beginning_of_cycle_if_exists(self):
++ 26:         
++ 27:         if not (self.next):
++ 28:             return None
++ 29:         slow_pointer = self.next
++ 30:         fast_pointer = self.next.next
++ 31:         
++ 32:         while slow_pointer is not fast_pointer:
++ 33:             if slow_pointer:
++ 34:                 slow_pointer = slow_pointer.next
++ 35:             if (fast_pointer and fast_pointer.next):
++ 36:                 fast_pointer = fast_pointer.next.next
++ 37:         if slow_pointer is None:
++ 38:             return None
++ 39:         
++ 40:         slow_pointer = self
++ 41:         
++ 42:         while slow_pointer is not fast_pointer:
++ 43:             
++ 44:             slow_pointer = slow_pointer.next
++ 45:             fast_pointer = fast_pointer.next
++ 46:         
++ 47:         return slow_pointer
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+  51:         while head.next:
+--------------------------------------------------------------------------------
+[0.15713 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list1/ts-3-5/test_3-5_0-5_154.py:28: TypeError: ListNode.get_beginning_of_cycle_if_exists() missing 1 required positional argument: 'self'
+
+   - [#  31] SDI linked_list1: 
+--------------------------------------------------------------------------------
+  44:             fast_pointer = fast_pointer.next
+  45:         
+  46:         return slow_pointer
+  47:     
+- 48:     def reverse(self):
+- 49:         prev = None
+- 50:         head = self
+- 51:         while head.next:
+- 52:             next_node = head.next
+- 53:             head.next = prev
+- 54:             prev = head
+- 55:             head = next_node
+- 56:         head.next = prev
+- 57:         return head
+- 58:     
++ 48:     @staticmethod
++ 49:     def reverse(self):
++ 50:         prev = None
++ 51:         head = self
++ 52:         while head.next:
++ 53:             next_node = head.next
++ 54:             head.next = prev
++ 55:             prev = head
++ 56:             head = next_node
++ 57:         head.next = prev
++ 58:         return head
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+  62:                 rev.head = node
+--------------------------------------------------------------------------------
+[0.15406 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list1/ts-3-5/test_3-5_0-5_154.py:47: TypeError: ListNode.reverse() missing 1 required positional argument: 'self'
+
+   - [#  32] SDI linked_list1: 
+--------------------------------------------------------------------------------
+  55:             head = next_node
+  56:         head.next = prev
+  57:         return head
+  58:     
+- 59:     def reverse_recursive(self):
+- 60:         def rev(node):
+- 61:             if not (node.next):
+- 62:                 rev.head = node
+- 63:                 return
+- 64:             rev(node.next)
+- 65:             temp = node.next
+- 66:             temp.next = node
+- 67:             node.next = None
+- 68:         rev.head = self
+- 69:         rev(self)
+- 70:         
+- 71:         return rev.head
++ 59:     @staticmethod
++ 60:     def reverse_recursive(self):
++ 61:         def rev(node):
++ 62:             if not (node.next):
++ 63:                 rev.head = node
++ 64:                 return
++ 65:             rev(node.next)
++ 66:             temp = node.next
++ 67:             temp.next = node
++ 68:             node.next = None
++ 69:         rev.head = self
++ 70:         rev(self)
++ 71:         
++ 72:         return rev.head
+--------------------------------------------------------------------------------
+[0.15587 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/linked-list1/ts-3-5/test_3-5_0-5_154.py:60: TypeError: ListNode.reverse_recursive() missing 1 required positional argument: 'self'
+
+   - [#  33] SDL linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+   3:     def __init__(self, val, next=None):
+-  4:         self.val = val
++  4:         pass
+   5:         self.next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+--------------------------------------------------------------------------------
+[0.15749 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AttributeError: 'ListNode' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:48: AttributeError
+   - [#  34] SDL linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+   3:     def __init__(self, val, next=None):
+   4:         self.val = val
+-  5:         self.next = next
++  5:         pass
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+--------------------------------------------------------------------------------
+[0.15729 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43ffeb90>
+
+>   ???
+E   AttributeError: 'ListNode' object has no attribute 'next'
+
+linked_list1:9: AttributeError
+   - [#  35] SDL linked_list1: 
+--------------------------------------------------------------------------------
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+- 10:             return False
++ 10:             pass
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+--------------------------------------------------------------------------------
+[0.17281 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43f35a50>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:12: AttributeError
+   - [#  36] SDL linked_list1: 
+--------------------------------------------------------------------------------
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+  10:             return False
+- 11:         slow_pointer = self.next
++ 11:         pass
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+--------------------------------------------------------------------------------
+[0.15678 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e440adc90>
+
+>   ???
+E   UnboundLocalError: local variable 'slow_pointer' referenced before assignment
+
+linked_list1:14: UnboundLocalError
+   - [#  37] SDL linked_list1: 
+--------------------------------------------------------------------------------
+   8:         
+   9:         if not (self.next):
+  10:             return False
+  11:         slow_pointer = self.next
+- 12:         fast_pointer = self.next.next
++ 12:         pass
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+--------------------------------------------------------------------------------
+[0.15746 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e44220d30>
+
+>   ???
+E   UnboundLocalError: local variable 'fast_pointer' referenced before assignment
+
+linked_list1:14: UnboundLocalError
+   - [#  38] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+- 16:                 slow_pointer = slow_pointer.next
++ 16:                 pass
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+  20:             return False
+--------------------------------------------------------------------------------
+[0.13445 s] survived
+   - [#  39] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+- 18:                 fast_pointer = fast_pointer.next.next
++ 18:                 pass
+  19:         if slow_pointer is None:
+  20:             return False
+  21:         else:
+  22:             return True
+--------------------------------------------------------------------------------
+[0.13543 s] survived
+   - [#  40] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  16:                 slow_pointer = slow_pointer.next
+  17:             if (fast_pointer and fast_pointer.next):
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+- 20:             return False
++ 20:             pass
+  21:         else:
+  22:             return True
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+--------------------------------------------------------------------------------
+[0.13474 s] survived
+   - [#  41] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  18:                 fast_pointer = fast_pointer.next.next
+  19:         if slow_pointer is None:
+  20:             return False
+  21:         else:
+- 22:             return True
++ 22:             pass
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+--------------------------------------------------------------------------------
+[0.15717 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:23: AssertionError
+   - [#  42] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+- 27:             return None
++ 27:             pass
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+--------------------------------------------------------------------------------
+[0.15972 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert node1.get_beginning_of_cycle_if_exists() is None
+
+ts-3-5/test_3-5_0-5_154.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e441bd7b0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:29: AttributeError
+   - [#  43] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+  27:             return None
+- 28:         slow_pointer = self.next
++ 28:         pass
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+--------------------------------------------------------------------------------
+[0.15612 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+
+ts-3-5/test_3-5_0-5_154.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43fea140>
+
+>   ???
+E   UnboundLocalError: local variable 'slow_pointer' referenced before assignment
+
+linked_list1:31: UnboundLocalError
+   - [#  44] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  25:         
+  26:         if not (self.next):
+  27:             return None
+  28:         slow_pointer = self.next
+- 29:         fast_pointer = self.next.next
++ 29:         pass
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+--------------------------------------------------------------------------------
+[0.15932 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+
+ts-3-5/test_3-5_0-5_154.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43febd90>
+
+>   ???
+E   UnboundLocalError: local variable 'fast_pointer' referenced before assignment
+
+linked_list1:31: UnboundLocalError
+   - [#  45] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+- 33:                 slow_pointer = slow_pointer.next
++ 33:                 pass
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+  37:             return None
+--------------------------------------------------------------------------------
+[5.00686 s] timeout
+   - [#  46] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+- 35:                 fast_pointer = fast_pointer.next.next
++ 35:                 pass
+  36:         if slow_pointer is None:
+  37:             return None
+  38:         
+  39:         slow_pointer = self
+--------------------------------------------------------------------------------
+[5.00670 s] timeout
+   - [#  47] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  33:                 slow_pointer = slow_pointer.next
+  34:             if (fast_pointer and fast_pointer.next):
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+- 37:             return None
++ 37:             pass
+  38:         
+  39:         slow_pointer = self
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+--------------------------------------------------------------------------------
+[0.13086 s] survived
+   - [#  48] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  35:                 fast_pointer = fast_pointer.next.next
+  36:         if slow_pointer is None:
+  37:             return None
+  38:         
+- 39:         slow_pointer = self
++ 39:         pass
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+  43:             slow_pointer = slow_pointer.next
+--------------------------------------------------------------------------------
+[0.13263 s] survived
+   - [#  49] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  39:         slow_pointer = self
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+- 43:             slow_pointer = slow_pointer.next
++ 43:             pass
+  44:             fast_pointer = fast_pointer.next
+  45:         
+  46:         return slow_pointer
+  47:     
+--------------------------------------------------------------------------------
+[0.13394 s] survived
+   - [#  50] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+  43:             slow_pointer = slow_pointer.next
+- 44:             fast_pointer = fast_pointer.next
++ 44:             pass
+  45:         
+  46:         return slow_pointer
+  47:     
+  48:     def reverse(self):
+--------------------------------------------------------------------------------
+[0.13488 s] survived
+   - [#  51] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  42:             
+  43:             slow_pointer = slow_pointer.next
+  44:             fast_pointer = fast_pointer.next
+  45:         
+- 46:         return slow_pointer
++ 46:         pass
+  47:     
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+--------------------------------------------------------------------------------
+[0.15708 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:37: AssertionError
+   - [#  52] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  45:         
+  46:         return slow_pointer
+  47:     
+  48:     def reverse(self):
+- 49:         prev = None
++ 49:         pass
+  50:         head = self
+  51:         while head.next:
+  52:             next_node = head.next
+  53:             head.next = prev
+--------------------------------------------------------------------------------
+[0.15587 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse()
+
+ts-3-5/test_3-5_0-5_154.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43f28a00>
+
+>   ???
+E   UnboundLocalError: local variable 'prev' referenced before assignment
+
+linked_list1:53: UnboundLocalError
+   - [#  53] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  46:         return slow_pointer
+  47:     
+  48:     def reverse(self):
+  49:         prev = None
+- 50:         head = self
++ 50:         pass
+  51:         while head.next:
+  52:             next_node = head.next
+  53:             head.next = prev
+  54:             prev = head
+--------------------------------------------------------------------------------
+[0.15488 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse()
+
+ts-3-5/test_3-5_0-5_154.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43eed390>
+
+>   ???
+E   UnboundLocalError: local variable 'head' referenced before assignment
+
+linked_list1:51: UnboundLocalError
+   - [#  54] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+  51:         while head.next:
+- 52:             next_node = head.next
++ 52:             pass
+  53:             head.next = prev
+  54:             prev = head
+  55:             head = next_node
+  56:         head.next = prev
+--------------------------------------------------------------------------------
+[0.16938 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse()
+
+ts-3-5/test_3-5_0-5_154.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43f35990>
+
+>   ???
+E   NameError: name 'next_node' is not defined
+
+linked_list1:55: NameError
+   - [#  55] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  49:         prev = None
+  50:         head = self
+  51:         while head.next:
+  52:             next_node = head.next
+- 53:             head.next = prev
++ 53:             pass
+  54:             prev = head
+  55:             head = next_node
+  56:         head.next = prev
+  57:         return head
+--------------------------------------------------------------------------------
+[0.15910 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+        assert reversed_node.val == 3
+        assert reversed_node.next.val == 2
+>       assert reversed_node.next.next.val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:50: AssertionError
+   - [#  56] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  50:         head = self
+  51:         while head.next:
+  52:             next_node = head.next
+  53:             head.next = prev
+- 54:             prev = head
++ 54:             pass
+  55:             head = next_node
+  56:         head.next = prev
+  57:         return head
+  58:     
+--------------------------------------------------------------------------------
+[0.15067 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+        assert reversed_node.val == 3
+>       assert reversed_node.next.val == 2
+E       AttributeError: 'NoneType' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:49: AttributeError
+   - [#  57] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  51:         while head.next:
+  52:             next_node = head.next
+  53:             head.next = prev
+  54:             prev = head
+- 55:             head = next_node
++ 55:             pass
+  56:         head.next = prev
+  57:         return head
+  58:     
+  59:     def reverse_recursive(self):
+--------------------------------------------------------------------------------
+[0.15331 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:48: AssertionError
+   - [#  58] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  52:             next_node = head.next
+  53:             head.next = prev
+  54:             prev = head
+  55:             head = next_node
+- 56:         head.next = prev
++ 56:         pass
+  57:         return head
+  58:     
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+--------------------------------------------------------------------------------
+[0.15452 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+        assert reversed_node.val == 3
+>       assert reversed_node.next.val == 2
+E       AttributeError: 'NoneType' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:49: AttributeError
+   - [#  59] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  53:             head.next = prev
+  54:             prev = head
+  55:             head = next_node
+  56:         head.next = prev
+- 57:         return head
++ 57:         pass
+  58:     
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+--------------------------------------------------------------------------------
+[0.15504 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AttributeError: 'NoneType' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:48: AttributeError
+   - [#  60] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  58:     
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+- 62:                 rev.head = node
++ 62:                 pass
+  63:                 return
+  64:             rev(node.next)
+  65:             temp = node.next
+  66:             temp.next = node
+--------------------------------------------------------------------------------
+[0.15312 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:61: AssertionError
+   - [#  61] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  59:     def reverse_recursive(self):
+  60:         def rev(node):
+  61:             if not (node.next):
+  62:                 rev.head = node
+- 63:                 return
++ 63:                 pass
+  64:             rev(node.next)
+  65:             temp = node.next
+  66:             temp.next = node
+  67:             node.next = None
+--------------------------------------------------------------------------------
+[0.15657 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse_recursive()
+
+ts-3-5/test_3-5_0-5_154.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list1:69: in reverse_recursive
+    ???
+linked_list1:64: in rev
+    ???
+linked_list1:64: in rev
+    ???
+linked_list1:64: in rev
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = None
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:61: AttributeError
+   - [#  62] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  60:         def rev(node):
+  61:             if not (node.next):
+  62:                 rev.head = node
+  63:                 return
+- 64:             rev(node.next)
++ 64:             pass
+  65:             temp = node.next
+  66:             temp.next = node
+  67:             node.next = None
+  68:         rev.head = self
+--------------------------------------------------------------------------------
+[0.15671 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:61: AssertionError
+   - [#  63] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  61:             if not (node.next):
+  62:                 rev.head = node
+  63:                 return
+  64:             rev(node.next)
+- 65:             temp = node.next
++ 65:             pass
+  66:             temp.next = node
+  67:             node.next = None
+  68:         rev.head = self
+  69:         rev(self)
+--------------------------------------------------------------------------------
+[0.15972 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+>       reversed_node = node1.reverse_recursive()
+
+ts-3-5/test_3-5_0-5_154.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+linked_list1:69: in reverse_recursive
+    ???
+linked_list1:64: in rev
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <linked_list1.ListNode object at 0x7f7e441bc820>
+
+>   ???
+E   NameError: name 'temp' is not defined
+
+linked_list1:66: NameError
+   - [#  64] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  62:                 rev.head = node
+  63:                 return
+  64:             rev(node.next)
+  65:             temp = node.next
+- 66:             temp.next = node
++ 66:             pass
+  67:             node.next = None
+  68:         rev.head = self
+  69:         rev(self)
+  70:         
+--------------------------------------------------------------------------------
+[0.15738 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+        assert reversed_node.val == 3
+>       assert reversed_node.next.val == 2
+E       AttributeError: 'NoneType' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:62: AttributeError
+   - [#  65] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  63:                 return
+  64:             rev(node.next)
+  65:             temp = node.next
+  66:             temp.next = node
+- 67:             node.next = None
++ 67:             pass
+  68:         rev.head = self
+  69:         rev(self)
+  70:         
+  71:         return rev.head
+--------------------------------------------------------------------------------
+[0.13246 s] survived
+   - [#  66] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  64:             rev(node.next)
+  65:             temp = node.next
+  66:             temp.next = node
+  67:             node.next = None
+- 68:         rev.head = self
++ 68:         pass
+  69:         rev(self)
+  70:         
+  71:         return rev.head
+--------------------------------------------------------------------------------
+[0.13408 s] survived
+   - [#  67] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  65:             temp = node.next
+  66:             temp.next = node
+  67:             node.next = None
+  68:         rev.head = self
+- 69:         rev(self)
++ 69:         pass
+  70:         
+  71:         return rev.head
+--------------------------------------------------------------------------------
+[0.15552 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:61: AssertionError
+   - [#  68] SDL linked_list1: 
+--------------------------------------------------------------------------------
+  67:             node.next = None
+  68:         rev.head = self
+  69:         rev(self)
+  70:         
+- 71:         return rev.head
++ 71:         pass
+--------------------------------------------------------------------------------
+[0.15696 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse_recursive
+
+def test_reverse_recursive():
+        # Test case for recursively reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse_recursive()
+>       assert reversed_node.val == 3
+E       AttributeError: 'NoneType' object has no attribute 'val'
+
+ts-3-5/test_3-5_0-5_154.py:61: AttributeError
+   - [#  69] SVD linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+   3:     def __init__(self, val, next=None):
+-  4:         self.val = val
++  4:         val = val
+   5:         self.next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  70] SVD linked_list1: 
+--------------------------------------------------------------------------------
+   1: class ListNode:
+   2:     
+   3:     def __init__(self, val, next=None):
+   4:         self.val = val
+-  5:         self.next = next
++  5:         next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  71] SVD linked_list1: 
+--------------------------------------------------------------------------------
+   5:         self.next = next
+   6:     
+   7:     def contains_cycle(self):
+   8:         
+-  9:         if not (self.next):
++  9:         if not next:
+  10:             return False
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+--------------------------------------------------------------------------------
+[0.15584 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert not node1.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e440afdc0>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:12: AttributeError
+   - [#  72] SVD linked_list1: 
+--------------------------------------------------------------------------------
+   7:     def contains_cycle(self):
+   8:         
+   9:         if not (self.next):
+  10:             return False
+- 11:         slow_pointer = self.next
++ 11:         slow_pointer = next
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+--------------------------------------------------------------------------------
+[0.15485 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43ed9390>
+
+>   ???
+E   AttributeError: 'builtin_function_or_method' object has no attribute 'next'
+
+linked_list1:16: AttributeError
+   - [#  73] SVD linked_list1: 
+--------------------------------------------------------------------------------
+   8:         
+   9:         if not (self.next):
+  10:             return False
+  11:         slow_pointer = self.next
+- 12:         fast_pointer = self.next.next
++ 12:         fast_pointer = next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+  15:             if slow_pointer:
+  16:                 slow_pointer = slow_pointer.next
+--------------------------------------------------------------------------------
+[0.17297 s] killed by ts-3-5/test_3-5_0-5_154.py::test_contains_cycle
+
+def test_contains_cycle():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert not node1.contains_cycle()
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.contains_cycle()
+
+ts-3-5/test_3-5_0-5_154.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43f80fa0>
+
+>   ???
+E   AttributeError: 'builtin_function_or_method' object has no attribute 'next'
+
+linked_list1:12: AttributeError
+   - [#  74] SVD linked_list1: 
+--------------------------------------------------------------------------------
+  22:             return True
+  23:     
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+- 26:         if not (self.next):
++ 26:         if not next:
+  27:             return None
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+--------------------------------------------------------------------------------
+[0.15962 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+>       assert node1.get_beginning_of_cycle_if_exists() is None
+
+ts-3-5/test_3-5_0-5_154.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e440e3d90>
+
+>   ???
+E   AttributeError: 'NoneType' object has no attribute 'next'
+
+linked_list1:29: AttributeError
+   - [#  75] SVD linked_list1: 
+--------------------------------------------------------------------------------
+  24:     def get_beginning_of_cycle_if_exists(self):
+  25:         
+  26:         if not (self.next):
+  27:             return None
+- 28:         slow_pointer = self.next
++ 28:         slow_pointer = next
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+--------------------------------------------------------------------------------
+[0.15626 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+
+ts-3-5/test_3-5_0-5_154.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43fad960>
+
+>   ???
+E   AttributeError: 'builtin_function_or_method' object has no attribute 'next'
+
+linked_list1:33: AttributeError
+   - [#  76] SVD linked_list1: 
+--------------------------------------------------------------------------------
+  25:         
+  26:         if not (self.next):
+  27:             return None
+  28:         slow_pointer = self.next
+- 29:         fast_pointer = self.next.next
++ 29:         fast_pointer = next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+  32:             if slow_pointer:
+  33:                 slow_pointer = slow_pointer.next
+--------------------------------------------------------------------------------
+[0.18228 s] killed by ts-3-5/test_3-5_0-5_154.py::test_get_beginning_of_cycle_if_exists
+
+def test_get_beginning_of_cycle_if_exists():
+        # Test case for a linked list with no cycle
+        node1 = ListNode(1)
+        assert node1.get_beginning_of_cycle_if_exists() is None
+    
+        # Test case for a linked list with a cycle
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node4 = ListNode(4)
+        node2.next = node3
+        node3.next = node4
+        node4.next = node2
+>       assert node2.get_beginning_of_cycle_if_exists() == node2
+
+ts-3-5/test_3-5_0-5_154.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <linked_list1.ListNode object at 0x7f7e43fae680>
+
+>   ???
+E   AttributeError: 'builtin_function_or_method' object has no attribute 'next'
+
+linked_list1:29: AttributeError
+   - [#  77] ZIL linked_list1: 
+--------------------------------------------------------------------------------
+  11:         slow_pointer = self.next
+  12:         fast_pointer = self.next.next
+  13:         
+  14:         while slow_pointer is not fast_pointer:
+- 15:             if slow_pointer:
+- 16:                 slow_pointer = slow_pointer.next
+- 17:             if (fast_pointer and fast_pointer.next):
+- 18:                 fast_pointer = fast_pointer.next.next
++ 15:             break
++ 16:         
++ 17:         
++ 18:         
+  19:         if slow_pointer is None:
+  20:             return False
+  21:         else:
+  22:             return True
+--------------------------------------------------------------------------------
+[0.13522 s] survived
+   - [#  78] ZIL linked_list1: 
+--------------------------------------------------------------------------------
+  28:         slow_pointer = self.next
+  29:         fast_pointer = self.next.next
+  30:         
+  31:         while slow_pointer is not fast_pointer:
+- 32:             if slow_pointer:
+- 33:                 slow_pointer = slow_pointer.next
+- 34:             if (fast_pointer and fast_pointer.next):
+- 35:                 fast_pointer = fast_pointer.next.next
++ 32:             break
++ 33:         
++ 34:         
++ 35:         
+  36:         if slow_pointer is None:
+  37:             return None
+  38:         
+  39:         slow_pointer = self
+--------------------------------------------------------------------------------
+[5.00680 s] timeout
+   - [#  79] ZIL linked_list1: 
+--------------------------------------------------------------------------------
+  39:         slow_pointer = self
+  40:         
+  41:         while slow_pointer is not fast_pointer:
+  42:             
+- 43:             slow_pointer = slow_pointer.next
+- 44:             fast_pointer = fast_pointer.next
++ 43:             break
++ 44:         
+  45:         
+  46:         return slow_pointer
+  47:     
+  48:     def reverse(self):
+--------------------------------------------------------------------------------
+[0.13032 s] survived
+   - [#  80] ZIL linked_list1: 
+--------------------------------------------------------------------------------
+  48:     def reverse(self):
+  49:         prev = None
+  50:         head = self
+  51:         while head.next:
+- 52:             next_node = head.next
+- 53:             head.next = prev
+- 54:             prev = head
+- 55:             head = next_node
++ 52:             break
++ 53:         
++ 54:         
++ 55:         
+  56:         head.next = prev
+  57:         return head
+  58:     
+  59:     def reverse_recursive(self):
+--------------------------------------------------------------------------------
+[0.15585 s] killed by ts-3-5/test_3-5_0-5_154.py::test_reverse
+
+def test_reverse():
+        # Test case for reversing a linked list
+        node1 = ListNode(1)
+        node2 = ListNode(2)
+        node3 = ListNode(3)
+        node1.next = node2
+        node2.next = node3
+    
+        reversed_node = node1.reverse()
+>       assert reversed_node.val == 3
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_154.py:48: AssertionError
+[*] Mutation score [53.18671 s]: 75.3%
+   - all: 80
+   - killed: 47 (58.8%)
+   - survived: 18 (22.5%)
+   - incompetent: 7 (8.8%)
+   - timeout: 8 (10.0%)

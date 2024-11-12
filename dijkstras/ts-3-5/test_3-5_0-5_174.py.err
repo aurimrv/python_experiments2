@@ -6,56 +6,42 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras():
-    # Test case 1: Shortest path between two nodes with positive weights
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('A')
-    weighted_graph.add_vertex('B')
-    weighted_graph.add_vertex('C')
-    weighted_graph.add_vertex('D')
-    weighted_graph.add_edge('A', 'B', 1)
-    weighted_graph.add_edge('A', 'C', 4)
-    weighted_graph.add_edge('B', 'C', 2)
-    weighted_graph.add_edge('B', 'D', 5)
-    weighted_graph.add_edge('C', 'D', 1)
-    
-    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'C', 'D']
+def test_dijkstras_basic():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C', 'D']
 
-    # Test case 2: Shortest path between two nodes with negative weights
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('X')
-    weighted_graph.add_vertex('Y')
-    weighted_graph.add_vertex('Z')
-    weighted_graph.add_edge('X', 'Y', -2)
-    weighted_graph.add_edge('X', 'Z', -5)
-    weighted_graph.add_edge('Y', 'Z', -3)
-    
-    assert dijkstras(weighted_graph, 'X', 'Z') == ['X', 'Z']
-    
-    # Test case 3: Shortest path between same source and destination
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('P')
-    weighted_graph.add_vertex('Q')
-    weighted_graph.add_edge('P', 'Q', 3)
-    
-    assert dijkstras(weighted_graph, 'P', 'P') == ['P']
+def test_dijkstras_same_source_dest():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
 
-    # Test case 4: Shortest path between two nodes with no direct path
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('M')
-    weighted_graph.add_vertex('N')
-    weighted_graph.add_vertex('O')
-    weighted_graph.add_edge('M', 'N', 2)
-    weighted_graph.add_edge('N', 'O', 4)
-    
-    assert dijkstras(weighted_graph, 'M', 'O') == ['M', 'N', 'O']
+def test_dijkstras_unreachable_dest():
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
 
-    # Test case 5: Shortest path between two nodes with one-way connections
-    weighted_graph = WeightedGraph()
-    weighted_graph.add_vertex('R')
-    weighted_graph.add_vertex('S')
-    weighted_graph.add_vertex('T')
-    weighted_graph.add_edge('R', 'S', 1)
-    weighted_graph.add_edge('S', 'T', 2)
-    
-    assert dijkstras(weighted_graph, 'R', 'T') == ['R', 'S', 'T']
+def test_dijkstras_multiple_paths():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 2},
+        'B': {'A': 1, 'D': 4},
+        'C': {'A': 2, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']

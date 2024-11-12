@@ -1,0 +1,3487 @@
+[*] Start mutation process:
+   - targets: heap.py
+   - tests: ts-3-5/test_3-5_1-0_305.py
+[*] 8 tests passed:
+   - test_3-5_1-0_305 [0.17833 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR heap: 
+--------------------------------------------------------------------------------
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
++ 11:         while i / 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+--------------------------------------------------------------------------------
+[0.18558 s] survived
+   - [#   2] AOR heap: 
+--------------------------------------------------------------------------------
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
++ 11:         while i * 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+--------------------------------------------------------------------------------
+[0.16630 s] survived
+   - [#   3] AOR heap: 
+--------------------------------------------------------------------------------
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+- 12:             parent = i // 2
++ 12:             parent = i / 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+--------------------------------------------------------------------------------
+[0.18970 s] incompetent
+
+TypeError: heap:13: TypeError: list indices must be integers or slices, not float
+
+   - [#   4] AOR heap: 
+--------------------------------------------------------------------------------
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+- 12:             parent = i // 2
++ 12:             parent = i * 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+--------------------------------------------------------------------------------
+[0.19279 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758b6a470>, i = 2
+
+>   ???
+E   IndexError: list index out of range
+
+heap:13: IndexError
+   - [#   5] AOR heap: 
+--------------------------------------------------------------------------------
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
++ 15:             i = i / 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+--------------------------------------------------------------------------------
+[0.17111 s] survived
+   - [#   6] AOR heap: 
+--------------------------------------------------------------------------------
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
++ 15:             i = i * 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+--------------------------------------------------------------------------------
+[0.19195 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758ed8dc0>, i = 4
+
+>   ???
+E   IndexError: list index out of range
+
+heap:13: IndexError
+   - [#   7] AOR heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i / 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.19550 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [#   8] AOR heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i // 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.20116 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [#   9] AOR heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i ** 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.17544 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [#  10] AOR heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i / 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.16731 s] survived
+   - [#  11] AOR heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i // 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.19377 s] killed by ts-3-5/test_3-5_1-0_305.py::test_find_min_child_index
+
+empty_heap = <heap.Heap object at 0x7d9758ba7100>
+
+    def test_find_min_child_index(empty_heap):
+>       assert empty_heap.find_min_child_index(1) is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:36: AssertionError
+   - [#  12] AOR heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i ** 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.17350 s] survived
+   - [#  13] AOR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i / 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.18849 s] survived
+   - [#  14] AOR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i // 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.17214 s] survived
+   - [#  15] AOR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i ** 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.17242 s] survived
+   - [#  16] AOR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i * 2) - 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.15936 s] survived
+   - [#  17] AOR heap: 
+--------------------------------------------------------------------------------
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
++ 28:             return i / 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+--------------------------------------------------------------------------------
+[0.17079 s] survived
+   - [#  18] AOR heap: 
+--------------------------------------------------------------------------------
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
++ 28:             return i // 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+--------------------------------------------------------------------------------
+[0.17360 s] survived
+   - [#  19] AOR heap: 
+--------------------------------------------------------------------------------
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
++ 28:             return i ** 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+--------------------------------------------------------------------------------
+[0.17288 s] survived
+   - [#  20] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i / 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19646 s] incompetent
+
+TypeError: heap:30: TypeError: list indices must be integers or slices, not float
+
+   - [#  21] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i // 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19592 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d975893bf10>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  22] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i ** 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.20071 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758bf01f0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  23] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] < self.heap_list[(i / 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19683 s] incompetent
+
+TypeError: heap:30: TypeError: list indices must be integers or slices, not float
+
+   - [#  24] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] < self.heap_list[(i // 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.17483 s] survived
+   - [#  25] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] < self.heap_list[(i ** 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19743 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758bf0850>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  26] AOR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) - 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.16998 s] survived
+   - [#  27] AOR heap: 
+--------------------------------------------------------------------------------
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
++ 31:             return i / 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+--------------------------------------------------------------------------------
+[0.19314 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not float
+
+   - [#  28] AOR heap: 
+--------------------------------------------------------------------------------
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
++ 31:             return i // 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+--------------------------------------------------------------------------------
+[5.00677 s] timeout
+   - [#  29] AOR heap: 
+--------------------------------------------------------------------------------
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
++ 31:             return i ** 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+--------------------------------------------------------------------------------
+[5.00205 s] timeout
+   - [#  30] AOR heap: 
+--------------------------------------------------------------------------------
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+- 33:             return (i * 2) + 1
++ 33:             return (i / 2) + 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.17192 s] survived
+   - [#  31] AOR heap: 
+--------------------------------------------------------------------------------
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+- 33:             return (i * 2) + 1
++ 33:             return (i // 2) + 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.17312 s] survived
+   - [#  32] AOR heap: 
+--------------------------------------------------------------------------------
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+- 33:             return (i * 2) + 1
++ 33:             return (i ** 2) + 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.17262 s] survived
+   - [#  33] AOR heap: 
+--------------------------------------------------------------------------------
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+- 33:             return (i * 2) + 1
++ 33:             return (i * 2) - 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.17117 s] survived
+   - [#  34] AOR heap: 
+--------------------------------------------------------------------------------
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+- 53:         i = len(lst) // 2
++ 53:         i = len(lst) / 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+--------------------------------------------------------------------------------
+[0.22050 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not float
+
+   - [#  35] AOR heap: 
+--------------------------------------------------------------------------------
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+- 53:         i = len(lst) // 2
++ 53:         i = len(lst) * 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+--------------------------------------------------------------------------------
+[0.17441 s] survived
+   - [#  36] AOR heap: 
+--------------------------------------------------------------------------------
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+- 54:         self.heap_list = [0] + lst
++ 54:         self.heap_list = [0] - lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+--------------------------------------------------------------------------------
+[0.19767 s] incompetent
+
+TypeError: heap:54: TypeError: unsupported operand type(s) for -: 'list' and 'list'
+
+   - [#  37] AOR heap: 
+--------------------------------------------------------------------------------
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+- 60:         return len(self.heap_list) - 1
++ 60:         return len(self.heap_list) + 1
+--------------------------------------------------------------------------------
+[0.17532 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758bc63b0>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758bc63b0>, i = 3
+
+>   ???
+E   IndexError: list index out of range
+
+heap:13: IndexError
+   - [#  38] ASR heap: 
+--------------------------------------------------------------------------------
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+- 57:             i -= 1
++ 57:             i += 1
+  58:     
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[5.00690 s] timeout
+   - [#  39] CDI heap: 
+--------------------------------------------------------------------------------
+   1: class Heap:
+   2:     
+-  3:     def __init__(self):
+-  4:         self.heap_list = [0]
+-  5:     
++  3:     @classmethod
++  4:     def __init__(self):
++  5:         self.heap_list = [0]
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+--------------------------------------------------------------------------------
+[0.15436 s] survived
+   - [#  40] CDI heap: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     def __init__(self):
+   4:         self.heap_list = [0]
+   5:     
+-  6:     def insert(self, value: int):
+-  7:         self.heap_list.append(value)
+-  8:         self.percolate(self.size())
+-  9:     
++  6:     @classmethod
++  7:     def insert(self, value: int):
++  8:         self.heap_list.append(value)
++  9:         self.percolate(self.size())
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+--------------------------------------------------------------------------------
+[0.18683 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758918fa0>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'heap.Heap'>, value = 7
+
+>   ???
+E   AttributeError: type object 'Heap' has no attribute 'heap_list'
+
+heap:8: AttributeError
+   - [#  41] CDI heap: 
+--------------------------------------------------------------------------------
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+- 10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
+- 12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
+- 16:     
++ 10:     @classmethod
++ 11:     def percolate(self, i):
++ 12:         while i // 2 > 0:
++ 13:             parent = i // 2
++ 14:             if self.heap_list[i] < self.heap_list[parent]:
++ 15:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 16:             i = i // 2
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+--------------------------------------------------------------------------------
+[0.20939 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'heap.Heap'>, i = 2
+
+>   ???
+E   AttributeError: type object 'Heap' has no attribute 'heap_list'
+
+heap:14: AttributeError
+   - [#  42] CDI heap: 
+--------------------------------------------------------------------------------
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+- 17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
+- 19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+- 22:             i = mc_i
+- 23:     
++ 17:     @classmethod
++ 18:     def sift(self, i):
++ 19:         while i * 2 <= self.size():
++ 20:             mc_i = self.find_min_child_index(i)
++ 21:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 22:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 23:             i = mc_i
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+--------------------------------------------------------------------------------
+[0.19320 s] incompetent
+
+TypeError: heap:19: TypeError: Heap.size() missing 1 required positional argument: 'self'
+
+   - [#  43] CDI heap: 
+--------------------------------------------------------------------------------
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+- 24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
+- 26:             return None
+- 27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
+- 29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
+- 32:         else:
+- 33:             return (i * 2) + 1
+- 34:     
++ 24:     @classmethod
++ 25:     def find_min_child_index(self, i):
++ 26:         if i * 2 > self.size():
++ 27:             return None
++ 28:         if (i * 2) + 1 > self.size():
++ 29:             return i * 2
++ 30:         
++ 31:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 32:             return i * 2
++ 33:         else:
++ 34:             return (i * 2) + 1
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+  38:         else:
+--------------------------------------------------------------------------------
+[0.19007 s] incompetent
+
+TypeError: heap:26: TypeError: Heap.size() missing 1 required positional argument: 'self'
+
+   - [#  44] CDI heap: 
+--------------------------------------------------------------------------------
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+- 35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
+- 37:             return self.heap_list[1]
+- 38:         else:
+- 39:             return None
+- 40:     
++ 35:     @classmethod
++ 36:     def min(self):
++ 37:         if len(self.heap_list) > 1:
++ 38:             return self.heap_list[1]
++ 39:         else:
++ 40:             return None
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+  44:         if self.size() == 1:
+--------------------------------------------------------------------------------
+[0.19479 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758e12890>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+
+ts-3-5/test_3-5_1-0_305.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'heap.Heap'>
+
+>   ???
+E   AttributeError: type object 'Heap' has no attribute 'heap_list'
+
+heap:37: AttributeError
+   - [#  45] CDI heap: 
+--------------------------------------------------------------------------------
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+- 41:     def delete_min(self):
+- 42:         if self.size() == 0:
+- 43:             return None
+- 44:         if self.size() == 1:
+- 45:             return self.heap_list.pop()
+- 46:         
+- 47:         min_val = self.heap_list[1]
+- 48:         self.heap_list[1] = self.heap_list.pop()
+- 49:         self.sift(1)
+- 50:         return min_val
+- 51:     
++ 41:     @classmethod
++ 42:     def delete_min(self):
++ 43:         if self.size() == 0:
++ 44:             return None
++ 45:         if self.size() == 1:
++ 46:             return self.heap_list.pop()
++ 47:         
++ 48:         min_val = self.heap_list[1]
++ 49:         self.heap_list[1] = self.heap_list.pop()
++ 50:         self.sift(1)
++ 51:         return min_val
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+--------------------------------------------------------------------------------
+[0.17993 s] incompetent
+
+TypeError: heap:43: TypeError: Heap.size() missing 1 required positional argument: 'self'
+
+   - [#  46] CDI heap: 
+--------------------------------------------------------------------------------
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+- 52:     def build(self, lst: list):
+- 53:         i = len(lst) // 2
+- 54:         self.heap_list = [0] + lst
+- 55:         while i > 0:
+- 56:             self.sift(i)
+- 57:             i -= 1
+- 58:     
++ 52:     @classmethod
++ 53:     def build(self, lst: list):
++ 54:         i = len(lst) // 2
++ 55:         self.heap_list = [0] + lst
++ 56:         while i > 0:
++ 57:             self.sift(i)
++ 58:             i -= 1
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.17534 s] incompetent
+
+TypeError: heap:57: TypeError: Heap.sift() missing 1 required positional argument: 'i'
+
+   - [#  47] CDI heap: 
+--------------------------------------------------------------------------------
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+- 59:     def size(self):
+- 60:         return len(self.heap_list) - 1
++ 59:     @classmethod
++ 60:     def size(self):
++ 61:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.18776 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758a781c0>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'heap.Heap'>
+
+>   ???
+E   AttributeError: type object 'Heap' has no attribute 'heap_list'
+
+heap:61: AttributeError
+   - [#  48] COI heap: 
+--------------------------------------------------------------------------------
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
++ 11:         while not (i // 2 > 0):
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+--------------------------------------------------------------------------------
+[5.00700 s] timeout
+   - [#  49] COI heap: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
++ 13:             if not (self.heap_list[i] < self.heap_list[parent]):
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+--------------------------------------------------------------------------------
+[0.17519 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d97589c9ed0>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [#  50] COI heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while not (i * 2 <= self.size()):
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.18748 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [#  51] COI heap: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 20:             if not (self.heap_list[i] > self.heap_list[mc_i]):
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+--------------------------------------------------------------------------------
+[0.19223 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758a08430>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  52] COI heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if not (i * 2 > self.size()):
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.20823 s] killed by ts-3-5/test_3-5_1-0_305.py::test_find_min_child_index
+
+empty_heap = <heap.Heap object at 0x7d9758aea920>
+
+    def test_find_min_child_index(empty_heap):
+>       assert empty_heap.find_min_child_index(1) is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:36: AssertionError
+   - [#  53] COI heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if not ((i * 2) + 1 > self.size()):
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.16861 s] survived
+   - [#  54] COI heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif not (self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]):
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19545 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758a82350>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  55] COI heap: 
+--------------------------------------------------------------------------------
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
++ 36:         if not (len(self.heap_list) > 1):
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+--------------------------------------------------------------------------------
+[0.18255 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758afdc00>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:25: AssertionError
+   - [#  56] COI heap: 
+--------------------------------------------------------------------------------
+  38:         else:
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+- 42:         if self.size() == 0:
++ 42:         if not (self.size() == 0):
+  43:             return None
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+--------------------------------------------------------------------------------
+[0.17455 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758ed9180>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+>       assert min_val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:43: AssertionError
+   - [#  57] COI heap: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+- 44:         if self.size() == 1:
++ 44:         if not (self.size() == 1):
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+--------------------------------------------------------------------------------
+[0.18840 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758b69ae0>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+>       assert min_val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:43: AssertionError
+   - [#  58] COI heap: 
+--------------------------------------------------------------------------------
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+- 55:         while i > 0:
++ 55:         while not (i > 0):
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+--------------------------------------------------------------------------------
+[0.19234 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758bea050>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  59] OIL heap: 
+--------------------------------------------------------------------------------
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+- 16:     
++ 16:             break
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+--------------------------------------------------------------------------------
+[0.16840 s] survived
+   - [#  60] OIL heap: 
+--------------------------------------------------------------------------------
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+- 23:     
++ 23:             break
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+--------------------------------------------------------------------------------
+[0.16882 s] survived
+   - [#  61] OIL heap: 
+--------------------------------------------------------------------------------
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+- 58:     
++ 58:             break
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.20302 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d97589bf100>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  62] ROR heap: 
+--------------------------------------------------------------------------------
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
++ 11:         while i // 2 < 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+--------------------------------------------------------------------------------
+[0.18231 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d9758a80280>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [#  63] ROR heap: 
+--------------------------------------------------------------------------------
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
++ 11:         while i // 2 >= 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+--------------------------------------------------------------------------------
+[5.00590 s] timeout
+   - [#  64] ROR heap: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
++ 13:             if self.heap_list[i] > self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+--------------------------------------------------------------------------------
+[0.20643 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d9758b69360>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [#  65] ROR heap: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
++ 13:             if self.heap_list[i] <= self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+--------------------------------------------------------------------------------
+[0.16591 s] survived
+   - [#  66] ROR heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i * 2 >= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.18951 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [#  67] ROR heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i * 2 < self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.16416 s] survived
+   - [#  68] ROR heap: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 20:             if self.heap_list[i] < self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+--------------------------------------------------------------------------------
+[0.18598 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d97589392a0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  69] ROR heap: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 20:             if self.heap_list[i] >= self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+--------------------------------------------------------------------------------
+[0.16596 s] survived
+   - [#  70] ROR heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i * 2 < self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.20155 s] killed by ts-3-5/test_3-5_1-0_305.py::test_find_min_child_index
+
+empty_heap = <heap.Heap object at 0x7d9758b68610>
+
+    def test_find_min_child_index(empty_heap):
+>       assert empty_heap.find_min_child_index(1) is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:36: AssertionError
+   - [#  71] ROR heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i * 2 >= self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.17094 s] survived
+   - [#  72] ROR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i * 2) + 1 < self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.16459 s] survived
+   - [#  73] ROR heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i * 2) + 1 >= self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.16802 s] survived
+   - [#  74] ROR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] > self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.18670 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758dadd50>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  75] ROR heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] <= self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.16700 s] survived
+   - [#  76] ROR heap: 
+--------------------------------------------------------------------------------
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
++ 36:         if len(self.heap_list) < 1:
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+--------------------------------------------------------------------------------
+[0.19014 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758b6b220>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:25: AssertionError
+   - [#  77] ROR heap: 
+--------------------------------------------------------------------------------
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
++ 36:         if len(self.heap_list) >= 1:
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+--------------------------------------------------------------------------------
+[0.19153 s] survived
+   - [#  78] ROR heap: 
+--------------------------------------------------------------------------------
+  38:         else:
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+- 42:         if self.size() == 0:
++ 42:         if self.size() != 0:
+  43:             return None
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+--------------------------------------------------------------------------------
+[0.17697 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758affca0>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+>       assert min_val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:43: AssertionError
+   - [#  79] ROR heap: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+- 44:         if self.size() == 1:
++ 44:         if self.size() != 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+--------------------------------------------------------------------------------
+[0.18613 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d97589928c0>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+>       assert min_val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:43: AssertionError
+   - [#  80] ROR heap: 
+--------------------------------------------------------------------------------
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+- 55:         while i > 0:
++ 55:         while i < 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+--------------------------------------------------------------------------------
+[0.19068 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758ed9b10>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  81] ROR heap: 
+--------------------------------------------------------------------------------
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+- 55:         while i > 0:
++ 55:         while i >= 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+--------------------------------------------------------------------------------
+[5.00687 s] timeout
+   - [#  82] SDI heap: 
+--------------------------------------------------------------------------------
+   1: class Heap:
+   2:     
+-  3:     def __init__(self):
+-  4:         self.heap_list = [0]
+-  5:     
++  3:     @staticmethod
++  4:     def __init__(self):
++  5:         self.heap_list = [0]
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+--------------------------------------------------------------------------------
+[0.17520 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:13: TypeError: Heap.__init__() missing 1 required positional argument: 'self'
+
+   - [#  83] SDI heap: 
+--------------------------------------------------------------------------------
+   2:     
+   3:     def __init__(self):
+   4:         self.heap_list = [0]
+   5:     
+-  6:     def insert(self, value: int):
+-  7:         self.heap_list.append(value)
+-  8:         self.percolate(self.size())
+-  9:     
++  6:     @staticmethod
++  7:     def insert(self, value: int):
++  8:         self.heap_list.append(value)
++  9:         self.percolate(self.size())
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+--------------------------------------------------------------------------------
+[0.18166 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:23: TypeError: Heap.insert() missing 1 required positional argument: 'value'
+
+   - [#  84] SDI heap: 
+--------------------------------------------------------------------------------
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+- 10:     def percolate(self, i):
+- 11:         while i // 2 > 0:
+- 12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
+- 16:     
++ 10:     @staticmethod
++ 11:     def percolate(self, i):
++ 12:         while i // 2 > 0:
++ 13:             parent = i // 2
++ 14:             if self.heap_list[i] < self.heap_list[parent]:
++ 15:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 16:             i = i // 2
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+--------------------------------------------------------------------------------
+[0.18535 s] incompetent
+
+TypeError: heap:8: TypeError: Heap.percolate() missing 1 required positional argument: 'i'
+
+   - [#  85] SDI heap: 
+--------------------------------------------------------------------------------
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+- 17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
+- 19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+- 22:             i = mc_i
+- 23:     
++ 17:     @staticmethod
++ 18:     def sift(self, i):
++ 19:         while i * 2 <= self.size():
++ 20:             mc_i = self.find_min_child_index(i)
++ 21:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 22:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 23:             i = mc_i
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+--------------------------------------------------------------------------------
+[0.18624 s] incompetent
+
+TypeError: heap:49: TypeError: Heap.sift() missing 1 required positional argument: 'i'
+
+   - [#  86] SDI heap: 
+--------------------------------------------------------------------------------
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+- 24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
+- 26:             return None
+- 27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
+- 29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
+- 32:         else:
+- 33:             return (i * 2) + 1
+- 34:     
++ 24:     @staticmethod
++ 25:     def find_min_child_index(self, i):
++ 26:         if i * 2 > self.size():
++ 27:             return None
++ 28:         if (i * 2) + 1 > self.size():
++ 29:             return i * 2
++ 30:         
++ 31:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 32:             return i * 2
++ 33:         else:
++ 34:             return (i * 2) + 1
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+  38:         else:
+--------------------------------------------------------------------------------
+[0.18824 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:36: TypeError: Heap.find_min_child_index() missing 1 required positional argument: 'i'
+
+   - [#  87] SDI heap: 
+--------------------------------------------------------------------------------
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+- 35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
+- 37:             return self.heap_list[1]
+- 38:         else:
+- 39:             return None
+- 40:     
++ 35:     @staticmethod
++ 36:     def min(self):
++ 37:         if len(self.heap_list) > 1:
++ 38:             return self.heap_list[1]
++ 39:         else:
++ 40:             return None
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+  44:         if self.size() == 1:
+--------------------------------------------------------------------------------
+[0.19003 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:25: TypeError: Heap.min() missing 1 required positional argument: 'self'
+
+   - [#  88] SDI heap: 
+--------------------------------------------------------------------------------
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+- 41:     def delete_min(self):
+- 42:         if self.size() == 0:
+- 43:             return None
+- 44:         if self.size() == 1:
+- 45:             return self.heap_list.pop()
+- 46:         
+- 47:         min_val = self.heap_list[1]
+- 48:         self.heap_list[1] = self.heap_list.pop()
+- 49:         self.sift(1)
+- 50:         return min_val
+- 51:     
++ 41:     @staticmethod
++ 42:     def delete_min(self):
++ 43:         if self.size() == 0:
++ 44:             return None
++ 45:         if self.size() == 1:
++ 46:             return self.heap_list.pop()
++ 47:         
++ 48:         min_val = self.heap_list[1]
++ 49:         self.heap_list[1] = self.heap_list.pop()
++ 50:         self.sift(1)
++ 51:         return min_val
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+--------------------------------------------------------------------------------
+[0.17906 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:42: TypeError: Heap.delete_min() missing 1 required positional argument: 'self'
+
+   - [#  89] SDI heap: 
+--------------------------------------------------------------------------------
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+- 52:     def build(self, lst: list):
+- 53:         i = len(lst) // 2
+- 54:         self.heap_list = [0] + lst
+- 55:         while i > 0:
+- 56:             self.sift(i)
+- 57:             i -= 1
+- 58:     
++ 52:     @staticmethod
++ 53:     def build(self, lst: list):
++ 54:         i = len(lst) // 2
++ 55:         self.heap_list = [0] + lst
++ 56:         while i > 0:
++ 57:             self.sift(i)
++ 58:             i -= 1
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.17731 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/heap/ts-3-5/test_3-5_1-0_305.py:48: TypeError: Heap.build() missing 1 required positional argument: 'lst'
+
+   - [#  90] SDI heap: 
+--------------------------------------------------------------------------------
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+- 59:     def size(self):
+- 60:         return len(self.heap_list) - 1
++ 59:     @staticmethod
++ 60:     def size(self):
++ 61:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.18342 s] incompetent
+
+TypeError: heap:8: TypeError: Heap.size() missing 1 required positional argument: 'self'
+
+   - [#  91] SDL heap: 
+--------------------------------------------------------------------------------
+   1: class Heap:
+   2:     
+   3:     def __init__(self):
+-  4:         self.heap_list = [0]
++  4:         pass
+   5:     
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+--------------------------------------------------------------------------------
+[0.19557 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758821180>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758821180>, value = 7
+
+>   ???
+E   AttributeError: 'Heap' object has no attribute 'heap_list'
+
+heap:7: AttributeError
+   - [#  92] SDL heap: 
+--------------------------------------------------------------------------------
+   3:     def __init__(self):
+   4:         self.heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+-  7:         self.heap_list.append(value)
++  7:         pass
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+--------------------------------------------------------------------------------
+[0.18293 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758bf0c70>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+>       assert empty_heap.size() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:24: AssertionError
+   - [#  93] SDL heap: 
+--------------------------------------------------------------------------------
+   4:         self.heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+-  8:         self.percolate(self.size())
++  8:         pass
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+--------------------------------------------------------------------------------
+[0.19822 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d9758821900>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [#  94] SDL heap: 
+--------------------------------------------------------------------------------
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+- 12:             parent = i // 2
++ 12:             pass
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+--------------------------------------------------------------------------------
+[0.18976 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758ff46d0>, i = 2
+
+>   ???
+E   NameError: name 'parent' is not defined
+
+heap:13: NameError
+   - [#  95] SDL heap: 
+--------------------------------------------------------------------------------
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 14:                 pass
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+--------------------------------------------------------------------------------
+[0.19759 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d9758e139a0>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [#  96] SDL heap: 
+--------------------------------------------------------------------------------
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
++ 15:             pass
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+--------------------------------------------------------------------------------
+[5.00671 s] timeout
+   - [#  97] SDL heap: 
+--------------------------------------------------------------------------------
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+- 19:             mc_i = self.find_min_child_index(i)
++ 19:             pass
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+--------------------------------------------------------------------------------
+[0.17842 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758bf33d0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758bf33d0>, i = 2
+
+>   ???
+E   NameError: name 'mc_i' is not defined
+
+heap:20: NameError
+   - [#  98] SDL heap: 
+--------------------------------------------------------------------------------
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 21:                 pass
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+--------------------------------------------------------------------------------
+[0.18736 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758bf0ac0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [#  99] SDL heap: 
+--------------------------------------------------------------------------------
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+- 22:             i = mc_i
++ 22:             pass
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+--------------------------------------------------------------------------------
+[5.00618 s] timeout
+   - [# 100] SDL heap: 
+--------------------------------------------------------------------------------
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+- 26:             return None
++ 26:             pass
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+--------------------------------------------------------------------------------
+[0.17785 s] killed by ts-3-5/test_3-5_1-0_305.py::test_find_min_child_index
+
+empty_heap = <heap.Heap object at 0x7d97589956c0>
+
+    def test_find_min_child_index(empty_heap):
+>       assert empty_heap.find_min_child_index(1) is None
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:36: AssertionError
+   - [# 101] SDL heap: 
+--------------------------------------------------------------------------------
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+- 28:             return i * 2
++ 28:             pass
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+--------------------------------------------------------------------------------
+[0.16570 s] survived
+   - [# 102] SDL heap: 
+--------------------------------------------------------------------------------
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+- 31:             return i * 2
++ 31:             pass
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+--------------------------------------------------------------------------------
+[0.20747 s] incompetent
+
+TypeError: heap:20: TypeError: list indices must be integers or slices, not NoneType
+
+   - [# 103] SDL heap: 
+--------------------------------------------------------------------------------
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+- 33:             return (i * 2) + 1
++ 33:             pass
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.16561 s] survived
+   - [# 104] SDL heap: 
+--------------------------------------------------------------------------------
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+- 37:             return self.heap_list[1]
++ 37:             pass
+  38:         else:
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+--------------------------------------------------------------------------------
+[0.18676 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d97589bc5e0>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:25: AssertionError
+   - [# 105] SDL heap: 
+--------------------------------------------------------------------------------
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+  37:             return self.heap_list[1]
+  38:         else:
+- 39:             return None
++ 39:             pass
+  40:     
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+--------------------------------------------------------------------------------
+[0.16854 s] survived
+   - [# 106] SDL heap: 
+--------------------------------------------------------------------------------
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+- 43:             return None
++ 43:             pass
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+--------------------------------------------------------------------------------
+[0.17331 s] survived
+   - [# 107] SDL heap: 
+--------------------------------------------------------------------------------
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+  44:         if self.size() == 1:
+- 45:             return self.heap_list.pop()
++ 45:             pass
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+--------------------------------------------------------------------------------
+[0.16987 s] survived
+   - [# 108] SDL heap: 
+--------------------------------------------------------------------------------
+  43:             return None
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+- 47:         min_val = self.heap_list[1]
++ 47:         pass
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+--------------------------------------------------------------------------------
+[0.19839 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d97589beda0>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d97589beda0>
+
+>   ???
+E   NameError: name 'min_val' is not defined
+
+heap:50: NameError
+   - [# 109] SDL heap: 
+--------------------------------------------------------------------------------
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+- 48:         self.heap_list[1] = self.heap_list.pop()
++ 48:         pass
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+--------------------------------------------------------------------------------
+[0.20061 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758fef7c0>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+        assert min_val == 1
+>       assert populated_heap.min() == 4
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:44: AssertionError
+   - [# 110] SDL heap: 
+--------------------------------------------------------------------------------
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+- 49:         self.sift(1)
++ 49:         pass
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+--------------------------------------------------------------------------------
+[0.16565 s] survived
+   - [# 111] SDL heap: 
+--------------------------------------------------------------------------------
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+- 50:         return min_val
++ 50:         pass
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+--------------------------------------------------------------------------------
+[0.18821 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d97589bf370>
+
+    def test_delete_min(populated_heap):
+        min_val = populated_heap.delete_min()
+>       assert min_val == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:43: AssertionError
+   - [# 112] SDL heap: 
+--------------------------------------------------------------------------------
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+- 53:         i = len(lst) // 2
++ 53:         pass
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+--------------------------------------------------------------------------------
+[0.18916 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758d83fd0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758d83fd0>, lst = [9, 3, 6, 1, 7]
+
+>   ???
+E   UnboundLocalError: local variable 'i' referenced before assignment
+
+heap:55: UnboundLocalError
+   - [# 113] SDL heap: 
+--------------------------------------------------------------------------------
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+- 54:         self.heap_list = [0] + lst
++ 54:         pass
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+--------------------------------------------------------------------------------
+[0.18833 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758dac490>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [# 114] SDL heap: 
+--------------------------------------------------------------------------------
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+- 56:             self.sift(i)
++ 56:             pass
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.17754 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758ba5d20>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [# 115] SDL heap: 
+--------------------------------------------------------------------------------
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+- 60:         return len(self.heap_list) - 1
++ 60:         pass
+--------------------------------------------------------------------------------
+[0.20264 s] incompetent
+
+TypeError: heap:11: TypeError: unsupported operand type(s) for //: 'NoneType' and 'int'
+
+   - [# 116] SVD heap: 
+--------------------------------------------------------------------------------
+   1: class Heap:
+   2:     
+   3:     def __init__(self):
+-  4:         self.heap_list = [0]
++  4:         heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+   8:         self.percolate(self.size())
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 117] SVD heap: 
+--------------------------------------------------------------------------------
+   3:     def __init__(self):
+   4:         self.heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+-  7:         self.heap_list.append(value)
++  7:         heap_list.append(value)
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+--------------------------------------------------------------------------------
+[0.19229 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758e12bf0>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e12bf0>, value = 7
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:7: NameError
+   - [# 118] SVD heap: 
+--------------------------------------------------------------------------------
+   4:         self.heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+-  8:         self.percolate(self.size())
++  8:         percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+--------------------------------------------------------------------------------
+[0.18216 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758ff4970>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758ff4970>, value = 7
+
+>   ???
+E   NameError: name 'percolate' is not defined
+
+heap:8: NameError
+   - [# 119] SVD heap: 
+--------------------------------------------------------------------------------
+   4:         self.heap_list = [0]
+   5:     
+   6:     def insert(self, value: int):
+   7:         self.heap_list.append(value)
+-  8:         self.percolate(self.size())
++  8:         self.percolate(size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+--------------------------------------------------------------------------------
+[0.18360 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758a80d00>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758a80d00>, value = 7
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:8: NameError
+   - [# 120] SVD heap: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
++ 13:             if heap_list[i] < self.heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+--------------------------------------------------------------------------------
+[0.19703 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e8c9d0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:13: NameError
+   - [# 121] SVD heap: 
+--------------------------------------------------------------------------------
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
++ 13:             if self.heap_list[i] < heap_list[parent]:
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+--------------------------------------------------------------------------------
+[0.17804 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758876a10>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:13: NameError
+   - [# 122] SVD heap: 
+--------------------------------------------------------------------------------
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 14:                 (heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+--------------------------------------------------------------------------------
+[0.18772 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e1ded0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:14: NameError
+   - [# 123] SVD heap: 
+--------------------------------------------------------------------------------
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 14:                 (self.heap_list[i], heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+--------------------------------------------------------------------------------
+[0.20975 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758bcb4f0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:14: NameError
+   - [# 124] SVD heap: 
+--------------------------------------------------------------------------------
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 14:                 (self.heap_list[i], self.heap_list[parent]) = (heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+--------------------------------------------------------------------------------
+[0.18495 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758a80eb0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:14: NameError
+   - [# 125] SVD heap: 
+--------------------------------------------------------------------------------
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+  12:             parent = i // 2
+  13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
++ 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+--------------------------------------------------------------------------------
+[0.18548 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+@pytest.fixture
+    def populated_heap():
+        heap = Heap()
+        heap.insert(4)
+>       heap.insert(1)
+
+ts-3-5/test_3-5_1-0_305.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758a42020>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:14: NameError
+   - [# 126] SVD heap: 
+--------------------------------------------------------------------------------
+  14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+- 18:         while i * 2 <= self.size():
++ 18:         while i * 2 <= size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+--------------------------------------------------------------------------------
+[0.19657 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758e8d9c0>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:49: in delete_min
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e8d9c0>, i = 1
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:18: NameError
+   - [# 127] SVD heap: 
+--------------------------------------------------------------------------------
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+- 19:             mc_i = self.find_min_child_index(i)
++ 19:             mc_i = find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+--------------------------------------------------------------------------------
+[0.20025 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758e1d540>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e1d540>, i = 2
+
+>   ???
+E   NameError: name 'find_min_child_index' is not defined
+
+heap:19: NameError
+   - [# 128] SVD heap: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 20:             if heap_list[i] > self.heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+--------------------------------------------------------------------------------
+[0.21566 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758b97df0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758b97df0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:20: NameError
+   - [# 129] SVD heap: 
+--------------------------------------------------------------------------------
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
++ 20:             if self.heap_list[i] > heap_list[mc_i]:
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+--------------------------------------------------------------------------------
+[0.19813 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758874f10>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758874f10>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:20: NameError
+   - [# 130] SVD heap: 
+--------------------------------------------------------------------------------
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 21:                 (heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+--------------------------------------------------------------------------------
+[0.18761 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758e12320>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e12320>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:21: NameError
+   - [# 131] SVD heap: 
+--------------------------------------------------------------------------------
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 21:                 (self.heap_list[i], heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+--------------------------------------------------------------------------------
+[0.18893 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758d603a0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758d603a0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:21: NameError
+   - [# 132] SVD heap: 
+--------------------------------------------------------------------------------
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+--------------------------------------------------------------------------------
+[0.18897 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758d60d30>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758d60d30>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:21: NameError
+   - [# 133] SVD heap: 
+--------------------------------------------------------------------------------
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+  20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
++ 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+--------------------------------------------------------------------------------
+[0.19479 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d97589695a0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d97589695a0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:21: NameError
+   - [# 134] SVD heap: 
+--------------------------------------------------------------------------------
+  21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+  22:             i = mc_i
+  23:     
+  24:     def find_min_child_index(self, i):
+- 25:         if i * 2 > self.size():
++ 25:         if i * 2 > size():
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+--------------------------------------------------------------------------------
+[0.18198 s] killed by ts-3-5/test_3-5_1-0_305.py::test_find_min_child_index
+
+empty_heap = <heap.Heap object at 0x7d9758d608e0>
+
+    def test_find_min_child_index(empty_heap):
+>       assert empty_heap.find_min_child_index(1) is None
+
+ts-3-5/test_3-5_1-0_305.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758d608e0>, i = 1
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:25: NameError
+   - [# 135] SVD heap: 
+--------------------------------------------------------------------------------
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+- 27:         if (i * 2) + 1 > self.size():
++ 27:         if (i * 2) + 1 > size():
+  28:             return i * 2
+  29:         
+  30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+--------------------------------------------------------------------------------
+[0.17688 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758e111b0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+heap:19: in sift
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758e111b0>, i = 2
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:27: NameError
+   - [# 136] SVD heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.18863 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758b96d70>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+heap:19: in sift
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758b96d70>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:30: NameError
+   - [# 137] SVD heap: 
+--------------------------------------------------------------------------------
+  26:             return None
+  27:         if (i * 2) + 1 > self.size():
+  28:             return i * 2
+  29:         
+- 30:         elif self.heap_list[i * 2] < self.heap_list[(i * 2) + 1]:
++ 30:         elif self.heap_list[i * 2] < heap_list[(i * 2) + 1]:
+  31:             return i * 2
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+--------------------------------------------------------------------------------
+[0.19396 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758aeaad0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:56: in build
+    ???
+heap:19: in sift
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758aeaad0>, i = 2
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:30: NameError
+   - [# 138] SVD heap: 
+--------------------------------------------------------------------------------
+  32:         else:
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+- 36:         if len(self.heap_list) > 1:
++ 36:         if len(heap_list) > 1:
+  37:             return self.heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+--------------------------------------------------------------------------------
+[0.18846 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758f3e4d0>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+
+ts-3-5/test_3-5_1-0_305.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758f3e4d0>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:36: NameError
+   - [# 139] SVD heap: 
+--------------------------------------------------------------------------------
+  33:             return (i * 2) + 1
+  34:     
+  35:     def min(self):
+  36:         if len(self.heap_list) > 1:
+- 37:             return self.heap_list[1]
++ 37:             return heap_list[1]
+  38:         else:
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+--------------------------------------------------------------------------------
+[0.19066 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758afd3c0>
+
+    def test_insert(empty_heap):
+        empty_heap.insert(7)
+        assert empty_heap.size() == 1
+>       assert empty_heap.min() == 7
+
+ts-3-5/test_3-5_1-0_305.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758afd3c0>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:37: NameError
+   - [# 140] SVD heap: 
+--------------------------------------------------------------------------------
+  38:         else:
+  39:             return None
+  40:     
+  41:     def delete_min(self):
+- 42:         if self.size() == 0:
++ 42:         if size() == 0:
+  43:             return None
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+--------------------------------------------------------------------------------
+[0.19367 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758ae87f0>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758ae87f0>
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:42: NameError
+   - [# 141] SVD heap: 
+--------------------------------------------------------------------------------
+  40:     
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+- 44:         if self.size() == 1:
++ 44:         if size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+--------------------------------------------------------------------------------
+[0.18865 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758edb130>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758edb130>
+
+>   ???
+E   NameError: name 'size' is not defined
+
+heap:44: NameError
+   - [# 142] SVD heap: 
+--------------------------------------------------------------------------------
+  41:     def delete_min(self):
+  42:         if self.size() == 0:
+  43:             return None
+  44:         if self.size() == 1:
+- 45:             return self.heap_list.pop()
++ 45:             return heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+--------------------------------------------------------------------------------
+[0.15877 s] survived
+   - [# 143] SVD heap: 
+--------------------------------------------------------------------------------
+  43:             return None
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+- 47:         min_val = self.heap_list[1]
++ 47:         min_val = heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+--------------------------------------------------------------------------------
+[0.19799 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758d62200>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758d62200>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:47: NameError
+   - [# 144] SVD heap: 
+--------------------------------------------------------------------------------
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+- 48:         self.heap_list[1] = self.heap_list.pop()
++ 48:         heap_list[1] = self.heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+--------------------------------------------------------------------------------
+[0.19563 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d97589bdba0>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d97589bdba0>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:48: NameError
+   - [# 145] SVD heap: 
+--------------------------------------------------------------------------------
+  44:         if self.size() == 1:
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+- 48:         self.heap_list[1] = self.heap_list.pop()
++ 48:         self.heap_list[1] = heap_list.pop()
+  49:         self.sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+--------------------------------------------------------------------------------
+[0.20823 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758b686a0>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758b686a0>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:48: NameError
+   - [# 146] SVD heap: 
+--------------------------------------------------------------------------------
+  45:             return self.heap_list.pop()
+  46:         
+  47:         min_val = self.heap_list[1]
+  48:         self.heap_list[1] = self.heap_list.pop()
+- 49:         self.sift(1)
++ 49:         sift(1)
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+--------------------------------------------------------------------------------
+[0.18986 s] killed by ts-3-5/test_3-5_1-0_305.py::test_delete_min
+
+populated_heap = <heap.Heap object at 0x7d9758bce140>
+
+    def test_delete_min(populated_heap):
+>       min_val = populated_heap.delete_min()
+
+ts-3-5/test_3-5_1-0_305.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758bce140>
+
+>   ???
+E   NameError: name 'sift' is not defined
+
+heap:49: NameError
+   - [# 147] SVD heap: 
+--------------------------------------------------------------------------------
+  50:         return min_val
+  51:     
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+- 54:         self.heap_list = [0] + lst
++ 54:         heap_list = [0] + lst
+  55:         while i > 0:
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [# 148] SVD heap: 
+--------------------------------------------------------------------------------
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+- 56:             self.sift(i)
++ 56:             sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.19453 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d97589698a0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+>       empty_heap.build(lst)
+
+ts-3-5/test_3-5_1-0_305.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d97589698a0>, lst = [9, 3, 6, 1, 7]
+
+>   ???
+E   NameError: name 'sift' is not defined
+
+heap:56: NameError
+   - [# 149] SVD heap: 
+--------------------------------------------------------------------------------
+  56:             self.sift(i)
+  57:             i -= 1
+  58:     
+  59:     def size(self):
+- 60:         return len(self.heap_list) - 1
++ 60:         return len(heap_list) - 1
+--------------------------------------------------------------------------------
+[0.18062 s] killed by ts-3-5/test_3-5_1-0_305.py::test_insert
+
+empty_heap = <heap.Heap object at 0x7d9758969390>
+
+    def test_insert(empty_heap):
+>       empty_heap.insert(7)
+
+ts-3-5/test_3-5_1-0_305.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+heap:8: in insert
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <heap.Heap object at 0x7d9758969390>
+
+>   ???
+E   NameError: name 'heap_list' is not defined
+
+heap:60: NameError
+   - [# 150] ZIL heap: 
+--------------------------------------------------------------------------------
+   8:         self.percolate(self.size())
+   9:     
+  10:     def percolate(self, i):
+  11:         while i // 2 > 0:
+- 12:             parent = i // 2
+- 13:             if self.heap_list[i] < self.heap_list[parent]:
+- 14:                 (self.heap_list[i], self.heap_list[parent]) = (self.heap_list[parent], self.heap_list[i])
+- 15:             i = i // 2
++ 12:             break
++ 13:     
++ 14:     
++ 15:     
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+  19:             mc_i = self.find_min_child_index(i)
+--------------------------------------------------------------------------------
+[0.19052 s] killed by ts-3-5/test_3-5_1-0_305.py::test_percolate
+
+populated_heap = <heap.Heap object at 0x7d9758969180>
+
+    def test_percolate(populated_heap):
+        populated_heap.insert(2)
+>       assert populated_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:29: AssertionError
+   - [# 151] ZIL heap: 
+--------------------------------------------------------------------------------
+  15:             i = i // 2
+  16:     
+  17:     def sift(self, i):
+  18:         while i * 2 <= self.size():
+- 19:             mc_i = self.find_min_child_index(i)
+- 20:             if self.heap_list[i] > self.heap_list[mc_i]:
+- 21:                 (self.heap_list[i], self.heap_list[mc_i]) = (self.heap_list[mc_i], self.heap_list[i])
+- 22:             i = mc_i
++ 19:             break
++ 20:     
++ 21:     
++ 22:     
+  23:     
+  24:     def find_min_child_index(self, i):
+  25:         if i * 2 > self.size():
+  26:             return None
+--------------------------------------------------------------------------------
+[0.19389 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758d82f80>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+   - [# 152] ZIL heap: 
+--------------------------------------------------------------------------------
+  52:     def build(self, lst: list):
+  53:         i = len(lst) // 2
+  54:         self.heap_list = [0] + lst
+  55:         while i > 0:
+- 56:             self.sift(i)
+- 57:             i -= 1
++ 56:             break
++ 57:     
+  58:     
+  59:     def size(self):
+  60:         return len(self.heap_list) - 1
+--------------------------------------------------------------------------------
+[0.18919 s] killed by ts-3-5/test_3-5_1-0_305.py::test_build
+
+empty_heap = <heap.Heap object at 0x7d9758d807f0>
+
+    def test_build(empty_heap):
+        lst = [9, 3, 6, 1, 7]
+        empty_heap.build(lst)
+>       assert empty_heap.min() == 1
+E       AssertionError
+
+ts-3-5/test_3-5_1-0_305.py:49: AssertionError
+[*] Mutation score [72.89146 s]: 69.4%
+   - all: 152
+   - killed: 78 (51.3%)
+   - survived: 38 (25.0%)
+   - incompetent: 28 (18.4%)
+   - timeout: 8 (5.3%)

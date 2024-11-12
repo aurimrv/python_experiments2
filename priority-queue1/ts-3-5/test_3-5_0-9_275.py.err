@@ -1,0 +1,55 @@
+import os
+import sys
+import itertools
+from heapq import heappush, heappop
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+
+class TestPriorityQueue:
+
+    def test_add_task(self):
+        pq = PriorityQueue()
+        pq.add_task("task1", 5)
+        assert len(pq.pq) == 1
+
+        pq.add_task("task2", 3)
+        assert len(pq.pq) == 2
+
+    def test_remove_task(self):
+        pq = PriorityQueue()
+        pq.add_task("task1", 5)
+        pq.remove_task("task1")
+        assert len(pq.pq) == 0
+
+    def test_set_priority(self):
+        pq = PriorityQueue()
+        pq.add_task("task1", 5)
+        pq.set_priority("task1", 10)
+        assert pq.mapper["task1"][0] == 10
+
+        pq.set_priority("task1")
+        assert pq.mapper["task1"][0] == 9
+
+    def test_pop_task(self):
+        pq = PriorityQueue()
+        pq.add_task("task1", 5)
+        pq.add_task("task2", 3)
+        task = pq.pop_task()
+        assert task == "task2"
+        assert pq.mapper.get("task2") is None
+
+        task = pq.pop_task()
+        assert task == "task1"
+        assert pq.mapper.get("task1") is None
+
+    def test_pop_task_empty_queue(self):
+        pq = PriorityQueue()
+        try:
+            task = pq.pop_task()
+            assert False, "Exception not raised for empty queue"
+        except KeyError:
+            assert True

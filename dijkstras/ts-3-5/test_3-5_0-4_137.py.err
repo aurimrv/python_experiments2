@@ -1,6 +1,5 @@
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
@@ -8,40 +7,34 @@ sys.path.append(project_dir)
 from dijkstras import dijkstras
 
 def test_dijkstras():
-    # Test case 1: Shortest path from src to dst in a simple graph
+    # Test case 1: Shortest path between two directly connected nodes
     weighted_graph = {
-        'A': {'B': 1, 'C': 4},
-        'B': {'A': 1, 'C': 2},
-        'C': {'A': 4, 'B': 2}
+        'A': {'B': 1},
+        'B': {'A': 1}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
 
-    # Test case 2: Shortest path from src to dst in a graph with multiple paths
+    # Test case 2: Shortest path between two nodes with intermediate nodes
     weighted_graph = {
-        'A': {'B': 3, 'C': 2},
-        'B': {'A': 3, 'C': 1, 'D': 5},
-        'C': {'A': 2, 'B': 1, 'D': 4},
-        'D': {'B': 5, 'C': 4}
+        'A': {'B': 1, 'C': 2},
+        'B': {'A': 1, 'D': 3},
+        'C': {'A': 2, 'D': 1},
+        'D': {'B': 3, 'C': 1}
     }
     src = 'A'
     dst = 'D'
     assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-def test_dijkstras_edge_cases():
-    # Test case 1: Shortest path from src to dst in a graph with only one node
-    weighted_graph = {'A': {}}
-    src = 'A'
-    dst = 'A'
-    assert dijkstras(weighted_graph, src, dst) == ['A']
-
-    # Test case 2: Shortest path from src to dst in a graph with negative edge weights
+    # Test case 3: Shortest path between two nodes with multiple paths
     weighted_graph = {
-        'A': {'B': -2, 'C': 3},
-        'B': {'A': -2, 'C': 4},
-        'C': {'A': 3, 'B': 4}
+        'A': {'B': 1, 'C': 2},
+        'B': {'A': 1, 'D': 3},
+        'C': {'A': 2, 'D': 1},
+        'D': {'B': 3, 'C': 1, 'E': 2},
+        'E': {'D': 2}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'E'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D', 'E']

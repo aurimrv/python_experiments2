@@ -58,3 +58,4 @@ class Heap():
 
     def size(self):
         return len(self.heap_list) - 1
+

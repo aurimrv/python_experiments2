@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MutPy mutation report - mutation #74</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPython.js" type="text/javascript"></script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    window.setTimeout(function () {
+        
+        $('.line.number90').attr('title', 'SVD');
+        
+    }, 0);
+</script>
+
+</head>
+<body>
+    <div class="container">
+        
+<div class="page-header">
+    <h1>Mutation #74</h1>
+</div>
+<h3>Details</h3>
+<ul>
+    <li>module - <code><module 'lru_cache' from '/home/lucca/teste/python_experiments2/lru-cache/./lru_cache.py'></code></li>
+    <li><span class="label label-success">killed</span> by <code>ts-3-5/test_3-5_0-1_36.py::test_lru_cache_put</code></li>
+    
+    <li>duration - 0.182 s</li>
+    
+    
+    <li>tests run - 3</li>
+    
+</ul>
+
+<h3>Exception traceback</h3>
+<pre>def test_lru_cache_put():
+        cache = LruCache(2)
+>       cache.put(1, 'a')
+
+ts-3-5/test_3-5_0-1_36.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <lru_cache.LruCache object at 0x786155402020>, key = 1, value = 'a'
+
+>   ???
+E   NameError: name 'lookup_map' is not defined
+
+lru_cache:90: NameError</pre>
+
+<h3>Mutations</h3>
+<ul>
+    
+    <li>SVD - line 90</li>
+    
+</ul>
+<h3>Mutant</h3>
+<pre class="brush: python; first-line: 1; highlight: [90]; toolbar: false;">class ListNode:
+    
+    '''
+
+    Doubly Linked List node.
+
+    This is a list node that can link to a previous value,
+    and a next value.  The node contains a key and a value pair.
+
+
+    '''
+    
+    def __init__(self, key, val):
+        '''
+        Create a node.
+
+        Node will have a key and value, and blank
+        previous and next values.
+
+        :param key: the lookup key value
+        :param val: the value corresponding to the key
+        '''
+        self.key = key
+        self.val = val
+        self.next = None
+        self.prev = None
+
+
+class LruCache:
+    
+    '''
+
+    Least Recently Used Cache (LRU Cache)
+
+    Data structure to store and lookup values by keys.  Keys can be any type and values
+    can be any type.  The cache has a set capacity and will drop off values when the
+    capacity is reached.  The cache will drop the value that was used the farthest
+    back in time (least recently used).
+
+    The cache uses a dictionary for fast lookups of values, and a linked list to keep
+    track of the least recently used key:value for dropping.
+
+    Time complexity:
+        put: O(1), amortized worst case: O(N)
+        get: O(1), amortized worst case: O(N)
+
+    '''
+    
+    terminal_value = 0
+    '''
+    Constant value used by the head and tail as terminating values.
+    '''
+    
+    def __init__(self, capacity):
+        '''
+        Create an LRU Cache.
+
+        :param capacity: the maximum number of elements that can be stored in the cache,
+            must be greater than 0
+        '''
+        if capacity <= 1:
+            raise ValueError('Capacity must be >= 1')
+        
+        
+        self.head = ListNode(self.terminal_value, self.terminal_value)
+        self.tail = ListNode(self.terminal_value, self.terminal_value)
+        
+        
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        
+        
+        self.lookup_map = {}
+        
+        
+        self.capacity = capacity
+    
+    def put(self, key, value):
+        '''
+        Add a value to the cache.
+
+        If adding the value will cause the cache to go above capacity, then
+        the least recently item will be dropped.
+
+        :param key: the lookup key of the item
+        :param value: the value stored on key
+        :return: None
+        '''
+        
+        if key in lookup_map:
+            
+            node = self.lookup_map.pop(key)
+            self._remove(node)
+        
+        
+        node = ListNode(key, value)
+        
+        
+        self._add(node)
+        
+        
+        self.lookup_map[key] = node
+        
+        
+        if len(self.lookup_map) > self.capacity:
+            
+            least_recently_used_node = self.head.next
+            
+            
+            self._remove(least_recently_used_node)
+            
+            
+            del self.lookup_map[least_recently_used_node.key]
+    
+    def get(self, key):
+        '''
+        Get a value from the cache.
+
+        This will reset the key in the drop order.
+
+        :param key: the key to lookup
+        :return: the value of the key or -1 if the key is not found
+        '''
+        
+        if key in self.lookup_map:
+            
+            node = self.lookup_map[key]
+            
+            
+            self._remove(node)
+            
+            
+            self._add(node)
+            
+            return node.val
+        else:
+            return -1
+    
+    def _add(self, node):
+        '''
+        Internal function.  Add a node to the end of the LRU list.
+
+        This function will add a node immediately in front of the tail
+        node.  Sets the node previous to the tail to the previous of
+        the new node, and the next of the new node to the tail.
+
+        :param node:m the node to add to the list
+        :return: None
+        '''
+        old_last_node = self.tail.prev
+        
+        
+        node.prev = old_last_node
+        
+        
+        node.next = self.tail
+        
+        
+        old_last_node.next = node
+        
+        
+        self.tail.prev = node
+    
+    def _remove(self, node):
+        '''
+        Internal function.  Remove a node from the list.
+
+        This function will remove a node by getting its prev and next
+        and linking them together, thus removing the node and allowing
+        it to be garbage collected.
+
+        :param node: the node to remove from the list
+        :return: None
+        '''
+        
+        
+        previous_node = node.prev
+        next_node = node.next
+        
+        
+        previous_node.next = next_node
+        
+        
+        next_node.prev = previous_node</pre>
+
+    </div>
+</body>
+</html>

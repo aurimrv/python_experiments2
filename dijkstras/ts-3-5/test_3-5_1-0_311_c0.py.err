@@ -1,0 +1,62 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph, Vertex
+
+@pytest.fixture
+def weighted_graph():
+    nodes = ['A', 'B', 'C', 'D']
+    edges = {
+        'A': {'B': 2, 'C': 4},
+        'B': {'C': 1, 'D': 7},
+        'C': {'D': 3},
+        'D': {}
+    }
+
+    vertices = {}
+    for node in nodes:
+        vertices[node] = Vertex(node, edges.get(node, {}))
+
+    return WeightedGraph(vertices)
+
+def test_dijkstras_single_path(weighted_graph):
+    src = 'A'
+    dst = 'D'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_shortest_path(weighted_graph):
+    src = 'A'
+    dst = 'D'
+    path = dijkstras(weighted_graph, src, dst)
+    assert len(path) == 4
+    assert path == ['A', 'B', 'C', 'D']
+
+def test_dijkstras_no_path(weighted_graph):
+    src = 'A'
+    dst = 'A'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['A']
+
+def test_dijkstras_same_src_dst(weighted_graph):
+    src = 'C'
+    dst = 'C'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['C']
+
+def test_dijkstras_unreachable_dst(weighted_graph):
+    src = 'D'
+    dst = 'A'
+    path = dijkstras(weighted_graph, src, dst)
+    assert path == ['D']
+
+def test_dijkstras_non_existing_src(weighted_graph):
+    src = 'Z'
+    dst = 'C'
+    with pytest.raises(KeyError):
+        dijkstras(weighted_graph, src, dst)

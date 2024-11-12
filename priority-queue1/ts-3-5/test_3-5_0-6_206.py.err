@@ -11,28 +11,29 @@ from priority_queue1 import PriorityQueue
 
 def test_add_task():
     pq = PriorityQueue()
-    pq.add_task("task1", 5)
+    pq.add_task('Task1', 2)
+    assert 'Task1' in pq.mapper
     assert len(pq.pq) == 1
 
 def test_remove_task():
     pq = PriorityQueue()
-    pq.add_task("task1", 5)
-    pq.remove_task("task1")
-    assert len(pq.pq) == 0
-    assert "task1" not in pq.mapper
+    pq.add_task('Task1', 2)
+    pq.remove_task('Task1')
+    assert 'Task1' not in pq.mapper
 
 def test_set_priority():
     pq = PriorityQueue()
-    pq.add_task("task1", 5)
-    pq.set_priority("task1", 3)
-    assert pq.mapper["task1"][0] == 3
+    pq.add_task('Task1', 2)
+    pq.set_priority('Task1', 5)
+    assert pq.mapper['Task1'][0] == 5
 
 def test_pop_task():
     pq = PriorityQueue()
-    pq.add_task("task1", 5)
+    pq.add_task('Task1', 2)
+    pq.add_task('Task2', 1)
     task = pq.pop_task()
-    assert task == "task1"
-    assert len(pq.pq) == 0
+    assert task == 'Task2'
+    assert len(pq.pq) == 1
 
 def test_pop_task_empty_queue():
     pq = PriorityQueue()
@@ -40,26 +41,3 @@ def test_pop_task_empty_queue():
         pq.pop_task()
     except KeyError as e:
         assert str(e) == 'Pop from empty priority queue.'
-
-def test_multiple_tasks():
-    pq = PriorityQueue()
-    pq.add_task("task1", 5)
-    pq.add_task("task2", 3)
-    pq.add_task("task3", 7)
-    assert len(pq.pq) == 3
-
-def test_priority_update():
-    pq = PriorityQueue()
-    pq.add_task("task1", 5)
-    pq.add_task("task2", 3)
-    pq.set_priority("task1", 2)
-    assert pq.mapper["task1"][0] == 2
-
-def test_multiple_operations():
-    pq = PriorityQueue()
-    pq.add_task("task1", 5)
-    pq.add_task("task2", 3)
-    pq.remove_task("task1")
-    pq.set_priority("task2", 1)
-    task = pq.pop_task()
-    assert task == "task2"

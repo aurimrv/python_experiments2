@@ -1,0 +1,66 @@
+import os
+import sys
+import pytest
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph
+
+def test_dijkstras_valid_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('A', 'C', 3)
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C']
+
+def test_dijkstras_no_path():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('B', 'C', 2)
+    src = 'A'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == []
+
+def test_dijkstras_same_source_destination():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
+
+def test_dijkstras_invalid_source():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'B'
+    dst = 'A'
+    with pytest.raises(KeyError):
+        dijkstras(weighted_graph, src, dst)
+
+def test_dijkstras_invalid_destination():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    src = 'A'
+    dst = 'B'
+    with pytest.raises(KeyError):
+        dijkstras(weighted_graph, src, dst)
+
+def test_dijkstras_disconnected_graph():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_vertex('A')
+    weighted_graph.add_vertex('B')
+    weighted_graph.add_vertex('C')
+    weighted_graph.add_vertex('D')
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('C', 'D', 2)
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == []

@@ -1,0 +1,62 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, Vertex, Graph
+
+def test_dijkstras():
+    g = Graph()
+    
+    v0 = Vertex("A")
+    v1 = Vertex("B")
+    v2 = Vertex("C")
+    v3 = Vertex("D")
+    
+    v0.add_neighbor(v1, 2)
+    v0.add_neighbor(v2, 4)
+    v1.add_neighbor(v3, 5)
+    v2.add_neighbor(v3, 1)
+    
+    g.add_vertex(v0)
+    g.add_vertex(v1)
+    g.add_vertex(v2)
+    g.add_vertex(v3)
+    
+    assert dijkstras(g, "A", "D") == ["A", "C", "D"]
+
+def test_add_neighbor():
+    v = Vertex("A")
+    v.add_neighbor("B", 3)
+    assert "B" in v.adjacent.keys()
+    assert v.adjacent["B"] == 3
+
+def test_add_vertex():
+    g = Graph()
+    v = Vertex("A")
+    g.add_vertex(v)
+    assert "A" in g.vertices.keys()
+    assert g.vertices["A"] == v
+
+def test_dijkstras_no_path():
+    g = Graph()
+    
+    v0 = Vertex("A")
+    v1 = Vertex("B")
+    v2 = Vertex("C")
+    v3 = Vertex("D")
+    
+    v0.add_neighbor(v1, 2)
+    v0.add_neighbor(v2, 4)
+    v1.add_neighbor(v3, 5)
+    v2.add_neighbor(v3, 1)
+    
+    g.add_vertex(v0)
+    g.add_vertex(v1)
+    g.add_vertex(v2)
+    g.add_vertex(v3)
+    
+    assert dijkstras(g, "D", "A") == []

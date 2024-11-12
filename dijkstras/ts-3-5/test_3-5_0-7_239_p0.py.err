@@ -1,45 +1,33 @@
 import os
 import sys
-import pytest
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class WeightedGraphMock:
-    def __init__(self, vertices):
-        self.vertices = vertices
-
-class VertexMock:
-    def __init__(self, adjacent):
-        self.adjacent = adjacent
-
 def test_dijkstras():
-    graph = WeightedGraphMock({
-        'A': VertexMock({'B': 5, 'C': 3}),
-        'B': VertexMock({'A': 2, 'C': 1}),
-        'C': VertexMock({'B': 2, 'D': 3})
-    })
+    weighted_graph = {
+        'A': {'B': 5, 'C': 3},
+        'B': {'A': 5, 'C': 2, 'D': 1},
+        'C': {'A': 3, 'B': 2, 'D': 4},
+        'D': {'B': 1, 'C': 4}
+    }
+
     src = 'A'
     dst = 'D'
-    assert dijkstras(graph, src, dst) == ['A', 'C', 'D']
 
-    graph = WeightedGraphMock({
-        'X': VertexMock({'Y': 1, 'Z': 2}),
-        'Y': VertexMock({'X': 1, 'Z': 3}),
-        'Z': VertexMock({'Y': 3, 'X': 2})
-    })
-    src = 'X'
-    dst = 'Z'
-    assert dijkstras(graph, src, dst) == ['X', 'Z']
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['A', 'B', 'D']
 
-    graph = WeightedGraphMock({
-        'P': VertexMock({'Q': 4, 'R': 2}),
-        'Q': VertexMock({'P': 4, 'R': 1}),
-        'R': VertexMock({'Q': 1, 'P': 2})
-    })
-    src = 'P'
-    dst = 'R'
-    assert dijkstras(graph, src, dst) == ['P', 'R']
+    src = 'B'
+    dst = 'C'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['B', 'C']
+
+    src = 'C'
+    dst = 'A'
+
+    result = dijkstras(weighted_graph, src, dst)
+    assert result == ['C', 'A']

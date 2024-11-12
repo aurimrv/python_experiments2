@@ -1,0 +1,41 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, Vertex, WeightedGraph
+
+@pytest.fixture
+def sample_weighted_graph():
+    graph = WeightedGraph()
+    vertex_a = Vertex('A')
+    vertex_b = Vertex('B')
+    vertex_c = Vertex('C')
+    vertex_d = Vertex('D')
+
+    vertex_a.add_adjacent(vertex_b, 3)
+    vertex_a.add_adjacent(vertex_c, 5)
+    vertex_b.add_adjacent(vertex_d, 2)
+    vertex_c.add_adjacent(vertex_d, 4)
+
+    graph.add_vertex(vertex_a)
+    graph.add_vertex(vertex_b)
+    graph.add_vertex(vertex_c)
+    graph.add_vertex(vertex_d)
+
+    return graph
+
+def test_dijkstras_shortest_path(sample_weighted_graph):
+    shortest_path = dijkstras(sample_weighted_graph, 'A', 'D')
+    assert shortest_path == ['A', 'B', 'D']
+
+def test_dijkstras_start_node(sample_weighted_graph):
+    shortest_path = dijkstras(sample_weighted_graph, 'A', 'A')
+    assert shortest_path == ['A']
+
+def test_dijkstras_unreachable_destination(sample_weighted_graph):
+    shortest_path = dijkstras(sample_weighted_graph, 'A', 'E')
+    assert shortest_path == []

@@ -1,0 +1,512 @@
+[*] Start mutation process:
+   - targets: combinations.py
+   - tests: ./ALL-SMART
+[*] 19 tests passed:
+   - test_combinations_MOSA [0.05542 s]
+   - test_combinations_DYNAMOSA [0.04185 s]
+   - test_combinations_WHOLE_SUITE [0.04174 s]
+   - test_combinations_MIO [0.04074 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR combinations: 
+--------------------------------------------------------------------------------
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
++  9:         for j in range(i - 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+  13: 
+--------------------------------------------------------------------------------
+[0.06453 s] survived
+   - [#   2] AOR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[i:j - 1])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.06763 s] survived
+   - [#   3] AOR combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             temp = temp - [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.07955 s] incompetent
+
+TypeError: combinations:41: TypeError: unsupported operand type(s) for -: 'list' and 'list'
+
+   - [#   4] AOR combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             temp = temp + [output - letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.08320 s] incompetent
+
+TypeError: combinations:41: TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+   - [#   5] OIL combinations: 
+--------------------------------------------------------------------------------
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+- 11:     
++ 11:         break
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+--------------------------------------------------------------------------------
+[0.06568 s] survived
+   - [#   6] OIL combinations: 
+--------------------------------------------------------------------------------
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+- 11:     
++ 11:             break
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+--------------------------------------------------------------------------------
+[0.07026 s] survived
+   - [#   7] OIL combinations: 
+--------------------------------------------------------------------------------
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+- 43:     
++ 43:         break
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.06701 s] survived
+   - [#   8] OIL combinations: 
+--------------------------------------------------------------------------------
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
+- 43:     
++ 42:             break
++ 43:         outputs = temp
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.06680 s] survived
+   - [#   9] RIL combinations: 
+--------------------------------------------------------------------------------
+   3:     Find all combinations of letters in a word.
+   4: 
+   5:     '''
+   6:     output = []
+-  7:     for i in range(0, len(string)):
++  7:     for i in reversed(range(0, len(string))):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+--------------------------------------------------------------------------------
+[0.06415 s] survived
+   - [#  10] RIL combinations: 
+--------------------------------------------------------------------------------
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
++  9:         for j in reversed(range(i + 1, len(string))):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+  13: 
+--------------------------------------------------------------------------------
+[0.06369 s] survived
+   - [#  11] RIL combinations: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+- 38:     for i in range(1, len(string)):
++ 38:     for i in reversed(range(1, len(string))):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+--------------------------------------------------------------------------------
+[0.07700 s] killed by ALL-SMART/test_combinations_WHOLE_SUITE.py::test_case_2
+
+def test_case_2():
+        str_0 = '41XH'
+>       var_0 = module_0.combinations_of_phone_input(str_0)
+
+ALL-SMART/test_combinations_WHOLE_SUITE.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '41XH'
+
+>   ???
+E   KeyError: 'H'
+
+combinations:41: KeyError
+   - [#  12] RIL combinations: 
+--------------------------------------------------------------------------------
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+- 40:         for output in outputs:
++ 40:         for output in reversed(outputs):
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.06664 s] survived
+   - [#  13] SDL combinations: 
+--------------------------------------------------------------------------------
+   2:     '''
+   3:     Find all combinations of letters in a word.
+   4: 
+   5:     '''
+-  6:     output = []
++  6:     pass
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+--------------------------------------------------------------------------------
+[0.07723 s] killed by ALL-SMART/test_combinations_MOSA.py::test_case_0
+
+def test_case_0():
+        str_0 = '8`lAGUJ8LS.'
+>       var_0 = module_0.combinations_of_word(str_0)
+
+ALL-SMART/test_combinations_MOSA.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '8`lAGUJ8LS.'
+
+>   ???
+E   NameError: name 'output' is not defined
+
+combinations:8: NameError
+   - [#  14] SDL combinations: 
+--------------------------------------------------------------------------------
+   4: 
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+-  8:         output.append(string[i])
++  8:         pass
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+  12:     return output
+--------------------------------------------------------------------------------
+[0.06670 s] survived
+   - [#  15] SDL combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             pass
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.06749 s] survived
+   - [#  16] SDL combinations: 
+--------------------------------------------------------------------------------
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+  10:             output.append(string[i:j + 1])
+  11:     
+- 12:     return output
++ 12:     pass
+  13: 
+  14: def combinations_of_phone_input(string: str):
+  15:     """
+  16:     Find all permutations of phone numbers in an input of numbers.
+--------------------------------------------------------------------------------
+[0.08313 s] incompetent
+
+TypeError: combinations:7: TypeError: object of type 'NoneType' has no len()
+
+   - [#  17] SDL combinations: 
+--------------------------------------------------------------------------------
+  20:     contain all combinations possible.  Only combinations that are
+  21:     full length using all input numbers in the string.
+  22: 
+  23:     """
+- 24:     phone_mapper = {\
+- 25:         '1': [], \
+- 26:         '2': ['a', 'b', 'c'], \
+- 27:         '3': ['d', 'e', 'f'], \
+- 28:         '4': ['g', 'h', 'i'], \
+- 29:         '5': ['j', 'k', 'l'], \
+- 30:         '6': ['m', 'n', 'o'], \
+- 31:         '7': ['p', 'q', 'r', 's'], \
+- 32:         '8': ['t', 'u', 'v'], \
+- 33:         '9': ['w', 'x', 'y', 'z']}
++ 24:     pass
++ 25:     
++ 26:     
++ 27:     
++ 28:     
++ 29:     
++ 30:     
++ 31:     
++ 32:     
++ 33:     
+  34:     
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+--------------------------------------------------------------------------------
+[0.07666 s] killed by ALL-SMART/test_combinations_MOSA.py::test_case_2
+
+def test_case_2():
+        str_0 = '8'
+>       var_0 = module_0.combinations_of_phone_input(str_0)
+
+ALL-SMART/test_combinations_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '8'
+
+>   ???
+E   NameError: name 'phone_mapper' is not defined
+
+combinations:36: NameError
+   - [#  18] SDL combinations: 
+--------------------------------------------------------------------------------
+  32:         '8': ['t', 'u', 'v'], \
+  33:         '9': ['w', 'x', 'y', 'z']}
+  34:     
+  35:     
+- 36:     outputs = [letter for letter in phone_mapper[string[0]]]
++ 36:     pass
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+--------------------------------------------------------------------------------
+[0.07607 s] killed by ALL-SMART/test_combinations_MOSA.py::test_case_2
+
+def test_case_2():
+        str_0 = '8'
+>       var_0 = module_0.combinations_of_phone_input(str_0)
+
+ALL-SMART/test_combinations_MOSA.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '8'
+
+>   ???
+E   UnboundLocalError: local variable 'outputs' referenced before assignment
+
+combinations:44: UnboundLocalError
+   - [#  19] SDL combinations: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+- 39:         temp = []
++ 39:         pass
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+--------------------------------------------------------------------------------
+[0.07988 s] killed by ALL-SMART/test_combinations_WHOLE_SUITE.py::test_case_2
+
+def test_case_2():
+        str_0 = '41XH'
+>       var_0 = module_0.combinations_of_phone_input(str_0)
+
+ALL-SMART/test_combinations_WHOLE_SUITE.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '41XH'
+
+>   ???
+E   UnboundLocalError: local variable 'temp' referenced before assignment
+
+combinations:41: UnboundLocalError
+   - [#  20] SDL combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             pass
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.06743 s] survived
+   - [#  21] SDL combinations: 
+--------------------------------------------------------------------------------
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
++ 42:         pass
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.08033 s] killed by ALL-SMART/test_combinations_WHOLE_SUITE.py::test_case_2
+
+def test_case_2():
+        str_0 = '41XH'
+>       var_0 = module_0.combinations_of_phone_input(str_0)
+
+ALL-SMART/test_combinations_WHOLE_SUITE.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+string = '41XH'
+
+>   ???
+E   KeyError: 'X'
+
+combinations:41: KeyError
+   - [#  22] SDL combinations: 
+--------------------------------------------------------------------------------
+  40:         for output in outputs:
+  41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+  42:         outputs = temp
+  43:     
+- 44:     return outputs
++ 44:     pass
+--------------------------------------------------------------------------------
+[0.06715 s] survived
+   - [#  23] SIR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[:j + 1])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.06549 s] survived
+   - [#  24] SIR combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             output.append(string[i:])
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.07980 s] survived
+   - [#  25] ZIL combinations: 
+--------------------------------------------------------------------------------
+   4: 
+   5:     '''
+   6:     output = []
+   7:     for i in range(0, len(string)):
+-  8:         output.append(string[i])
+-  9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++  8:         break
++  9:     
++ 10:     
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.07752 s] survived
+   - [#  26] ZIL combinations: 
+--------------------------------------------------------------------------------
+   6:     output = []
+   7:     for i in range(0, len(string)):
+   8:         output.append(string[i])
+   9:         for j in range(i + 1, len(string)):
+- 10:             output.append(string[i:j + 1])
++ 10:             break
+  11:     
+  12:     return output
+  13: 
+  14: def combinations_of_phone_input(string: str):
+--------------------------------------------------------------------------------
+[0.06609 s] survived
+   - [#  27] ZIL combinations: 
+--------------------------------------------------------------------------------
+  35:     
+  36:     outputs = [letter for letter in phone_mapper[string[0]]]
+  37:     
+  38:     for i in range(1, len(string)):
+- 39:         temp = []
+- 40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
+- 42:         outputs = temp
++ 39:         break
++ 40:     
++ 41:     
++ 42:     
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.07047 s] survived
+   - [#  28] ZIL combinations: 
+--------------------------------------------------------------------------------
+  37:     
+  38:     for i in range(1, len(string)):
+  39:         temp = []
+  40:         for output in outputs:
+- 41:             temp = temp + [output + letter for letter in phone_mapper[string[i]]]
++ 41:             break
+  42:         outputs = temp
+  43:     
+  44:     return outputs
+--------------------------------------------------------------------------------
+[0.06641 s] survived
+[*] Mutation score [2.90794 s]: 24.0%
+   - all: 28
+   - killed: 6 (21.4%)
+   - survived: 19 (67.9%)
+   - incompetent: 3 (10.7%)
+   - timeout: 0 (0.0%)

@@ -1,37 +1,37 @@
 import os
 import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../priority_queue1')
 from priority_queue1 import PriorityQueue
 
-def test_priority_queue_add_task():
+def test_add_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
     assert len(pq.pq) == 1
     assert 'task1' in pq.mapper
 
-    pq.add_task('task2', 2)
-    assert len(pq.pq) == 2
-    assert 'task2' in pq.mapper
-
-def test_priority_queue_remove_task():
+def test_remove_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
     pq.remove_task('task1')
+    assert len(pq.pq) == 0
     assert 'task1' not in pq.mapper
 
-def test_priority_queue_set_priority():
+def test_set_priority():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
-    pq.set_priority('task1', 3)
-    assert pq.mapper['task1'][0] == 3
+    pq.set_priority('task1', 2)
+    assert pq.pq[0][0] == 2
 
-def test_priority_queue_pop_task():
+def test_pop_task():
     pq = PriorityQueue()
     pq.add_task('task1', 1)
-    pq.add_task('task2', 2)
     task = pq.pop_task()
-    assert task == 'task2'
+    assert task == 'task1'
+    assert len(pq.pq) == 0
+    assert 'task1' not in pq.mapper
 
-    pq.pop_task()
+def test_pop_task_empty_queue():
+    pq = PriorityQueue()
     try:
         pq.pop_task()
     except KeyError as e:

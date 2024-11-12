@@ -1,0 +1,47 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from priority_queue1 import PriorityQueue
+
+import pytest
+
+@pytest.fixture
+def pq():
+    q = PriorityQueue()
+    return q
+
+def test_add_task(pq):
+    pq.add_task('task1', 3)
+    assert 'task1' in pq.mapper
+    assert pq.mapper['task1'][0] == 3
+   
+    pq.add_task('task2', 5)
+    assert 'task2' in pq.mapper
+    assert pq.mapper['task2'][0] == 5
+
+def test_remove_task(pq):
+    pq.add_task('task1', 3)
+    pq.remove_task('task1')
+    assert 'task1' not in pq.mapper
+
+def test_set_priority(pq):
+    pq.add_task('task1', 3)
+    pq.set_priority('task1', 4)
+    assert pq.mapper['task1'][0] == 4
+   
+    pq.add_task('task2', 5)
+    pq.set_priority('task2', 1)
+    assert pq.mapper['task2'][0] == 1
+
+def test_pop_task(pq):
+    pq.add_task('task1', 3)
+    pq.add_task('task2', 5)
+    assert pq.pop_task() == 'task2'
+    assert pq.pop_task() == 'task1'
+
+def test_pop_task_empty(pq):
+    with pytest.raises(KeyError):
+        pq.pop_task() 

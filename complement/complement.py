@@ -10,3 +10,4 @@ def complement(num):
         num ^= i
         i = i << 1
     return num
+

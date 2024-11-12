@@ -1,0 +1,524 @@
+[*] Start mutation process:
+   - targets: quicksort.py
+   - tests: ./ALL-SMART
+[*] 17 tests passed:
+   - test_quicksort_WHOLE_SUITE [0.06207 s]
+   - test_quicksort_MIO [0.04279 s]
+   - test_quicksort_DYNAMOSA [0.04121 s]
+   - test_quicksort_MOSA [0.04207 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR quicksort: 
+--------------------------------------------------------------------------------
+  19:         if lo < hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+- 23:             sort(ar, lo, partition_index - 1)
++ 23:             sort(ar, lo, partition_index + 1)
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+--------------------------------------------------------------------------------
+[0.07665 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = 0, hi = 3
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:28: IndexError
+   - [#   2] AOR quicksort: 
+--------------------------------------------------------------------------------
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+- 24:             sort(ar, partition_index + 1, hi)
++ 24:             sort(ar, partition_index - 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+  28:         pivot = ar[hi]
+--------------------------------------------------------------------------------
+[0.08200 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:24: in sort
+    ???
+quicksort:24: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded in comparison
+!!! Recursion detected (same locals & position)
+   - [#   3] AOR quicksort: 
+--------------------------------------------------------------------------------
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+- 42:     sort(ar, 0, len(ar) - 1)
++ 42:     sort(ar, 0, len(ar) + 1)
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.07571 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = 0, hi = 4
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:28: IndexError
+   - [#   4] ASR quicksort: 
+--------------------------------------------------------------------------------
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+- 36:                 i += 1
++ 36:                 i -= 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+--------------------------------------------------------------------------------
+[0.07394 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:24: in sort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = -1, hi = 2
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:38: IndexError
+   - [#   5] COI quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if not (lo < hi):
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.07940 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+        var_0 = module_0.quicksort(list_0)
+>       var_1 = module_0.quicksort(tuple_0)
+
+ALL-SMART/test_quicksort_MOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = (), lo = 0, hi = -1
+
+>   ???
+E   IndexError: tuple index out of range
+
+quicksort:28: IndexError
+   - [#   6] COI quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if not (ar[j] <= pivot):
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.06289 s] survived
+   - [#   7] OIL quicksort: 
+--------------------------------------------------------------------------------
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+- 37:         
++ 37:             break
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+--------------------------------------------------------------------------------
+[0.06513 s] survived
+   - [#   8] RIL quicksort: 
+--------------------------------------------------------------------------------
+  28:         pivot = ar[hi]
+  29:         
+  30:         
+  31:         i = lo
+- 32:         for j in range(lo, hi):
++ 32:         for j in reversed(range(lo, hi)):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+--------------------------------------------------------------------------------
+[0.06348 s] survived
+   - [#   9] ROR quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if lo > hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.08081 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+        var_0 = module_0.quicksort(list_0)
+>       var_1 = module_0.quicksort(tuple_0)
+
+ALL-SMART/test_quicksort_MOSA.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = (), lo = 0, hi = -1
+
+>   ???
+E   IndexError: tuple index out of range
+
+quicksort:28: IndexError
+   - [#  10] ROR quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if lo <= hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.08234 s] incompetent
+
+TypeError: quicksort:28: TypeError: 'set' object is not subscriptable
+
+   - [#  11] ROR quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if ar[j] >= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.06280 s] survived
+   - [#  12] ROR quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if ar[j] < pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.06425 s] survived
+   - [#  13] SDL quicksort: 
+--------------------------------------------------------------------------------
+  17:     def sort(ar, lo, hi):
+  18:         
+  19:         if lo < hi:
+  20:             
+- 21:             partition_index = partition(ar, lo, hi)
++ 21:             pass
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+--------------------------------------------------------------------------------
+[0.07530 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = 0, hi = 2
+
+>   ???
+E   NameError: name 'partition_index' is not defined
+
+quicksort:23: NameError
+   - [#  14] SDL quicksort: 
+--------------------------------------------------------------------------------
+  19:         if lo < hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+- 23:             sort(ar, lo, partition_index - 1)
++ 23:             pass
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+--------------------------------------------------------------------------------
+[0.06567 s] survived
+   - [#  15] SDL quicksort: 
+--------------------------------------------------------------------------------
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+- 24:             sort(ar, partition_index + 1, hi)
++ 24:             pass
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+  28:         pivot = ar[hi]
+--------------------------------------------------------------------------------
+[0.06421 s] survived
+   - [#  16] SDL quicksort: 
+--------------------------------------------------------------------------------
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+- 28:         pivot = ar[hi]
++ 28:         pass
+  29:         
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+--------------------------------------------------------------------------------
+[0.07602 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = 0, hi = 2
+
+>   ???
+E   NameError: name 'pivot' is not defined
+
+quicksort:34: NameError
+   - [#  17] SDL quicksort: 
+--------------------------------------------------------------------------------
+  27:         
+  28:         pivot = ar[hi]
+  29:         
+  30:         
+- 31:         i = lo
++ 31:         pass
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+--------------------------------------------------------------------------------
+[0.07704 s] killed by ALL-SMART/test_quicksort_MOSA.py::test_case_0
+
+def test_case_0():
+        tuple_0 = ()
+        list_0 = [tuple_0, tuple_0, tuple_0]
+>       var_0 = module_0.quicksort(list_0)
+
+ALL-SMART/test_quicksort_MOSA.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [(), (), ()], lo = 0, hi = 2
+
+>   ???
+E   UnboundLocalError: local variable 'i' referenced before assignment
+
+quicksort:35: UnboundLocalError
+   - [#  18] SDL quicksort: 
+--------------------------------------------------------------------------------
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+- 35:                 (ar[i], ar[j]) = (ar[j], ar[i])
++ 35:                 pass
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+--------------------------------------------------------------------------------
+[0.06583 s] survived
+   - [#  19] SDL quicksort: 
+--------------------------------------------------------------------------------
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+- 38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
++ 38:         pass
+  39:         
+  40:         return i
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+--------------------------------------------------------------------------------
+[0.06190 s] survived
+   - [#  20] SDL quicksort: 
+--------------------------------------------------------------------------------
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+- 40:         return i
++ 40:         pass
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.07708 s] incompetent
+
+TypeError: quicksort:23: TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+
+   - [#  21] SDL quicksort: 
+--------------------------------------------------------------------------------
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+- 42:     sort(ar, 0, len(ar) - 1)
++ 42:     pass
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.06541 s] survived
+   - [#  22] SDL quicksort: 
+--------------------------------------------------------------------------------
+  40:         return i
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+  43:     
+- 44:     return ar
++ 44:     pass
+--------------------------------------------------------------------------------
+[0.07844 s] incompetent
+
+TypeError: quicksort:42: TypeError: object of type 'NoneType' has no len()
+
+   - [#  23] ZIL quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
+- 35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+- 36:                 i += 1
++ 34:             break
++ 35:         
++ 36:         
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+--------------------------------------------------------------------------------
+[0.06515 s] survived
+[*] Mutation score [2.35865 s]: 45.0%
+   - all: 23
+   - killed: 9 (39.1%)
+   - survived: 11 (47.8%)
+   - incompetent: 3 (13.0%)
+   - timeout: 0 (0.0%)

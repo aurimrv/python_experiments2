@@ -1,6 +1,5 @@
 import os
 import sys
-import pytest
 
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
@@ -8,40 +7,52 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-def test_dijkstras_no_path():
+def test_dijkstras_with_sample_graph():
     weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'C': 1},
-        'C': {}
+        'A': {'B': 2, 'C': 5},
+        'B': {'A': 2, 'C': 1, 'D': 3},
+        'C': {'A': 5, 'B': 1, 'D': 3},
+        'D': {'B': 3, 'C': 3, 'E': 1},
+        'E': {'D': 1}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'E'
+    
+    expected_path = ['A', 'B', 'D', 'E']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_shortest_path():
+def test_dijkstras_with_disconnected_graph():
     weighted_graph = {
-        'A': {'B': 2, 'C': 4},
-        'B': {'C': 1},
-        'C': {}
+        'A': {'B': 2, 'C': 5},
+        'B': {'A': 2},
+        'E': {'F': 4}
     }
     src = 'A'
-    dst = 'B'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
+    dst = 'F'
+    
+    expected_path = []
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_single_node_graph():
+def test_dijkstras_with_same_source_and_destination():
     weighted_graph = {
-        'A': {}
+        'A': {'B': 2, 'C': 5}
     }
     src = 'A'
     dst = 'A'
-    assert dijkstras(weighted_graph, src, dst) == ['A']
+    
+    expected_path = ['A']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_same_weight_path():
+def test_dijkstras_with_negative_weights():
     weighted_graph = {
-        'A': {'B': 1, 'C': 1},
-        'B': {'C': 1},
-        'C': {}
+        'A': {'B': -2, 'C': -5},
+        'B': {'C': -1, 'D': -3},
+        'C': {'A': -5, 'B': -1, 'D': -3},
+        'D': {'B': -3, 'C': -3, 'E': -1},
+        'E': {'D': -1}
     }
     src = 'A'
-    dst = 'C'
-    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'C']
+    dst = 'E'
+    
+    expected_path = ['A', 'B', 'D', 'E']
+    assert dijkstras(weighted_graph, src, dst) == expected_path

@@ -1,42 +1,48 @@
 import os
 import sys
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import dijkstras, WeightedGraph, Vertex
+from dijkstras import dijkstras
 
-import pytest
+# Test Case 1: Shortest path from src to dst where both are in the graph
+def test_shortest_path_src_to_dst_in_graph():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('A', 'C', 3)
+    weighted_graph.add_edge('B', 'C', 1)
+    weighted_graph.add_edge('B', 'D', 1)
+    weighted_graph.add_edge('C', 'D', 3)
 
-@pytest.fixture
-def weighted_graph():
-    # Create a simple weighted graph for testing
-    graph = WeightedGraph()
+    src = 'A'
+    dst = 'D'
+    expected_path = ['A', 'B', 'D']
+
+    assert dijkstras(weighted_graph, src, dst) == expected_path
+
+# Test Case 2: Shortest path from src to dst where src and dst are the same
+def test_shortest_path_same_src_dst():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 1)
     
-    # Add vertices and edges
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    
-    graph.add_vertex(v1)
-    graph.add_vertex(v2)
-    graph.add_vertex(v3)
-    
-    graph.add_edge(v1, v2, 1)
-    graph.add_edge(v2, v3, 2)
-    
-    return graph
+    src = 'A'
+    dst = 'A'
+    expected_path = ['A']
 
-def test_dijkstras_shortest_path(weighted_graph):
-    shortest_path = dijkstras(weighted_graph, 'A', 'C')
-    assert shortest_path == ['A', 'B', 'C']
+    assert dijkstras(weighted_graph, src, dst) == expected_path
 
-def test_dijkstras_shortest_path_same_node(weighted_graph):
-    shortest_path = dijkstras(weighted_graph, 'A', 'A')
-    assert shortest_path == ['A']
+# Test Case 3: Shortest path from src to dst with multiple possible paths
+def test_shortest_path_multiple_paths():
+    weighted_graph = WeightedGraph()
+    weighted_graph.add_edge('A', 'B', 1)
+    weighted_graph.add_edge('A', 'C', 5)
+    weighted_graph.add_edge('B', 'C', 2)
+    weighted_graph.add_edge('B', 'D', 3)
+    weighted_graph.add_edge('C', 'D', 1)
 
-def test_dijkstras_shortest_path_no_path(weighted_graph):
-    # In this graph, there is no direct edge from A -> C
-    shortest_path = dijkstras(weighted_graph, 'A', 'C')
-    assert shortest_path == []
+    src = 'A'
+    dst = 'D'
+    expected_path = ['A', 'B', 'D']
+
+    assert dijkstras(weighted_graph, src, dst) == expected_path

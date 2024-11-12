@@ -1,0 +1,41 @@
+import sys
+import os
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph, Vertex
+
+@pytest.fixture
+def weighted_graph():
+    wg = WeightedGraph()
+    v1 = Vertex('A')
+    v2 = Vertex('B')
+    v3 = Vertex('C')
+    wg.add_vertex(v1)
+    wg.add_vertex(v2)
+    wg.add_vertex(v3)
+    v1.add_adjacent(v2, 1)
+    v2.add_adjacent(v3, 2)
+    v3.add_adjacent(v1, 3)
+    return wg
+
+def test_dijkstras_shortest_path(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'B', 'C']
+
+def test_dijkstras_invalid_source_destination(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'X') == []  # Invalid destination
+
+def test_dijkstras_same_source_destination(weighted_graph):
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+
+def test_dijkstras_path_with_multiple_vertices(weighted_graph):
+    assert dijkstras(weighted_graph, 'B', 'C') == ['B', 'C']
+
+def test_dijkstras_unreachable_destination(weighted_graph):
+    assert dijkstras(weighted_graph, 'C', 'A') == []  # Unreachable destination
+
+def test_dijkstras_path_in_reverse_order(weighted_graph):
+    assert dijkstras(weighted_graph, 'C', 'A') == ['C', 'A']

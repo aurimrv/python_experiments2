@@ -1,0 +1,56 @@
+import os
+import sys
+import pytest
+
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+from dijkstras import dijkstras, WeightedGraph, Vertex
+
+@pytest.fixture
+def sample_weighted_graph():
+    graph = WeightedGraph()
+    v0 = Vertex(0)
+    v1 = Vertex(1)
+    v2 = Vertex(2)
+    
+    v0.add_adjacent(v1, 5)
+    v0.add_adjacent(v2, 10)
+    v1.add_adjacent(v2, 3)
+    
+    graph.add_vertex(v0)
+    graph.add_vertex(v1)
+    graph.add_vertex(v2)
+    
+    return graph
+
+def test_dijkstras_shortest_path(sample_weighted_graph):
+    assert dijkstras(sample_weighted_graph, 0, 1) == [0, 1]
+
+def test_dijkstras_no_path(sample_weighted_graph):
+    assert dijkstras(sample_weighted_graph, 1, 2) is None
+
+def test_dijkstras_same_source_dest(sample_weighted_graph):
+    assert dijkstras(sample_weighted_graph, 0, 0) == [0]
+
+def test_dijkstras_unreachable_dest(sample_weighted_graph):
+    assert dijkstras(sample_weighted_graph, 2, 0) is None
+
+def test_dijkstras_multiple_paths(sample_weighted_graph):
+    graph = WeightedGraph()
+    v0 = Vertex(0)
+    v1 = Vertex(1)
+    v2 = Vertex(2)
+    
+    v0.add_adjacent(v1, 5)
+    v0.add_adjacent(v2, 10)
+    v1.add_adjacent(v2, 3)
+    v1.add_adjacent(v2, 7)
+    
+    graph.add_vertex(v0)
+    graph.add_vertex(v1)
+    graph.add_vertex(v2)
+    
+    assert dijkstras(graph, 0, 2) == [0, 2]
+    assert dijkstras(graph, 1, 2) == [1, 2]

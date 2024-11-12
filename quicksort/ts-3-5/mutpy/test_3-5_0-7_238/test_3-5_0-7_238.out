@@ -1,0 +1,545 @@
+[*] Start mutation process:
+   - targets: quicksort.py
+   - tests: ts-3-5/test_3-5_0-7_238.py
+[*] 6 tests passed:
+   - test_3-5_0-7_238 [0.11828 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR quicksort: 
+--------------------------------------------------------------------------------
+  19:         if lo < hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+- 23:             sort(ar, lo, partition_index - 1)
++ 23:             sort(ar, lo, partition_index + 1)
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+--------------------------------------------------------------------------------
+[0.15353 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 1, 4, 1, 5, 2, ...], lo = 0, hi = 11
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:28: IndexError
+   - [#   2] AOR quicksort: 
+--------------------------------------------------------------------------------
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+- 24:             sort(ar, partition_index + 1, hi)
++ 24:             sort(ar, partition_index - 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+  28:         pivot = ar[hi]
+--------------------------------------------------------------------------------
+[0.24906 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:23: in sort
+    ???
+quicksort:24: in sort
+    ???
+quicksort:24: in sort
+    ???
+E   RecursionError: maximum recursion depth exceeded in comparison
+!!! Recursion detected (same locals & position)
+   - [#   3] AOR quicksort: 
+--------------------------------------------------------------------------------
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+- 42:     sort(ar, 0, len(ar) - 1)
++ 42:     sort(ar, 0, len(ar) + 1)
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.14211 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 1, 4, 1, 5, 9, ...], lo = 0, hi = 12
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:28: IndexError
+   - [#   4] ASR quicksort: 
+--------------------------------------------------------------------------------
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+- 36:                 i += 1
++ 36:                 i -= 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+--------------------------------------------------------------------------------
+[0.13682 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:24: in sort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 3, 2, 1, 4, 5, ...], lo = -8, hi = 10
+
+>   ???
+E   IndexError: list index out of range
+
+quicksort:35: IndexError
+   - [#   5] COI quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if not (lo < hi):
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.14095 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#   6] COI quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if not (ar[j] <= pivot):
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.14159 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#   7] OIL quicksort: 
+--------------------------------------------------------------------------------
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+- 37:         
++ 37:             break
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+--------------------------------------------------------------------------------
+[0.14278 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#   8] RIL quicksort: 
+--------------------------------------------------------------------------------
+  28:         pivot = ar[hi]
+  29:         
+  30:         
+  31:         i = lo
+- 32:         for j in range(lo, hi):
++ 32:         for j in reversed(range(lo, hi)):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+--------------------------------------------------------------------------------
+[0.16542 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#   9] ROR quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if lo > hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.13174 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  10] ROR quicksort: 
+--------------------------------------------------------------------------------
+  15:         The input list sorted.
+  16:     '''
+  17:     def sort(ar, lo, hi):
+  18:         
+- 19:         if lo < hi:
++ 19:         if lo <= hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+--------------------------------------------------------------------------------
+[0.11265 s] survived
+   - [#  11] ROR quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if ar[j] >= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.13711 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  12] ROR quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
++ 34:             if ar[j] < pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+--------------------------------------------------------------------------------
+[0.11495 s] survived
+   - [#  13] SDL quicksort: 
+--------------------------------------------------------------------------------
+  17:     def sort(ar, lo, hi):
+  18:         
+  19:         if lo < hi:
+  20:             
+- 21:             partition_index = partition(ar, lo, hi)
++ 21:             pass
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+--------------------------------------------------------------------------------
+[0.13628 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 1, 4, 1, 5, 9, ...], lo = 0, hi = 10
+
+>   ???
+E   NameError: name 'partition_index' is not defined
+
+quicksort:23: NameError
+   - [#  14] SDL quicksort: 
+--------------------------------------------------------------------------------
+  19:         if lo < hi:
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+- 23:             sort(ar, lo, partition_index - 1)
++ 23:             pass
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+--------------------------------------------------------------------------------
+[0.13605 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  15] SDL quicksort: 
+--------------------------------------------------------------------------------
+  20:             
+  21:             partition_index = partition(ar, lo, hi)
+  22:             
+  23:             sort(ar, lo, partition_index - 1)
+- 24:             sort(ar, partition_index + 1, hi)
++ 24:             pass
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+  28:         pivot = ar[hi]
+--------------------------------------------------------------------------------
+[0.14265 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_reverse
+
+def test_quicksort_reverse():
+>       assert quicksort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:22: AssertionError
+   - [#  16] SDL quicksort: 
+--------------------------------------------------------------------------------
+  24:             sort(ar, partition_index + 1, hi)
+  25:     
+  26:     def partition(ar, lo, hi):
+  27:         
+- 28:         pivot = ar[hi]
++ 28:         pass
+  29:         
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+--------------------------------------------------------------------------------
+[0.14419 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 1, 4, 1, 5, 9, ...], lo = 0, hi = 10
+
+>   ???
+E   NameError: name 'pivot' is not defined
+
+quicksort:34: NameError
+   - [#  17] SDL quicksort: 
+--------------------------------------------------------------------------------
+  27:         
+  28:         pivot = ar[hi]
+  29:         
+  30:         
+- 31:         i = lo
++ 31:         pass
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+--------------------------------------------------------------------------------
+[0.14392 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+
+ts-3-5/test_3-5_0-7_238.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+quicksort:42: in quicksort
+    ???
+quicksort:21: in sort
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ar = [3, 1, 4, 1, 5, 9, ...], lo = 0, hi = 10
+
+>   ???
+E   UnboundLocalError: local variable 'i' referenced before assignment
+
+quicksort:35: UnboundLocalError
+   - [#  18] SDL quicksort: 
+--------------------------------------------------------------------------------
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+  34:             if ar[j] <= pivot:
+- 35:                 (ar[i], ar[j]) = (ar[j], ar[i])
++ 35:                 pass
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+--------------------------------------------------------------------------------
+[0.14216 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  19] SDL quicksort: 
+--------------------------------------------------------------------------------
+  34:             if ar[j] <= pivot:
+  35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+  36:                 i += 1
+  37:         
+- 38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
++ 38:         pass
+  39:         
+  40:         return i
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+--------------------------------------------------------------------------------
+[0.14363 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  20] SDL quicksort: 
+--------------------------------------------------------------------------------
+  36:                 i += 1
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+- 40:         return i
++ 40:         pass
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.14401 s] incompetent
+
+TypeError: quicksort:23: TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+
+   - [#  21] SDL quicksort: 
+--------------------------------------------------------------------------------
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+  41:     
+- 42:     sort(ar, 0, len(ar) - 1)
++ 42:     pass
+  43:     
+  44:     return ar
+--------------------------------------------------------------------------------
+[0.14324 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  22] SDL quicksort: 
+--------------------------------------------------------------------------------
+  40:         return i
+  41:     
+  42:     sort(ar, 0, len(ar) - 1)
+  43:     
+- 44:     return ar
++ 44:     pass
+--------------------------------------------------------------------------------
+[0.14224 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+   - [#  23] ZIL quicksort: 
+--------------------------------------------------------------------------------
+  30:         
+  31:         i = lo
+  32:         for j in range(lo, hi):
+  33:             
+- 34:             if ar[j] <= pivot:
+- 35:                 (ar[i], ar[j]) = (ar[j], ar[i])
+- 36:                 i += 1
++ 34:             break
++ 35:         
++ 36:         
+  37:         
+  38:         (ar[i], ar[hi]) = (ar[hi], ar[i])
+  39:         
+  40:         return i
+--------------------------------------------------------------------------------
+[0.14308 s] killed by ts-3-5/test_3-5_0-7_238.py::test_quicksort_basic
+
+def test_quicksort_basic():
+>       assert quicksort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-7_238.py:13: AssertionError
+[*] Mutation score [3.97157 s]: 90.9%
+   - all: 23
+   - killed: 20 (87.0%)
+   - survived: 2 (8.7%)
+   - incompetent: 1 (4.3%)
+   - timeout: 0 (0.0%)

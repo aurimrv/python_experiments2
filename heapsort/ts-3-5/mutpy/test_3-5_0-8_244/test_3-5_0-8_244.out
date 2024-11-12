@@ -1,0 +1,797 @@
+[*] Start mutation process:
+   - targets: heapsort.py
+   - tests: ts-3-5/test_3-5_0-8_244.py
+[*] 3 tests passed:
+   - test_3-5_0-8_244 [0.17602 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOD heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     copy_list = list(map((lambda x: (x * 1)), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.19464 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#   2] AOD heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     copy_list = list(map((lambda x: (x * 1)), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.21155 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#   3] AOD heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         copy_list = list(map((lambda x: (x * 1)), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.20232 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#   4] AOD heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         sorted_list = list(map((lambda x: (x * 1)), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.19356 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#   5] AOR heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     copy_list = list(map((lambda x: (x / (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.17736 s] survived
+   - [#   6] AOR heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     copy_list = list(map((lambda x: (x // (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.17240 s] survived
+   - [#   7] AOR heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     copy_list = list(map((lambda x: (x ** (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.19703 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#   8] AOR heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     copy_list = list(map((lambda x: (x * (+1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.19673 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#   9] AOR heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     copy_list = list(map((lambda x: (x / (-1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.18011 s] survived
+   - [#  10] AOR heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     copy_list = list(map((lambda x: (x // (-1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.17046 s] survived
+   - [#  11] AOR heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     copy_list = list(map((lambda x: (x ** (-1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.19714 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#  12] AOR heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     copy_list = list(map((lambda x: (x * (+1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.19527 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#  13] AOR heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         copy_list = list(map((lambda x: (x / (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.17579 s] survived
+   - [#  14] AOR heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         copy_list = list(map((lambda x: (x // (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.18047 s] survived
+   - [#  15] AOR heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         copy_list = list(map((lambda x: (x ** (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.19376 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  16] AOR heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         copy_list = list(map((lambda x: (x * (+1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.20226 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  17] AOR heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         sorted_list = list(map((lambda x: (x / (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.17327 s] survived
+   - [#  18] AOR heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         sorted_list = list(map((lambda x: (x // (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.17156 s] survived
+   - [#  19] AOR heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         sorted_list = list(map((lambda x: (x ** (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.21548 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  20] AOR heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         sorted_list = list(map((lambda x: (x * (+1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.19852 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  21] COI heapsort: 
+--------------------------------------------------------------------------------
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+- 21:     if sort == 'max':
++ 21:     if not (sort == 'max'):
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+--------------------------------------------------------------------------------
+[0.19399 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:24: AssertionError
+   - [#  22] COI heapsort: 
+--------------------------------------------------------------------------------
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+- 26:     if sort == 'max':
++ 26:     if not (sort == 'max'):
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.19717 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:24: AssertionError
+   - [#  23] ROR heapsort: 
+--------------------------------------------------------------------------------
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+- 21:     if sort == 'max':
++ 21:     if sort != 'max':
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+--------------------------------------------------------------------------------
+[0.19917 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:24: AssertionError
+   - [#  24] ROR heapsort: 
+--------------------------------------------------------------------------------
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+- 26:     if sort == 'max':
++ 26:     if sort != 'max':
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.19594 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:24: AssertionError
+   - [#  25] SDL heapsort: 
+--------------------------------------------------------------------------------
+   2: from heapq import heapify, heappop
+   3: from heap import Heap
+   4: 
+   5: def heap_sort(lst: list):
+-  6:     copy_list = deepcopy(lst)
++  6:     pass
+   7:     heapify(copy_list)
+   8:     return [heappop(copy_list) for i in range(len(copy_list))]
+   9: 
+  10: def max_heap_sort(lst: list):
+--------------------------------------------------------------------------------
+[0.19582 s] killed by ts-3-5/test_3-5_0-8_244.py::test_heap_sort
+
+def test_heap_sort():
+>       assert heapsort.heap_sort([]) == []
+
+ts-3-5/test_3-5_0-8_244.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+lst = []
+
+>   ???
+E   NameError: name 'copy_list' is not defined
+
+heapsort:7: NameError
+   - [#  26] SDL heapsort: 
+--------------------------------------------------------------------------------
+   3: from heap import Heap
+   4: 
+   5: def heap_sort(lst: list):
+   6:     copy_list = deepcopy(lst)
+-  7:     heapify(copy_list)
++  7:     pass
+   8:     return [heappop(copy_list) for i in range(len(copy_list))]
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.20417 s] killed by ts-3-5/test_3-5_0-8_244.py::test_heap_sort
+
+def test_heap_sort():
+        assert heapsort.heap_sort([]) == []
+>       assert heapsort.heap_sort([9, 2, 7, 1, 5]) == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:14: AssertionError
+   - [#  27] SDL heapsort: 
+--------------------------------------------------------------------------------
+   4: 
+   5: def heap_sort(lst: list):
+   6:     copy_list = deepcopy(lst)
+   7:     heapify(copy_list)
+-  8:     return [heappop(copy_list) for i in range(len(copy_list))]
++  8:     pass
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+--------------------------------------------------------------------------------
+[0.19858 s] killed by ts-3-5/test_3-5_0-8_244.py::test_heap_sort
+
+def test_heap_sort():
+>       assert heapsort.heap_sort([]) == []
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:13: AssertionError
+   - [#  28] SDL heapsort: 
+--------------------------------------------------------------------------------
+   7:     heapify(copy_list)
+   8:     return [heappop(copy_list) for i in range(len(copy_list))]
+   9: 
+  10: def max_heap_sort(lst: list):
+- 11:     copy_list = deepcopy(lst)
++ 11:     pass
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+--------------------------------------------------------------------------------
+[0.19470 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+>       assert heapsort.max_heap_sort([]) == []
+
+ts-3-5/test_3-5_0-8_244.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+lst = []
+
+>   ???
+E   UnboundLocalError: local variable 'copy_list' referenced before assignment
+
+heapsort:13: UnboundLocalError
+   - [#  29] SDL heapsort: 
+--------------------------------------------------------------------------------
+   9: 
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+- 13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 13:     pass
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+--------------------------------------------------------------------------------
+[0.19387 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#  30] SDL heapsort: 
+--------------------------------------------------------------------------------
+  10: def max_heap_sort(lst: list):
+  11:     copy_list = deepcopy(lst)
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+- 14:     heapify(copy_list)
++ 14:     pass
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+  18: 
+--------------------------------------------------------------------------------
+[0.17528 s] survived
+   - [#  31] SDL heapsort: 
+--------------------------------------------------------------------------------
+  11:     copy_list = deepcopy(lst)
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+- 15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
++ 15:     pass
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+--------------------------------------------------------------------------------
+[0.20166 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#  32] SDL heapsort: 
+--------------------------------------------------------------------------------
+  12:     
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+- 16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 16:     pass
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+--------------------------------------------------------------------------------
+[0.18479 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+        assert heapsort.max_heap_sort([]) == []
+>       assert heapsort.max_heap_sort([9, 2, 7, 1, 5]) == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:19: AssertionError
+   - [#  33] SDL heapsort: 
+--------------------------------------------------------------------------------
+  13:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  14:     heapify(copy_list)
+  15:     copy_list = [heappop(copy_list) for i in range(len(copy_list))]
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+- 17:     return copy_list
++ 17:     pass
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.19294 s] killed by ts-3-5/test_3-5_0-8_244.py::test_max_heap_sort
+
+def test_max_heap_sort():
+>       assert heapsort.max_heap_sort([]) == []
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:18: AssertionError
+   - [#  34] SDL heapsort: 
+--------------------------------------------------------------------------------
+  16:     copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  17:     return copy_list
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+- 20:     copy_list = deepcopy(lst)
++ 20:     pass
+  21:     if sort == 'max':
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+--------------------------------------------------------------------------------
+[0.19959 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+>       assert heapsort.custom_heap_sort([], sort='min') == []
+
+ts-3-5/test_3-5_0-8_244.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+lst = [], sort = 'min'
+
+>   ???
+E   UnboundLocalError: local variable 'copy_list' referenced before assignment
+
+heapsort:24: UnboundLocalError
+   - [#  35] SDL heapsort: 
+--------------------------------------------------------------------------------
+  18: 
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+- 22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
++ 22:         pass
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+--------------------------------------------------------------------------------
+[0.19433 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  36] SDL heapsort: 
+--------------------------------------------------------------------------------
+  19: def custom_heap_sort(lst: list, sort='min'):
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+- 23:     heap = Heap()
++ 23:     pass
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+--------------------------------------------------------------------------------
+[0.19570 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+>       assert heapsort.custom_heap_sort([], sort='min') == []
+
+ts-3-5/test_3-5_0-8_244.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+lst = [], sort = 'min'
+
+>   ???
+E   NameError: name 'heap' is not defined
+
+heapsort:24: NameError
+   - [#  37] SDL heapsort: 
+--------------------------------------------------------------------------------
+  20:     copy_list = deepcopy(lst)
+  21:     if sort == 'max':
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+- 24:     heap.build(copy_list)
++ 24:     pass
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.20181 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:24: AssertionError
+   - [#  38] SDL heapsort: 
+--------------------------------------------------------------------------------
+  21:     if sort == 'max':
+  22:         copy_list = list(map((lambda x: (x * (-1))), copy_list))
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+- 25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
++ 25:     pass
+  26:     if sort == 'max':
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.20185 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+>       assert heapsort.custom_heap_sort([], sort='min') == []
+
+ts-3-5/test_3-5_0-8_244.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+lst = [], sort = 'min'
+
+>   ???
+E   UnboundLocalError: local variable 'sorted_list' referenced before assignment
+
+heapsort:28: UnboundLocalError
+   - [#  39] SDL heapsort: 
+--------------------------------------------------------------------------------
+  23:     heap = Heap()
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+- 27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
++ 27:         pass
+  28:     return sorted_list
+--------------------------------------------------------------------------------
+[0.19254 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+        assert heapsort.custom_heap_sort([], sort='min') == []
+        assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='min') == [1, 2, 5, 7, 9]
+>       assert heapsort.custom_heap_sort([9, 2, 7, 1, 5], sort='max') == [9, 7, 5, 2, 1]
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:25: AssertionError
+   - [#  40] SDL heapsort: 
+--------------------------------------------------------------------------------
+  24:     heap.build(copy_list)
+  25:     sorted_list = [heap.delete_min() for i in range(heap.size())]
+  26:     if sort == 'max':
+  27:         sorted_list = list(map((lambda x: (x * (-1))), sorted_list))
+- 28:     return sorted_list
++ 28:     pass
+--------------------------------------------------------------------------------
+[0.19302 s] killed by ts-3-5/test_3-5_0-8_244.py::test_custom_heap_sort
+
+def test_custom_heap_sort():
+>       assert heapsort.custom_heap_sort([], sort='min') == []
+E       AssertionError
+
+ts-3-5/test_3-5_0-8_244.py:23: AssertionError
+[*] Mutation score [8.87934 s]: 77.5%
+   - all: 40
+   - killed: 31 (77.5%)
+   - survived: 9 (22.5%)
+   - incompetent: 0 (0.0%)
+   - timeout: 0 (0.0%)

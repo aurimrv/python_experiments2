@@ -6,57 +6,21 @@ sys.path.append(project_dir)
 
 from dijkstras import dijkstras
 
-class TestDijkstras:
+def test_dijkstras():
+    weighted_graph = {
+        'A': {'B': 1, 'C': 4},
+        'B': {'A': 1, 'C': 2, 'D': 5},
+        'C': {'A': 4, 'B': 2, 'D': 1},
+        'D': {'B': 5, 'C': 1}
+    }
 
-    def test_dijkstras_shortest_path(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_vertex('C')
-        weighted_graph.add_vertex('D')
-        weighted_graph.add_edge('A', 'B', 1)
-        weighted_graph.add_edge('A', 'C', 4)
-        weighted_graph.add_edge('B', 'C', 2)
-        weighted_graph.add_edge('B', 'D', 5)
-        weighted_graph.add_edge('C', 'D', 1)
-        
-        assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
-    
-    def test_dijkstras_no_path(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_vertex('C')
-        weighted_graph.add_vertex('D')
-        weighted_graph.add_edge('A', 'B', 1)
-        weighted_graph.add_edge('C', 'D', 2)
-        
-        assert dijkstras(weighted_graph, 'A', 'D') == []
-
-    def test_dijkstras_same_source_dest(self):
-        weighted_graph = WeightedGraph()
-        weighted_graph.add_vertex('A')
-        weighted_graph.add_vertex('B')
-        weighted_graph.add_edge('A', 'B', 3)
-        
-        assert dijkstras(weighted_graph, 'A', 'A') == ['A']
-
-class WeightedGraph:
-    def __init__(self):
-        self.vertices = {}
-
-    def add_vertex(self, vertex):
-        if vertex not in self.vertices:
-            self.vertices[vertex] = Vertex(vertex)
-
-    def add_edge(self, src, dst, weight):
-        self.vertices[src].add_neighbor(dst, weight)
-        self.vertices[dst].add_neighbor(src, weight)
-
-class Vertex:
-    def __init__(self, name):
-        self.name = name
-        self.adjacent = {}
-
-    def add_neighbor(self, neighbor, weight):
-        self.adjacent[neighbor] = weight
+    assert dijkstras(weighted_graph, 'A', 'D') == ['A', 'B', 'C', 'D']
+    assert dijkstras(weighted_graph, 'A', 'C') == ['A', 'C']
+    assert dijkstras(weighted_graph, 'B', 'D') == ['B', 'C', 'D']
+    assert dijkstras(weighted_graph, 'C', 'A') == ['C', 'A']
+    assert dijkstras(weighted_graph, 'D', 'A') == ['D', 'C', 'A']
+    assert dijkstras(weighted_graph, 'D', 'B') == ['D', 'C', 'B']
+    assert dijkstras(weighted_graph, 'A', 'A') == ['A']
+    assert dijkstras(weighted_graph, 'B', 'C') == ['B', 'C']
+    assert dijkstras(weighted_graph, 'C', 'D') == ['C', 'D']
+    assert dijkstras(weighted_graph, 'D', 'D') == ['D']

@@ -1,0 +1,621 @@
+[*] Start mutation process:
+   - targets: priority_queue2.py
+   - tests: ts-3-5/test_3-5_0-5_167.py
+[*] 5 tests passed:
+   - test_3-5_0-5_167 [0.13981 s]
+[*] Start mutants generation and execution:
+   - [#   1] CDI priority_queue2: 
+--------------------------------------------------------------------------------
+  15:     and returns its value.
+  16:     peek(): returns the most important item without removing it from the queue.
+  17:     """
+  18:     
+- 19:     def __init__(self):
+- 20:         '''Initialize priorityq.'''
+- 21:         self._container = Binheap()
+- 22:     
++ 19:     @classmethod
++ 20:     def __init__(self):
++ 21:         '''Initialize priorityq.'''
++ 22:         self._container = Binheap()
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+  26:     
+--------------------------------------------------------------------------------
+[0.12893 s] survived
+   - [#   2] CDI priority_queue2: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self):
+  20:         '''Initialize priorityq.'''
+  21:         self._container = Binheap()
+  22:     
+- 23:     def insert(self, val, priority=0):
+- 24:         '''Insert a val into the queue with an argument for the priority.'''
+- 25:         self._container.push((priority, val))
+- 26:     
++ 23:     @classmethod
++ 24:     def insert(self, val, priority=0):
++ 25:         '''Insert a val into the queue with an argument for the priority.'''
++ 26:         self._container.push((priority, val))
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+  30:         if not to_return:
+--------------------------------------------------------------------------------
+[0.16275 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e0156f25f0>
+
+    def test_priority_q_insert(priority_q):
+>       priority_q.insert(10, 1)
+
+ts-3-5/test_3-5_0-5_167.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'priority_queue2.PriorityQ'>, val = 10, priority = 1
+
+>   ???
+E   AttributeError: type object 'PriorityQ' has no attribute '_container'
+
+priority_queue2:26: AttributeError
+   - [#   3] CDI priority_queue2: 
+--------------------------------------------------------------------------------
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+  26:     
+- 27:     def pop(self):
+- 28:         '''Remove the most important item from the queue.'''
+- 29:         to_return = self._container.container[1][1]
+- 30:         if not to_return:
+- 31:             raise (IndexError, "Can't pop from an empty queue.")
+- 32:         self._container.pop()
+- 33:         return to_return
+- 34:     
++ 27:     @classmethod
++ 28:     def pop(self):
++ 29:         '''Remove the most important item from the queue.'''
++ 30:         to_return = self._container.container[1][1]
++ 31:         if not to_return:
++ 32:             raise (IndexError, "Can't pop from an empty queue.")
++ 33:         self._container.pop()
++ 34:         return to_return
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+  38:             return self._container.container[1][1]
+--------------------------------------------------------------------------------
+[0.16762 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_pop
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e01546b5e0>
+
+    def test_priority_q_pop(priority_q):
+        priority_q.insert(20, 2)
+        priority_q.insert(30, 3)
+>       assert priority_q.pop() == 30
+
+ts-3-5/test_3-5_0-5_167.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'priority_queue2.PriorityQ'>
+
+>   ???
+E   AttributeError: type object 'PriorityQ' has no attribute '_container'
+
+priority_queue2:30: AttributeError
+   - [#   4] CDI priority_queue2: 
+--------------------------------------------------------------------------------
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+  34:     
+- 35:     def peek(self):
+- 36:         '''Return the most important item without removing it.'''
+- 37:         try:
+- 38:             return self._container.container[1][1]
+- 39:         except IndexError:
+- 40:             return None
++ 35:     @classmethod
++ 36:     def peek(self):
++ 37:         '''Return the most important item without removing it.'''
++ 38:         try:
++ 39:             return self._container.container[1][1]
++ 40:         except IndexError:
++ 41:             return None
+--------------------------------------------------------------------------------
+[0.16788 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e01546a9e0>
+
+    def test_priority_q_insert(priority_q):
+        priority_q.insert(10, 1)
+>       assert priority_q.peek() == 10
+
+ts-3-5/test_3-5_0-5_167.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'priority_queue2.PriorityQ'>
+
+>   ???
+E   AttributeError: type object 'PriorityQ' has no attribute '_container'
+
+priority_queue2:39: AttributeError
+   - [#   5] COD priority_queue2: 
+--------------------------------------------------------------------------------
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+- 30:         if not to_return:
++ 30:         if to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+  34:     
+--------------------------------------------------------------------------------
+[0.15045 s] incompetent
+
+TypeError: priority_queue2:31: TypeError: exceptions must derive from BaseException
+
+   - [#   6] COI priority_queue2: 
+--------------------------------------------------------------------------------
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+- 30:         if not to_return:
++ 30:         if not ((not to_return)):
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+  34:     
+--------------------------------------------------------------------------------
+[0.14868 s] incompetent
+
+TypeError: priority_queue2:31: TypeError: exceptions must derive from BaseException
+
+   - [#   7] EHD priority_queue2: 
+--------------------------------------------------------------------------------
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+  38:             return self._container.container[1][1]
+  39:         except IndexError:
+- 40:             return None
++ 40:             raise
+--------------------------------------------------------------------------------
+[0.15070 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_peek_empty
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e01546af80>
+
+    def test_priority_q_peek_empty(priority_q):
+>       assert priority_q.peek() is None
+
+ts-3-5/test_3-5_0-5_167.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e01546af80>
+
+>   ???
+E   IndexError: list index out of range
+
+priority_queue2:38: IndexError
+   - [#   8] EXS priority_queue2: 
+--------------------------------------------------------------------------------
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+  38:             return self._container.container[1][1]
+  39:         except IndexError:
+- 40:             return None
++ 40:             pass
+--------------------------------------------------------------------------------
+[0.12908 s] survived
+   - [#   9] SDI priority_queue2: 
+--------------------------------------------------------------------------------
+  15:     and returns its value.
+  16:     peek(): returns the most important item without removing it from the queue.
+  17:     """
+  18:     
+- 19:     def __init__(self):
+- 20:         '''Initialize priorityq.'''
+- 21:         self._container = Binheap()
+- 22:     
++ 19:     @staticmethod
++ 20:     def __init__(self):
++ 21:         '''Initialize priorityq.'''
++ 22:         self._container = Binheap()
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+  26:     
+--------------------------------------------------------------------------------
+[0.15096 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue2/ts-3-5/test_3-5_0-5_167.py:13: TypeError: PriorityQ.__init__() missing 1 required positional argument: 'self'
+
+   - [#  10] SDI priority_queue2: 
+--------------------------------------------------------------------------------
+  19:     def __init__(self):
+  20:         '''Initialize priorityq.'''
+  21:         self._container = Binheap()
+  22:     
+- 23:     def insert(self, val, priority=0):
+- 24:         '''Insert a val into the queue with an argument for the priority.'''
+- 25:         self._container.push((priority, val))
+- 26:     
++ 23:     @staticmethod
++ 24:     def insert(self, val, priority=0):
++ 25:         '''Insert a val into the queue with an argument for the priority.'''
++ 26:         self._container.push((priority, val))
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+  30:         if not to_return:
+--------------------------------------------------------------------------------
+[0.15540 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e0154a69e0>
+
+    def test_priority_q_insert(priority_q):
+>       priority_q.insert(10, 1)
+
+ts-3-5/test_3-5_0-5_167.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = 10, val = 1, priority = 0
+
+>   ???
+E   AttributeError: 'int' object has no attribute '_container'
+
+priority_queue2:26: AttributeError
+   - [#  11] SDI priority_queue2: 
+--------------------------------------------------------------------------------
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+  26:     
+- 27:     def pop(self):
+- 28:         '''Remove the most important item from the queue.'''
+- 29:         to_return = self._container.container[1][1]
+- 30:         if not to_return:
+- 31:             raise (IndexError, "Can't pop from an empty queue.")
+- 32:         self._container.pop()
+- 33:         return to_return
+- 34:     
++ 27:     @staticmethod
++ 28:     def pop(self):
++ 29:         '''Remove the most important item from the queue.'''
++ 30:         to_return = self._container.container[1][1]
++ 31:         if not to_return:
++ 32:             raise (IndexError, "Can't pop from an empty queue.")
++ 33:         self._container.pop()
++ 34:         return to_return
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+  38:             return self._container.container[1][1]
+--------------------------------------------------------------------------------
+[0.15305 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue2/ts-3-5/test_3-5_0-5_167.py:22: TypeError: PriorityQ.pop() missing 1 required positional argument: 'self'
+
+   - [#  12] SDI priority_queue2: 
+--------------------------------------------------------------------------------
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+  34:     
+- 35:     def peek(self):
+- 36:         '''Return the most important item without removing it.'''
+- 37:         try:
+- 38:             return self._container.container[1][1]
+- 39:         except IndexError:
+- 40:             return None
++ 35:     @staticmethod
++ 36:     def peek(self):
++ 37:         '''Return the most important item without removing it.'''
++ 38:         try:
++ 39:             return self._container.container[1][1]
++ 40:         except IndexError:
++ 41:             return None
+--------------------------------------------------------------------------------
+[0.14554 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/priority-queue2/ts-3-5/test_3-5_0-5_167.py:17: TypeError: PriorityQ.peek() missing 1 required positional argument: 'self'
+
+   - [#  13] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  17:     """
+  18:     
+  19:     def __init__(self):
+  20:         '''Initialize priorityq.'''
+- 21:         self._container = Binheap()
++ 21:         pass
+  22:     
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+--------------------------------------------------------------------------------
+[0.14703 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e0156f0cd0>
+
+    def test_priority_q_insert(priority_q):
+>       priority_q.insert(10, 1)
+
+ts-3-5/test_3-5_0-5_167.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e0156f0cd0>, val = 10
+priority = 1
+
+>   ???
+E   AttributeError: 'PriorityQ' object has no attribute '_container'
+
+priority_queue2:25: AttributeError
+   - [#  14] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  21:         self._container = Binheap()
+  22:     
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+- 25:         self._container.push((priority, val))
++ 25:         pass
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+--------------------------------------------------------------------------------
+[0.14959 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e015571a20>
+
+    def test_priority_q_insert(priority_q):
+        priority_q.insert(10, 1)
+>       assert priority_q.peek() == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_167.py:17: AssertionError
+   - [#  15] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  25:         self._container.push((priority, val))
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+- 29:         to_return = self._container.container[1][1]
++ 29:         pass
+  30:         if not to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+--------------------------------------------------------------------------------
+[0.15223 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_pop
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e015468310>
+
+    def test_priority_q_pop(priority_q):
+        priority_q.insert(20, 2)
+        priority_q.insert(30, 3)
+>       assert priority_q.pop() == 30
+
+ts-3-5/test_3-5_0-5_167.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e015468310>
+
+>   ???
+E   NameError: name 'to_return' is not defined
+
+priority_queue2:30: NameError
+   - [#  16] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+  30:         if not to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+- 32:         self._container.pop()
++ 32:         pass
+  33:         return to_return
+  34:     
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+--------------------------------------------------------------------------------
+[0.13015 s] survived
+   - [#  17] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  29:         to_return = self._container.container[1][1]
+  30:         if not to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+- 33:         return to_return
++ 33:         pass
+  34:     
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+--------------------------------------------------------------------------------
+[0.14976 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_pop
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e01539c190>
+
+    def test_priority_q_pop(priority_q):
+        priority_q.insert(20, 2)
+        priority_q.insert(30, 3)
+>       assert priority_q.pop() == 30
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_167.py:22: AssertionError
+   - [#  18] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+- 38:             return self._container.container[1][1]
++ 38:             pass
+  39:         except IndexError:
+  40:             return None
+--------------------------------------------------------------------------------
+[0.14970 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e015786b00>
+
+    def test_priority_q_insert(priority_q):
+        priority_q.insert(10, 1)
+>       assert priority_q.peek() == 10
+E       AssertionError
+
+ts-3-5/test_3-5_0-5_167.py:17: AssertionError
+   - [#  19] SDL priority_queue2: 
+--------------------------------------------------------------------------------
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+  38:             return self._container.container[1][1]
+  39:         except IndexError:
+- 40:             return None
++ 40:             pass
+--------------------------------------------------------------------------------
+[0.12906 s] survived
+   - [#  20] SVD priority_queue2: 
+--------------------------------------------------------------------------------
+  17:     """
+  18:     
+  19:     def __init__(self):
+  20:         '''Initialize priorityq.'''
+- 21:         self._container = Binheap()
++ 21:         _container = Binheap()
+  22:     
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+  25:         self._container.push((priority, val))
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  21] SVD priority_queue2: 
+--------------------------------------------------------------------------------
+  21:         self._container = Binheap()
+  22:     
+  23:     def insert(self, val, priority=0):
+  24:         '''Insert a val into the queue with an argument for the priority.'''
+- 25:         self._container.push((priority, val))
++ 25:         _container.push((priority, val))
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+--------------------------------------------------------------------------------
+[0.15064 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e01539c8e0>
+
+    def test_priority_q_insert(priority_q):
+>       priority_q.insert(10, 1)
+
+ts-3-5/test_3-5_0-5_167.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e01539c8e0>, val = 10
+priority = 1
+
+>   ???
+E   NameError: name '_container' is not defined
+
+priority_queue2:25: NameError
+   - [#  22] SVD priority_queue2: 
+--------------------------------------------------------------------------------
+  25:         self._container.push((priority, val))
+  26:     
+  27:     def pop(self):
+  28:         '''Remove the most important item from the queue.'''
+- 29:         to_return = self._container.container[1][1]
++ 29:         to_return = _container.container[1][1]
+  30:         if not to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+  32:         self._container.pop()
+  33:         return to_return
+--------------------------------------------------------------------------------
+[0.15218 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_pop
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e015389570>
+
+    def test_priority_q_pop(priority_q):
+        priority_q.insert(20, 2)
+        priority_q.insert(30, 3)
+>       assert priority_q.pop() == 30
+
+ts-3-5/test_3-5_0-5_167.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e015389570>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+priority_queue2:29: NameError
+   - [#  23] SVD priority_queue2: 
+--------------------------------------------------------------------------------
+  28:         '''Remove the most important item from the queue.'''
+  29:         to_return = self._container.container[1][1]
+  30:         if not to_return:
+  31:             raise (IndexError, "Can't pop from an empty queue.")
+- 32:         self._container.pop()
++ 32:         _container.pop()
+  33:         return to_return
+  34:     
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+--------------------------------------------------------------------------------
+[0.15892 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_pop
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e0155dae30>
+
+    def test_priority_q_pop(priority_q):
+        priority_q.insert(20, 2)
+        priority_q.insert(30, 3)
+>       assert priority_q.pop() == 30
+
+ts-3-5/test_3-5_0-5_167.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e0155dae30>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+priority_queue2:32: NameError
+   - [#  24] SVD priority_queue2: 
+--------------------------------------------------------------------------------
+  34:     
+  35:     def peek(self):
+  36:         '''Return the most important item without removing it.'''
+  37:         try:
+- 38:             return self._container.container[1][1]
++ 38:             return _container.container[1][1]
+  39:         except IndexError:
+  40:             return None
+--------------------------------------------------------------------------------
+[0.14944 s] killed by ts-3-5/test_3-5_0-5_167.py::test_priority_q_insert
+
+priority_q = <priority_queue2.PriorityQ object at 0x71e015378a30>
+
+    def test_priority_q_insert(priority_q):
+        priority_q.insert(10, 1)
+>       assert priority_q.peek() == 10
+
+ts-3-5/test_3-5_0-5_167.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <priority_queue2.PriorityQ object at 0x71e015378a30>
+
+>   ???
+E   NameError: name '_container' is not defined
+
+priority_queue2:38: NameError
+[*] Mutation score [3.96514 s]: 77.8%
+   - all: 24
+   - killed: 14 (58.3%)
+   - survived: 4 (16.7%)
+   - incompetent: 6 (25.0%)
+   - timeout: 0 (0.0%)

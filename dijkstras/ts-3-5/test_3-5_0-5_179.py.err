@@ -1,50 +1,75 @@
 import os
 import sys
-import pytest
-
 module_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(module_dir, '..'))
 sys.path.append(project_dir)
 
-from dijkstras import dijkstras, WeightedGraph, Vertex
+from dijkstras import dijkstras
 
-@pytest.fixture
-def weighted_graph():
-    graph = WeightedGraph()
-    v1 = Vertex('A')
-    v2 = Vertex('B')
-    v3 = Vertex('C')
-    v4 = Vertex('D')
-    v1.add_neighbor(v2, 1)
-    v1.add_neighbor(v3, 3)
-    v2.add_neighbor(v4, 2)
-    v3.add_neighbor(v4, 1)
-    graph.add_vertex(v1)
-    graph.add_vertex(v2)
-    graph.add_vertex(v3)
-    graph.add_vertex(v4)
-    return graph
+def test_dijkstras():
+    # Test case 1: Shortest path from src to dst where src and dst are directly connected
+    weighted_graph = {
+        'A': {'B': 1},
+        'B': {'A': 1}
+    }
+    src = 'A'
+    dst = 'B'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B']
 
-def test_dijkstras_shortest_path(weighted_graph):
+    # Test case 2: Shortest path from src to dst where src and dst are not directly connected
+    weighted_graph = {
+        'A': {'B': 2, 'C': 3},
+        'B': {'A': 2, 'D': 4},
+        'C': {'A': 3, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
     src = 'A'
     dst = 'D'
-    path = dijkstras(weighted_graph, src, dst)
-    assert path == ['A', 'B', 'D']
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
 
-def test_dijkstras_shortest_path_reverse(weighted_graph):
-    src = 'D'
-    dst = 'A'
-    path = dijkstras(weighted_graph, src, dst)
-    assert path == ['D', 'C', 'A']
+    # Test case 3: Shortest path from src to dst where src and dst are not connected
+    weighted_graph = {
+        'A': {'B': 2, 'C': 3},
+        'B': {'A': 2, 'D': 4},
+        'C': {'A': 3, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
+    src = 'B'
+    dst = 'C'
+    assert dijkstras(weighted_graph, src, dst) == ['B', 'A', 'C']
 
-def test_dijkstras_same_source_and_destination(weighted_graph):
-    src = 'A'
-    dst = 'A'
-    path = dijkstras(weighted_graph, src, dst)
-    assert path == ['A']
-
-def test_dijkstras_unreachable_destination(weighted_graph):
+    # Test case 4: Shortest path from src to dst in a complex graph
+    weighted_graph = {
+        'A': {'B': 3, 'C': 6},
+        'B': {'A': 3, 'D': 2},
+        'C': {'A': 6, 'D': 7},
+        'D': {'B': 2, 'C': 7, 'E': 5},
+        'E': {'D': 5}
+    }
     src = 'A'
     dst = 'E'
-    path = dijkstras(weighted_graph, src, dst)
-    assert path == []
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'B', 'D', 'E']
+
+    # Test case 5: Shortest path from a vertex to itself
+    weighted_graph = {
+        'A': {'B': 2, 'C': 3},
+        'B': {'A': 2, 'D': 4},
+        'C': {'A': 3, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
+    src = 'A'
+    dst = 'A'
+    assert dijkstras(weighted_graph, src, dst) == ['A']
+
+    # Test case 6: Shortest path in a graph with negative weights
+    weighted_graph = {
+        'A': {'B': 2, 'C': -3},
+        'B': {'A': 2, 'D': 4},
+        'C': {'A': -3, 'D': 1},
+        'D': {'B': 4, 'C': 1}
+    }
+    src = 'A'
+    dst = 'D'
+    assert dijkstras(weighted_graph, src, dst) == ['A', 'C', 'D']
+
+    # Add more test cases as needed

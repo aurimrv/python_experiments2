@@ -1,0 +1,2136 @@
+[*] Start mutation process:
+   - targets: hash_map.py
+   - tests: ts-3-5/test_3-5_0-1_39.py
+[*] 4 tests passed:
+   - test_3-5_0-1_39 [0.18593 s]
+[*] Start mutants generation and execution:
+   - [#   1] AOR hash_map: 
+--------------------------------------------------------------------------------
+   26:         Returns:
+   27:             None 
+   28:         """
+   29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
++  30:         hash_key = self.hash_function(key) * len(self.buckets)
+   31:         
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+--------------------------------------------------------------------------------
+[0.21478 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360ce110>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360ce110>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   IndexError: cannot fit 'int' into an index-sized integer
+
+hash_map:32: IndexError
+   - [#   2] AOR hash_map: 
+--------------------------------------------------------------------------------
+   53:         Raises:
+   54:             KeyError: Raised when key cannot be found.
+   55:         '''
+   56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
++  57:         hash_key = self.hash_function(key) * len(self.buckets)
+   58:         
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+--------------------------------------------------------------------------------
+[0.21155 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d36071630>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36071630>, key = 'key1'
+
+>   ???
+E   IndexError: cannot fit 'int' into an index-sized integer
+
+hash_map:59: IndexError
+   - [#   3] AOR hash_map: 
+--------------------------------------------------------------------------------
+   78:         Raises:
+   79:             KeyError: Raised when the key cannot be found.
+   80:         '''
+   81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
++  82:         hash_key = self.hash_function(key) * len(self.buckets)
+   83:         
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+--------------------------------------------------------------------------------
+[0.18839 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d36073370>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36073370>, key = 'key1'
+
+>   ???
+E   IndexError: cannot fit 'int' into an index-sized integer
+
+hash_map:84: IndexError
+   - [#   4] AOR hash_map: 
+--------------------------------------------------------------------------------
+  100:     '''
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+- 104:         hash = ((hash << 5) + hash) + ord(letter)
++ 104:         hash = ((hash << 5) - hash) + ord(letter)
+  105:     
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+--------------------------------------------------------------------------------
+[0.20581 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#   5] AOR hash_map: 
+--------------------------------------------------------------------------------
+  100:     '''
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+- 104:         hash = ((hash << 5) + hash) + ord(letter)
++ 104:         hash = ((hash << 5) + hash) - ord(letter)
+  105:     
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+--------------------------------------------------------------------------------
+[0.20642 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#   6] AOR hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         hash = ((ord(letter) - (hash << 6)) + (hash << 16)) - hash
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20773 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#   7] AOR hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         hash = ((ord(letter) + (hash << 6)) - (hash << 16)) - hash
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20755 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#   8] AOR hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) + hash
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20938 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#   9] ASR hash_map: 
+--------------------------------------------------------------------------------
+  129:     '''
+  130:     hash = 0
+  131:     
+  132:     for letter in str(key):
+- 133:         hash += ord(letter)
++ 133:         hash -= ord(letter)
+  134:     
+  135:     return hash
+--------------------------------------------------------------------------------
+[0.22628 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+        assert sdbm('test') == 32745785343201586
+>       assert lose_lose('test') == 448
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:40: AssertionError
+   - [#  10] CDI hash_map: 
+--------------------------------------------------------------------------------
+    2:     '''
+    3:     Data structure that stores key:value pairs.
+    4:     '''
+    5:     
+-   6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+-   7:         self.buckets = [[] for i in range(buckets)]
+-   8:         self.hash_function = hash_function
+-   9:     
++   6:     @classmethod
++   7:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
++   8:         self.buckets = [[] for i in range(buckets)]
++   9:         self.hash_function = hash_function
+   10:     def insert(self, key, value):
+   11:         """
+   12:         Insert a key into the hash map.
+   13: 
+--------------------------------------------------------------------------------
+[0.20760 s] incompetent
+
+TypeError: hash_map:30: TypeError: HashMap.<lambda>() takes 1 positional argument but 2 were given
+
+   - [#  11] CDI hash_map: 
+--------------------------------------------------------------------------------
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+    7:         self.buckets = [[] for i in range(buckets)]
+    8:         self.hash_function = hash_function
+    9:     
+-  10:     def insert(self, key, value):
+-  11:         """
+-  12:         Insert a key into the hash map.
+-  13: 
+-  14:         Insert a key into the map.  Internally the
+-  15:         key is hashed with the internal hashing_function
+-  16:         and placed into a bucket.  If the bucket  contains
+-  17:         an element with the same key that keys value 
+-  18:         will be overridden.
+-  19: 
+-  20:         Args:
+-  21:             key: the key that will be hashed to index 
+-  22:                 the value 
+-  23:             value: the value that will be stored at
+-  24:                 the index of 'key'
+-  25: 
+-  26:         Returns:
+-  27:             None 
+-  28:         """
+-  29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
+-  31:         
+-  32:         bucket = self.buckets[hash_key]
+-  33:         
+-  34:         for (i, val) in enumerate(bucket):
+-  35:             
+-  36:             if val[0] == key:
+-  37:                 bucket[i] = (key, value)
+-  38:                 return
+-  39:         
+-  40:         bucket.append((key, value))
+-  41:     
++  10:     @classmethod
++  11:     def insert(self, key, value):
++  12:         """
++  13:         Insert a key into the hash map.
++  14: 
++  15:         Insert a key into the map.  Internally the
++  16:         key is hashed with the internal hashing_function
++  17:         and placed into a bucket.  If the bucket  contains
++  18:         an element with the same key that keys value 
++  19:         will be overridden.
++  20: 
++  21:         Args:
++  22:             key: the key that will be hashed to index 
++  23:                 the value 
++  24:             value: the value that will be stored at
++  25:                 the index of 'key'
++  26: 
++  27:         Returns:
++  28:             None 
++  29:         """
++  30:         
++  31:         hash_key = self.hash_function(key) % len(self.buckets)
++  32:         
++  33:         bucket = self.buckets[hash_key]
++  34:         
++  35:         for (i, val) in enumerate(bucket):
++  36:             
++  37:             if val[0] == key:
++  38:                 bucket[i] = (key, value)
++  39:                 return
++  40:         
++  41:         bucket.append((key, value))
+   42:     def get(self, key):
+   43:         '''
+   44:         Get a value from the map.
+   45: 
+--------------------------------------------------------------------------------
+[0.20672 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35db18a0>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'hash_map.HashMap'>, key = 'key1', value = 'value1'
+
+>   ???
+E   AttributeError: type object 'HashMap' has no attribute 'hash_function'
+
+hash_map:31: AttributeError
+   - [#  12] CDI hash_map: 
+--------------------------------------------------------------------------------
+   38:                 return
+   39:         
+   40:         bucket.append((key, value))
+   41:     
+-  42:     def get(self, key):
+-  43:         '''
+-  44:         Get a value from the map.
+-  45: 
+-  46:         Args:
+-  47:             key: the identifying key which will have its
+-  48:                 value returned
+-  49:         
+-  50:         Returns:
+-  51:             The value that is stored within key.
+-  52: 
+-  53:         Raises:
+-  54:             KeyError: Raised when key cannot be found.
+-  55:         '''
+-  56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
+-  58:         
+-  59:         bucket = self.buckets[hash_key]
+-  60:         
++  42:     @classmethod
++  43:     def get(self, key):
++  44:         '''
++  45:         Get a value from the map.
++  46: 
++  47:         Args:
++  48:             key: the identifying key which will have its
++  49:                 value returned
++  50:         
++  51:         Returns:
++  52:             The value that is stored within key.
++  53: 
++  54:         Raises:
++  55:             KeyError: Raised when key cannot be found.
++  56:         '''
++  57:         
++  58:         hash_key = self.hash_function(key) % len(self.buckets)
++  59:         
++  60:         bucket = self.buckets[hash_key]
+   61:         
+-  62:         for val in bucket:
+-  63:             if val[0] == key:
+-  64:                 return val[1]
+-  65:         
+-  66:         raise KeyError
+-  67:     
++  62:         
++  63:         for val in bucket:
++  64:             if val[0] == key:
++  65:                 return val[1]
++  66:         
++  67:         raise KeyError
+   68:     def delete(self, key):
+   69:         '''
+   70:         Delete a key from the map.
+   71: 
+--------------------------------------------------------------------------------
+[0.20126 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35daf7f0>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'hash_map.HashMap'>, key = 'key1'
+
+>   ???
+E   AttributeError: type object 'HashMap' has no attribute 'hash_function'
+
+hash_map:58: AttributeError
+   - [#  13] CDI hash_map: 
+--------------------------------------------------------------------------------
+   64:                 return val[1]
+   65:         
+   66:         raise KeyError
+   67:     
+-  68:     def delete(self, key):
+-  69:         '''
+-  70:         Delete a key from the map.
+-  71: 
+-  72:         Args:
+-  73:             key: the key to delete
+-  74:         
+-  75:         Returns:
+-  76:             The value of the key that was deleted.
+-  77: 
+-  78:         Raises:
+-  79:             KeyError: Raised when the key cannot be found.
+-  80:         '''
+-  81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
+-  83:         
+-  84:         bucket = self.buckets[hash_key]
+-  85:         
++  68:     @classmethod
++  69:     def delete(self, key):
++  70:         '''
++  71:         Delete a key from the map.
++  72: 
++  73:         Args:
++  74:             key: the key to delete
++  75:         
++  76:         Returns:
++  77:             The value of the key that was deleted.
++  78: 
++  79:         Raises:
++  80:             KeyError: Raised when the key cannot be found.
++  81:         '''
++  82:         
++  83:         hash_key = self.hash_function(key) % len(self.buckets)
++  84:         
++  85:         bucket = self.buckets[hash_key]
+   86:         
+-  87:         for (i, val) in enumerate(bucket):
+-  88:             if val[0] == key:
+-  89:                 del bucket[i]
+-  90:                 return val
+-  91:         
+-  92:         raise KeyError
+-  93: 
++  87:         
++  88:         for (i, val) in enumerate(bucket):
++  89:             if val[0] == key:
++  90:                 del bucket[i]
++  91:                 return val
++  92:         
++  93:         raise KeyError
+   94: def djb2(key):
+   95:     '''
+   96:     Classic hashing function by Bernstein.
+   97: 
+--------------------------------------------------------------------------------
+[0.20103 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d35ddaa40>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <class 'hash_map.HashMap'>, key = 'key1'
+
+>   ???
+E   AttributeError: type object 'HashMap' has no attribute 'hash_function'
+
+hash_map:83: AttributeError
+   - [#  14] COI hash_map: 
+--------------------------------------------------------------------------------
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+-  36:             if val[0] == key:
++  36:             if not (val[0] == key):
+   37:                 bucket[i] = (key, value)
+   38:                 return
+   39:         
+   40:         bucket.append((key, value))
+--------------------------------------------------------------------------------
+[0.18661 s] survived
+   - [#  15] COI hash_map: 
+--------------------------------------------------------------------------------
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+   62:         for val in bucket:
+-  63:             if val[0] == key:
++  63:             if not (val[0] == key):
+   64:                 return val[1]
+   65:         
+   66:         raise KeyError
+   67:     
+--------------------------------------------------------------------------------
+[0.22987 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35bef310>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35bef310>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:66: KeyError
+   - [#  16] COI hash_map: 
+--------------------------------------------------------------------------------
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+-  88:             if val[0] == key:
++  88:             if not (val[0] == key):
+   89:                 del bucket[i]
+   90:                 return val
+   91:         
+   92:         raise KeyError
+--------------------------------------------------------------------------------
+[0.19881 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360e3bb0>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e3bb0>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:92: KeyError
+   - [#  17] LOR hash_map: 
+--------------------------------------------------------------------------------
+  100:     '''
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+- 104:         hash = ((hash << 5) + hash) + ord(letter)
++ 104:         hash = ((hash >> 5) + hash) + ord(letter)
+  105:     
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+--------------------------------------------------------------------------------
+[0.19883 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  18] LOR hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         hash = ((ord(letter) + (hash >> 6)) + (hash << 16)) - hash
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20756 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  19] LOR hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         hash = ((ord(letter) + (hash << 6)) + (hash >> 16)) - hash
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20120 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  20] OIL hash_map: 
+--------------------------------------------------------------------------------
+   35:             
+   36:             if val[0] == key:
+   37:                 bucket[i] = (key, value)
+   38:                 return
+-  39:         
++  39:             break
+   40:         bucket.append((key, value))
+   41:     
+   42:     def get(self, key):
+   43:         '''
+--------------------------------------------------------------------------------
+[0.18193 s] survived
+   - [#  21] OIL hash_map: 
+--------------------------------------------------------------------------------
+   61:         
+   62:         for val in bucket:
+   63:             if val[0] == key:
+   64:                 return val[1]
+-  65:         
++  65:             break
+   66:         raise KeyError
+   67:     
+   68:     def delete(self, key):
+   69:         '''
+--------------------------------------------------------------------------------
+[0.16949 s] survived
+   - [#  22] OIL hash_map: 
+--------------------------------------------------------------------------------
+   87:         for (i, val) in enumerate(bucket):
+   88:             if val[0] == key:
+   89:                 del bucket[i]
+   90:                 return val
+-  91:         
++  91:             break
+   92:         raise KeyError
+   93: 
+   94: def djb2(key):
+   95:     '''
+--------------------------------------------------------------------------------
+[0.18612 s] survived
+   - [#  23] OIL hash_map: 
+--------------------------------------------------------------------------------
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+  104:         hash = ((hash << 5) + hash) + ord(letter)
+- 105:     
++ 105:         break
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+  109:     '''
+--------------------------------------------------------------------------------
+[0.20853 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  24] OIL hash_map: 
+--------------------------------------------------------------------------------
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+  118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
+- 119:     
++ 119:         break
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+  123:     '''
+--------------------------------------------------------------------------------
+[0.20075 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  25] OIL hash_map: 
+--------------------------------------------------------------------------------
+  130:     hash = 0
+  131:     
+  132:     for letter in str(key):
+  133:         hash += ord(letter)
+- 134:     
++ 134:         break
+  135:     return hash
+--------------------------------------------------------------------------------
+[0.20752 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+        assert sdbm('test') == 32745785343201586
+>       assert lose_lose('test') == 448
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:40: AssertionError
+   - [#  26] RIL hash_map: 
+--------------------------------------------------------------------------------
+   30:         hash_key = self.hash_function(key) % len(self.buckets)
+   31:         
+   32:         bucket = self.buckets[hash_key]
+   33:         
+-  34:         for (i, val) in enumerate(bucket):
++  34:         for (i, val) in reversed(enumerate(bucket)):
+   35:             
+   36:             if val[0] == key:
+   37:                 bucket[i] = (key, value)
+   38:                 return
+--------------------------------------------------------------------------------
+[0.20971 s] incompetent
+
+TypeError: hash_map:34: TypeError: 'enumerate' object is not reversible
+
+   - [#  27] RIL hash_map: 
+--------------------------------------------------------------------------------
+   58:         
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+-  62:         for val in bucket:
++  62:         for val in reversed(bucket):
+   63:             if val[0] == key:
+   64:                 return val[1]
+   65:         
+   66:         raise KeyError
+--------------------------------------------------------------------------------
+[0.18830 s] survived
+   - [#  28] RIL hash_map: 
+--------------------------------------------------------------------------------
+   83:         
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+-  87:         for (i, val) in enumerate(bucket):
++  87:         for (i, val) in reversed(enumerate(bucket)):
+   88:             if val[0] == key:
+   89:                 del bucket[i]
+   90:                 return val
+   91:         
+--------------------------------------------------------------------------------
+[0.18503 s] incompetent
+
+TypeError: hash_map:87: TypeError: 'enumerate' object is not reversible
+
+   - [#  29] RIL hash_map: 
+--------------------------------------------------------------------------------
+   99:     by dan bernstein many years ago in comp.lang.c.
+  100:     '''
+  101:     hash = 5381
+  102:     
+- 103:     for letter in str(key):
++ 103:     for letter in reversed(str(key)):
+  104:         hash = ((hash << 5) + hash) + ord(letter)
+  105:     
+  106:     return hash
+  107: 
+--------------------------------------------------------------------------------
+[0.20753 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  30] RIL hash_map: 
+--------------------------------------------------------------------------------
+  113:      reimplementation of ndbm) database library.
+  114:     '''
+  115:     hash = 0
+  116:     
+- 117:     for letter in str(key):
++ 117:     for letter in reversed(str(key)):
+  118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
+  119:     
+  120:     return hash
+  121: 
+--------------------------------------------------------------------------------
+[0.24433 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  31] RIL hash_map: 
+--------------------------------------------------------------------------------
+  128:     algorithm, but it has the merit of extreme simplicity."
+  129:     '''
+  130:     hash = 0
+  131:     
+- 132:     for letter in str(key):
++ 132:     for letter in reversed(str(key)):
+  133:         hash += ord(letter)
+  134:     
+  135:     return hash
+--------------------------------------------------------------------------------
+[0.18462 s] survived
+   - [#  32] ROR hash_map: 
+--------------------------------------------------------------------------------
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+-  36:             if val[0] == key:
++  36:             if val[0] != key:
+   37:                 bucket[i] = (key, value)
+   38:                 return
+   39:         
+   40:         bucket.append((key, value))
+--------------------------------------------------------------------------------
+[0.18542 s] survived
+   - [#  33] ROR hash_map: 
+--------------------------------------------------------------------------------
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+   62:         for val in bucket:
+-  63:             if val[0] == key:
++  63:             if val[0] != key:
+   64:                 return val[1]
+   65:         
+   66:         raise KeyError
+   67:     
+--------------------------------------------------------------------------------
+[0.21200 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360e1540>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e1540>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:66: KeyError
+   - [#  34] ROR hash_map: 
+--------------------------------------------------------------------------------
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+-  88:             if val[0] == key:
++  88:             if val[0] != key:
+   89:                 del bucket[i]
+   90:                 return val
+   91:         
+   92:         raise KeyError
+--------------------------------------------------------------------------------
+[0.20725 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360711e0>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360711e0>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:92: KeyError
+   - [#  35] SDI hash_map: 
+--------------------------------------------------------------------------------
+    2:     '''
+    3:     Data structure that stores key:value pairs.
+    4:     '''
+    5:     
+-   6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+-   7:         self.buckets = [[] for i in range(buckets)]
+-   8:         self.hash_function = hash_function
+-   9:     
++   6:     @staticmethod
++   7:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
++   8:         self.buckets = [[] for i in range(buckets)]
++   9:         self.hash_function = hash_function
+   10:     def insert(self, key, value):
+   11:         """
+   12:         Insert a key into the hash map.
+   13: 
+--------------------------------------------------------------------------------
+[0.20847 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/hashmap/ts-3-5/test_3-5_0-1_39.py:13: TypeError: HashMap.__init__() missing 1 required positional argument: 'self'
+
+   - [#  36] SDI hash_map: 
+--------------------------------------------------------------------------------
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+    7:         self.buckets = [[] for i in range(buckets)]
+    8:         self.hash_function = hash_function
+    9:     
+-  10:     def insert(self, key, value):
+-  11:         """
+-  12:         Insert a key into the hash map.
+-  13: 
+-  14:         Insert a key into the map.  Internally the
+-  15:         key is hashed with the internal hashing_function
+-  16:         and placed into a bucket.  If the bucket  contains
+-  17:         an element with the same key that keys value 
+-  18:         will be overridden.
+-  19: 
+-  20:         Args:
+-  21:             key: the key that will be hashed to index 
+-  22:                 the value 
+-  23:             value: the value that will be stored at
+-  24:                 the index of 'key'
+-  25: 
+-  26:         Returns:
+-  27:             None 
+-  28:         """
+-  29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
+-  31:         
+-  32:         bucket = self.buckets[hash_key]
+-  33:         
+-  34:         for (i, val) in enumerate(bucket):
+-  35:             
+-  36:             if val[0] == key:
+-  37:                 bucket[i] = (key, value)
+-  38:                 return
+-  39:         
+-  40:         bucket.append((key, value))
+-  41:     
++  10:     @staticmethod
++  11:     def insert(self, key, value):
++  12:         """
++  13:         Insert a key into the hash map.
++  14: 
++  15:         Insert a key into the map.  Internally the
++  16:         key is hashed with the internal hashing_function
++  17:         and placed into a bucket.  If the bucket  contains
++  18:         an element with the same key that keys value 
++  19:         will be overridden.
++  20: 
++  21:         Args:
++  22:             key: the key that will be hashed to index 
++  23:                 the value 
++  24:             value: the value that will be stored at
++  25:                 the index of 'key'
++  26: 
++  27:         Returns:
++  28:             None 
++  29:         """
++  30:         
++  31:         hash_key = self.hash_function(key) % len(self.buckets)
++  32:         
++  33:         bucket = self.buckets[hash_key]
++  34:         
++  35:         for (i, val) in enumerate(bucket):
++  36:             
++  37:             if val[0] == key:
++  38:                 bucket[i] = (key, value)
++  39:                 return
++  40:         
++  41:         bucket.append((key, value))
+   42:     def get(self, key):
+   43:         '''
+   44:         Get a value from the map.
+   45: 
+--------------------------------------------------------------------------------
+[0.20511 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/hashmap/ts-3-5/test_3-5_0-1_39.py:16: TypeError: HashMap.insert() missing 1 required positional argument: 'value'
+
+   - [#  37] SDI hash_map: 
+--------------------------------------------------------------------------------
+   38:                 return
+   39:         
+   40:         bucket.append((key, value))
+   41:     
+-  42:     def get(self, key):
+-  43:         '''
+-  44:         Get a value from the map.
+-  45: 
+-  46:         Args:
+-  47:             key: the identifying key which will have its
+-  48:                 value returned
+-  49:         
+-  50:         Returns:
+-  51:             The value that is stored within key.
+-  52: 
+-  53:         Raises:
+-  54:             KeyError: Raised when key cannot be found.
+-  55:         '''
+-  56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
+-  58:         
+-  59:         bucket = self.buckets[hash_key]
+-  60:         
++  42:     @staticmethod
++  43:     def get(self, key):
++  44:         '''
++  45:         Get a value from the map.
++  46: 
++  47:         Args:
++  48:             key: the identifying key which will have its
++  49:                 value returned
++  50:         
++  51:         Returns:
++  52:             The value that is stored within key.
++  53: 
++  54:         Raises:
++  55:             KeyError: Raised when key cannot be found.
++  56:         '''
++  57:         
++  58:         hash_key = self.hash_function(key) % len(self.buckets)
++  59:         
++  60:         bucket = self.buckets[hash_key]
+   61:         
+-  62:         for val in bucket:
+-  63:             if val[0] == key:
+-  64:                 return val[1]
+-  65:         
+-  66:         raise KeyError
+-  67:     
++  62:         
++  63:         for val in bucket:
++  64:             if val[0] == key:
++  65:                 return val[1]
++  66:         
++  67:         raise KeyError
+   68:     def delete(self, key):
+   69:         '''
+   70:         Delete a key from the map.
+   71: 
+--------------------------------------------------------------------------------
+[0.20681 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/hashmap/ts-3-5/test_3-5_0-1_39.py:17: TypeError: HashMap.get() missing 1 required positional argument: 'key'
+
+   - [#  38] SDI hash_map: 
+--------------------------------------------------------------------------------
+   64:                 return val[1]
+   65:         
+   66:         raise KeyError
+   67:     
+-  68:     def delete(self, key):
+-  69:         '''
+-  70:         Delete a key from the map.
+-  71: 
+-  72:         Args:
+-  73:             key: the key to delete
+-  74:         
+-  75:         Returns:
+-  76:             The value of the key that was deleted.
+-  77: 
+-  78:         Raises:
+-  79:             KeyError: Raised when the key cannot be found.
+-  80:         '''
+-  81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
+-  83:         
+-  84:         bucket = self.buckets[hash_key]
+-  85:         
++  68:     @staticmethod
++  69:     def delete(self, key):
++  70:         '''
++  71:         Delete a key from the map.
++  72: 
++  73:         Args:
++  74:             key: the key to delete
++  75:         
++  76:         Returns:
++  77:             The value of the key that was deleted.
++  78: 
++  79:         Raises:
++  80:             KeyError: Raised when the key cannot be found.
++  81:         '''
++  82:         
++  83:         hash_key = self.hash_function(key) % len(self.buckets)
++  84:         
++  85:         bucket = self.buckets[hash_key]
+   86:         
+-  87:         for (i, val) in enumerate(bucket):
+-  88:             if val[0] == key:
+-  89:                 del bucket[i]
+-  90:                 return val
+-  91:         
+-  92:         raise KeyError
+-  93: 
++  87:         
++  88:         for (i, val) in enumerate(bucket):
++  89:             if val[0] == key:
++  90:                 del bucket[i]
++  91:                 return val
++  92:         
++  93:         raise KeyError
+   94: def djb2(key):
+   95:     '''
+   96:     Classic hashing function by Bernstein.
+   97: 
+--------------------------------------------------------------------------------
+[0.20653 s] incompetent
+
+TypeError: /home/lucca/teste/python_experiments2/hashmap/ts-3-5/test_3-5_0-1_39.py:31: TypeError: HashMap.delete() missing 1 required positional argument: 'key'
+
+   - [#  39] SDL hash_map: 
+--------------------------------------------------------------------------------
+    3:     Data structure that stores key:value pairs.
+    4:     '''
+    5:     
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+-   7:         self.buckets = [[] for i in range(buckets)]
++   7:         pass
+    8:         self.hash_function = hash_function
+    9:     
+   10:     def insert(self, key, value):
+   11:         """
+--------------------------------------------------------------------------------
+[0.20503 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35e73100>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35e73100>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   AttributeError: 'HashMap' object has no attribute 'buckets'
+
+hash_map:30: AttributeError
+   - [#  40] SDL hash_map: 
+--------------------------------------------------------------------------------
+    4:     '''
+    5:     
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+    7:         self.buckets = [[] for i in range(buckets)]
+-   8:         self.hash_function = hash_function
++   8:         pass
+    9:     
+   10:     def insert(self, key, value):
+   11:         """
+   12:         Insert a key into the hash map.
+--------------------------------------------------------------------------------
+[0.19105 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35e70d30>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35e70d30>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   AttributeError: 'HashMap' object has no attribute 'hash_function'
+
+hash_map:30: AttributeError
+   - [#  41] SDL hash_map: 
+--------------------------------------------------------------------------------
+   26:         Returns:
+   27:             None 
+   28:         """
+   29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
++  30:         pass
+   31:         
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+--------------------------------------------------------------------------------
+[0.20433 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35e45fc0>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35e45fc0>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   NameError: name 'hash_key' is not defined
+
+hash_map:32: NameError
+   - [#  42] SDL hash_map: 
+--------------------------------------------------------------------------------
+   28:         """
+   29:         
+   30:         hash_key = self.hash_function(key) % len(self.buckets)
+   31:         
+-  32:         bucket = self.buckets[hash_key]
++  32:         pass
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+   36:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.20757 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d361f06a0>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d361f06a0>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   NameError: name 'bucket' is not defined
+
+hash_map:34: NameError
+   - [#  43] SDL hash_map: 
+--------------------------------------------------------------------------------
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+   36:             if val[0] == key:
+-  37:                 bucket[i] = (key, value)
++  37:                 pass
+   38:                 return
+   39:         
+   40:         bucket.append((key, value))
+   41:     
+--------------------------------------------------------------------------------
+[0.18404 s] survived
+   - [#  44] SDL hash_map: 
+--------------------------------------------------------------------------------
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+   36:             if val[0] == key:
+   37:                 bucket[i] = (key, value)
+-  38:                 return
++  38:                 pass
+   39:         
+   40:         bucket.append((key, value))
+   41:     
+   42:     def get(self, key):
+--------------------------------------------------------------------------------
+[0.20441 s] survived
+   - [#  45] SDL hash_map: 
+--------------------------------------------------------------------------------
+   36:             if val[0] == key:
+   37:                 bucket[i] = (key, value)
+   38:                 return
+   39:         
+-  40:         bucket.append((key, value))
++  40:         pass
+   41:     
+   42:     def get(self, key):
+   43:         '''
+   44:         Get a value from the map.
+--------------------------------------------------------------------------------
+[0.21001 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d361bbe20>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d361bbe20>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:66: KeyError
+   - [#  46] SDL hash_map: 
+--------------------------------------------------------------------------------
+   53:         Raises:
+   54:             KeyError: Raised when key cannot be found.
+   55:         '''
+   56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
++  57:         pass
+   58:         
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+--------------------------------------------------------------------------------
+[0.20912 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360e0b20>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e0b20>, key = 'key1'
+
+>   ???
+E   NameError: name 'hash_key' is not defined
+
+hash_map:59: NameError
+   - [#  47] SDL hash_map: 
+--------------------------------------------------------------------------------
+   55:         '''
+   56:         
+   57:         hash_key = self.hash_function(key) % len(self.buckets)
+   58:         
+-  59:         bucket = self.buckets[hash_key]
++  59:         pass
+   60:         
+   61:         
+   62:         for val in bucket:
+   63:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.20603 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360cd210>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360cd210>, key = 'key1'
+
+>   ???
+E   NameError: name 'bucket' is not defined
+
+hash_map:62: NameError
+   - [#  48] SDL hash_map: 
+--------------------------------------------------------------------------------
+   60:         
+   61:         
+   62:         for val in bucket:
+   63:             if val[0] == key:
+-  64:                 return val[1]
++  64:                 pass
+   65:         
+   66:         raise KeyError
+   67:     
+   68:     def delete(self, key):
+--------------------------------------------------------------------------------
+[0.20938 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360e2290>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e2290>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:66: KeyError
+   - [#  49] SDL hash_map: 
+--------------------------------------------------------------------------------
+   78:         Raises:
+   79:             KeyError: Raised when the key cannot be found.
+   80:         '''
+   81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
++  82:         pass
+   83:         
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+--------------------------------------------------------------------------------
+[0.20835 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360e23b0>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e23b0>, key = 'key1'
+
+>   ???
+E   NameError: name 'hash_key' is not defined
+
+hash_map:84: NameError
+   - [#  50] SDL hash_map: 
+--------------------------------------------------------------------------------
+   80:         '''
+   81:         
+   82:         hash_key = self.hash_function(key) % len(self.buckets)
+   83:         
+-  84:         bucket = self.buckets[hash_key]
++  84:         pass
+   85:         
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+   88:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.22683 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360cc190>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360cc190>, key = 'key1'
+
+>   ???
+E   NameError: name 'bucket' is not defined
+
+hash_map:87: NameError
+   - [#  51] SDL hash_map: 
+--------------------------------------------------------------------------------
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+   88:             if val[0] == key:
+   89:                 del bucket[i]
+-  90:                 return val
++  90:                 pass
+   91:         
+   92:         raise KeyError
+   93: 
+   94: def djb2(key):
+--------------------------------------------------------------------------------
+[0.20784 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d36163580>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36163580>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:92: KeyError
+   - [#  52] SDL hash_map: 
+--------------------------------------------------------------------------------
+   97: 
+   98:     This algorithm (k=33) was first reported 
+   99:     by dan bernstein many years ago in comp.lang.c.
+  100:     '''
+- 101:     hash = 5381
++ 101:     pass
+  102:     
+  103:     for letter in str(key):
+  104:         hash = ((hash << 5) + hash) + ord(letter)
+  105:     
+--------------------------------------------------------------------------------
+[0.21130 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+
+ts-3-5/test_3-5_0-1_39.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'test'
+
+>   ???
+E   UnboundLocalError: local variable 'hash' referenced before assignment
+
+hash_map:104: UnboundLocalError
+   - [#  53] SDL hash_map: 
+--------------------------------------------------------------------------------
+  100:     '''
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+- 104:         hash = ((hash << 5) + hash) + ord(letter)
++ 104:         pass
+  105:     
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+--------------------------------------------------------------------------------
+[0.20735 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  54] SDL hash_map: 
+--------------------------------------------------------------------------------
+  102:     
+  103:     for letter in str(key):
+  104:         hash = ((hash << 5) + hash) + ord(letter)
+  105:     
+- 106:     return hash
++ 106:     pass
+  107: 
+  108: def sdbm(key):
+  109:     '''
+  110:     This function is a good bit scrambling function.
+--------------------------------------------------------------------------------
+[0.20746 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  55] SDL hash_map: 
+--------------------------------------------------------------------------------
+  111: 
+  112:     This algorithm was created for sdbm (a public-domain
+  113:      reimplementation of ndbm) database library.
+  114:     '''
+- 115:     hash = 0
++ 115:     pass
+  116:     
+  117:     for letter in str(key):
+  118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
+  119:     
+--------------------------------------------------------------------------------
+[0.20752 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+
+ts-3-5/test_3-5_0-1_39.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'test'
+
+>   ???
+E   UnboundLocalError: local variable 'hash' referenced before assignment
+
+hash_map:118: UnboundLocalError
+   - [#  56] SDL hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         pass
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.20104 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  57] SDL hash_map: 
+--------------------------------------------------------------------------------
+  116:     
+  117:     for letter in str(key):
+  118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
+  119:     
+- 120:     return hash
++ 120:     pass
+  121: 
+  122: def lose_lose(key):
+  123:     '''
+  124:     This hash function is extremely bad.  Don\'t use it.
+--------------------------------------------------------------------------------
+[0.20090 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  58] SDL hash_map: 
+--------------------------------------------------------------------------------
+  126:     This hash function appeared in K&R (1st ed) but at least 
+  127:     the reader was warned: "This is not the best possible 
+  128:     algorithm, but it has the merit of extreme simplicity."
+  129:     '''
+- 130:     hash = 0
++ 130:     pass
+  131:     
+  132:     for letter in str(key):
+  133:         hash += ord(letter)
+  134:     
+--------------------------------------------------------------------------------
+[0.21007 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+        assert sdbm('test') == 32745785343201586
+>       assert lose_lose('test') == 448
+
+ts-3-5/test_3-5_0-1_39.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+key = 'test'
+
+>   ???
+E   UnboundLocalError: local variable 'hash' referenced before assignment
+
+hash_map:133: UnboundLocalError
+   - [#  59] SDL hash_map: 
+--------------------------------------------------------------------------------
+  131:     
+  132:     for letter in str(key):
+  133:         hash += ord(letter)
+  134:     
+- 135:     return hash
++ 135:     pass
+--------------------------------------------------------------------------------
+[0.20856 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+        assert sdbm('test') == 32745785343201586
+>       assert lose_lose('test') == 448
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:40: AssertionError
+   - [#  60] SVD hash_map: 
+--------------------------------------------------------------------------------
+    3:     Data structure that stores key:value pairs.
+    4:     '''
+    5:     
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+-   7:         self.buckets = [[] for i in range(buckets)]
++   7:         buckets = [[] for i in range(buckets)]
+    8:         self.hash_function = hash_function
+    9:     
+   10:     def insert(self, key, value):
+   11:         """
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  61] SVD hash_map: 
+--------------------------------------------------------------------------------
+    4:     '''
+    5:     
+    6:     def __init__(self, buckets=256, hash_function=lambda key: (hash(key))):
+    7:         self.buckets = [[] for i in range(buckets)]
+-   8:         self.hash_function = hash_function
++   8:         hash_function = hash_function
+    9:     
+   10:     def insert(self, key, value):
+   11:         """
+   12:         Insert a key into the hash map.
+--------------------------------------------------------------------------------
+[0.00000 s] incompetent
+
+ValueError: expression must have Store context but has Load instead
+
+   - [#  62] SVD hash_map: 
+--------------------------------------------------------------------------------
+   26:         Returns:
+   27:             None 
+   28:         """
+   29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
++  30:         hash_key = hash_function(key) % len(self.buckets)
+   31:         
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+--------------------------------------------------------------------------------
+[0.20654 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360ced10>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360ced10>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   NameError: name 'hash_function' is not defined
+
+hash_map:30: NameError
+   - [#  63] SVD hash_map: 
+--------------------------------------------------------------------------------
+   26:         Returns:
+   27:             None 
+   28:         """
+   29:         
+-  30:         hash_key = self.hash_function(key) % len(self.buckets)
++  30:         hash_key = self.hash_function(key) % len(buckets)
+   31:         
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+--------------------------------------------------------------------------------
+[0.20735 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d361b9b10>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d361b9b10>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:30: NameError
+   - [#  64] SVD hash_map: 
+--------------------------------------------------------------------------------
+   28:         """
+   29:         
+   30:         hash_key = self.hash_function(key) % len(self.buckets)
+   31:         
+-  32:         bucket = self.buckets[hash_key]
++  32:         bucket = buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+   36:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.20837 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d36070220>
+
+    def test_insert(hashmap):
+>       hashmap.insert('key1', 'value1')
+
+ts-3-5/test_3-5_0-1_39.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36070220>, key = 'key1'
+value = 'value1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:32: NameError
+   - [#  65] SVD hash_map: 
+--------------------------------------------------------------------------------
+   53:         Raises:
+   54:             KeyError: Raised when key cannot be found.
+   55:         '''
+   56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
++  57:         hash_key = hash_function(key) % len(self.buckets)
+   58:         
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+--------------------------------------------------------------------------------
+[0.21254 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d360713f0>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360713f0>, key = 'key1'
+
+>   ???
+E   NameError: name 'hash_function' is not defined
+
+hash_map:57: NameError
+   - [#  66] SVD hash_map: 
+--------------------------------------------------------------------------------
+   53:         Raises:
+   54:             KeyError: Raised when key cannot be found.
+   55:         '''
+   56:         
+-  57:         hash_key = self.hash_function(key) % len(self.buckets)
++  57:         hash_key = self.hash_function(key) % len(buckets)
+   58:         
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+--------------------------------------------------------------------------------
+[0.20625 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d361bab90>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d361bab90>, key = 'key1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:57: NameError
+   - [#  67] SVD hash_map: 
+--------------------------------------------------------------------------------
+   55:         '''
+   56:         
+   57:         hash_key = self.hash_function(key) % len(self.buckets)
+   58:         
+-  59:         bucket = self.buckets[hash_key]
++  59:         bucket = buckets[hash_key]
+   60:         
+   61:         
+   62:         for val in bucket:
+   63:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.19539 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35e5afe0>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35e5afe0>, key = 'key1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:59: NameError
+   - [#  68] SVD hash_map: 
+--------------------------------------------------------------------------------
+   78:         Raises:
+   79:             KeyError: Raised when the key cannot be found.
+   80:         '''
+   81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
++  82:         hash_key = hash_function(key) % len(self.buckets)
+   83:         
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+--------------------------------------------------------------------------------
+[0.19853 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d36073070>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36073070>, key = 'key1'
+
+>   ???
+E   NameError: name 'hash_function' is not defined
+
+hash_map:82: NameError
+   - [#  69] SVD hash_map: 
+--------------------------------------------------------------------------------
+   78:         Raises:
+   79:             KeyError: Raised when the key cannot be found.
+   80:         '''
+   81:         
+-  82:         hash_key = self.hash_function(key) % len(self.buckets)
++  82:         hash_key = self.hash_function(key) % len(buckets)
+   83:         
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+--------------------------------------------------------------------------------
+[0.20803 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360729b0>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360729b0>, key = 'key1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:82: NameError
+   - [#  70] SVD hash_map: 
+--------------------------------------------------------------------------------
+   80:         '''
+   81:         
+   82:         hash_key = self.hash_function(key) % len(self.buckets)
+   83:         
+-  84:         bucket = self.buckets[hash_key]
++  84:         bucket = buckets[hash_key]
+   85:         
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+   88:             if val[0] == key:
+--------------------------------------------------------------------------------
+[0.19838 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d360e3af0>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d360e3af0>, key = 'key1'
+
+>   ???
+E   NameError: name 'buckets' is not defined
+
+hash_map:84: NameError
+   - [#  71] ZIL hash_map: 
+--------------------------------------------------------------------------------
+   32:         bucket = self.buckets[hash_key]
+   33:         
+   34:         for (i, val) in enumerate(bucket):
+   35:             
+-  36:             if val[0] == key:
+-  37:                 bucket[i] = (key, value)
+-  38:                 return
++  36:             break
++  37:         
++  38:         
+   39:         
+   40:         bucket.append((key, value))
+   41:     
+   42:     def get(self, key):
+--------------------------------------------------------------------------------
+[0.17562 s] survived
+   - [#  72] ZIL hash_map: 
+--------------------------------------------------------------------------------
+   59:         bucket = self.buckets[hash_key]
+   60:         
+   61:         
+   62:         for val in bucket:
+-  63:             if val[0] == key:
+-  64:                 return val[1]
++  63:             break
++  64:         
+   65:         
+   66:         raise KeyError
+   67:     
+   68:     def delete(self, key):
+--------------------------------------------------------------------------------
+[0.20535 s] killed by ts-3-5/test_3-5_0-1_39.py::test_insert
+
+hashmap = <hash_map.HashMap object at 0x773d35beeb60>
+
+    def test_insert(hashmap):
+        hashmap.insert('key1', 'value1')
+>       assert hashmap.get('key1') == 'value1'
+
+ts-3-5/test_3-5_0-1_39.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d35beeb60>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:66: KeyError
+   - [#  73] ZIL hash_map: 
+--------------------------------------------------------------------------------
+   84:         bucket = self.buckets[hash_key]
+   85:         
+   86:         
+   87:         for (i, val) in enumerate(bucket):
+-  88:             if val[0] == key:
+-  89:                 del bucket[i]
+-  90:                 return val
++  88:             break
++  89:         
++  90:         
+   91:         
+   92:         raise KeyError
+   93: 
+   94: def djb2(key):
+--------------------------------------------------------------------------------
+[0.24232 s] killed by ts-3-5/test_3-5_0-1_39.py::test_delete
+
+hashmap = <hash_map.HashMap object at 0x773d36111b10>
+
+    def test_delete(hashmap):
+        hashmap.insert('key1', 'value1')
+>       deleted_value = hashmap.delete('key1')
+
+ts-3-5/test_3-5_0-1_39.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <hash_map.HashMap object at 0x773d36111b10>, key = 'key1'
+
+>   ???
+E   KeyError
+
+hash_map:92: KeyError
+   - [#  74] ZIL hash_map: 
+--------------------------------------------------------------------------------
+  100:     '''
+  101:     hash = 5381
+  102:     
+  103:     for letter in str(key):
+- 104:         hash = ((hash << 5) + hash) + ord(letter)
++ 104:         break
+  105:     
+  106:     return hash
+  107: 
+  108: def sdbm(key):
+--------------------------------------------------------------------------------
+[0.20191 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+>       assert djb2('test') == 6385723493
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:38: AssertionError
+   - [#  75] ZIL hash_map: 
+--------------------------------------------------------------------------------
+  114:     '''
+  115:     hash = 0
+  116:     
+  117:     for letter in str(key):
+- 118:         hash = ((ord(letter) + (hash << 6)) + (hash << 16)) - hash
++ 118:         break
+  119:     
+  120:     return hash
+  121: 
+  122: def lose_lose(key):
+--------------------------------------------------------------------------------
+[0.19700 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+>       assert sdbm('test') == 32745785343201586
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:39: AssertionError
+   - [#  76] ZIL hash_map: 
+--------------------------------------------------------------------------------
+  129:     '''
+  130:     hash = 0
+  131:     
+  132:     for letter in str(key):
+- 133:         hash += ord(letter)
++ 133:         break
+  134:     
+  135:     return hash
+--------------------------------------------------------------------------------
+[0.20818 s] killed by ts-3-5/test_3-5_0-1_39.py::test_hash_functions
+
+def test_hash_functions():
+        assert djb2('test') == 6385723493
+        assert sdbm('test') == 32745785343201586
+>       assert lose_lose('test') == 448
+E       AssertionError
+
+ts-3-5/test_3-5_0-1_39.py:40: AssertionError
+[*] Mutation score [18.47939 s]: 85.1%
+   - all: 76
+   - killed: 57 (75.0%)
+   - survived: 10 (13.2%)
+   - incompetent: 9 (11.8%)
+   - timeout: 0 (0.0%)

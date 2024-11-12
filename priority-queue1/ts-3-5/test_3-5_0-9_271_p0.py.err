@@ -1,0 +1,40 @@
+import os
+import sys
+module_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(os.path.join(module_dir, '..'))
+sys.path.append(project_dir)
+
+import itertools
+from heapq import heappush, heappop
+from priority_queue1 import PriorityQueue
+
+def test_priority_queue_init():
+    pq = PriorityQueue()
+    assert isinstance(pq, PriorityQueue)
+
+def test_add_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    assert pq.pq == [[2, 0, 'Task1']]
+    assert pq.mapper['Task1'] == [2, 0, 'Task1']
+    
+def test_remove_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    pq.remove_task('Task1')
+    assert pq.pq == []
+    assert 'Task1' not in pq.mapper
+    
+def test_set_priority():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    pq.set_priority('Task1', 5)
+    assert pq.mapper['Task1'] == [5, 0, 'Task1']
+    
+def test_pop_task():
+    pq = PriorityQueue()
+    pq.add_task('Task1', 2)
+    popped_task = pq.pop_task()
+    assert popped_task == 'Task1'
+    assert pq.pq == []
+    assert 'Task1' not in pq.mapper
