@@ -6,9 +6,9 @@
 if (($# < 3))
 then
 	echo "error: mergeTestSet.sh <project root dir> <list of test sets directory to be merged>"
-	echo "Example: mergeTestSet.sh /home/auri/temp/lucca/python_experiments DYNAMOSA MIO"
-	echo "Example: mergeTestSet.sh /home/auri/temp/lucca/python_experiments DYNAMOSA MIO MOSA"
-	echo "Example: mergeTestSet.sh /home/auri/temp/lucca/python_experiments DYNAMOSA MIO MOSA WHOLE_SUITE"
+	echo "Example: mergeTestSet.sh temp/lucca/python_experiments DYNAMOSA MIO"
+	echo "Example: mergeTestSet.sh temp/lucca/python_experiments DYNAMOSA MIO MOSA"
+	echo "Example: mergeTestSet.sh temp/lucca/python_experiments DYNAMOSA MIO MOSA WHOLE_SUITE"
 	exit
 fi
 

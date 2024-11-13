@@ -8,7 +8,7 @@
 if (($# < 3))
 then
    echo "error: coverageReport.sh <project root dir> <data-file name> <test-set-file>"
-   echo "Example: coverageReport.sh /home/auri/temp/python_experiments2 files.txt test-sets.txt"
+   echo "Example: coverageReport.sh temp/python_experiments2 files.txt test-sets.txt"
    echo "files.txt and test-set-files.txt must be inside <project root dir>"
    exit
 fi
@@ -47,11 +47,11 @@ do
          echo -e "\tProcessing test file: $testFile"
          testFileName=$(basename "$testFile" .py)
          mkdir -p "${testSet}/coverage/${testFileName}"
-         coverage run --source="${module}" --omit="/home/auri/.pyenv/*,*test_*" --branch -m pytest "$testFile"
-         coverage report --omit="/home/auri/.pyenv/*,*test_*" > ./${testSet}/coverage/${testFileName}/covereageReport.txt
-         coverage html --omit="/home/auri/.pyenv/*,*test_*" -d ./${testSet}/coverage/${testFileName}
-         coverage xml --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/${testFileName}/covereageReport.xml
-         coverage json --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/${testFileName}/covereageReport.json
+         coverage run --source="${module}" --omit=".pyenv/*,*test_*" --branch -m pytest "$testFile"
+         coverage report --omit=".pyenv/*,*test_*" > ./${testSet}/coverage/${testFileName}/covereageReport.txt
+         coverage html --omit=".pyenv/*,*test_*" -d ./${testSet}/coverage/${testFileName}
+         coverage xml --omit=".pyenv/*,*test_*" -o ./${testSet}/coverage/${testFileName}/covereageReport.xml
+         coverage json --omit=".pyenv/*,*test_*" -o ./${testSet}/coverage/${testFileName}/covereageReport.json
 
          rm -rf .pytest_cache
          rm -rf __pycache__ ./${testSet}/__pycache__

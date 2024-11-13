@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/complement/DYNAMOSA/seed_1706/test_complement.py
+#Pyguin test cases converted from complement/DYNAMOSA/seed_1706/test_complement.py
 import pytest
 import complement as module_0
 

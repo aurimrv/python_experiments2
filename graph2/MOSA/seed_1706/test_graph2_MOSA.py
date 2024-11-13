@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/graph2/MOSA/seed_1706/test_graph2.py
+#Pyguin test cases converted from graph2/MOSA/seed_1706/test_graph2.py
 import pytest
 import graph2 as module_0
 

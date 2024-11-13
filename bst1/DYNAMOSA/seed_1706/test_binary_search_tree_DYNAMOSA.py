@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/bst1/DYNAMOSA/seed_1706/test_binary_search_tree.py
+#Pyguin test cases converted from bst1/DYNAMOSA/seed_1706/test_binary_search_tree.py
 import pytest
 import binary_search_tree as module_0
 import tree_node as module_1

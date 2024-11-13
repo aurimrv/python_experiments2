@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/fizz-buzz/MIO/seed_1706/test_fizz_buzz.py
+#Pyguin test cases converted from fizz-buzz/MIO/seed_1706/test_fizz_buzz.py
 import pytest
 import fizz_buzz as module_0
 

@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/queue/WHOLE_SUITE/seed_1706/test_a_queue.py
+#Pyguin test cases converted from queue/WHOLE_SUITE/seed_1706/test_a_queue.py
 import pytest
 import a_queue as module_0
 import dll as module_1

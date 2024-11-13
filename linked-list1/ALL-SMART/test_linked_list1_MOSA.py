@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/linked-list1/MOSA/seed_1706/test_linked_list1.py
+#Pyguin test cases converted from linked-list1/MOSA/seed_1706/test_linked_list1.py
 import pytest
 import linked_list1 as module_0
 import builtins as module_1

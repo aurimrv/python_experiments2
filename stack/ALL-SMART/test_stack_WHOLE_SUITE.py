@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/stack/WHOLE_SUITE/seed_1706/test_stack.py
+#Pyguin test cases converted from stack/WHOLE_SUITE/seed_1706/test_stack.py
 import stack as module_0
 import linked_list2 as module_1
 import pytest

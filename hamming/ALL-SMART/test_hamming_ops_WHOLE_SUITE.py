@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/hamming/WHOLE_SUITE/seed_1706/test_hamming_ops.py
+#Pyguin test cases converted from hamming/WHOLE_SUITE/seed_1706/test_hamming_ops.py
 import pytest
 import hamming_ops as module_0
 

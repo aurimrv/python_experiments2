@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/dijkstras/MOSA/seed_1706/test_dijkstras.py
+#Pyguin test cases converted from dijkstras/MOSA/seed_1706/test_dijkstras.py
 import pytest
 import dijkstras as module_0
 

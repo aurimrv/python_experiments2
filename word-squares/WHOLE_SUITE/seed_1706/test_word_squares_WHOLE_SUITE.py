@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/word-squares/WHOLE_SUITE/seed_1706/test_word_squares.py
+#Pyguin test cases converted from word-squares/WHOLE_SUITE/seed_1706/test_word_squares.py
 import pytest
 import word_squares as module_0
 import trie as module_1

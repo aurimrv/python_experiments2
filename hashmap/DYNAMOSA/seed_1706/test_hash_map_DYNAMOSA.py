@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/hashmap/DYNAMOSA/seed_1706/test_hash_map.py
+#Pyguin test cases converted from hashmap/DYNAMOSA/seed_1706/test_hash_map.py
 import pytest
 import hash_map as module_0
 import builtins as module_1

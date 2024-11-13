@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/rabin-karp/WHOLE_SUITE/seed_1706/test_rabin_karp_substring_search.py
+#Pyguin test cases converted from rabin-karp/WHOLE_SUITE/seed_1706/test_rabin_karp_substring_search.py
 import pytest
 import rabin_karp_substring_search as module_0
 import builtins as module_1

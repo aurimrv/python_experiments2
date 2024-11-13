@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/lru-cache/DYNAMOSA/seed_1706/test_lru_cache.py
+#Pyguin test cases converted from lru-cache/DYNAMOSA/seed_1706/test_lru_cache.py
 import pytest
 import builtins as module_0
 import lru_cache as module_1

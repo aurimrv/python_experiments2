@@ -13,7 +13,7 @@ import json
 def main():
 	if len(sys.argv) < 3:
 		print("error: 00metricsCalculation.py <project root dir>  <test-set-file>")
-		print("Example: python 00metricsCalculation.py /home/auri/temp/lucca/python_experiments files.txt")
+		print("Example: python 00metricsCalculation.py python_experiments files.txt")
 		sys.exit(1)
 
 	baseDir = sys.argv[1]

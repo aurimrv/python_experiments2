@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/stack/MIO/seed_1706/test_stack.py
+#Pyguin test cases converted from stack/MIO/seed_1706/test_stack.py
 import stack as module_0
 
 def test_case_0():

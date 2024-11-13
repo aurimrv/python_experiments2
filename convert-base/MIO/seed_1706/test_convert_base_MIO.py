@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/convert-base/MIO/seed_1706/test_convert_base.py
+#Pyguin test cases converted from convert-base/MIO/seed_1706/test_convert_base.py
 import pytest
 import convert_base as module_0
 

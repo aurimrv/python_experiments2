@@ -10,7 +10,7 @@ import sqlite3
 def main():
     if len(sys.argv) < 3:
         print("error: cosmicRaySummary.py <project root dir> <data-file> <test-set-file>")
-        print("Example: cosmicRaySummary.py /home/auri/temp/lucca/python_experiments files.txt test-sets.txt")
+        print("Example: cosmicRaySummary.py python_experiments files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]

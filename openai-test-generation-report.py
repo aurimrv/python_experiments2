@@ -12,7 +12,7 @@ def temperature_to_float(temperature):
 def main():
     if len(sys.argv) < 4:
         print("error: openai-test-generation-report.py <base directory> <model> <files>")
-        print("Example: openai-test-generation-report.py /home/auri/temp/lucca/python_experiments2/ 3-5 files.txt")
+        print("Example: openai-test-generation-report.py python_experiments2/ 3-5 files.txt")
         sys.exit(1)
 
     base_dir = sys.argv[1]

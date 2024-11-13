@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/fenwick/MOSA/seed_1706/test_fenwick_tree.py
+#Pyguin test cases converted from fenwick/MOSA/seed_1706/test_fenwick_tree.py
 import pytest
 import fenwick_tree as module_0
 

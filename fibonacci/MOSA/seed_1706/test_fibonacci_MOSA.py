@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/fibonacci/MOSA/seed_1706/test_fibonacci.py
+#Pyguin test cases converted from fibonacci/MOSA/seed_1706/test_fibonacci.py
 import pytest
 import fibonacci as module_0
 

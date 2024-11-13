@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/priority-queue2/MOSA/seed_1706/test_priority_queue2.py
+#Pyguin test cases converted from priority-queue2/MOSA/seed_1706/test_priority_queue2.py
 import pytest
 import priority_queue2 as module_0
 

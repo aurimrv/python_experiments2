@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/heapsort/WHOLE_SUITE/seed_1706/test_heapsort.py
+#Pyguin test cases converted from heapsort/WHOLE_SUITE/seed_1706/test_heapsort.py
 import pytest
 import heapsort as module_0
 

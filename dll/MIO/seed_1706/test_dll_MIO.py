@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/dll/MIO/seed_1706/test_dll.py
+#Pyguin test cases converted from dll/MIO/seed_1706/test_dll.py
 import pytest
 import dll as module_0
 

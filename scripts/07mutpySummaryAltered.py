@@ -10,7 +10,7 @@ import re
 def main():
     if len(sys.argv) < 3:
         print("error: mutpySummary.py <project root dir> <data-file> <test-set-file>")
-        print("Example: mutpySummary.py /home/auri/python_experiments2 files.txt test-sets.txt")
+        print("Example: mutpySummary.py python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]

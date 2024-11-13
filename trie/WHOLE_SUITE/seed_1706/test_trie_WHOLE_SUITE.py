@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/trie/WHOLE_SUITE/seed_1706/test_trie.py
+#Pyguin test cases converted from trie/WHOLE_SUITE/seed_1706/test_trie.py
 import pytest
 import trie as module_0
 

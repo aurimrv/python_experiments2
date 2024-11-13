@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/mergesort/DYNAMOSA/seed_1706/test_mergesort.py
+#Pyguin test cases converted from mergesort/DYNAMOSA/seed_1706/test_mergesort.py
 import mergesort as module_0
 
 def test_case_0():

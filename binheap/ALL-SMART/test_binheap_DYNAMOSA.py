@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/binheap/DYNAMOSA/seed_1706/test_binheap.py
+#Pyguin test cases converted from binheap/DYNAMOSA/seed_1706/test_binheap.py
 import pytest
 import binheap as module_0
 

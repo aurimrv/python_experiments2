@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/heap/MIO/seed_1706/test_heap.py
+#Pyguin test cases converted from heap/MIO/seed_1706/test_heap.py
 import pytest
 import heap as module_0
 

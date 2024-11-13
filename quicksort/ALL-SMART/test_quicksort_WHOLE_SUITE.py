@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/quicksort/WHOLE_SUITE/seed_1706/test_quicksort.py
+#Pyguin test cases converted from quicksort/WHOLE_SUITE/seed_1706/test_quicksort.py
 import pytest
 import quicksort as module_0
 

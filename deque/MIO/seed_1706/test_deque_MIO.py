@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/deque/MIO/seed_1706/test_deque.py
+#Pyguin test cases converted from deque/MIO/seed_1706/test_deque.py
 import pytest
 import deque as module_0
 

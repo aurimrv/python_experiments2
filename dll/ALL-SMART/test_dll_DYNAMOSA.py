@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/dll/DYNAMOSA/seed_1706/test_dll.py
+#Pyguin test cases converted from dll/DYNAMOSA/seed_1706/test_dll.py
 import pytest
 import dll as module_0
 import builtins as module_1

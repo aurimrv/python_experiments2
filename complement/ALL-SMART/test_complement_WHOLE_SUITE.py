@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/complement/WHOLE_SUITE/seed_1706/test_complement.py
+#Pyguin test cases converted from complement/WHOLE_SUITE/seed_1706/test_complement.py
 import pytest
 import complement as module_0
 import builtins as module_1

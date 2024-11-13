@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/find-duplicates/MIO/seed_1706/test_find_duplicates.py
+#Pyguin test cases converted from find-duplicates/MIO/seed_1706/test_find_duplicates.py
 import pytest
 import find_duplicates as module_0
 

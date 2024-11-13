@@ -6,7 +6,7 @@
 if (($# < 3))
 then
 	echo "error: 05evalTestOnCosmicRay.sh <project root dir> <data-file> <test-set-file>"
-	echo "Example: 05evalTestOnCosmicRay.sh /home/auri/temp/lucca/python_experiments files.txt test-sets.txt"
+	echo "Example: 05evalTestOnCosmicRay.sh temp/lucca/python_experiments files.txt test-sets.txt"
 	exit
 fi
 

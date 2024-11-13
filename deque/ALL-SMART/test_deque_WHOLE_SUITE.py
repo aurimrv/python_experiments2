@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/deque/WHOLE_SUITE/seed_1706/test_deque.py
+#Pyguin test cases converted from deque/WHOLE_SUITE/seed_1706/test_deque.py
 import pytest
 import dll as module_0
 import deque as module_1

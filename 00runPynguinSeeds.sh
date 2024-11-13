@@ -7,7 +7,7 @@
 if (($# < 2))
 then
 	echo "error: runPynguin.sh <project root dir> <seeds.txt> [max_timeout(s)]"
-	echo "Example: runPynguin.sh /home/auri/temp/lucca/python_experiments seeds.txt 300"
+	echo "Example: runPynguin.sh temp/lucca/python_experiments seeds.txt 300"
 	exit
 fi
 

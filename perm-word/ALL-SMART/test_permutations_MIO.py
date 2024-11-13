@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/perm-word/MIO/seed_1706/test_permutations.py
+#Pyguin test cases converted from perm-word/MIO/seed_1706/test_permutations.py
 import pytest
 import permutations as module_0
 

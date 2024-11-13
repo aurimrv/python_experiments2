@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/bst2/MIO/seed_1706/test_bst2.py
+#Pyguin test cases converted from bst2/MIO/seed_1706/test_bst2.py
 import pytest
 import bst2 as module_0
 import builtins as module_1

@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/long-comm/MIO/seed_1706/test_longest_common_prefix.py
+#Pyguin test cases converted from long-comm/MIO/seed_1706/test_longest_common_prefix.py
 import pytest
 import longest_common_prefix as module_0
 

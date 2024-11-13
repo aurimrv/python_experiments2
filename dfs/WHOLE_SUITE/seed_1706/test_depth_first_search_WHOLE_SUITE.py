@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/dfs/WHOLE_SUITE/seed_1706/test_depth_first_search.py
+#Pyguin test cases converted from dfs/WHOLE_SUITE/seed_1706/test_depth_first_search.py
 import pytest
 import depth_first_search as module_0
 import builtins as module_1

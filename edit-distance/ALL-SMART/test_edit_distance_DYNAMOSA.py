@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/edit-distance/DYNAMOSA/seed_1706/test_edit_distance.py
+#Pyguin test cases converted from edit-distance/DYNAMOSA/seed_1706/test_edit_distance.py
 import pytest
 import edit_distance as module_0
 import builtins as module_1

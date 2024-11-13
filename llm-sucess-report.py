@@ -10,7 +10,7 @@ import csv
 def main():
     if len(sys.argv) < 3:
         print("error: llm-success-report.py <project root dir> <data-file> <test-set-file>")
-        print("Example: llm-success-report.py /home/auri/python_experiments2 files.txt test-sets.txt")
+        print("Example: llm-success-report.py python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]

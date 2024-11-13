@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/find-duplicates/MOSA/seed_1706/test_find_duplicates.py
+#Pyguin test cases converted from find-duplicates/MOSA/seed_1706/test_find_duplicates.py
 import pytest
 import find_duplicates as module_0
 import binary_search as module_1

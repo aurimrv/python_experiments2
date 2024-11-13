@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/factorial/MIO/seed_1706/test_factorial.py
+#Pyguin test cases converted from factorial/MIO/seed_1706/test_factorial.py
 import pytest
 import factorial as module_0
 

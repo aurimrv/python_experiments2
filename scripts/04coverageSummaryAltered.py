@@ -12,7 +12,7 @@ import xml.dom.minidom
 def main():
     if len(sys.argv) < 3:
         print("error: coverageSummary.py <project root dir> <data-file> <test-set>")
-        print("Example: coverageSummary.py /home/auri/python_experiments2 files.txt test-sets.txt")
+        print("Example: coverageSummary.py python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]

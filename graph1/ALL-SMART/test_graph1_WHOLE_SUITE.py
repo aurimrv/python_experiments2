@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/graph1/WHOLE_SUITE/seed_1706/test_graph1.py
+#Pyguin test cases converted from graph1/WHOLE_SUITE/seed_1706/test_graph1.py
 import pytest
 import graph1 as module_0
 

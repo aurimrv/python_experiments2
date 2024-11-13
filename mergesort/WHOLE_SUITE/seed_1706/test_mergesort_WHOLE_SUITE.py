@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/mergesort/WHOLE_SUITE/seed_1706/test_mergesort.py
+#Pyguin test cases converted from mergesort/WHOLE_SUITE/seed_1706/test_mergesort.py
 import pytest
 import mergesort as module_0
 import collections as module_1

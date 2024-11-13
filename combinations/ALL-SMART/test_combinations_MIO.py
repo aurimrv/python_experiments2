@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/combinations/MIO/seed_1706/test_combinations.py
+#Pyguin test cases converted from combinations/MIO/seed_1706/test_combinations.py
 import pytest
 import combinations as module_0
 

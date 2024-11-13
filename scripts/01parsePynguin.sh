@@ -7,7 +7,7 @@
 if (($# < 2))
 then
 	echo "error: parsePynguin.sh <project root dir> <algorithm>"
-	echo "Example: parsePynguin.sh /home/auri/temp/lucca/python_experiments <DYNAMOSA | MOSA | MIO | WHOLE_SUITE | RANDOM>"
+	echo "Example: parsePynguin.sh temp/lucca/python_experiments <DYNAMOSA | MOSA | MIO | WHOLE_SUITE | RANDOM>"
 	exit
 fi
 

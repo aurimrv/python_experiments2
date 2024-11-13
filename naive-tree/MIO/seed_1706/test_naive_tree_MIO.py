@@ -1,4 +1,4 @@
-#Pyguin test cases converted from /home/lucca/teste/python_experiments2/naive-tree/MIO/seed_1706/test_naive_tree.py
+#Pyguin test cases converted from naive-tree/MIO/seed_1706/test_naive_tree.py
 import pytest
 import naive_tree as module_0
 

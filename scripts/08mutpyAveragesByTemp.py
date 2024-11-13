@@ -10,7 +10,7 @@ from collections import defaultdict
 def main():
     if len(sys.argv) < 4:
         print("error: averagesByTemp.py <project root dir> <data-file> <test-set-file>")
-        print("Example: averagesByTemp.py /home/auri/python_experiments2 files.txt test-sets.txt")
+        print("Example: averagesByTemp.py python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
